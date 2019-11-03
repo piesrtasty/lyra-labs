@@ -1,0 +1,17 @@
+{
+  "name": "lyra-labs",
+  "version": "1.0.0",
+  "description": "",
+  "scripts": {
+    "generate": "docker exec -it frontend npm run generate",
+    "start": "docker-compose up",
+    "build": "docker-compose build",
+    "stop": "docker-compose down",
+    "clean": "docker system prune -af",
+    "clean:volumes": "docker volume prune -f",
+    "seed": "docker exec -it prisma npm run seed"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC"
+}
