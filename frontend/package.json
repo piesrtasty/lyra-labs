@@ -9,13 +9,19 @@
   "dependencies": {
     "@apollo/react-hooks": "3.0.0",
     "@apollo/react-ssr": "3.0.0",
+    "@auth0/nextjs-auth0": "^0.5.0",
+    "@emotion/core": "^10.0.22",
+    "@emotion/styled": "^10.0.23",
     "apollo-cache-inmemory": "1.6.3",
     "apollo-client": "2.6.4",
     "apollo-link-http": "1.5.15",
+    "dotenv": "^8.2.0",
     "graphql": "^14.0.2",
     "graphql-tag": "2.10.1",
     "isomorphic-unfetch": "^3.0.0",
+    "lodash.flowright": "^3.5.0",
     "next": "latest",
+    "prisma2": "^2.0.0-preview016.1",
     "prop-types": "^15.6.2",
     "react": "^16.7.0",
     "react-dom": "^16.7.0"
@@ -23,5 +29,8 @@
   "license": "ISC",
   "devDependencies": {
     "webpack": "^4.41.2"
+  },
+  "engines": {
+    "node": "10"
   }
 }

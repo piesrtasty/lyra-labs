@@ -12,55 +12,55 @@ services:
       POSTGRES_PASSWORD: prisma
     volumes:
       - postgres:/var/lib/postgress
-  prisma:
-    links:
-      - postgres
-    depends_on:
-      - postgres
-    container_name: prisma
-    ports:
-      - "5555:5555"
-    build:
-      context: backend/prisma
-      dockerfile: Dockerfile
-    environment:
-      POSTGRES_URL: ${POSTGRES_URL}
-    volumes:
-      - /app/prisma
-  backend:
-    links:
-      - postgres
-    depends_on:
-      - postgres
-      - prisma
-    container_name: backend
-    ports:
-      - "4000:4000"
-    build:
-      context: backend
-      dockerfile: Dockerfile
-      args:
-        - POSTGRES_URL=${POSTGRES_URL}
-    environment:
-      POSTGRES_URL: ${POSTGRES_URL}
-      FRONTEND_URL: ${FRONTEND_URL}
-    volumes:
-      - ./backend:/app
-      - /app/node_modules
-      - /app/prisma
-  frontend:
-    container_name: frontend
-    ports:
-      - "3000:3000"
-    build:
-      context: frontend
-      dockerfile: Dockerfile
-    environment:
-      BACKEND_URL: ${BACKEND_URL}
-    volumes:
-      - ./frontend:/app
-      - /app/node_modules
-      - /app/.next
+  # prisma:
+  #   links:
+  #     - postgres
+  #   depends_on:
+  #     - postgres
+  #   container_name: prisma
+  #   ports:
+  #     - "5555:5555"
+  #   build:
+  #     context: backend/prisma
+  #     dockerfile: Dockerfile
+  #   environment:
+  #     POSTGRES_URL: ${POSTGRES_URL}
+  #   volumes:
+  #     - /app/prisma
+  # backend:
+  #   links:
+  #     - postgres
+  #   depends_on:
+  #     - postgres
+  #     - prisma
+  #   container_name: backend
+  #   ports:
+  #     - "4000:4000"
+  #   build:
+  #     context: backend
+  #     dockerfile: Dockerfile
+  #     args:
+  #       - POSTGRES_URL=${POSTGRES_URL}
+  #   environment:
+  #     POSTGRES_URL: ${POSTGRES_URL}
+  #     FRONTEND_URL: ${FRONTEND_URL}
+  #   volumes:
+  #     - ./backend:/app
+  #     - /app/node_modules
+  #     - /app/prisma
+  # frontend:
+  #   container_name: frontend
+  #   ports:
+  #     - "3000:3000"
+  #   build:
+  #     context: frontend
+  #     dockerfile: Dockerfile
+  #   environment:
+  #     BACKEND_URL: ${BACKEND_URL}
+  #   volumes:
+  #     - ./frontend:/app
+  #     - /app/node_modules
+  #     - /app/.next
 
 volumes: #define our mysql volume used above
   postgres:

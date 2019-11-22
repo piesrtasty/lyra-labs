@@ -1,33 +1,81 @@
-import Link from 'next/link'
-import { withRouter } from 'next/router'
+import Link from "next/link";
 
-const Header = ({ router: { pathname } }) => (
-  <header>
-    <Link href='/'>
-      <a className={pathname === '/' ? 'is-active' : ''}>Home</a>
-    </Link>
-    <Link href='/client-only'>
-      <a className={pathname === '/client-only' ? 'is-active' : ''}>
-        Client-Only
-      </a>
-    </Link>
-    <Link href='/about'>
-      <a className={pathname === '/about' ? 'is-active' : ''}>About</a>
-    </Link>
-    <style jsx>{`
-      header {
-        margin-bottom: 25px;
-      }
-      a {
-        font-size: 14px;
-        margin-right: 15px;
-        text-decoration: none;
-      }
-      .is-active {
-        text-decoration: underline;
-      }
-    `}</style>
-  </header>
-)
+function Header({ user, loading }) {
+  return (
+    <header>
+      <nav>
+        <ul>
+          <li>
+            <Link href="/">
+              <a>Home</a>
+            </Link>
+          </li>
+          <li>
+            <Link href="/about">
+              <a>About</a>
+            </Link>
+          </li>
+          {!loading &&
+            (user ? (
+              <>
+                <li>
+                  <Link href="/profile">
+                    <a>Client-rendered profile</a>
+                  </Link>
+                </li>
+                <li>
+                  <Link href="/advanced/ssr-profile">
+                    <a>Server rendered profile (advanced)</a>
+                  </Link>
+                </li>
+                <li>
+                  <a href="/api/logout">Logout</a>
+                </li>
+              </>
+            ) : (
+              <li>
+                <a href="/api/login">Login</a>
+              </li>
+            ))}
+        </ul>
+      </nav>
 
-export default withRouter(Header)
+      <style jsx>{`
+        header {
+          padding: 0.2rem;
+          color: #fff;
+          background-color: #333;
+        }
+        nav {
+          max-width: 42rem;
+          margin: 1.5rem auto;
+        }
+        ul {
+          display: flex;
+          list-style: none;
+          margin-left: 0;
+          padding-left: 0;
+        }
+        li {
+          margin-right: 1rem;
+        }
+        li:nth-child(2) {
+          margin-right: auto;
+        }
+        a {
+          color: #fff;
+          text-decoration: none;
+        }
+        button {
+          font-size: 1rem;
+          color: #fff;
+          cursor: pointer;
+          border: none;
+          background: none;
+        }
+      `}</style>
+    </header>
+  );
+}
+
+export default Header;

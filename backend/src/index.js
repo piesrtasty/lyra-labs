@@ -7,11 +7,7 @@ const User = objectType({
   name: 'User',
   definition(t) {
     t.model.id()
-    t.model.name()
     t.model.email()
-    t.model.posts({
-      pagination: false,
-    })
   },
 })
 
@@ -21,18 +17,30 @@ const Post = objectType({
     t.model.id()
     t.model.createdAt()
     t.model.updatedAt()
-    t.model.title()
-    t.model.content()
-    t.model.published()
-    t.model.author()
   },
 })
 
 const Query = objectType({
   name: 'Query',
   definition(t) {
+    t.crud.posts()
     t.crud.post({
       alias: 'post',
+    })
+    t.field('me', {
+      type: 'User',
+      args: {
+        auth0Id: stringArg({ nullable: true }),
+      },
+      resolve: (_, _args, ctx) => {
+        console.log('---------------------')
+        console.log('me resolver _args', _args)
+        console.log('---------------------')
+        // return ctx.photon.posts.findMany({
+        //   where: { published: true },
+        // })
+        return { id: '1', email: 'cool@cool.com' }
+      },
     })
 
     t.list.field('feed', {
@@ -43,7 +51,6 @@ const Query = objectType({
         })
       },
     })
-
     t.list.field('filterPosts', {
       type: 'Post',
       args: {
@@ -108,6 +115,8 @@ const Mutation = objectType({
 
 const photon = new Photon()
 
+console.log('process.env.FRONTEND_URL', process.env.FRONTEND_URL)
+
 new GraphQLServer({
   schema: makeSchema({
     types: [Query, Mutation, Post, User],
@@ -121,6 +130,7 @@ new GraphQLServer({
     subscriptions: false,
     cors: {
       credentials: true,
+      // origin: 'http://localhost:3000',
       origin: process.env.FRONTEND_URL,
     },
   },

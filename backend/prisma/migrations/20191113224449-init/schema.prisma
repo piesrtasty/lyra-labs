@@ -5,7 +5,7 @@ generator photon {
 
 datasource db {
   provider = "postgresql"
-  url      = "postgresql://prisma:mypassword@lyra-labs-dev.cctuihe2uaxv.us-west-2.rds.amazonaws.com:5432/prisma?sslaccept=accept_invalid_certs"
+  url = "***"
 }
 
 model User {
