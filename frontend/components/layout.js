@@ -1,35 +1,34 @@
 import Head from "next/head";
-import Header from "./header";
+import { Global, css } from "@emotion/core";
+import { ThemeProvider } from "emotion-theming";
 
-function Layout({ user, loading = false, children }) {
+const THEME = {
+  COLORS: {
+    ALABASTER: "#f9f9f9",
+    RICE_CAKE: "#f3f3f3",
+    LILAC: "#e8e8e8",
+    WHITE: "#fff",
+    BLACK: "#000"
+  }
+};
+
+const Layout = ({ children }) => {
   return (
-    <>
+    <ThemeProvider theme={THEME}>
       <Head>
         <title>Next.js with Auth0</title>
       </Head>
-
-      <Header user={user} loading={loading} />
-
-      <main>
-        <div className="container">{children}</div>
-      </main>
-
-      <style jsx>{`
-        .container {
-          max-width: 42rem;
-          margin: 1.5rem auto;
-        }
-      `}</style>
-      <style jsx global>{`
-        body {
-          margin: 0;
-          color: #333;
-          font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
-            Oxygen, Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
-        }
-      `}</style>
-    </>
+      <Global
+        styles={css`
+          body {
+            background-color: ${THEME.COLORS.RICE_CAKE};
+            margin: 0;
+          }
+        `}
+      />
+      <main>{children}</main>
+    </ThemeProvider>
   );
-}
+};
 
 export default Layout;

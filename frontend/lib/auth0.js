@@ -1,6 +1,6 @@
 import { initAuth0 } from "@auth0/nextjs-auth0";
 
-export default initAuth0({
+const details = {
   clientId: process.env.AUTH0_CLIENT_ID,
   clientSecret: process.env.AUTH0_CLIENT_SECRET,
   scope: process.env.AUTH0_SCOPE,
@@ -13,4 +13,8 @@ export default initAuth0({
     storeIdToken: true,
     storeAccessToken: true
   }
-});
+};
+
+console.log("details", details);
+
+export default initAuth0(details);

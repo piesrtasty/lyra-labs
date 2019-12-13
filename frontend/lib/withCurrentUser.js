@@ -1,20 +1,19 @@
+import { useQuery } from "@apollo/react-hooks";
 import React from "react";
-import auth0 from "./auth0";
 import { withApollo } from "../lib/apollo";
+import { CURRENT_USER_QUERY } from "../data/queries";
 
 export const CurrentUserContext = React.createContext({});
 
 export const withCurrentUser = Component => {
-  console.log("Component", Component);
   const WithCurrentUser = ({ user }) => {
-    return <Component user={user} />;
+    const { loading, error, data } = useQuery(CURRENT_USER_QUERY, {});
+    return (
+      <CurrentUserContext.Provider value={data.me}>
+        <Component />
+      </CurrentUserContext.Provider>
+    );
   };
 
-  WithCurrentUser.getInitialProps = async ({ req, res }) => {
-    const session = await auth0.getSession(req);
-    const user = session && session.user ? session.user : null;
-    return { user };
-  };
-
-  return WithCurrentUser;
+  return withApollo(WithCurrentUser);
 };

@@ -1,5 +1,5 @@
 const moment = require('moment')
-const { Photon } = require('@generated/photon')
+const { Photon } = require('@prisma/photon')
 const { users, usernames } = require('../test/sample-data/users')
 const { topics } = require('../test/sample-data/topics')
 const {
@@ -35,7 +35,7 @@ const config = {
     maxVotes: 3,
   },
   creators: {
-    minCreators: 0,
+    minCreators: 1,
     maxCreators: 2,
   },
 }
@@ -92,6 +92,7 @@ async function main() {
       Math.floor(Math.random() * (maxCreators - minCreators + 1)) + minCreators,
     )
     const connectedCreators = selectedCreators.map(username => ({ username }))
+
     await photon.posts.create({
       data: {
         ...posts[i],

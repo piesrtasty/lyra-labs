@@ -1,9 +1,12 @@
 import React from "react";
 import Head from "next/head";
+import auth0 from "./auth0";
 import { ApolloProvider } from "@apollo/react-hooks";
 import { ApolloClient } from "apollo-client";
 import { InMemoryCache } from "apollo-cache-inmemory";
 import { HttpLink } from "apollo-link-http";
+import { ApolloLink, concat } from "apollo-link";
+import { setContext } from "apollo-link-context";
 import fetch from "isomorphic-unfetch";
 
 let apolloClient = null;
@@ -41,11 +44,11 @@ export function withApollo(PageComponent, { ssr = true } = {}) {
   if (ssr || PageComponent.getInitialProps) {
     WithApollo.getInitialProps = async ctx => {
       const { AppTree } = ctx;
-
+      const session = ctx.req ? await auth0.getSession(ctx.req) : null;
       // Initialize ApolloClient, add it to the ctx object so
       // we can use it in `PageComponent.getInitialProp`.
-      const apolloClient = (ctx.apolloClient = initApolloClient());
-
+      const apolloClient = (ctx.apolloClient = initApolloClient({ session }));
+      // console.log("apolloClient", apolloClient);
       // Run wrapped getInitialProps methods
       let pageProps = {};
       if (PageComponent.getInitialProps) {
@@ -119,32 +122,59 @@ function initApolloClient(initialState) {
   return apolloClient;
 }
 
+const isBrowser = typeof window !== "undefined";
+
+const httpLink = new HttpLink({
+  // uri:
+  //   // isDocker && isBrowser
+  uri: process.env.BACKEND_URL,
+  // uri: isBrowser
+  //   ? "http://localhost:4000/graphql"
+  //   : process.env.BACKEND_URL,
+  // uri: "http://localhost:4000/graphql",
+  credentials: "same-origin", // Additional fetch() options like `credentials` or `headers`
+  // Use fetch() polyfill on the server
+  fetch: !isBrowser && fetch
+  // fetchOptions: {
+  //   mode: "no-cors"
+  // }
+});
+
+// const setSessionLink = setContext((request, previousContext) => {
+//   console.log("cooollooooooooo");
+//   console.log("cooollooooooooo", request);
+//   console.log("cooollooooooooo");
+//   return { headers: { authorization: "1234" } };
+// });
+
 /**
  * Creates and configures the ApolloClient
  * @param  {Object} [initialState={}]
  */
 function createApolloClient(initialState = {}) {
+  const { session } = initialState;
+
+  const setAuthLink = setContext((_, { headers }) => {
+    const token = session && session.idToken ? session.idToken : null;
+    console.log("setAuthLink token", token);
+    // console.log("session in setSessionLink", session.user.sub);
+    return {
+      headers: {
+        ...headers,
+        authorization: token ? `Bearer ${token}` : ""
+      }
+    };
+  });
+
   // Check out https://github.com/zeit/next.js/pull/4611 if you want to use the AWSAppSyncClient
   const isBrowser = typeof window !== "undefined";
   // const isDocker = process.env.BACKEND_URL === "http://backend:4000/graphql";
   return new ApolloClient({
     connectToDevTools: isBrowser,
     ssrMode: !isBrowser, // Disables forceFetch on the server (so queries are only run once)
-    link: new HttpLink({
-      // uri:
-      //   // isDocker && isBrowser
-      uri: process.env.BACKEND_URL,
-      // uri: isBrowser
-      //   ? "http://localhost:4000/graphql"
-      //   : process.env.BACKEND_URL,
-      // uri: "http://localhost:4000/graphql",
-      credentials: "same-origin", // Additional fetch() options like `credentials` or `headers`
-      // Use fetch() polyfill on the server
-      fetch: !isBrowser && fetch
-      // fetchOptions: {
-      //   mode: "no-cors"
-      // }
-    }),
+    // link: concat(authMiddleware, httpLink),
+    link: setAuthLink.concat(httpLink),
+    // link: httpLink,
     cache: new InMemoryCache().restore(initialState)
   });
 }

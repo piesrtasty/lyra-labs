@@ -14,6 +14,17 @@ export const Container = styled("div")({
   boxSizing: "border-box"
 });
 
+export const Row = styled("div")({
+  display: "flex",
+  flexDirection: "row"
+});
+
+export const Column = styled("div")({
+  display: "flex",
+  flexDirection: "column",
+  width: "100%"
+});
+
 export const Section = styled("div")({
   width: "100%",
   display: "flex",

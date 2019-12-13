@@ -1,5 +1,11 @@
 import gql from "graphql-tag";
 
+export const SECTIONS_QUERY = gql`
+  query sections {
+    id
+  }
+`;
+
 export const POSTS_QUERY = gql`
   query post {
     posts {
@@ -9,10 +15,11 @@ export const POSTS_QUERY = gql`
 `;
 
 export const CURRENT_USER_QUERY = gql`
-  query($auth0Id: String) {
-    me(auth0Id: $auth0Id) {
+  query {
+    me {
       id
       email
+      avatar
     }
   }
 `;
