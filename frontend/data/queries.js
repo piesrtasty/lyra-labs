@@ -1,8 +1,27 @@
 import gql from "graphql-tag";
 
 export const SECTIONS_QUERY = gql`
-  query sections {
-    id
+  query sections($first: Int!, $skip: Int!) {
+    sections(first: $first, skip: $skip) {
+      id
+      date
+      posts {
+        id
+        name
+        slug
+        description
+        tagline
+        thumbnail
+        votes {
+          id
+        }
+        topics {
+          id
+          name
+          slug
+        }
+      }
+    }
   }
 `;
 

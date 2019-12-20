@@ -6,8 +6,8 @@ const {
   posts: seedPosts,
   slugs: seedPostSlugs,
 } = require('../test/sample-data/posts')
-const posts = seedPosts.slice(0, 5)
-const postSlugs = seedPostSlugs.slice(0, 5)
+const posts = seedPosts
+const postSlugs = seedPostSlugs
 
 const { LocalAddress, CryptoUtils } = require('loom-js')
 const photon = new Photon()
@@ -20,9 +20,9 @@ const COMMENT_REPLY_TEXT =
 
 const config = {
   sections: {
-    count: 5,
+    count: 50,
     minPosts: 8,
-    maxPosts: 3,
+    maxPosts: 14,
   },
   comments: {
     minComments: 0,
@@ -50,6 +50,7 @@ const galleryThumbs = [
 async function main() {
   // Create users
   for (let i = 0; i < users.length; i += 1) {
+    console.log('users', i)
     const bytes = CryptoUtils.generatePrivateKey()
     const privateKey = Buffer.from(
       bytes.buffer,
@@ -76,6 +77,7 @@ async function main() {
 
   // Create topics
   for (let i = 0; i < topics.length; i += 1) {
+    console.log('topics', i)
     await photon.topics.create({
       data: {
         ...topics[i],
@@ -85,6 +87,7 @@ async function main() {
 
   // Create posts
   for (let i = 0; i < posts.length; i += 1) {
+    console.log('posts', i)
     const submitter = usernames[Math.floor(Math.random() * usernames.length)]
     const { minCreators, maxCreators } = config.creators
     const selectedCreators = usernames.slice(
@@ -108,6 +111,7 @@ async function main() {
 
   // Create sections
   for (let i = 0; i < config.sections.count; i += 1) {
+    console.log('section', i)
     const date = moment()
       .subtract(i, 'd')
       .format('YYYY-MM-DD')
@@ -129,6 +133,7 @@ async function main() {
 
   // Create votes
   for (let i = 0; i < postSlugs.length; i += 1) {
+    console.log('votes', i)
     const { minVotes, maxVotes } = config.votes
     const selectedUsernames = usernames.slice(
       0,
@@ -146,6 +151,7 @@ async function main() {
 
   // Create comments
   for (let i = 0; i < postSlugs.length; i += 1) {
+    console.log('comments', i)
     const { minComments, maxComments, minReplies, maxReplies } = config.comments
 
     for (let j = minComments; j < maxComments; j += 1) {

@@ -5,9 +5,7 @@ import styled from "@emotion/styled";
 const Page = ({ children }) => (
   <Column>
     <Header />
-    <Container>
-      <Column>{children}</Column>
-    </Container>
+    <Column>{children}</Column>
   </Column>
 );
 

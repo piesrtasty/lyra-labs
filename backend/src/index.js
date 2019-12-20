@@ -15,12 +15,81 @@ const User = objectType({
   },
 })
 
+const Comment = objectType({
+  name: 'Comment',
+  definition(t) {
+    t.model.id()
+    t.model.createdAt()
+    t.model.updatedAt()
+    t.model.text()
+    t.model.post()
+    t.model.parent()
+    t.model.author()
+    t.model.replies()
+    t.model.votes()
+  },
+})
+
+const CommentVote = objectType({
+  name: 'CommentVote',
+  definition(t) {
+    t.model.id()
+    t.model.createdAt()
+    t.model.updatedAt()
+    t.model.user()
+    t.model.comment()
+  },
+})
+
+const Topic = objectType({
+  name: 'Topic',
+  definition(t) {
+    t.model.id()
+    t.model.createdAt()
+    t.model.updatedAt()
+    t.model.name()
+    t.model.slug()
+    t.model.description()
+    t.model.image()
+    t.model.followersCount()
+    t.model.postsCount()
+    t.model.trending()
+    t.model.posts()
+    t.model.followedBy()
+  },
+})
+
+const Vote = objectType({
+  name: 'Vote',
+  definition(t) {
+    t.model.id()
+    t.model.createdAt()
+    t.model.updatedAt()
+    t.model.user()
+    t.model.post()
+  },
+})
+
 const Post = objectType({
   name: 'Post',
   definition(t) {
     t.model.id()
     t.model.createdAt()
     t.model.updatedAt()
+    t.model.name()
+    t.model.slug()
+    t.model.link()
+    t.model.thumbnail()
+    t.model.description()
+    t.model.tagline()
+    t.model.submitter()
+    t.model.creators()
+    t.model.galleryThumbs()
+    t.model.comments()
+    t.model.day()
+    t.model.featured()
+    t.model.topics()
+    t.model.votes()
   },
 })
 
@@ -30,6 +99,19 @@ const Section = objectType({
     t.model.id()
     t.model.createdAt()
     t.model.updatedAt()
+    t.model.date()
+    t.model.posts()
+  },
+})
+
+const SignedUpload = objectType({
+  name: 'SignedUpload',
+  definition(t) {
+    t.model.id()
+    t.model.createdAt()
+    t.model.updatedAt()
+    t.model.signedRequest()
+    t.model.url()
   },
 })
 
@@ -137,7 +219,18 @@ console.log('process.env.FRONTEND_URL', process.env.FRONTEND_URL)
 
 const server = new GraphQLServer({
   schema: makeSchema({
-    types: [Query, Mutation, Post, User, Section],
+    types: [
+      Query,
+      Mutation,
+      Post,
+      User,
+      Section,
+      Comment,
+      CommentVote,
+      Topic,
+      Vote,
+      SignedUpload,
+    ],
     plugins: [nexusPrismaPlugin()],
   }),
   // context: { photon },
