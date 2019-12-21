@@ -613,6 +613,13 @@
       "arity": "list"
     },
     {
+      "stepType": "CreateField",
+      "model": "Post",
+      "field": "sections",
+      "type": "Section",
+      "arity": "list"
+    },
+    {
       "stepType": "CreateModel",
       "model": "Comment"
     },

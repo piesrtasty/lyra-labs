@@ -7,7 +7,7 @@ import useInfiniteScroll from "../../shared/hooks/infinite-scroll";
 
 const Sections = () => {
   const { loading, error, data, fetchMore } = useQuery(SECTIONS_QUERY, {
-    variables: { first: 10, skip: 0 }
+    variables: { first: 8, skip: 0 }
   });
 
   const onLoadMore = cb => {

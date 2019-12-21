@@ -64,6 +64,7 @@ model Post {
   featured      Boolean?
   topics        Topic[]
   votes         Vote[]
+  sections      Section[]
 }
 
 model Comment {

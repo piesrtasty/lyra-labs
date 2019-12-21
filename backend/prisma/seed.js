@@ -150,73 +150,73 @@ async function main() {
   }
 
   // Create comments
-  for (let i = 0; i < postSlugs.length; i += 1) {
-    console.log('comments', i)
-    const { minComments, maxComments, minReplies, maxReplies } = config.comments
+  // for (let i = 0; i < postSlugs.length; i += 1) {
+  //   console.log('comments', i)
+  //   const { minComments, maxComments, minReplies, maxReplies } = config.comments
 
-    for (let j = minComments; j < maxComments; j += 1) {
-      const author = usernames[Math.floor(Math.random() * usernames.length)]
-      const parent = await photon.comments.create({
-        data: {
-          author: { connect: { username: author } },
-          post: { connect: { slug: postSlugs[i] } },
-          text: COMMENT_PARENT_TEXT,
-        },
-      })
+  //   for (let j = minComments; j < maxComments; j += 1) {
+  //     const author = usernames[Math.floor(Math.random() * usernames.length)]
+  //     const parent = await photon.comments.create({
+  //       data: {
+  //         author: { connect: { username: author } },
+  //         post: { connect: { slug: postSlugs[i] } },
+  //         text: COMMENT_PARENT_TEXT,
+  //       },
+  //     })
 
-      const selectedUsernames = usernames.slice(
-        0,
-        Math.floor(
-          Math.random() * (config.votes.maxVotes - config.votes.minVotes + 1),
-        ) + config.votes.minVotes,
-      )
-      for (let h = 0; h < selectedUsernames.length; h += 1) {
-        await photon.commentVotes.create({
-          data: {
-            user: { connect: { username: selectedUsernames[0] } },
-            comment: { connect: { id: parent.id } },
-          },
-        })
-      }
+  //     const selectedUsernames = usernames.slice(
+  //       0,
+  //       Math.floor(
+  //         Math.random() * (config.votes.maxVotes - config.votes.minVotes + 1),
+  //       ) + config.votes.minVotes,
+  //     )
+  //     for (let h = 0; h < selectedUsernames.length; h += 1) {
+  //       await photon.commentVotes.create({
+  //         data: {
+  //           user: { connect: { username: selectedUsernames[0] } },
+  //           comment: { connect: { id: parent.id } },
+  //         },
+  //       })
+  //     }
 
-      let replyIds = []
-      for (let k = minReplies; k < maxReplies; k += 1) {
-        const replyAuthor =
-          usernames[Math.floor(Math.random() * usernames.length)]
-        const reply = await photon.comments.create({
-          data: {
-            author: { connect: { username: replyAuthor } },
-            text: COMMENT_REPLY_TEXT,
-            parent: { connect: { id: parent.id } },
-          },
-        })
+  //     let replyIds = []
+  //     for (let k = minReplies; k < maxReplies; k += 1) {
+  //       const replyAuthor =
+  //         usernames[Math.floor(Math.random() * usernames.length)]
+  //       const reply = await photon.comments.create({
+  //         data: {
+  //           author: { connect: { username: replyAuthor } },
+  //           text: COMMENT_REPLY_TEXT,
+  //           parent: { connect: { id: parent.id } },
+  //         },
+  //       })
 
-        const selectedUsernames = usernames.slice(
-          0,
-          Math.floor(
-            Math.random() * (config.votes.maxVotes - config.votes.minVotes + 1),
-          ) + config.votes.minVotes,
-        )
-        for (let l = 0; l < selectedUsernames.length; l += 1) {
-          await photon.commentVotes.create({
-            data: {
-              user: { connect: { username: selectedUsernames[0] } },
-              comment: { connect: { id: reply.id } },
-            },
-          })
-        }
+  //       const selectedUsernames = usernames.slice(
+  //         0,
+  //         Math.floor(
+  //           Math.random() * (config.votes.maxVotes - config.votes.minVotes + 1),
+  //         ) + config.votes.minVotes,
+  //       )
+  //       for (let l = 0; l < selectedUsernames.length; l += 1) {
+  //         await photon.commentVotes.create({
+  //           data: {
+  //             user: { connect: { username: selectedUsernames[0] } },
+  //             comment: { connect: { id: reply.id } },
+  //           },
+  //         })
+  //       }
 
-        replyIds.push(reply.id)
-      }
-      const connectedreplyIds = replyIds.map(id => ({ id }))
-      await photon.comments.update({
-        where: { id: parent.id },
-        data: {
-          replies: { connect: connectedreplyIds },
-        },
-      })
-    }
-  }
+  //       replyIds.push(reply.id)
+  //     }
+  //     const connectedreplyIds = replyIds.map(id => ({ id }))
+  //     await photon.comments.update({
+  //       where: { id: parent.id },
+  //       data: {
+  //         replies: { connect: connectedreplyIds },
+  //       },
+  //     })
+  //   }
+  // }
 }
 
 main()
