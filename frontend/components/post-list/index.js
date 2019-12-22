@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import styled from "@emotion/styled";
 import { LILAC, WHITE, GUNSMOKE } from "../../shared/style/colors";
 import { BASE_TEXT, WEIGHT } from "../../shared/style/typography";
-import Post from "../post";
+import PostCard from "../post-card";
 import { formatDate } from "../../shared/utils";
 import ChevronDown from "../../shared/style/icons/chevron-down.svg";
 
@@ -85,7 +85,7 @@ const PostList = ({ date, posts }) => {
       </Header>
       <List>
         {posts.map((post, index) => (
-          <Post
+          <PostCard
             id={post.id}
             visible={showAll ? true : index < DEFAULT_VISIBLE}
             key={post.id}

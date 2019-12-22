@@ -8,6 +8,7 @@ import { HttpLink } from "apollo-link-http";
 import { ApolloLink, concat } from "apollo-link";
 import { setContext } from "apollo-link-context";
 import fetch from "isomorphic-unfetch";
+const MobileDetect = require("mobile-detect");
 
 let apolloClient = null;
 
@@ -45,6 +46,12 @@ export function withApollo(PageComponent, { ssr = true } = {}) {
     WithApollo.getInitialProps = async ctx => {
       const { AppTree } = ctx;
       const session = ctx.req ? await auth0.getSession(ctx.req) : null;
+      // const md = ctx.req
+      //   ? new MobileDetect(ctx.req.headers["user-agent"])
+      //   : null;
+      // console.log("md.mobile()", md.mobile());
+      // const isMobile = md ? md.mobile() : false;
+      // const isMobile = "Cool";
       // Initialize ApolloClient, add it to the ctx object so
       // we can use it in `PageComponent.getInitialProp`.
       const apolloClient = (ctx.apolloClient = initApolloClient({ session }));
@@ -94,6 +101,7 @@ export function withApollo(PageComponent, { ssr = true } = {}) {
 
       return {
         ...pageProps,
+        // isMobile,
         apolloState
       };
     };

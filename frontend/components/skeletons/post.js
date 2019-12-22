@@ -2,7 +2,7 @@ import React from "react";
 import styled from "@emotion/styled";
 import { shine } from "../../shared/style/animations";
 import { LILAC, ALABASTER, WHITE } from "../../shared/style/colors";
-import { Container, Body, Content } from "../post";
+import { Container, Body, Content } from "../post-card";
 
 const BASE_COLOR = LILAC;
 const SHINE_COLOR = ALABASTER;
