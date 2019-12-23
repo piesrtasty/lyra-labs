@@ -14,7 +14,7 @@ export const withMobile = (Component, options = {}) => {
   WithMobile.getInitialProps = async ctx => {
     const req = ctx.ctx.req;
     const md = req ? new MobileDetect(req.headers["user-agent"]) : null;
-    const isMobile = md.phone() ? true : false;
+    const isMobile = md ? (md.phone() ? true : false) : false;
     let pageProps = {};
     pageProps = await Component.getInitialProps(ctx);
     return { ...pageProps, isMobile };

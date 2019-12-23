@@ -3,7 +3,7 @@ import Link from "next/link";
 import styled from "@emotion/styled";
 import { withTheme } from "emotion-theming";
 import { Container, Row } from "../../shared/library/components/layout";
-import { CurrentUserContext } from "../../lib/withCurrentUser";
+import { CurrentUserContext } from "../../shared/enhancers/current-user";
 import Logo from "./logo";
 import Search from "./search";
 import Navigation from "./navigation";

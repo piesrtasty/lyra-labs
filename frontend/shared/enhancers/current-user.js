@@ -1,7 +1,7 @@
 import { useQuery } from "@apollo/react-hooks";
 import React from "react";
-import { withApollo } from "../lib/apollo";
-import { CURRENT_USER_QUERY } from "../data/queries";
+import { withApollo } from "./apollo";
+import { CURRENT_USER_QUERY } from "../../data/queries";
 
 export const CurrentUserContext = React.createContext({});
 

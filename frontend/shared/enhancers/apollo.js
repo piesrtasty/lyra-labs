@@ -1,6 +1,6 @@
 import React from "react";
 import Head from "next/head";
-import auth0 from "./auth0";
+import auth0 from "../../config/auth0";
 import { ApolloProvider } from "@apollo/react-hooks";
 import { ApolloClient } from "apollo-client";
 import { InMemoryCache } from "apollo-cache-inmemory";
@@ -8,7 +8,6 @@ import { HttpLink } from "apollo-link-http";
 import { ApolloLink, concat } from "apollo-link";
 import { setContext } from "apollo-link-context";
 import fetch from "isomorphic-unfetch";
-const MobileDetect = require("mobile-detect");
 
 let apolloClient = null;
 

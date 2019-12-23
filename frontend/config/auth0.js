@@ -15,6 +15,4 @@ const details = {
   }
 };
 
-console.log("details", details);
-
 export default initAuth0(details);
