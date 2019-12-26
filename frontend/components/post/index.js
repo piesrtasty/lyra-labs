@@ -1,10 +1,12 @@
 import { useRouter } from "next/router";
 import { Container, Main, Aside } from "../../shared/library/components/layout";
 import styled from "@emotion/styled";
+import { WHITE } from "../../shared/style/colors";
 // import { useMediaQuery } from "react-responsive";
 
 const StyledContainer = styled(Container)({
-  width: "100%"
+  width: "100%",
+  backgroundColor: WHITE
 });
 
 const Post = ({}) => {

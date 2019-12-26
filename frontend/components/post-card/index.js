@@ -1,6 +1,10 @@
-import React from "react";
+import React, { Fragment, useContext, useState } from "react";
+import Router, { useRouter } from "next/router";
 import PropTypes from "prop-types";
 import styled from "@emotion/styled";
+import { MobileContext } from "../../shared/enhancers/mobile-enhancer";
+import PostModal from "../post-modal";
+import { TOP } from "../../shared/library/components/modals/base/portal";
 import { BASE_TEXT, WEIGHT } from "../../shared/style/typography";
 import {
   BLACK,
@@ -128,21 +132,37 @@ const PostCard = ({
   votesCount,
   upvoted
 }) => {
+  const isMobile = useContext(MobileContext);
+  const [isOpen, setIsOpen] = useState(false);
+  const router = useRouter();
+  const href = `/posts/${slug}`;
+
+  const handleClick = e => {
+    e.preventDefault();
+    router.push(Router.pathname, href, { shallow: true });
+    setIsOpen(true);
+  };
+
   return (
-    <Container visible={visible}>
-      <Wrapper>
-        <Link href={`/posts/${slug}`}>
-          <Body>
-            <Thumbnail src={thumbnail} />
-            <Content>
-              <Name>{name}</Name>
-              {/* <Tagline>{tagline}</Tagline> */}
-              {/* <Footer>{tags.length > 0 && <TagList tags={tags} />}</Footer> */}
-            </Content>
-          </Body>
-        </Link>
-      </Wrapper>
-    </Container>
+    <Fragment>
+      <Container visible={visible}>
+        <Wrapper>
+          <Link href={href} onClick={handleClick}>
+            <Body>
+              <Thumbnail src={thumbnail} />
+              <Content>
+                <Name>{name}</Name>
+                {/* <Tagline>{tagline}</Tagline> */}
+                {/* <Footer>{tags.length > 0 && <TagList tags={tags} />}</Footer> */}
+              </Content>
+            </Body>
+          </Link>
+        </Wrapper>
+      </Container>
+      {isOpen && (
+        <PostModal onDismiss={() => setIsOpen(false)} position={TOP} />
+      )}
+    </Fragment>
   );
 };
 
