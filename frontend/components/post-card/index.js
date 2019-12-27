@@ -1,4 +1,4 @@
-import React, { Fragment, useContext, useState } from "react";
+import React, { Fragment, useContext, useState, useEffect } from "react";
 import Router, { useRouter } from "next/router";
 import PropTypes from "prop-types";
 import styled from "@emotion/styled";
@@ -137,10 +137,43 @@ const PostCard = ({
   const router = useRouter();
   const href = `/posts/${slug}`;
 
+  useEffect(() => {
+    Router.beforePopState(({ url, as, options }) => {
+      if (url === "/" && as === "/") {
+        // going back
+        setIsOpen(false);
+      } else {
+        // window.location.href = as;
+        // return
+        router.push(as, as, { shallow: true });
+        return false;
+      }
+      return true;
+      // Determine if going back or forward
+      // // I only want to allow these two routes!
+      // if (as !== '/' && as !== '/other') {
+      //   // Have SSR render bad routes as a 404.
+      //   window.location.href = as
+      //   return false
+      // }
+      // console.log("-------------- BEFORE POP STATE----------");
+      // console.log("url", url);
+      // console.log("as", as);
+      // console.log("options", options);
+
+      // return true;
+    });
+  }, [isOpen]);
+
   const handleClick = e => {
     e.preventDefault();
     router.push(Router.pathname, href, { shallow: true });
     setIsOpen(true);
+  };
+
+  const handleDismiss = () => {
+    router.push("/", "/", { shallow: true });
+    setIsOpen(false);
   };
 
   return (
@@ -159,9 +192,7 @@ const PostCard = ({
           </Link>
         </Wrapper>
       </Container>
-      {isOpen && (
-        <PostModal onDismiss={() => setIsOpen(false)} position={TOP} />
-      )}
+      {isOpen && <PostModal onDismiss={handleDismiss} position={TOP} />}
     </Fragment>
   );
 };

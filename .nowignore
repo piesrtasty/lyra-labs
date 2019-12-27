@@ -2,3 +2,4 @@
 .next
 Dockerfile
 README.MD
+frontend/pages/advanced/ssr-profile.js
