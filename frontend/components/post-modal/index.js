@@ -7,7 +7,7 @@ import { withPortal } from "../../shared/library/components/modals/base/portal";
 
 const PostModal = ({ post, onDismiss }) => {
   return (
-    <BaseModal onDismiss={onDismiss} width={"100%"}>
+    <BaseModal onDismiss={onDismiss}>
       <Post />
     </BaseModal>
   );

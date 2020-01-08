@@ -8,3 +8,19 @@ export const SIGN_UPLOAD = gql`
     }
   }
 `;
+
+export const UPDATE_FOLLOWED_TOPIC = gql`
+  mutation updateFollowedTopic(
+    $userId: ID!
+    $topicId: ID!
+    $following: Boolean!
+  ) {
+    updateFollowedTopic(
+      userId: $userId
+      topicId: $topicId
+      following: $following
+    ) {
+      id
+    }
+  }
+`;

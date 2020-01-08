@@ -28,6 +28,7 @@ model User {
   address          String
   submittedPosts   Post[]   @relation(name: "SubmittedPosts")
   createdPosts     Post[]   @relation(name: "CreatedPosts")
+  followedTopics   Topic[]
 }
 
 model Topic {

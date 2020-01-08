@@ -38,7 +38,8 @@ const Container = styled("div")(
     borderRadius: 8,
     boxShadow: "0 3px 25px rgba(0, 0, 0, 0.16)",
     boxSizing: "border-box",
-    position: "relative"
+    position: "relative",
+    margin: "auto"
   },
   ({ width }) => ({
     width
@@ -56,7 +57,7 @@ const BaseModal = ({ children, width, onDismiss }) => {
 
 BaseModal.propTypes = {
   children: PropTypes.any,
-  width: PropTypes.number,
+  width: PropTypes.any,
   onDismiss: PropTypes.func
 };
 

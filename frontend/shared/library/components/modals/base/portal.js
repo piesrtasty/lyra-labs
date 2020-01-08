@@ -61,7 +61,7 @@ const Portal = ({ children, onDismiss, position, preventClickAway, width }) => {
         ref={modal}
         style={{
           marginBottom: 20,
-          width: "100%",
+          width,
           maxWidth: "1100px"
         }}
       >
@@ -88,12 +88,14 @@ export function withPortal(ModalComponent) {
     onDismiss,
     preventClickAway,
     position,
+    width,
     ...props
   }) {
     return ReactDOM.createPortal(
       <Portal
         onDismiss={onDismiss}
         position={position}
+        width={width}
         preventClickAway={preventClickAway}
       >
         <ModalComponent {...props} />

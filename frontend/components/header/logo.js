@@ -12,12 +12,21 @@ const Container = styled("div")({
   alignItems: "center",
   justifyContent: "center",
   fontWeight: WEIGHT.BOLD,
-  height: 40,
-  width: 40,
+  height: 45,
+  width: 45,
   fontSize: 24,
   marginRight: 20
 });
 
-const Logo = () => <Container>L</Container>;
+const Image = styled("img")({
+  height: 40,
+  transform: "rotate(-90deg)"
+});
+
+const Logo = () => (
+  <Container>
+    <Image src="/logos/lyra-derp.png" />
+  </Container>
+);
 
 export default Logo;

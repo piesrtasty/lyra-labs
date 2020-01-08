@@ -12,6 +12,7 @@ const User = objectType({
     t.model.id()
     t.model.email()
     t.model.avatar()
+    t.model.followedTopics()
   },
 })
 

@@ -1,9 +1,17 @@
-import React, { Fragment, useContext, useState, useEffect } from "react";
+import React, {
+  Fragment,
+  useContext,
+  useState,
+  useEffect,
+  useRef
+} from "react";
 import Router, { useRouter } from "next/router";
 import PropTypes from "prop-types";
 import styled from "@emotion/styled";
+import TagList from "../tag-list";
 import { MobileContext } from "../../shared/enhancers/mobile-enhancer";
 import PostModal from "../post-modal";
+import LoginModal from "../../shared/library/components/modals/login";
 import { TOP } from "../../shared/library/components/modals/base/portal";
 import { BASE_TEXT, WEIGHT } from "../../shared/style/typography";
 import {
@@ -134,41 +142,34 @@ const PostCard = ({
 }) => {
   const isMobile = useContext(MobileContext);
   const [isOpen, setIsOpen] = useState(false);
+  const [showLoginModal, setShowLoginModal] = useState(false);
   const router = useRouter();
   const href = `/posts/${slug}`;
+
+  const tagListRef = useRef();
 
   useEffect(() => {
     Router.beforePopState(({ url, as, options }) => {
       if (url === "/" && as === "/") {
-        // going back
         setIsOpen(false);
       } else {
-        // window.location.href = as;
-        // return
         router.push(as, as, { shallow: true });
         return false;
       }
       return true;
-      // Determine if going back or forward
-      // // I only want to allow these two routes!
-      // if (as !== '/' && as !== '/other') {
-      //   // Have SSR render bad routes as a 404.
-      //   window.location.href = as
-      //   return false
-      // }
-      // console.log("-------------- BEFORE POP STATE----------");
-      // console.log("url", url);
-      // console.log("as", as);
-      // console.log("options", options);
-
-      // return true;
     });
   }, [isOpen]);
 
   const handleClick = e => {
+    console.log("target", e.target);
     e.preventDefault();
-    router.push(Router.pathname, href, { shallow: true });
-    setIsOpen(true);
+    const containsClick =
+      tagListRef.current && tagListRef.current.contains(e.target);
+    console.log("containsClick", containsClick);
+    if (!containsClick) {
+      router.push(Router.pathname, href, { shallow: true });
+      setIsOpen(true);
+    }
   };
 
   const handleDismiss = () => {
@@ -185,14 +186,27 @@ const PostCard = ({
               <Thumbnail src={thumbnail} />
               <Content>
                 <Name>{name}</Name>
-                {/* <Tagline>{tagline}</Tagline> */}
-                {/* <Footer>{tags.length > 0 && <TagList tags={tags} />}</Footer> */}
+                <Tagline>{tagline}</Tagline>
+                <Footer>
+                  {tags.length > 0 && (
+                    <TagList
+                      containerRef={tagListRef}
+                      tags={tags}
+                      showLogin={() => setShowLoginModal(true)}
+                    />
+                  )}
+                </Footer>
               </Content>
             </Body>
           </Link>
         </Wrapper>
       </Container>
-      {isOpen && <PostModal onDismiss={handleDismiss} position={TOP} />}
+      {isOpen && (
+        <PostModal onDismiss={handleDismiss} position={TOP} width={"100%"} />
+      )}
+      {showLoginModal && (
+        <LoginModal onDismiss={() => setShowLoginModal(false)} />
+      )}
     </Fragment>
   );
 };
