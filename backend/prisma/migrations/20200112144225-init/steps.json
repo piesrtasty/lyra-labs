@@ -37,7 +37,7 @@
         "source": "db"
       },
       "argument": "url",
-      "value": "\"postgresql://prisma:prisma@0.0.0.0:5432/prisma\""
+      "value": "\"postgresql://prisma:mypassword@lyra-labs-dev.cctuihe2uaxv.us-west-2.rds.amazonaws.com:5432/prisma?sslaccept=accept_invalid_certs\""
     },
     {
       "tag": "CreateModel",

@@ -1,5 +1,11 @@
 const { GraphQLServer } = require('graphql-yoga')
-const { makeSchema, objectType, idArg, stringArg } = require('nexus')
+const {
+  makeSchema,
+  objectType,
+  idArg,
+  stringArg,
+  booleanArg,
+} = require('nexus')
 const { Photon } = require('@prisma/photon')
 const { nexusPrismaPlugin } = require('nexus-prisma')
 const { checkJwt } = require('../middleware/checkJwt')
@@ -176,7 +182,26 @@ const Mutation = objectType({
   definition(t) {
     t.crud.createOneUser({ alias: 'signupUser' })
     t.crud.deleteOnePost()
-
+    t.field('updateFollowedTopic', {
+      type: 'Topic',
+      args: {
+        userId: idArg(),
+        topicId: idArg(),
+        following: booleanArg(),
+      },
+      resolve: async (_, { userId, topicId, following }, ctx) => {
+        const action = following ? 'connect' : 'disconnect'
+        await ctx.photon.users.update({
+          where: { id: userId },
+          data: {
+            followedTopics: {
+              [action]: { id: topicId },
+            },
+          },
+        })
+        return ctx.photon.topics.findOne({ where: { id: topicId } })
+      },
+    })
     t.field('createDraft', {
       type: 'Post',
       args: {

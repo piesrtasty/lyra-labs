@@ -42,6 +42,7 @@ export const CURRENT_USER_QUERY = gql`
       followedTopics {
         id
         name
+        slug
       }
     }
   }

@@ -1,12 +1,11 @@
-import React, { useContext, useState } from "react";
+import React, { useContext } from "react";
 import { useMutation } from "@apollo/react-hooks";
 import { UPDATE_FOLLOWED_TOPIC } from "../../data/mutations";
+import { CURRENT_USER_QUERY } from "../../data/queries";
 import styled from "@emotion/styled";
 import { CurrentUserContext } from "../../shared/enhancers/current-user";
-
 import { BASE_TEXT } from "../../shared/style/typography";
 import { ALABASTER, LILAC, GUNSMOKE } from "../../shared/style/colors";
-
 const HEIGHT = 24;
 
 const Action = styled("span")({
@@ -62,26 +61,39 @@ const Link = styled("div")({
 });
 
 const Tag = ({ id, name, slug, showLogin }) => {
-  // console.log("user", user);
-  // const following = me
-  // ? me.followedTopics.map(topic => topic.id).includes(id)
-  // : false;
   const currentUser = useContext(CurrentUserContext);
-  const [updateFollowedTopic, { data }] = useMutation(UPDATE_FOLLOWED_TOPIC);
-
-  // console.log("currentUser", currentUser);
-
-  const following = false;
+  const [updateFollowedTopic, { data }] = useMutation(UPDATE_FOLLOWED_TOPIC, {
+    update: (cache, { data: { updateFollowedTopic } }) => {
+      const user = cache.readQuery({ query: CURRENT_USER_QUERY });
+      const { followedTopics } = user.me;
+      let updatedTopics;
+      if (following) {
+        updatedTopics = followedTopics.filter(topic => topic.id !== id);
+      } else {
+        followedTopics.push(updateFollowedTopic);
+        updatedTopics = followedTopics;
+      }
+      user.me.followedTopics = updatedTopics;
+      cache.writeQuery({ query: CURRENT_USER_QUERY, data: user });
+    }
+  });
+  const following = currentUser
+    ? currentUser.followedTopics.map(topic => topic.id).includes(id)
+    : false;
   return (
     <Container following={following}>
       <Link href={slug}>{name}</Link>
       <Action
-        onClick={() => {
+        onClick={e => {
           if (currentUser) {
             e.preventDefault();
-            updateFollowedTopic({ variables: { type: input.value } });
-
-            console.log("clicked tag");
+            updateFollowedTopic({
+              variables: {
+                userId: currentUser.id,
+                topicId: id,
+                following: true
+              }
+            });
           } else {
             showLogin();
           }

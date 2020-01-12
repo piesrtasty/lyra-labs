@@ -139,11 +139,104 @@ const OFFSET = 15;
 const ARROW_OFFSET = 10;
 
 const TagList = ({ tags, containerRef, showLogin }) => {
+  const [isOpen, setIsOpen] = useState(false);
+  const items = tags.map(({ id, name, slug }) => (
+    <Tag key={id} id={id} name={name} slug={slug} />
+  ));
   const firstTag = tags[0];
   const { id, name, slug } = firstTag;
+
+  const addOutsideClickHandler = () => {
+    document.addEventListener("click", handleOutsideClick);
+  };
+
+  const removeOutsideClickHandler = () => {
+    document.removeEventListener("click", handleOutsideClick);
+  };
+
+  const handleClick = () => {
+    setIsOpen(!isOpen);
+    addOutsideClickHandler();
+  };
+
+  const handleOutsideClick = event => {
+    if (containerRef && !containerRef.current.contains(event.target)) {
+      setIsOpen(false);
+      removeOutsideClickHandler();
+    }
+  };
+
   return (
     <Container ref={containerRef}>
-      <Tag key={id} id={id} name={name} slug={slug} showLogin={showLogin} />
+      <Tag key={id} id={id} name={name} slug={slug} />
+      {tags.length > 1 && (
+        <Manager>
+          <Count>
+            <Reference>
+              {({ ref }) => (
+                <div ref={ref} onClick={() => handleClick()}>
+                  + {tags.length - 1}
+                </div>
+              )}
+            </Reference>
+          </Count>
+          {isOpen && (
+            <Popper
+              placement="auto"
+              modifiers={{
+                addMargin: {
+                  order: 1,
+                  enabled: true,
+                  function: data => {
+                    const {
+                      placement,
+                      offsets: { popper }
+                    } = data;
+                    switch (placement) {
+                      case TOP:
+                        popper[TOP] -= OFFSET;
+                        break;
+                      case RIGHT:
+                        popper[LEFT] += OFFSET;
+                        break;
+                      case BOTTOM:
+                        popper[TOP] += OFFSET;
+                        break;
+                      case LEFT:
+                        popper[LEFT] -= OFFSET;
+                        break;
+                      default:
+                        break;
+                    }
+                    data.offsets.popper = popper;
+                    return data;
+                  }
+                }
+              }}
+            >
+              {({ ref, style, placement, arrowProps }) => {
+                if ([TOP, BOTTOM].includes(placement)) {
+                  arrowProps.style.left += ARROW_OFFSET;
+                } else if (placement === LEFT) {
+                  arrowProps.style.top += ARROW_OFFSET;
+                }
+                return (
+                  <div ref={ref} style={style} data-placement={placement}>
+                    <Arrow
+                      ref={arrowProps.ref}
+                      data-placement={placement}
+                      style={arrowProps.style}
+                    />
+                    <Content>
+                      <Tags>{items.slice(1, items.length)}</Tags>
+                    </Content>
+                  </div>
+                );
+              }}
+            </Popper>
+          )}
+        </Manager>
+      )}
     </Container>
   );
 };
