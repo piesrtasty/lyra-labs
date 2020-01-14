@@ -8,8 +8,8 @@ import { GUNSMOKE, LILAC, WHITE } from "../../shared/style/colors";
 
 const Container = styled("div")({
   display: "flex",
-  flexDirection: "row",
-  zIndex: 99
+  flexDirection: "row"
+  // zIndex: 99
 });
 
 const Count = styled("a")({
@@ -141,7 +141,7 @@ const ARROW_OFFSET = 10;
 const TagList = ({ tags, containerRef, showLogin }) => {
   const [isOpen, setIsOpen] = useState(false);
   const items = tags.map(({ id, name, slug }) => (
-    <Tag key={id} id={id} name={name} slug={slug} />
+    <Tag key={id} id={id} name={name} slug={slug} showLogin={showLogin} />
   ));
   const firstTag = tags[0];
   const { id, name, slug } = firstTag;
@@ -168,7 +168,7 @@ const TagList = ({ tags, containerRef, showLogin }) => {
 
   return (
     <Container ref={containerRef}>
-      <Tag key={id} id={id} name={name} slug={slug} />
+      <Tag key={id} id={id} name={name} slug={slug} showLogin={showLogin} />
       {tags.length > 1 && (
         <Manager>
           <Count>
@@ -183,6 +183,7 @@ const TagList = ({ tags, containerRef, showLogin }) => {
           {isOpen && (
             <Popper
               placement="auto"
+              style={{ zIndex: 99 }}
               modifiers={{
                 addMargin: {
                   order: 1,
