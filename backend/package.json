@@ -27,5 +27,8 @@
     "semi": false,
     "trailingComma": "all"
   },
+  "engines": {
+    "node": "10"
+  },
   "devDependencies": {}
 }

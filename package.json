@@ -2,9 +2,6 @@
   "name": "lyra-labs",
   "version": "1.0.0",
   "description": "",
-  "engines": {
-    "node": "12.x"
-  },
   "scripts": {
     "generate": "docker exec -it frontend npm run generate",
     "start": "docker-compose up",
@@ -16,5 +13,8 @@
   },
   "keywords": [],
   "author": "",
-  "license": "ISC"
+  "license": "ISC",
+  "engines": {
+    "node": "10"
+  }
 }
