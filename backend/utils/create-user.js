@@ -1,6 +1,8 @@
 const { LocalAddress, CryptoUtils } = require('loom-js')
 
 const createUser = async ({ request: { user }, photon }) => {
+  const { token } = user
+  console.log('token', token)
   const bytes = CryptoUtils.generatePrivateKey()
   const privateKey = Buffer.from(
     bytes.buffer,
@@ -13,17 +15,17 @@ const createUser = async ({ request: { user }, photon }) => {
 
   const newUser = await photon.users.create({
     data: {
-      identity: user.sub.split(`|`)[0],
-      auth0id: user.sub,
-      name: user.name,
-      name_lower: user.name.toLowerCase(),
-      firstName: user.given_name,
-      lastName: user.family_name,
-      email: user.email,
-      avatar: user.picture,
+      identity: token.sub.split(`|`)[0],
+      auth0id: token.sub,
+      name: token.name,
+      name_lower: token.name.toLowerCase(),
+      firstName: token.given_name ? token.given_name : '',
+      lastName: token.family_name ? token.family_name : '',
+      email: token.email ? token.email : '',
+      avatar: token.picture,
       privateKey: privateKeyStr,
-      username: user.nickname,
-      username_lower: user.nickname.toLowerCase(),
+      username: token.nickname ? token.nickname : '',
+      username_lower: token.nickname.toLowerCase(),
       address,
     },
   })

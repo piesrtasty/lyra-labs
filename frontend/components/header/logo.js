@@ -1,32 +1,13 @@
 import React from "react";
 import styled from "@emotion/styled";
-import { BASE_TEXT, WEIGHT } from "../../shared/style/typography";
-import { WHITE, LAVENDER } from "../../shared/style/colors";
+import LyraLogo from "../../shared/style/logos/lyra-labs-logo.svg";
 
-const Container = styled("div")({
-  ...BASE_TEXT,
-  backgroundColor: LAVENDER,
-  color: WHITE,
-  borderRadius: "50%",
-  display: "flex",
-  alignItems: "center",
-  justifyContent: "center",
-  fontWeight: WEIGHT.BOLD,
-  height: 45,
-  width: 45,
-  fontSize: 24,
+const StyledLyraLogo = styled(LyraLogo)({
+  height: 60,
+  width: "auto",
   marginRight: 20
 });
 
-const Image = styled("img")({
-  height: 40,
-  transform: "rotate(-90deg)"
-});
-
-const Logo = () => (
-  <Container>
-    <Image src="/logos/lyra-derp.png" />
-  </Container>
-);
+const Logo = () => <StyledLyraLogo />;
 
 export default Logo;

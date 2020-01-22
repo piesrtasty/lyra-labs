@@ -6,11 +6,17 @@ import { Manager, Reference, Popper } from "react-popper";
 import { BASE_TEXT } from "../../shared/style/typography";
 import { GUNSMOKE, LILAC, WHITE } from "../../shared/style/colors";
 
-const Container = styled("div")({
-  display: "flex",
-  flexDirection: "row"
-  // zIndex: 99
-});
+const Container = styled("div")(
+  {
+    display: "flex",
+    flexDirection: "row"
+  },
+  ({ isOpen }) => ({
+    " > div:last-of-type": {
+      zIndex: isOpen ? 999 : 1
+    }
+  })
+);
 
 const Count = styled("a")({
   ...BASE_TEXT,
@@ -138,7 +144,7 @@ const LEFT = "left";
 const OFFSET = 15;
 const ARROW_OFFSET = 10;
 
-const TagList = ({ tags, containerRef, showLogin }) => {
+const TagList = ({ tags, containerRef, showLogin, zIndex }) => {
   const [isOpen, setIsOpen] = useState(false);
   const items = tags.map(({ id, name, slug }) => (
     <Tag key={id} id={id} name={name} slug={slug} showLogin={showLogin} />
@@ -160,14 +166,18 @@ const TagList = ({ tags, containerRef, showLogin }) => {
   };
 
   const handleOutsideClick = event => {
-    if (containerRef && !containerRef.current.contains(event.target)) {
+    if (
+      containerRef &&
+      containerRef.current &&
+      !containerRef.current.contains(event.target)
+    ) {
       setIsOpen(false);
       removeOutsideClickHandler();
     }
   };
 
   return (
-    <Container ref={containerRef}>
+    <Container ref={containerRef} isOpen={isOpen}>
       <Tag key={id} id={id} name={name} slug={slug} showLogin={showLogin} />
       {tags.length > 1 && (
         <Manager>
@@ -183,7 +193,6 @@ const TagList = ({ tags, containerRef, showLogin }) => {
           {isOpen && (
             <Popper
               placement="auto"
-              style={{ zIndex: 99 }}
               modifiers={{
                 addMargin: {
                   order: 1,

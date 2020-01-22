@@ -97,6 +97,31 @@ const Post = objectType({
     t.model.featured()
     t.model.topics()
     t.model.votes()
+    t.boolean('upvoted', {
+      resolve: async (_, _args, ctx) => {
+        const currentUser = ctx.request.user
+        if (currentUser) {
+          const votes = await ctx.photon.votes.findMany({
+            where: {
+              post: { id: _.id },
+              user: { id: currentUser.id },
+            },
+          })
+          if (votes.length > 0) {
+            return true
+          }
+        }
+        return false
+      },
+    })
+    t.int('votesCount', {
+      resolve: async (_, _args, ctx) => {
+        const votes = await ctx.photon.votes.findMany({
+          where: { post: { id: _.id } },
+        })
+        return votes.length
+      },
+    })
   },
 })
 
@@ -134,17 +159,16 @@ const Query = objectType({
       type: 'User',
       nullable: true,
       resolve: async (_, _args, ctx) => {
-        console.log('ctx.request.user', ctx.request.user)
-        const auth0id = ctx.request.user ? ctx.request.user.sub : null
-        console.log('auth0id', auth0id)
-        if (auth0id) {
-          const user = await ctx.photon.users.findOne({ where: { auth0id } })
-          console.log('user to return', user)
-          if (!user) {
-            console.log('AAAAA')
+        const user = ctx.request.user
+        if (user) {
+          if (!user.token) {
+            const currentUser = await ctx.photon.users.findOne({
+              where: { id: user.id },
+            })
+            return currentUser
+          } else {
             return createUser(ctx)
           }
-          return user
         }
         return null
       },
@@ -182,6 +206,38 @@ const Mutation = objectType({
   definition(t) {
     t.crud.createOneUser({ alias: 'signupUser' })
     t.crud.deleteOnePost()
+    t.field('vote', {
+      type: 'Vote',
+      args: {
+        postId: idArg(),
+        userId: idArg(),
+      },
+      resolve: async (_, { userId, postId }, ctx) => {
+        const votes = await ctx.photon.votes.findMany({
+          where: {
+            user: {
+              id: userId,
+            },
+            post: {
+              id: postId,
+            },
+          },
+        })
+        if (votes.length > 0) {
+          return ctx.photon.votes.delete({
+            where: {
+              id: votes[0].id,
+            },
+          })
+        }
+        return ctx.photon.votes.create({
+          data: {
+            user: { connect: { id: userId } },
+            post: { connect: { id: postId } },
+          },
+        })
+      },
+    })
     t.field('updateFollowedTopic', {
       type: 'Topic',
       args: {
@@ -259,40 +315,18 @@ const server = new GraphQLServer({
     ],
     plugins: [nexusPrismaPlugin()],
   }),
-  // context: { photon },
   context: req => ({ ...req, photon }),
   middlewares: [],
 })
-// console.log('COOL')
-// console.log('server server.options.endpoint', server.options.endpoint)
-
-// server.express.use((req, res, next) => {
-//   console.log('MY MIDDLWARE', req.headers.authorization)
-//   next()
-// })
 
 server.express.post('/graphql', checkJwt, (err, req, res, next) => {
   if (err) return res.status(401).send(err.message)
   next()
 })
 
-// server.express.post('/graphql', (req, res, next) => {
-//   console.log('in middle ware!!!!!!', req.user)
-//   // console.log('req', req)
-//   // console.log("At get User", req.user);
-//   // If there is a user on the request (get that)
-//   getUser(req, res, next)
-//   // next()
-//   // getLyraClient(req, res, next, prisma);
-
-//   // next();
-//   // Otherwise check if there is a cookie to get the user
-// })
-
-// server.express.use((req, res, next) => {
-//   console.log('MY MIDDLWARE')
-//   next()
-// })
+server.express.use('/graphql', (req, res, next) => {
+  getUser(req, res, next, photon)
+})
 
 server.start(
   {
@@ -301,7 +335,6 @@ server.start(
     subscriptions: false,
     cors: {
       credentials: true,
-      // origin: 'http://localhost:3000',
       origin: process.env.FRONTEND_URL,
     },
   },
@@ -310,29 +343,5 @@ server.start(
       `🚀 Server ready at: http://localhost:4000\n⭐️ See sample queries: http://pris.ly/e/js/graphql#5-using-the-graphql-api`,
     ),
 )
-
-// new GraphQLServer({
-//   schema: makeSchema({
-//     types: [Query, Mutation, Post, User],
-//     plugins: [nexusPrismaPlugin()],
-//   }),
-//   context: { photon },
-//   middlewares: [],
-// }).start(
-//   {
-//     endpoint: '/graphql',
-//     playground: '/graphql',
-//     subscriptions: false,
-//     cors: {
-//       credentials: true,
-//       // origin: 'http://localhost:3000',
-//       origin: process.env.FRONTEND_URL,
-//     },
-//   },
-//   () =>
-//     console.log(
-//       `🚀 Server ready at: http://localhost:4000\n⭐️ See sample queries: http://pris.ly/e/js/graphql#5-using-the-graphql-api`,
-//     ),
-// )
 
 module.exports = { User, Post }

@@ -24,3 +24,11 @@ export const UPDATE_FOLLOWED_TOPIC = gql`
     }
   }
 `;
+
+export const VOTE = gql`
+  mutation vote($userId: ID!, $postId: ID!) {
+    vote(userId: $userId, postId: $postId) {
+      id
+    }
+  }
+`;

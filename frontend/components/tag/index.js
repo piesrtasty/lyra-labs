@@ -95,7 +95,6 @@ const Tag = ({ id, name, slug, showLogin }) => {
               }
             });
           } else {
-            console.log("HEREEEE");
             showLogin();
           }
         }}

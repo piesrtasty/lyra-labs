@@ -7,13 +7,19 @@ import React, {
 } from "react";
 import Router, { useRouter } from "next/router";
 import PropTypes from "prop-types";
+import { useMutation } from "@apollo/react-hooks";
+import { VOTE } from "../../data/mutations";
+import { CURRENT_USER_QUERY } from "../../data/queries";
+import { CurrentUserContext } from "../../shared/enhancers/current-user";
 import styled from "@emotion/styled";
 import TagList from "../tag-list";
 import { MobileContext } from "../../shared/enhancers/mobile-enhancer";
 import PostModal from "../post-modal";
 import LoginModal from "../../shared/library/components/modals/login";
+import ChevronUp from "../../shared/style/icons/chevron-up.svg";
 import { TOP } from "../../shared/library/components/modals/base/portal";
 import { BASE_TEXT, WEIGHT } from "../../shared/style/typography";
+import { PHONE } from "../../shared/style/breakpoints";
 import {
   BLACK,
   GUNSMOKE,
@@ -113,7 +119,11 @@ const Votes = styled("div")(
     justifyContent: "center",
     height: 74,
     width: 64,
-    fontWeight: WEIGHT.BOLD
+    fontWeight: WEIGHT.BOLD,
+    [PHONE]: {
+      height: 55,
+      width: 48
+    }
   },
   ({ upvoted }) => ({
     color: upvoted ? ACCENT : BLACK,
@@ -140,6 +150,22 @@ const PostCard = ({
   votesCount,
   upvoted
 }) => {
+  const currentUser = useContext(CurrentUserContext);
+  const [vote, { data }] = useMutation(VOTE, {
+    update: (cache, { data: { vote } }) => {
+      // const user = cache.readQuery({ query: CURRENT_USER_QUERY });
+      // const { followedTopics } = user.me;
+      // let updatedTopics;
+      // if (following) {
+      //   updatedTopics = followedTopics.filter(topic => topic.id !== id);
+      // } else {
+      //   followedTopics.push(updateFollowedTopic);
+      //   updatedTopics = followedTopics;
+      // }
+      // user.me.followedTopics = updatedTopics;
+      // cache.writeQuery({ query: CURRENT_USER_QUERY, data: user });
+    }
+  });
   const isMobile = useContext(MobileContext);
   const [isOpen, setIsOpen] = useState(false);
   const [showLoginModal, setShowLoginModal] = useState(false);
@@ -161,7 +187,6 @@ const PostCard = ({
   }, [isOpen]);
 
   const handleClick = e => {
-    console.log("target", e.target);
     e.preventDefault();
     const containsClick =
       tagListRef.current && tagListRef.current.contains(e.target);
@@ -175,6 +200,20 @@ const PostCard = ({
   const handleDismiss = () => {
     router.push("/", "/", { shallow: true });
     setIsOpen(false);
+  };
+
+  const handleVoteClick = e => {
+    if (currentUser) {
+      e.preventDefault();
+      vote({
+        variables: {
+          userId: currentUser.id,
+          postId: id
+        }
+      });
+    } else {
+      setShowLoginModal(true);
+    }
   };
 
   return (
@@ -200,6 +239,12 @@ const PostCard = ({
             </Body>
           </Link>
         </Wrapper>
+        <VotesWrapper upvoted={upvoted}>
+          <Votes upvoted={upvoted} onClick={handleVoteClick}>
+            <ChevronUp />
+            {votesCount > 0 && votesCount}
+          </Votes>
+        </VotesWrapper>
       </Container>
       {isOpen && (
         <PostModal onDismiss={handleDismiss} position={TOP} width={"100%"} />

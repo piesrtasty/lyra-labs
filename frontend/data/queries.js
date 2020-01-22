@@ -15,6 +15,8 @@ export const SECTIONS_QUERY = gql`
         votes {
           id
         }
+        votesCount
+        upvoted
         topics {
           id
           name
