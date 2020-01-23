@@ -163,8 +163,6 @@ function createApolloClient(initialState = {}) {
 
   const setAuthLink = setContext((_, { headers }) => {
     const token = session && session.idToken ? session.idToken : null;
-    console.log("setAuthLink token", token);
-    // console.log("session in setSessionLink", session.user.sub);
     return {
       headers: {
         ...headers,

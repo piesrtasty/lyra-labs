@@ -5,6 +5,8 @@ import React, {
   useEffect,
   useRef
 } from "react";
+import gql from "graphql-tag";
+import { defaultDataIdFromObject } from "apollo-cache-inmemory";
 import Router, { useRouter } from "next/router";
 import PropTypes from "prop-types";
 import { useMutation } from "@apollo/react-hooks";
@@ -153,17 +155,20 @@ const PostCard = ({
   const currentUser = useContext(CurrentUserContext);
   const [vote, { data }] = useMutation(VOTE, {
     update: (cache, { data: { vote } }) => {
-      // const user = cache.readQuery({ query: CURRENT_USER_QUERY });
-      // const { followedTopics } = user.me;
-      // let updatedTopics;
-      // if (following) {
-      //   updatedTopics = followedTopics.filter(topic => topic.id !== id);
-      // } else {
-      //   followedTopics.push(updateFollowedTopic);
-      //   updatedTopics = followedTopics;
-      // }
-      // user.me.followedTopics = updatedTopics;
-      // cache.writeQuery({ query: CURRENT_USER_QUERY, data: user });
+      const postId = defaultDataIdFromObject({ id, __typename: "Post" });
+      cache.writeFragment({
+        id: postId,
+        fragment: gql`
+          fragment myPost on Post {
+            upvoted
+            votesCount
+          }
+        `,
+        data: {
+          upvoted: !upvoted,
+          votesCount: upvoted ? votesCount - 1 : votesCount + 1
+        }
+      });
     }
   });
   const isMobile = useContext(MobileContext);
