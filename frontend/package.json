@@ -4,7 +4,9 @@
   "scripts": {
     "dev": "next",
     "build": "next build",
-    "start": "next start"
+    "start": "next start",
+    "storybook": "start-storybook -p 6006",
+    "build-storybook": "build-storybook"
   },
   "dependencies": {
     "@apollo/react-hooks": "3.0.0",
@@ -39,6 +41,12 @@
   },
   "license": "ISC",
   "devDependencies": {
+    "@babel/core": "^7.8.3",
+    "@storybook/addon-actions": "^5.3.8",
+    "@storybook/addon-links": "^5.3.8",
+    "@storybook/addons": "^5.3.8",
+    "@storybook/react": "^5.3.8",
+    "babel-loader": "^8.0.6",
     "webpack": "^4.41.2"
   },
   "engines": {

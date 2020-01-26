@@ -7,6 +7,11 @@ import BaseModal from "../base";
 import { withPortal } from "../base/portal";
 import LogInButton from "../../buttons/log-in";
 import SignUpButton from "../../buttons/sign-up";
+import LyraLogo from "../../../../style/logos/lyra-labs-logo.svg";
+
+const StyledLyraLogo = styled(LyraLogo)({
+  height: 100
+});
 
 const StyledContainer = styled(Container)({
   width: "100%",
@@ -16,11 +21,6 @@ const StyledContainer = styled(Container)({
   flexDirection: "column",
   alignItems: "center",
   padding: 20
-});
-
-const Image = styled("img")({
-  width: 100,
-  transform: "rotate(-90deg)"
 });
 
 const Actions = styled("div")({
@@ -56,7 +56,7 @@ const LoginModal = ({ onDismiss }) => {
   return (
     <BaseModal onDismiss={onDismiss} width={"auto"}>
       <StyledContainer>
-        <Image src="/logos/lyra-derp.png" />
+        <StyledLyraLogo />
         <Title>{TITLE}</Title>
         <Description>{DESCRIPTION}</Description>
         <Actions>

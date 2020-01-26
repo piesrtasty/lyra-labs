@@ -4,7 +4,7 @@ import { WEIGHT } from "../../../../style/typography";
 import { WHITE, LAVENDER, FOCUS_LAVENDER } from "../../../../style/colors";
 
 export default styled(SimpleButton)({
-  marginTop: 10,
+  // marginTop: 10,
   borderColor: LAVENDER,
   backgroundColor: LAVENDER,
   color: WHITE,

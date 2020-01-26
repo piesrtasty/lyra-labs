@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React, { Fragment, useContext } from "react";
 import Link from "next/link";
 import styled from "@emotion/styled";
 import { withTheme } from "emotion-theming";
@@ -7,6 +7,7 @@ import { CurrentUserContext } from "../../shared/enhancers/current-user";
 import Logo from "./logo";
 import Search from "./search";
 import Navigation from "./navigation";
+import AuthButtons from "./auth-buttons";
 
 const Wrapper = styled("header")(({ theme: { COLORS: { WHITE, LILAC } } }) => ({
   backgroundColor: WHITE,
@@ -42,7 +43,14 @@ const Header = () => {
         <Logo />
         <Search />
         <Navigation />
-        <Actions>{user && <Avatar src={user.avatar} />}</Actions>
+        <Actions>
+          {
+            <Fragment>
+              {user && <Avatar src={user.avatar} />}
+              {!user && <AuthButtons />}
+            </Fragment>
+          }
+        </Actions>
       </StyledContainer>
     </Wrapper>
   );

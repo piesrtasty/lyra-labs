@@ -1,17 +1,25 @@
 import React from "react";
-import styled from "@emotion/styled";
-import StyledButton from "../styled";
-import { WHITE, LAVENDER, FOCUS_LAVENDER } from "../../../../style/colors";
-
-const ModifiedStyledButton = styled(StyledButton)({
-  borderColor: FOCUS_LAVENDER,
-  backgroundColor: FOCUS_LAVENDER
-});
+import AccentButton from "../accent";
+import { LinkWrapper } from "../shared";
+import {
+  WHITE,
+  PURPLE,
+  CHARCOAL,
+  FOCUS_LAVENDER
+} from "../../../../style/colors";
+import { LOGIN_ROUTE } from "../../../../constants/routes";
 
 const SignUpButton = () => (
-  <a href="/api/login">
-    <ModifiedStyledButton>Sign Up</ModifiedStyledButton>
-  </a>
+  <LinkWrapper href={LOGIN_ROUTE}>
+    <AccentButton
+      color={PURPLE}
+      bgColor={FOCUS_LAVENDER}
+      borderColor={FOCUS_LAVENDER}
+      fontColor={WHITE}
+      hoverFontColor={CHARCOAL}
+      text={"Sign Up"}
+    />
+  </LinkWrapper>
 );
 
 export default SignUpButton;
