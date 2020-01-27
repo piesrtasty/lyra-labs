@@ -6,7 +6,8 @@ const {
   stringArg,
   booleanArg,
 } = require('nexus')
-const { Photon } = require('@prisma/photon')
+// const { Photon } = require('@prisma/photon')
+const { PrismaClient } = require('@prisma/client')
 const { nexusPrismaPlugin } = require('nexus-prisma')
 const { checkJwt } = require('../middleware/checkJwt')
 const { getUser } = require('../middleware/getUser')
@@ -101,7 +102,7 @@ const Post = objectType({
       resolve: async (_, _args, ctx) => {
         const currentUser = ctx.request.user
         if (currentUser) {
-          const votes = await ctx.photon.votes.findMany({
+          const votes = await ctx.prisma.votes.findMany({
             where: {
               post: { id: _.id },
               user: { id: currentUser.id },
@@ -116,7 +117,7 @@ const Post = objectType({
     })
     t.int('votesCount', {
       resolve: async (_, _args, ctx) => {
-        const votes = await ctx.photon.votes.findMany({
+        const votes = await ctx.prisma.votes.findMany({
           where: { post: { id: _.id } },
         })
         return votes.length
@@ -162,7 +163,7 @@ const Query = objectType({
         const user = ctx.request.user
         if (user) {
           if (!user.token) {
-            const currentUser = await ctx.photon.users.findOne({
+            const currentUser = await ctx.prisma.users.findOne({
               where: { id: user.id },
             })
             return currentUser
@@ -177,7 +178,7 @@ const Query = objectType({
     t.list.field('feed', {
       type: 'Post',
       resolve: (_, _args, ctx) => {
-        return ctx.photon.posts.findMany({
+        return ctx.prisma.posts.findMany({
           where: { published: true },
         })
       },
@@ -188,7 +189,7 @@ const Query = objectType({
         searchString: stringArg({ nullable: true }),
       },
       resolve: (_, { searchString }, ctx) => {
-        return ctx.photon.posts.findMany({
+        return ctx.prisma.posts.findMany({
           where: {
             OR: [
               { title: { contains: searchString } },
@@ -213,7 +214,7 @@ const Mutation = objectType({
         userId: idArg(),
       },
       resolve: async (_, { userId, postId }, ctx) => {
-        const votes = await ctx.photon.votes.findMany({
+        const votes = await ctx.prisma.votes.findMany({
           where: {
             user: {
               id: userId,
@@ -224,13 +225,13 @@ const Mutation = objectType({
           },
         })
         if (votes.length > 0) {
-          return ctx.photon.votes.delete({
+          return ctx.prisma.votes.delete({
             where: {
               id: votes[0].id,
             },
           })
         }
-        return ctx.photon.votes.create({
+        return ctx.prisma.votes.create({
           data: {
             user: { connect: { id: userId } },
             post: { connect: { id: postId } },
@@ -247,7 +248,7 @@ const Mutation = objectType({
       },
       resolve: async (_, { userId, topicId, following }, ctx) => {
         const action = following ? 'connect' : 'disconnect'
-        await ctx.photon.users.update({
+        await ctx.prisma.users.update({
           where: { id: userId },
           data: {
             followedTopics: {
@@ -255,7 +256,7 @@ const Mutation = objectType({
             },
           },
         })
-        return ctx.photon.topics.findOne({ where: { id: topicId } })
+        return ctx.prisma.topics.findOne({ where: { id: topicId } })
       },
     })
     t.field('createDraft', {
@@ -266,7 +267,7 @@ const Mutation = objectType({
         authorEmail: stringArg(),
       },
       resolve: (_, { title, content, authorEmail }, ctx) => {
-        return ctx.photon.posts.create({
+        return ctx.prisma.posts.create({
           data: {
             title,
             content,
@@ -286,7 +287,7 @@ const Mutation = objectType({
         id: idArg(),
       },
       resolve: (_, { id }, ctx) => {
-        return ctx.photon.posts.update({
+        return ctx.prisma.posts.update({
           where: { id },
           data: { published: true },
         })
@@ -295,7 +296,8 @@ const Mutation = objectType({
   },
 })
 
-const photon = new Photon()
+// const photon = new Photon()
+const prisma = new PrismaClient()
 
 console.log('process.env.FRONTEND_URL', process.env.FRONTEND_URL)
 
@@ -315,7 +317,7 @@ const server = new GraphQLServer({
     ],
     plugins: [nexusPrismaPlugin()],
   }),
-  context: req => ({ ...req, photon }),
+  context: req => ({ ...req, prisma }),
   middlewares: [],
 })
 
@@ -325,7 +327,7 @@ server.express.post('/graphql', checkJwt, (err, req, res, next) => {
 })
 
 server.express.use('/graphql', (req, res, next) => {
-  getUser(req, res, next, photon)
+  getUser(req, res, next, prisma)
 })
 
 server.start(

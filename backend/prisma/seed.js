@@ -1,5 +1,6 @@
 const moment = require('moment')
-const { Photon } = require('@prisma/photon')
+// const { photon } = require('@prisma/photon')
+const { PrismaClient } = require('@prisma/client')
 const { users, usernames } = require('../test/sample-data/users')
 const { topics } = require('../test/sample-data/topics')
 const {
@@ -10,7 +11,8 @@ const posts = seedPosts
 const postSlugs = seedPostSlugs
 
 const { LocalAddress, CryptoUtils } = require('loom-js')
-const photon = new Photon()
+// const photon = new Photon()
+const prisma = new PrismaClient()
 
 const COMMENT_PARENT_TEXT =
   'Egg whites, turkey sausage, wheat toast, water. Of course they don’t want us to eat our breakfast, so we are going to enjoy our breakfast. In life there will be road blocks but we will over come it. I told you all this before, when you have a swimming pool, do not use chlorine, use salt water, the healing, salt water is the healing. Congratulations, you played yourself. It’s important to use cocoa butter. It’s the key to more success, why not live smooth? Why live rough?'
@@ -62,7 +64,7 @@ async function main() {
     const address = LocalAddress.fromPublicKey(publicKey).toString()
     const { firstName, lastName, username } = users[i]
     const name = `${firstName} ${lastName}`
-    await photon.users.create({
+    await prisma.users.create({
       data: {
         ...users[i],
         privateKey: privateKeyStr,
@@ -78,7 +80,7 @@ async function main() {
   // Create topics
   for (let i = 0; i < topics.length; i += 1) {
     console.log('topics', i)
-    await photon.topics.create({
+    await prisma.topics.create({
       data: {
         ...topics[i],
       },
@@ -96,7 +98,7 @@ async function main() {
     )
     const connectedCreators = selectedCreators.map(username => ({ username }))
 
-    await photon.posts.create({
+    await prisma.posts.create({
       data: {
         ...posts[i],
         link: 'https://loomx.io/',
@@ -123,7 +125,7 @@ async function main() {
       Math.floor(Math.random() * (maxPosts - minPosts + 1)) + minPosts,
     )
     const connectedPostSlugs = selectedPostSlugs.map(slug => ({ slug }))
-    await photon.sections.create({
+    await prisma.sections.create({
       data: {
         date,
         posts: { connect: connectedPostSlugs },
@@ -140,7 +142,7 @@ async function main() {
       Math.floor(Math.random() * (maxVotes - minVotes + 1)) + minVotes,
     )
     for (let j = 0; j < selectedUsernames.length; j += 1) {
-      await photon.votes.create({
+      await prisma.votes.create({
         data: {
           user: { connect: { username: selectedUsernames[j] } },
           post: { connect: { slug: postSlugs[i] } },
@@ -156,7 +158,7 @@ async function main() {
 
   //   for (let j = minComments; j < maxComments; j += 1) {
   //     const author = usernames[Math.floor(Math.random() * usernames.length)]
-  //     const parent = await photon.comments.create({
+  //     const parent = await prisma.comments.create({
   //       data: {
   //         author: { connect: { username: author } },
   //         post: { connect: { slug: postSlugs[i] } },
@@ -171,7 +173,7 @@ async function main() {
   //       ) + config.votes.minVotes,
   //     )
   //     for (let h = 0; h < selectedUsernames.length; h += 1) {
-  //       await photon.commentVotes.create({
+  //       await prisma.commentVotes.create({
   //         data: {
   //           user: { connect: { username: selectedUsernames[0] } },
   //           comment: { connect: { id: parent.id } },
@@ -183,7 +185,7 @@ async function main() {
   //     for (let k = minReplies; k < maxReplies; k += 1) {
   //       const replyAuthor =
   //         usernames[Math.floor(Math.random() * usernames.length)]
-  //       const reply = await photon.comments.create({
+  //       const reply = await prisma.comments.create({
   //         data: {
   //           author: { connect: { username: replyAuthor } },
   //           text: COMMENT_REPLY_TEXT,
@@ -198,7 +200,7 @@ async function main() {
   //         ) + config.votes.minVotes,
   //       )
   //       for (let l = 0; l < selectedUsernames.length; l += 1) {
-  //         await photon.commentVotes.create({
+  //         await prisma.commentVotes.create({
   //           data: {
   //             user: { connect: { username: selectedUsernames[0] } },
   //             comment: { connect: { id: reply.id } },
@@ -209,7 +211,7 @@ async function main() {
   //       replyIds.push(reply.id)
   //     }
   //     const connectedreplyIds = replyIds.map(id => ({ id }))
-  //     await photon.comments.update({
+  //     await prisma.comments.update({
   //       where: { id: parent.id },
   //       data: {
   //         replies: { connect: connectedreplyIds },
@@ -222,5 +224,5 @@ async function main() {
 main()
   .catch(e => console.error(e))
   .finally(async () => {
-    await photon.disconnect()
+    await prisma.disconnect()
   })
