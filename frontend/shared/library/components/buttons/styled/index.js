@@ -1,12 +1,16 @@
 import styled from "@emotion/styled";
 import SimpleButton from "../simple";
 import { WEIGHT } from "../../../../style/typography";
-import { WHITE, LAVENDER, FOCUS_LAVENDER } from "../../../../style/colors";
+import {
+  WHITE,
+  LAVENDER,
+  PURPLE,
+  FOCUS_LAVENDER
+} from "../../../../style/colors";
 
 export default styled(SimpleButton)({
-  // marginTop: 10,
-  borderColor: LAVENDER,
-  backgroundColor: LAVENDER,
+  borderColor: PURPLE,
+  backgroundColor: PURPLE,
   color: WHITE,
   fontWeight: WEIGHT.BOLD,
   "&:hover": {

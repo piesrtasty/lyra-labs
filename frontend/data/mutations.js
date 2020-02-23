@@ -9,6 +9,39 @@ export const SIGN_UPLOAD = gql`
   }
 `;
 
+export const CREATE_COMMENT = gql`
+  mutation createComment($postId: ID!, $body: String!) {
+    createComment(postId: $postId, body: $body) {
+      id
+      text
+      votesCount
+      author {
+        avatar
+        username
+        name
+      }
+      replies {
+        id
+        text
+        votesCount
+        author {
+          avatar
+          username
+          name
+        }
+      }
+    }
+  }
+`;
+
+export const CREATE_REPLY = gql`
+  mutation createReply($parentId: ID, $body: String!) {
+    createReply(parentId: $parentId, body: $body) {
+      id
+    }
+  }
+`;
+
 export const UPDATE_FOLLOWED_TOPIC = gql`
   mutation updateFollowedTopic(
     $userId: ID!

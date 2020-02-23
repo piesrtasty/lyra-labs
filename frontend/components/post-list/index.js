@@ -6,6 +6,8 @@ import PostCard from "../post-card";
 import { formatDate } from "../../shared/utils";
 import ChevronDown from "../../shared/style/icons/chevron-down.svg";
 
+const CONTAINER_BORDER_RADIUS = 5;
+
 export const Container = styled("div")({
   display: "flex",
   flexDirection: "column",
@@ -18,8 +20,7 @@ const Header = styled("div")({
   display: "flex",
   justifyContent: "space-between",
   alignItems: "center",
-  margin: "0 20px 0 20px",
-  padding: "20px 0 15px 0"
+  paddingBottom: 15
 });
 
 const Day = styled("div")({
@@ -28,10 +29,23 @@ const Day = styled("div")({
   fontWeight: WEIGHT.BOLD
 });
 
-const List = styled("ul")({
+const ListWrapper = styled("div")({
+  backgroundColor: "#fff",
   boxShadow: "0 1px 2px 0 rgba(0,0,0,.1)",
+  borderRadius: CONTAINER_BORDER_RADIUS
+});
+
+const List = styled("ul")({
   padding: 0,
   margin: 0,
+  " > li:first-of-type > div:first-of-type > a div": {
+    borderTop: "none",
+    borderRadius: `${CONTAINER_BORDER_RADIUS}px ${CONTAINER_BORDER_RADIUS}px 0 0`
+    // backgroundColor: "#FF5733"
+    // borderRadius: "35px 0 35px 0"
+    /* top-left | top-right | bottom-right | bottom-left */
+    // border-radius: 1px 0 3px 4px;
+  },
   " > li:first-of-type > div:first-of-type": {
     borderTop: "none"
   }
@@ -53,7 +67,7 @@ const Filter = styled("a")({
 
 const Footer = styled("div")({
   ...BASE_TEXT,
-  backgroundColor: WHITE,
+  // backgroundColor: WHITE,
   borderTop: `1px solid ${LILAC}`,
   padding: 15,
   textAlign: "center",
@@ -83,29 +97,23 @@ const PostList = ({ date, posts }) => {
           <Filter>Newest</Filter>
         </Navigation>
       </Header>
-      <List>
-        {posts.map((post, index) => (
-          <PostCard
-            id={post.id}
-            visible={showAll ? true : index < DEFAULT_VISIBLE}
-            key={post.id}
-            tagline={post.tagline}
-            slug={post.slug}
-            name={post.name}
-            description={post.description}
-            thumbnail={post.thumbnail}
-            votesCount={post.votesCount}
-            tags={post.topics}
-            upvoted={post.upvoted}
-          />
-        ))}
-        {!showAll && (
-          <Footer onClick={() => setShowAll(true)}>
-            <StyledChevronDown />
-            {`Show ${posts.length - DEFAULT_VISIBLE} More`}
-          </Footer>
-        )}
-      </List>
+      <ListWrapper>
+        <List>
+          {posts.map((post, index) => (
+            <PostCard
+              post={{ ...post, tags: post.topics }}
+              key={post.id}
+              visible={showAll ? true : index < DEFAULT_VISIBLE}
+            />
+          ))}
+          {!showAll && (
+            <Footer onClick={() => setShowAll(true)}>
+              <StyledChevronDown />
+              {`Show ${posts.length - DEFAULT_VISIBLE} More`}
+            </Footer>
+          )}
+        </List>
+      </ListWrapper>
     </Container>
   );
 };

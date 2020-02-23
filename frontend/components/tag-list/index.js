@@ -1,7 +1,8 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import PropTypes from "prop-types";
 import styled from "@emotion/styled";
 import Tag from "../tag";
+import { LoginModalContext } from "../../shared/enhancers/login-modal";
 import { Manager, Reference, Popper } from "react-popper";
 import { BASE_TEXT } from "../../shared/style/typography";
 import { GUNSMOKE, LILAC, WHITE } from "../../shared/style/colors";
@@ -144,10 +145,11 @@ const LEFT = "left";
 const OFFSET = 15;
 const ARROW_OFFSET = 10;
 
-const TagList = ({ tags, containerRef, showLogin, zIndex }) => {
+const TagList = ({ tags, containerRef, zIndex }) => {
+  const showLogin = useContext(LoginModalContext);
   const [isOpen, setIsOpen] = useState(false);
   const items = tags.map(({ id, name, slug }) => (
-    <Tag key={id} id={id} name={name} slug={slug} showLogin={showLogin} />
+    <Tag key={id} id={id} name={name} slug={slug} />
   ));
   const firstTag = tags[0];
   const { id, name, slug } = firstTag;

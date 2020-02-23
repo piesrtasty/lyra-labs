@@ -64,7 +64,7 @@ async function main() {
     const address = LocalAddress.fromPublicKey(publicKey).toString()
     const { firstName, lastName, username } = users[i]
     const name = `${firstName} ${lastName}`
-    await prisma.users.create({
+    await prisma.user.create({
       data: {
         ...users[i],
         privateKey: privateKeyStr,
@@ -77,10 +77,31 @@ async function main() {
     })
   }
 
+  const maxFollowers = 5
+  const minFollowers = 1
+
+  for (let z = 0; z < users.length; z += 1) {
+    const selectedFollowers = usernames.slice(
+      0,
+      Math.floor(Math.random() * (maxFollowers - minFollowers + 1)) +
+        minFollowers,
+    )
+
+    const connectedFollowers = selectedFollowers.map(username => ({ username }))
+    await prisma.user.update({
+      where: {
+        username: users[z].username,
+      },
+      data: {
+        follows: { connect: connectedFollowers },
+      },
+    })
+  }
+
   // Create topics
   for (let i = 0; i < topics.length; i += 1) {
     console.log('topics', i)
-    await prisma.topics.create({
+    await prisma.topic.create({
       data: {
         ...topics[i],
       },
@@ -98,7 +119,7 @@ async function main() {
     )
     const connectedCreators = selectedCreators.map(username => ({ username }))
 
-    await prisma.posts.create({
+    await prisma.post.create({
       data: {
         ...posts[i],
         link: 'https://loomx.io/',
@@ -125,7 +146,7 @@ async function main() {
       Math.floor(Math.random() * (maxPosts - minPosts + 1)) + minPosts,
     )
     const connectedPostSlugs = selectedPostSlugs.map(slug => ({ slug }))
-    await prisma.sections.create({
+    await prisma.section.create({
       data: {
         date,
         posts: { connect: connectedPostSlugs },
@@ -142,7 +163,7 @@ async function main() {
       Math.floor(Math.random() * (maxVotes - minVotes + 1)) + minVotes,
     )
     for (let j = 0; j < selectedUsernames.length; j += 1) {
-      await prisma.votes.create({
+      await prisma.vote.create({
         data: {
           user: { connect: { username: selectedUsernames[j] } },
           post: { connect: { slug: postSlugs[i] } },
@@ -152,73 +173,75 @@ async function main() {
   }
 
   // Create comments
-  // for (let i = 0; i < postSlugs.length; i += 1) {
-  //   console.log('comments', i)
-  //   const { minComments, maxComments, minReplies, maxReplies } = config.comments
+  for (let i = 0; i < postSlugs.length; i += 1) {
+    console.log('comments', i)
+    const { minComments, maxComments, minReplies, maxReplies } = config.comments
 
-  //   for (let j = minComments; j < maxComments; j += 1) {
-  //     const author = usernames[Math.floor(Math.random() * usernames.length)]
-  //     const parent = await prisma.comments.create({
-  //       data: {
-  //         author: { connect: { username: author } },
-  //         post: { connect: { slug: postSlugs[i] } },
-  //         text: COMMENT_PARENT_TEXT,
-  //       },
-  //     })
+    for (let j = minComments; j < maxComments; j += 1) {
+      const author = usernames[Math.floor(Math.random() * usernames.length)]
+      const parent = await prisma.comment.create({
+        data: {
+          author: { connect: { username: author } },
+          post: { connect: { slug: postSlugs[i] } },
+          text: COMMENT_PARENT_TEXT,
+        },
+      })
 
-  //     const selectedUsernames = usernames.slice(
-  //       0,
-  //       Math.floor(
-  //         Math.random() * (config.votes.maxVotes - config.votes.minVotes + 1),
-  //       ) + config.votes.minVotes,
-  //     )
-  //     for (let h = 0; h < selectedUsernames.length; h += 1) {
-  //       await prisma.commentVotes.create({
-  //         data: {
-  //           user: { connect: { username: selectedUsernames[0] } },
-  //           comment: { connect: { id: parent.id } },
-  //         },
-  //       })
-  //     }
+      const selectedUsernames = usernames.slice(
+        0,
+        Math.floor(
+          Math.random() * (config.votes.maxVotes - config.votes.minVotes + 1),
+        ) + config.votes.minVotes,
+      )
+      for (let h = 0; h < selectedUsernames.length; h += 1) {
+        await prisma.commentVote.create({
+          data: {
+            user: { connect: { username: selectedUsernames[0] } },
+            comment: { connect: { id: parent.id } },
+          },
+        })
+      }
 
-  //     let replyIds = []
-  //     for (let k = minReplies; k < maxReplies; k += 1) {
-  //       const replyAuthor =
-  //         usernames[Math.floor(Math.random() * usernames.length)]
-  //       const reply = await prisma.comments.create({
-  //         data: {
-  //           author: { connect: { username: replyAuthor } },
-  //           text: COMMENT_REPLY_TEXT,
-  //           parent: { connect: { id: parent.id } },
-  //         },
-  //       })
+      for (let k = minReplies; k < maxReplies; k += 1) {
+        const replyAuthor =
+          usernames[Math.floor(Math.random() * usernames.length)]
+        const reply = await prisma.reply.create({
+          data: {
+            author: { connect: { username: replyAuthor } },
+            text: COMMENT_REPLY_TEXT,
+            parent: { connect: { id: parent.id } },
+          },
+        })
 
-  //       const selectedUsernames = usernames.slice(
-  //         0,
-  //         Math.floor(
-  //           Math.random() * (config.votes.maxVotes - config.votes.minVotes + 1),
-  //         ) + config.votes.minVotes,
-  //       )
-  //       for (let l = 0; l < selectedUsernames.length; l += 1) {
-  //         await prisma.commentVotes.create({
-  //           data: {
-  //             user: { connect: { username: selectedUsernames[0] } },
-  //             comment: { connect: { id: reply.id } },
-  //           },
-  //         })
-  //       }
+        const selectedUsernames = usernames.slice(
+          0,
+          Math.floor(
+            Math.random() * (config.votes.maxVotes - config.votes.minVotes + 1),
+          ) + config.votes.minVotes,
+        )
 
-  //       replyIds.push(reply.id)
-  //     }
-  //     const connectedreplyIds = replyIds.map(id => ({ id }))
-  //     await prisma.comments.update({
-  //       where: { id: parent.id },
-  //       data: {
-  //         replies: { connect: connectedreplyIds },
-  //       },
-  //     })
-  //   }
-  // }
+        for (let l = 0; l < selectedUsernames.length; l += 1) {
+          await prisma.replyVote.create({
+            data: {
+              user: { connect: { username: selectedUsernames[0] } },
+              reply: { connect: { id: reply.id } },
+            },
+          })
+        }
+
+        // replyIds.push(reply.id)
+      }
+      // const connectedreplyIds = replyIds.map(id => ({ id }))
+      // for (let m = 0; m < connectedreplyIds; m++) {}
+
+      // await prisma.comment.update({
+      //   where: { id: parent.id },
+      //   data: {
+      //     replies: { connect: connectedreplyIds },
+      //   },
+      // })
+    }
+  }
 }
 
 main()

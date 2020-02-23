@@ -37,7 +37,7 @@
         "source": "db"
       },
       "argument": "url",
-      "value": "\"postgresql://prisma:mypassword@lyra-labs-dev.cctuihe2uaxv.us-west-2.rds.amazonaws.com:5432/prisma?sslaccept=accept_invalid_certs\""
+      "value": "\"postgresql://prisma:prisma@0.0.0.0:5432/prisma\""
     },
     {
       "tag": "CreateModel",
@@ -295,6 +295,70 @@
       "field": "privateKey",
       "type": "String",
       "arity": "Required"
+    },
+    {
+      "tag": "CreateField",
+      "model": "User",
+      "field": "follows",
+      "type": "User",
+      "arity": "List"
+    },
+    {
+      "tag": "CreateDirective",
+      "location": {
+        "path": {
+          "tag": "Field",
+          "model": "User",
+          "field": "follows"
+        },
+        "directive": "relation"
+      }
+    },
+    {
+      "tag": "CreateArgument",
+      "location": {
+        "tag": "Directive",
+        "path": {
+          "tag": "Field",
+          "model": "User",
+          "field": "follows"
+        },
+        "directive": "relation"
+      },
+      "argument": "name",
+      "value": "\"follows\""
+    },
+    {
+      "tag": "CreateField",
+      "model": "User",
+      "field": "followedBy",
+      "type": "User",
+      "arity": "List"
+    },
+    {
+      "tag": "CreateDirective",
+      "location": {
+        "path": {
+          "tag": "Field",
+          "model": "User",
+          "field": "followedBy"
+        },
+        "directive": "relation"
+      }
+    },
+    {
+      "tag": "CreateArgument",
+      "location": {
+        "tag": "Directive",
+        "path": {
+          "tag": "Field",
+          "model": "User",
+          "field": "followedBy"
+        },
+        "directive": "relation"
+      },
+      "argument": "name",
+      "value": "\"follows\""
     },
     {
       "tag": "CreateField",
@@ -954,38 +1018,6 @@
     {
       "tag": "CreateField",
       "model": "Comment",
-      "field": "parent",
-      "type": "Comment",
-      "arity": "Optional"
-    },
-    {
-      "tag": "CreateDirective",
-      "location": {
-        "path": {
-          "tag": "Field",
-          "model": "Comment",
-          "field": "parent"
-        },
-        "directive": "relation"
-      }
-    },
-    {
-      "tag": "CreateArgument",
-      "location": {
-        "tag": "Directive",
-        "path": {
-          "tag": "Field",
-          "model": "Comment",
-          "field": "parent"
-        },
-        "directive": "relation"
-      },
-      "argument": "name",
-      "value": "\"CommentParent\""
-    },
-    {
-      "tag": "CreateField",
-      "model": "Comment",
       "field": "author",
       "type": "User",
       "arity": "Required"
@@ -994,18 +1026,36 @@
       "tag": "CreateField",
       "model": "Comment",
       "field": "replies",
-      "type": "Comment",
+      "type": "Reply",
       "arity": "List"
+    },
+    {
+      "tag": "CreateField",
+      "model": "Comment",
+      "field": "votes",
+      "type": "CommentVote",
+      "arity": "List"
+    },
+    {
+      "tag": "CreateModel",
+      "model": "Reply"
+    },
+    {
+      "tag": "CreateField",
+      "model": "Reply",
+      "field": "id",
+      "type": "String",
+      "arity": "Required"
     },
     {
       "tag": "CreateDirective",
       "location": {
         "path": {
           "tag": "Field",
-          "model": "Comment",
-          "field": "replies"
+          "model": "Reply",
+          "field": "id"
         },
-        "directive": "relation"
+        "directive": "default"
       }
     },
     {
@@ -1014,19 +1064,101 @@
         "tag": "Directive",
         "path": {
           "tag": "Field",
-          "model": "Comment",
-          "field": "replies"
+          "model": "Reply",
+          "field": "id"
         },
-        "directive": "relation"
+        "directive": "default"
       },
-      "argument": "name",
-      "value": "\"CommentReplies\""
+      "argument": "",
+      "value": "cuid()"
+    },
+    {
+      "tag": "CreateDirective",
+      "location": {
+        "path": {
+          "tag": "Field",
+          "model": "Reply",
+          "field": "id"
+        },
+        "directive": "id"
+      }
     },
     {
       "tag": "CreateField",
-      "model": "Comment",
+      "model": "Reply",
+      "field": "createdAt",
+      "type": "DateTime",
+      "arity": "Required"
+    },
+    {
+      "tag": "CreateDirective",
+      "location": {
+        "path": {
+          "tag": "Field",
+          "model": "Reply",
+          "field": "createdAt"
+        },
+        "directive": "default"
+      }
+    },
+    {
+      "tag": "CreateArgument",
+      "location": {
+        "tag": "Directive",
+        "path": {
+          "tag": "Field",
+          "model": "Reply",
+          "field": "createdAt"
+        },
+        "directive": "default"
+      },
+      "argument": "",
+      "value": "now()"
+    },
+    {
+      "tag": "CreateField",
+      "model": "Reply",
+      "field": "updatedAt",
+      "type": "DateTime",
+      "arity": "Required"
+    },
+    {
+      "tag": "CreateDirective",
+      "location": {
+        "path": {
+          "tag": "Field",
+          "model": "Reply",
+          "field": "updatedAt"
+        },
+        "directive": "updatedAt"
+      }
+    },
+    {
+      "tag": "CreateField",
+      "model": "Reply",
+      "field": "text",
+      "type": "String",
+      "arity": "Required"
+    },
+    {
+      "tag": "CreateField",
+      "model": "Reply",
+      "field": "parent",
+      "type": "Comment",
+      "arity": "Required"
+    },
+    {
+      "tag": "CreateField",
+      "model": "Reply",
+      "field": "author",
+      "type": "User",
+      "arity": "Required"
+    },
+    {
+      "tag": "CreateField",
+      "model": "Reply",
       "field": "votes",
-      "type": "CommentVote",
+      "type": "ReplyVote",
       "arity": "List"
     },
     {
@@ -1138,6 +1270,117 @@
       "model": "CommentVote",
       "field": "comment",
       "type": "Comment",
+      "arity": "Required"
+    },
+    {
+      "tag": "CreateModel",
+      "model": "ReplyVote"
+    },
+    {
+      "tag": "CreateField",
+      "model": "ReplyVote",
+      "field": "id",
+      "type": "String",
+      "arity": "Required"
+    },
+    {
+      "tag": "CreateDirective",
+      "location": {
+        "path": {
+          "tag": "Field",
+          "model": "ReplyVote",
+          "field": "id"
+        },
+        "directive": "default"
+      }
+    },
+    {
+      "tag": "CreateArgument",
+      "location": {
+        "tag": "Directive",
+        "path": {
+          "tag": "Field",
+          "model": "ReplyVote",
+          "field": "id"
+        },
+        "directive": "default"
+      },
+      "argument": "",
+      "value": "cuid()"
+    },
+    {
+      "tag": "CreateDirective",
+      "location": {
+        "path": {
+          "tag": "Field",
+          "model": "ReplyVote",
+          "field": "id"
+        },
+        "directive": "id"
+      }
+    },
+    {
+      "tag": "CreateField",
+      "model": "ReplyVote",
+      "field": "createdAt",
+      "type": "DateTime",
+      "arity": "Required"
+    },
+    {
+      "tag": "CreateDirective",
+      "location": {
+        "path": {
+          "tag": "Field",
+          "model": "ReplyVote",
+          "field": "createdAt"
+        },
+        "directive": "default"
+      }
+    },
+    {
+      "tag": "CreateArgument",
+      "location": {
+        "tag": "Directive",
+        "path": {
+          "tag": "Field",
+          "model": "ReplyVote",
+          "field": "createdAt"
+        },
+        "directive": "default"
+      },
+      "argument": "",
+      "value": "now()"
+    },
+    {
+      "tag": "CreateField",
+      "model": "ReplyVote",
+      "field": "updatedAt",
+      "type": "DateTime",
+      "arity": "Required"
+    },
+    {
+      "tag": "CreateDirective",
+      "location": {
+        "path": {
+          "tag": "Field",
+          "model": "ReplyVote",
+          "field": "updatedAt"
+        },
+        "directive": "updatedAt"
+      }
+    },
+    {
+      "tag": "CreateField",
+      "model": "ReplyVote",
+      "field": "user",
+      "type": "User",
+      "arity": "Required"
+    },
+    {
+      "tag": "CreateField",
+      "model": "ReplyVote",
+      "field": "reply",
+      "type": "Reply",
       "arity": "Required"
     },
     {

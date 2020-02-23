@@ -46,10 +46,10 @@ const Container = styled("div")(
   })
 );
 
-const BaseModal = ({ children, width, onDismiss }) => {
+const BaseModal = ({ children, width, onDismiss, CloseEl }) => {
   return (
     <Container width={width}>
-      <Close onClick={onDismiss}>X</Close>
+      {CloseEl && <CloseEl onClick={onDismiss} />}
       {children}
     </Container>
   );

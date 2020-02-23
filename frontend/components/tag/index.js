@@ -4,6 +4,7 @@ import { UPDATE_FOLLOWED_TOPIC } from "../../data/mutations";
 import { CURRENT_USER_QUERY } from "../../data/queries";
 import styled from "@emotion/styled";
 import { CurrentUserContext } from "../../shared/enhancers/current-user";
+import { LoginModalContext } from "../../shared/enhancers/login-modal";
 import { BASE_TEXT } from "../../shared/style/typography";
 import { ALABASTER, LILAC, GUNSMOKE } from "../../shared/style/colors";
 const HEIGHT = 24;
@@ -60,7 +61,8 @@ const Link = styled("div")({
   }
 });
 
-const Tag = ({ id, name, slug, showLogin }) => {
+const Tag = ({ id, name, slug }) => {
+  const showLogin = useContext(LoginModalContext);
   const currentUser = useContext(CurrentUserContext);
   const [updateFollowedTopic, { data }] = useMutation(UPDATE_FOLLOWED_TOPIC, {
     update: (cache, { data: { updateFollowedTopic } }) => {

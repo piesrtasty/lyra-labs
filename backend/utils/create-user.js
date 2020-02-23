@@ -1,8 +1,7 @@
 const { LocalAddress, CryptoUtils } = require('loom-js')
 
-const createUser = async ({ request: { user }, photon }) => {
+const createUser = async ({ request: { user }, prisma }) => {
   const { token } = user
-  console.log('token', token)
   const bytes = CryptoUtils.generatePrivateKey()
   const privateKey = Buffer.from(
     bytes.buffer,
@@ -13,7 +12,7 @@ const createUser = async ({ request: { user }, photon }) => {
   const publicKey = CryptoUtils.publicKeyFromPrivateKey(privateKey)
   const address = LocalAddress.fromPublicKey(publicKey).toString()
 
-  const newUser = await photon.users.create({
+  const newUser = await prisma.user.create({
     data: {
       identity: token.sub.split(`|`)[0],
       auth0id: token.sub,

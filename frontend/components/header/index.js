@@ -1,5 +1,4 @@
-import React, { Fragment, useContext } from "react";
-import Link from "next/link";
+import React, { Fragment, useContext, useState } from "react";
 import styled from "@emotion/styled";
 import { withTheme } from "emotion-theming";
 import { Container, Row } from "../../shared/library/components/layout";
@@ -8,6 +7,8 @@ import Logo from "./logo";
 import Search from "./search";
 import Navigation from "./navigation";
 import AuthButtons from "./auth-buttons";
+import UserAvatar from "./user-avatar";
+import { GUNSMOKE, LILAC, WHITE } from "../../shared/style/colors";
 
 const Wrapper = styled("header")(({ theme: { COLORS: { WHITE, LILAC } } }) => ({
   backgroundColor: WHITE,
@@ -46,7 +47,8 @@ const Header = () => {
         <Actions>
           {
             <Fragment>
-              {user && <Avatar src={user.avatar} />}
+              {/* {user && <Avatar src={user.avatar} />} */}
+              {user && <UserAvatar user={user} />}
               {!user && <AuthButtons />}
             </Fragment>
           }

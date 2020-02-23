@@ -5,7 +5,7 @@ generator photon {
 
 datasource db {
   provider = "postgresql"
-  url      = "postgresql://prisma:mypassword@lyra-labs-dev.cctuihe2uaxv.us-west-2.rds.amazonaws.com:5432/prisma?sslaccept=accept_invalid_certs"
+  url      = "postgresql://prisma:prisma@0.0.0.0:5432/prisma"
 }
 
 model User {
@@ -25,6 +25,8 @@ model User {
   auth0id          String   @unique
   identity         String?
   privateKey       String
+  follows          User[]  @relation(name: "follows")
+  followedBy       User[]  @relation(name: "follows")
   address          String
   submittedPosts   Post[]   @relation(name: "SubmittedPosts")
   createdPosts     Post[]   @relation(name: "CreatedPosts")
@@ -47,19 +49,19 @@ model Topic {
 }
 
 model Post {
-  id            String   @default(cuid()) @id
-  createdAt     DateTime @default(now())
-  updatedAt     DateTime @updatedAt
-  type          PostType @default(PRODUCT)
+  id            String    @default(cuid()) @id
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+  type          PostType  @default(PRODUCT)
   name          String?
-  slug          String   @unique
-  link          String?
-  thumbnail     String?
-  description   String?
-  tagline       String?
-  submitter     User     @relation(name: "SubmittedPosts")
-  creators      User[]   @relation(name: "CreatedPosts")
-  galleryThumbs String[]
+  slug          String    @unique
+  link          String?   
+  thumbnail     String?   
+  description   String?   
+  tagline       String?   
+  submitter     User      @relation(name: "SubmittedPosts")
+  creators      User[]    @relation(name: "CreatedPosts")
+  galleryThumbs String[]  
   comments      Comment[]
   day           String
   featured      Boolean?
@@ -73,11 +75,20 @@ model Comment {
   createdAt     DateTime       @default(now())
   updatedAt     DateTime       @updatedAt
   text          String    
-  post          Post?    
-  parent        Comment?       @relation(name: "CommentParent")
-  author        User    
-  replies       Comment[]      @relation(name: "CommentReplies")
+  post          Post?          
+  author        User
+  replies       Reply[]        
   votes         CommentVote[]
+}
+
+model Reply {
+  id            String         @default(cuid()) @id
+  createdAt     DateTime       @default(now())
+  updatedAt     DateTime       @updatedAt
+  text          String    
+  parent        Comment       
+  author        User
+  votes         ReplyVote[]
 }
 
 model CommentVote {
@@ -86,6 +97,14 @@ model CommentVote {
   updatedAt     DateTime @updatedAt
   user          User
   comment       Comment
+}
+
+model ReplyVote {
+  id            String   @default(cuid()) @id
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+  user          User
+  reply         Reply
 }
 
 model Vote {

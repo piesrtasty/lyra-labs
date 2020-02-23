@@ -11,26 +11,25 @@ import Router, { useRouter } from "next/router";
 import PropTypes from "prop-types";
 import { useMutation } from "@apollo/react-hooks";
 import { VOTE } from "../../data/mutations";
-import { CURRENT_USER_QUERY } from "../../data/queries";
 import { CurrentUserContext } from "../../shared/enhancers/current-user";
 import styled from "@emotion/styled";
 import TagList from "../tag-list";
 import { MobileContext } from "../../shared/enhancers/mobile-enhancer";
+import { LoginModalContext } from "../../shared/enhancers/login-modal";
 import PostModal from "../post-modal";
-import LoginModal from "../../shared/library/components/modals/login";
 import ChevronUp from "../../shared/style/icons/chevron-up.svg";
 import { TOP } from "../../shared/library/components/modals/base/portal";
 import { BASE_TEXT, WEIGHT } from "../../shared/style/typography";
 import { PHONE } from "../../shared/style/breakpoints";
 import {
   BLACK,
-  GUNSMOKE,
   LILAC,
   WHITE,
   RUBY,
   BLUSH,
   ALABASTER
 } from "../../shared/style/colors";
+import { Tagline } from "../../shared/library/components/typography";
 
 const ACCENT = BLUSH;
 
@@ -45,7 +44,6 @@ export const Container = styled("li")(
 );
 
 export const Body = styled("div")({
-  backgroundColor: WHITE,
   "&:hover": {
     backgroundColor: ALABASTER
   },
@@ -80,13 +78,6 @@ const Name = styled("div")({
   lineHeight: "24px",
   fontWeight: WEIGHT.BOLD,
   color: BLACK
-});
-
-export const Tagline = styled("div")({
-  ...BASE_TEXT,
-  color: GUNSMOKE,
-  lineHeight: "20px",
-  marginBottom: 12
 });
 
 const Footer = styled("div")({
@@ -141,18 +132,22 @@ const Votes = styled("div")(
 );
 
 const PostCard = ({
-  id,
-  slug,
-  name,
-  tagline,
-  description,
-  thumbnail,
-  tags,
-  visible,
-  votesCount,
-  upvoted
+  post: {
+    id,
+    slug,
+    name,
+    tagline,
+    description,
+    thumbnail,
+    tags,
+    votesCount,
+    upvoted
+  },
+  post,
+  visible
 }) => {
   const currentUser = useContext(CurrentUserContext);
+  const showLogin = useContext(LoginModalContext);
   const [vote, { data }] = useMutation(VOTE, {
     update: (cache, { data: { vote } }) => {
       const postId = defaultDataIdFromObject({ id, __typename: "Post" });
@@ -217,7 +212,7 @@ const PostCard = ({
         }
       });
     } else {
-      setShowLoginModal(true);
+      showLogin();
     }
   };
 
@@ -233,11 +228,7 @@ const PostCard = ({
                 <Tagline>{tagline}</Tagline>
                 <Footer>
                   {tags.length > 0 && (
-                    <TagList
-                      containerRef={tagListRef}
-                      tags={tags}
-                      showLogin={() => setShowLoginModal(true)}
-                    />
+                    <TagList containerRef={tagListRef} tags={tags} />
                   )}
                 </Footer>
               </Content>
@@ -252,10 +243,13 @@ const PostCard = ({
         </VotesWrapper>
       </Container>
       {isOpen && (
-        <PostModal onDismiss={handleDismiss} position={TOP} width={"100%"} />
-      )}
-      {showLoginModal && (
-        <LoginModal onDismiss={() => setShowLoginModal(false)} />
+        <PostModal
+          post={post}
+          slug={slug}
+          onDismiss={handleDismiss}
+          position={TOP}
+          width={"100%"}
+        />
       )}
     </Fragment>
   );

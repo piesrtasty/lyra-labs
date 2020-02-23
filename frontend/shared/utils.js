@@ -82,8 +82,10 @@ export const extractMentionedUsers = text => {
   return usernames.map((username, index) => ({ username, id: userIds[index] }));
 };
 
-export const buildInitialCommentReply = text => {
-  const users = extractMentionedUsers(text);
+export const buildInitialCommentReply = (text, parentAuthor) => {
+  console.log("buildInitialCommentReply parentUsername", parentAuthor);
+  const users = [...extractMentionedUsers(text), parentAuthor];
+  console.log("users", users);
   return users.length > 0
     ? `${users.map(({ username, id }) => `@[${username}](${id})`).join(" ")} `
     : "";

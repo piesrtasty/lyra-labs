@@ -6,7 +6,6 @@ const {
   stringArg,
   booleanArg,
 } = require('nexus')
-// const { Photon } = require('@prisma/photon')
 const { PrismaClient } = require('@prisma/client')
 const { nexusPrismaPlugin } = require('nexus-prisma')
 const { checkJwt } = require('../middleware/checkJwt')
@@ -19,6 +18,9 @@ const User = objectType({
     t.model.id()
     t.model.email()
     t.model.avatar()
+    t.model.username()
+    t.model.headline()
+    t.model.name()
     t.model.followedTopics()
   },
 })
@@ -31,10 +33,40 @@ const Comment = objectType({
     t.model.updatedAt()
     t.model.text()
     t.model.post()
-    t.model.parent()
     t.model.author()
     t.model.replies()
     t.model.votes()
+    t.int('votesCount', {
+      resolve: async (_, _args, ctx) => {
+        return 11
+        // const votes = await ctx.prisma.votes.findMany({
+        //   where: { post: { id: _.id } },
+        // })
+        // return votes.length
+      },
+    })
+  },
+})
+
+const Reply = objectType({
+  name: 'Reply',
+  definition(t) {
+    t.model.id()
+    t.model.createdAt()
+    t.model.updatedAt()
+    t.model.text()
+    t.model.parent()
+    t.model.author()
+    t.model.votes()
+    t.int('votesCount', {
+      resolve: async (_, _args, ctx) => {
+        return 11
+        // const votes = await ctx.prisma.votes.findMany({
+        //   where: { post: { id: _.id } },
+        // })
+        // return votes.length
+      },
+    })
   },
 })
 
@@ -46,6 +78,17 @@ const CommentVote = objectType({
     t.model.updatedAt()
     t.model.user()
     t.model.comment()
+  },
+})
+
+const ReplyVote = objectType({
+  name: 'ReplyVote',
+  definition(t) {
+    t.model.id()
+    t.model.createdAt()
+    t.model.updatedAt()
+    t.model.user()
+    t.model.reply()
   },
 })
 
@@ -78,6 +121,14 @@ const Vote = objectType({
   },
 })
 
+// query relationOrdering {
+//   user(where: { id: 1643 }) {
+//     posts(orderBy: { title: dsc }) {
+//       title
+//       body
+//     }
+//   }
+// }
 const Post = objectType({
   name: 'Post',
   definition(t) {
@@ -93,7 +144,7 @@ const Post = objectType({
     t.model.submitter()
     t.model.creators()
     t.model.galleryThumbs()
-    t.model.comments()
+    t.model.comments({ ordering: true })
     t.model.day()
     t.model.featured()
     t.model.topics()
@@ -102,7 +153,7 @@ const Post = objectType({
       resolve: async (_, _args, ctx) => {
         const currentUser = ctx.request.user
         if (currentUser) {
-          const votes = await ctx.prisma.votes.findMany({
+          const votes = await ctx.prisma.vote.findMany({
             where: {
               post: { id: _.id },
               user: { id: currentUser.id },
@@ -117,7 +168,7 @@ const Post = objectType({
     })
     t.int('votesCount', {
       resolve: async (_, _args, ctx) => {
-        const votes = await ctx.prisma.votes.findMany({
+        const votes = await ctx.prisma.vote.findMany({
           where: { post: { id: _.id } },
         })
         return votes.length
@@ -153,8 +204,32 @@ const Query = objectType({
   definition(t) {
     t.crud.sections()
     t.crud.posts()
-    t.crud.post({
-      alias: 'post',
+    // t.crud.post()
+    t.field('post', {
+      type: 'Post',
+      nullable: true,
+      args: {
+        slug: stringArg(),
+      },
+      resolve: async (_, { slug }, ctx) => {
+        const post = await ctx.prisma.post.findOne({
+          where: { slug },
+        })
+        return post
+      },
+    })
+    t.field('comment', {
+      type: 'Comment',
+      nullable: true,
+      args: {
+        id: idArg(),
+      },
+      resolve: async (_, { id }, ctx) => {
+        const comment = await ctx.prisma.comment.findOne({
+          where: { id },
+        })
+        return comment
+      },
     })
     t.field('me', {
       type: 'User',
@@ -163,7 +238,7 @@ const Query = objectType({
         const user = ctx.request.user
         if (user) {
           if (!user.token) {
-            const currentUser = await ctx.prisma.users.findOne({
+            const currentUser = await ctx.prisma.user.findOne({
               where: { id: user.id },
             })
             return currentUser
@@ -174,11 +249,27 @@ const Query = objectType({
         return null
       },
     })
-
+    t.list.field('userSearch', {
+      type: 'User',
+      args: {
+        keyword: stringArg(),
+      },
+      resolve: (_, { keyword }, ctx) => {
+        return ctx.prisma.user.findMany({
+          first: 3,
+          where: {
+            OR: [
+              { username_lower: { contains: keyword } },
+              { name_lower: { contains: keyword } },
+            ],
+          },
+        })
+      },
+    })
     t.list.field('feed', {
       type: 'Post',
       resolve: (_, _args, ctx) => {
-        return ctx.prisma.posts.findMany({
+        return ctx.prisma.post.findMany({
           where: { published: true },
         })
       },
@@ -189,7 +280,7 @@ const Query = objectType({
         searchString: stringArg({ nullable: true }),
       },
       resolve: (_, { searchString }, ctx) => {
-        return ctx.prisma.posts.findMany({
+        return ctx.prisma.post.findMany({
           where: {
             OR: [
               { title: { contains: searchString } },
@@ -214,7 +305,7 @@ const Mutation = objectType({
         userId: idArg(),
       },
       resolve: async (_, { userId, postId }, ctx) => {
-        const votes = await ctx.prisma.votes.findMany({
+        const votes = await ctx.prisma.vote.findMany({
           where: {
             user: {
               id: userId,
@@ -225,13 +316,13 @@ const Mutation = objectType({
           },
         })
         if (votes.length > 0) {
-          return ctx.prisma.votes.delete({
+          return ctx.prisma.vote.delete({
             where: {
               id: votes[0].id,
             },
           })
         }
-        return ctx.prisma.votes.create({
+        return ctx.prisma.vote.create({
           data: {
             user: { connect: { id: userId } },
             post: { connect: { id: postId } },
@@ -239,24 +330,41 @@ const Mutation = objectType({
         })
       },
     })
-    t.field('updateFollowedTopic', {
-      type: 'Topic',
+    t.field('createComment', {
+      type: 'Comment',
       args: {
-        userId: idArg(),
-        topicId: idArg(),
-        following: booleanArg(),
+        body: stringArg(),
+        postId: idArg(),
       },
-      resolve: async (_, { userId, topicId, following }, ctx) => {
-        const action = following ? 'connect' : 'disconnect'
-        await ctx.prisma.users.update({
-          where: { id: userId },
+      resolve: async (_, { body, postId }, ctx) => {
+        const currentUser = ctx.request.user
+        const comment = await prisma.comment.create({
           data: {
-            followedTopics: {
-              [action]: { id: topicId },
-            },
+            author: { connect: { username: currentUser.username } },
+            post: { connect: { id: postId } },
+            text: body,
           },
         })
-        return ctx.prisma.topics.findOne({ where: { id: topicId } })
+        return comment
+      },
+    })
+    t.field('createReply', {
+      type: 'Reply',
+      args: {
+        body: stringArg(),
+        parentId: idArg(),
+      },
+      resolve: async (_, { body, parentId }, ctx) => {
+        console.log('parentId', parentId)
+        const currentUser = ctx.request.user
+        const reply = await prisma.reply.create({
+          data: {
+            author: { connect: { username: currentUser.username } },
+            parent: { connect: { id: parentId } },
+            text: body,
+          },
+        })
+        return reply
       },
     })
     t.field('createDraft', {
@@ -267,7 +375,7 @@ const Mutation = objectType({
         authorEmail: stringArg(),
       },
       resolve: (_, { title, content, authorEmail }, ctx) => {
-        return ctx.prisma.posts.create({
+        return ctx.prisma.post.create({
           data: {
             title,
             content,
@@ -287,7 +395,7 @@ const Mutation = objectType({
         id: idArg(),
       },
       resolve: (_, { id }, ctx) => {
-        return ctx.prisma.posts.update({
+        return ctx.prisma.post.update({
           where: { id },
           data: { published: true },
         })
@@ -310,7 +418,9 @@ const server = new GraphQLServer({
       User,
       Section,
       Comment,
+      Reply,
       CommentVote,
+      ReplyVote,
       Topic,
       Vote,
       SignedUpload,

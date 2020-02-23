@@ -24,7 +24,7 @@ const Layout = styled.div(
   },
   ({ position }) => ({
     alignItems: position === TOP ? "flex-start" : CENTER,
-    paddingTop: position === TOP ? 40 : 0
+    paddingTop: position === TOP ? 100 : 0
   })
 );
 
