@@ -2,6 +2,7 @@
   "version": 2,
   "build": {
     "env": {
+      "NPM_TOKEN": "BF797E76-6672-47E6-8E24-4E8F20375929",
       "POSTGRES_URL": "@postgres_url",
       "BACKEND_URL": "@backend_url",
       "FRONTEND_URL": "@frontend_url",

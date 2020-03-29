@@ -13,3 +13,4 @@ build/Release
 .next/
 
 .env
+.now
