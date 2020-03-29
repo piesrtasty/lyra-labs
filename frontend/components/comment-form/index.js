@@ -6,7 +6,7 @@ import { useMutation } from "@apollo/react-hooks";
 import { withApollo } from "react-apollo";
 import UserAvatar from "../../shared/library/components/avatars/user";
 import { USER_SEARCH, POST_QUERY } from "../../data/queries";
-import { CREATE_COMMENT, CREATE_REPLY } from "../../data/mutations";
+import { CREATE_COMMENT } from "../../data/mutations";
 import { MentionsInput, Mention } from "react-mentions";
 import StyledButton from "../../shared/library/components/buttons/styled";
 import { PostContext } from "../post";
@@ -179,24 +179,38 @@ const CommentForm = ({
 
   const inputEl = useRef();
 
-  const mutation = isReply ? CREATE_REPLY : CREATE_COMMENT;
-
   const { postSlug } = useContext(PostContext);
 
-  const [createComment] = useMutation(mutation, {
+  const [createComment] = useMutation(CREATE_COMMENT, {
     update(cache, { data: { createComment } }) {
-      console.log("in the update funcion!", createComment);
       const { post } = cache.readQuery({
         query: POST_QUERY,
         variables: {
           slug: postSlug
         }
       });
+      let updatedComments;
+      if (isReply) {
+        const comments = post.comments;
+        const parentCommentIndex = comments.findIndex(c => c.id === parentId);
+        const parentComment = comments[parentCommentIndex];
+        const updatedParentComment = {
+          ...parentComment,
+          replies: [createComment, ...parentComment.replies]
+        };
+
+        updatedComments = [
+          ...comments.slice(0, parentCommentIndex),
+          updatedParentComment,
+          ...comments.slice(parentCommentIndex + 1, comments.length)
+        ];
+      } else {
+        updatedComments = [createComment, ...post.comments];
+      }
       const updatedPost = {
         ...post,
-        comments: [...post.comments, createComment]
+        comments: updatedComments
       };
-      // console.log("post", post);
       cache.writeQuery({
         query: POST_QUERY,
         variables: {
@@ -208,29 +222,9 @@ const CommentForm = ({
   });
 
   const handleSubmit = () => {
-    // console.log("parentId", parentId);
     const relation = isReply ? { parentId } : { postId };
     const variables = { body: value, ...relation };
     createComment({ variables });
-    // console.log("replying to reply - postId", postId);
-    // console.log("replying to reply - parentId", parentId);
-    // const mutation = isReply ? CREATE_REPLY : CREATE_COMMENT;
-    // const relation = isReply ? { parentId } : { postId };
-    // const variables = { body: value, ...relation };
-    // console.log("variables", variables);
-    // client
-    //   .mutate({
-    //     mutation,
-    //     variables
-    //   })
-    //   .then(({ data }) => {
-    //     console.log("data", data);
-    //   })
-    //   .catch(err => {
-    //     console.log("ERR", err);
-    //   });
-
-    // console.log("handle submit");
   };
 
   return (

@@ -77,18 +77,9 @@ model Comment {
   text          String    
   post          Post?          
   author        User
-  replies       Reply[]        
+  parent        Comment?       @relation(name: "commentReplies")
+  replies       Comment[]      @relation(name: "commentReplies")
   votes         CommentVote[]
-}
-
-model Reply {
-  id            String         @default(cuid()) @id
-  createdAt     DateTime       @default(now())
-  updatedAt     DateTime       @updatedAt
-  text          String    
-  parent        Comment       
-  author        User
-  votes         ReplyVote[]
 }
 
 model CommentVote {
@@ -97,14 +88,6 @@ model CommentVote {
   updatedAt     DateTime @updatedAt
   user          User
   comment       Comment
-}
-
-model ReplyVote {
-  id            String   @default(cuid()) @id
-  createdAt     DateTime @default(now())
-  updatedAt     DateTime @updatedAt
-  user          User
-  reply         Reply
 }
 
 model Vote {

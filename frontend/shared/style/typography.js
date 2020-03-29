@@ -16,7 +16,7 @@ export const WEIGHT = {
 export const BASE_TEXT = {
   fontFamily: FONT_FAMILY,
   fontWeight: WEIGHT.NORMAL,
-  fontSize: 13,
+  fontSize: ".75em",
   lineHeight: 1.4,
   letterSpacing: "normal",
   WebkitFontSmoothing: "antialiased"

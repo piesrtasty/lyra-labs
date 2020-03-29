@@ -12,6 +12,39 @@ const { checkJwt } = require('../middleware/checkJwt')
 const { getUser } = require('../middleware/getUser')
 const { createUser } = require('../utils/create-user')
 
+const CURATED_TOPICS = [
+  'growth-hacks',
+  'startup-lessons',
+  'money',
+  'work-in-progress',
+  'side-projects',
+  'maker-tools',
+  'blockstack',
+  'medtech',
+  'cannabis',
+  'quantified-self',
+  'arkit',
+  'apple',
+  'google',
+  'wallpaper',
+  'google-home',
+  'alexa-skills',
+  'touch-bar-apps',
+  'airbnb',
+  'books',
+  'games',
+  'tech',
+  'imessage-apps',
+  'green-tech',
+  'pokemon',
+  'facebook-messenger',
+  'outdoors',
+  'linkedin',
+  'bots',
+  'medium',
+  'maps',
+]
+
 const User = objectType({
   name: 'User',
   definition(t) {
@@ -36,35 +69,29 @@ const Comment = objectType({
     t.model.author()
     t.model.replies()
     t.model.votes()
-    t.int('votesCount', {
+    t.boolean('upvoted', {
       resolve: async (_, _args, ctx) => {
-        return 11
-        // const votes = await ctx.prisma.votes.findMany({
-        //   where: { post: { id: _.id } },
-        // })
-        // return votes.length
+        const currentUser = ctx.request.user
+        if (currentUser) {
+          const votes = await ctx.prisma.commentVote.findMany({
+            where: {
+              comment: { id: _.id },
+              user: { id: currentUser.id },
+            },
+          })
+          if (votes.length > 0) {
+            return true
+          }
+        }
+        return false
       },
     })
-  },
-})
-
-const Reply = objectType({
-  name: 'Reply',
-  definition(t) {
-    t.model.id()
-    t.model.createdAt()
-    t.model.updatedAt()
-    t.model.text()
-    t.model.parent()
-    t.model.author()
-    t.model.votes()
     t.int('votesCount', {
       resolve: async (_, _args, ctx) => {
-        return 11
-        // const votes = await ctx.prisma.votes.findMany({
-        //   where: { post: { id: _.id } },
-        // })
-        // return votes.length
+        const votes = await ctx.prisma.commentVote.findMany({
+          where: { comment: { id: _.id } },
+        })
+        return votes.length
       },
     })
   },
@@ -78,17 +105,6 @@ const CommentVote = objectType({
     t.model.updatedAt()
     t.model.user()
     t.model.comment()
-  },
-})
-
-const ReplyVote = objectType({
-  name: 'ReplyVote',
-  definition(t) {
-    t.model.id()
-    t.model.createdAt()
-    t.model.updatedAt()
-    t.model.user()
-    t.model.reply()
   },
 })
 
@@ -121,14 +137,6 @@ const Vote = objectType({
   },
 })
 
-// query relationOrdering {
-//   user(where: { id: 1643 }) {
-//     posts(orderBy: { title: dsc }) {
-//       title
-//       body
-//     }
-//   }
-// }
 const Post = objectType({
   name: 'Post',
   definition(t) {
@@ -205,6 +213,15 @@ const Query = objectType({
     t.crud.sections()
     t.crud.posts()
     // t.crud.post()
+    t.list.field('curatedTopics', {
+      type: 'Topic',
+      resolve: async (_, { slug }, ctx) => {
+        const topics = await ctx.prisma.topic.findMany({
+          where: { slug: { in: CURATED_TOPICS } },
+        })
+        return topics
+      },
+    })
     t.field('post', {
       type: 'Post',
       nullable: true,
@@ -298,6 +315,38 @@ const Mutation = objectType({
   definition(t) {
     t.crud.createOneUser({ alias: 'signupUser' })
     t.crud.deleteOnePost()
+    t.field('commentVote', {
+      type: 'CommentVote',
+      args: {
+        commentId: idArg(),
+        userId: idArg(),
+      },
+      resolve: async (_, { userId, commentId }, ctx) => {
+        const votes = await ctx.prisma.commentVote.findMany({
+          where: {
+            user: {
+              id: userId,
+            },
+            comment: {
+              id: commentId,
+            },
+          },
+        })
+        if (votes.length > 0) {
+          return ctx.prisma.commentVote.delete({
+            where: {
+              id: votes[0].id,
+            },
+          })
+        }
+        return ctx.prisma.commentVote.create({
+          data: {
+            user: { connect: { id: userId } },
+            comment: { connect: { id: commentId } },
+          },
+        })
+      },
+    })
     t.field('vote', {
       type: 'Vote',
       args: {
@@ -335,36 +384,45 @@ const Mutation = objectType({
       args: {
         body: stringArg(),
         postId: idArg(),
+        parentId: idArg(),
       },
-      resolve: async (_, { body, postId }, ctx) => {
+      resolve: async (_, { body, postId, parentId }, ctx) => {
         const currentUser = ctx.request.user
+        const obj = {
+          author: { connect: { id: currentUser.id } },
+          text: body,
+        }
+        if (parentId) {
+          obj.parent = { connect: { id: parentId } }
+        } else {
+          obj.post = { connect: { id: postId } }
+        }
         const comment = await prisma.comment.create({
           data: {
-            author: { connect: { username: currentUser.username } },
-            post: { connect: { id: postId } },
-            text: body,
+            ...obj,
           },
         })
         return comment
       },
     })
-    t.field('createReply', {
-      type: 'Reply',
+    t.field('updateFollowedTopic', {
+      type: 'Topic',
       args: {
-        body: stringArg(),
-        parentId: idArg(),
+        userId: idArg(),
+        topicId: idArg(),
+        following: booleanArg(),
       },
-      resolve: async (_, { body, parentId }, ctx) => {
-        console.log('parentId', parentId)
-        const currentUser = ctx.request.user
-        const reply = await prisma.reply.create({
+      resolve: async (_, { userId, topicId, following }, ctx) => {
+        const action = following ? 'connect' : 'disconnect'
+        await ctx.prisma.user.update({
+          where: { id: userId },
           data: {
-            author: { connect: { username: currentUser.username } },
-            parent: { connect: { id: parentId } },
-            text: body,
+            followedTopics: {
+              [action]: { id: topicId },
+            },
           },
         })
-        return reply
+        return ctx.prisma.topic.findOne({ where: { id: topicId } })
       },
     })
     t.field('createDraft', {
@@ -418,9 +476,7 @@ const server = new GraphQLServer({
       User,
       Section,
       Comment,
-      Reply,
       CommentVote,
-      ReplyVote,
       Topic,
       Vote,
       SignedUpload,

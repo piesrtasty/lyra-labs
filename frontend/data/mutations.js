@@ -10,8 +10,8 @@ export const SIGN_UPLOAD = gql`
 `;
 
 export const CREATE_COMMENT = gql`
-  mutation createComment($postId: ID!, $body: String!) {
-    createComment(postId: $postId, body: $body) {
+  mutation createComment($postId: ID, $parentId: ID, $body: String!) {
+    createComment(postId: $postId, parentId: $parentId, body: $body) {
       id
       text
       votesCount
@@ -34,13 +34,13 @@ export const CREATE_COMMENT = gql`
   }
 `;
 
-export const CREATE_REPLY = gql`
-  mutation createReply($parentId: ID, $body: String!) {
-    createReply(parentId: $parentId, body: $body) {
-      id
-    }
-  }
-`;
+// export const CREATE_REPLY = gql`
+//   mutation createReply($parentId: ID, $body: String!) {
+//     createReply(parentId: $parentId, body: $body) {
+//       id
+//     }
+//   }
+// `;
 
 export const UPDATE_FOLLOWED_TOPIC = gql`
   mutation updateFollowedTopic(
@@ -61,6 +61,14 @@ export const UPDATE_FOLLOWED_TOPIC = gql`
 export const VOTE = gql`
   mutation vote($userId: ID!, $postId: ID!) {
     vote(userId: $userId, postId: $postId) {
+      id
+    }
+  }
+`;
+
+export const COMMENT_VOTE = gql`
+  mutation commentVote($userId: ID!, $commentId: ID!) {
+    commentVote(userId: $userId, commentId: $commentId) {
       id
     }
   }

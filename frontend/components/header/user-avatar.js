@@ -1,43 +1,38 @@
 import React from "react";
 import styled from "@emotion/styled";
-import Popover, { BOTTOM } from "../../shared/library/components/popovers/base";
+import { BASE_TEXT, WEIGHT } from "../../shared/style/typography";
+import { DETROIT } from "../../shared/style/colors";
+import { BOTTOM } from "../../shared/library/components/popovers/base";
+import ListPopover from "../../shared/library/components/popovers/list";
+import { HEADER_HEIGHT } from "./";
+
+const AVATAR_DIMENSION = 40;
 
 const Avatar = styled("img")({
-  height: 40,
-  width: 40,
-  borderRadius: "50%"
+  height: AVATAR_DIMENSION,
+  width: AVATAR_DIMENSION,
+  borderRadius: "50%",
+  cursor: "pointer"
 });
 
-const Content = styled("div")({
+const Container = styled("div")({
+  height: 60,
   display: "flex",
-  flexDirection: "column",
-  padding: 15
+  alignItems: "center"
 });
-
-const Link = styled("a")({});
 
 const UserAvatar = ({ user }) => {
-  // console.log("user", user);
-
   const LINKS = [
-    { name: "My Profile", route: `@${user.username}` },
-    { name: "Settings", route: "/my/settings/edit" },
-    { name: "Logout", route: "/api/logout" },
-    { name: "My Profile", route: `@${user.username}` },
-    { name: "Settings", route: "/my/settings/edit" },
-    { name: "Logout", route: "/api/logout" }
+    { label: "My Profile", route: `@${user.username}` },
+    { label: "Settings", route: "/my/settings/edit" },
+    { label: "Logout", route: "/api/logout" }
   ];
-
-  const anchor = <Avatar src={user.avatar} />;
-  const content = (
-    <Content>
-      {LINKS.map(({ name, route }) => (
-        <Link>{name}</Link>
-      ))}
-    </Content>
+  const anchor = (
+    <Container>
+      <Avatar src={user.avatar} />
+    </Container>
   );
-
-  return <Popover anchor={anchor} content={content} position={BOTTOM} />;
+  return <ListPopover items={LINKS} anchor={anchor} position={BOTTOM} />;
 };
 
 export default UserAvatar;

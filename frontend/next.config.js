@@ -1,4 +1,5 @@
 const dotenv = require("dotenv");
+const path = require("path");
 dotenv.config();
 
 module.exports = {
@@ -15,5 +16,19 @@ module.exports = {
       process.env.POST_LOGOUT_REDIRECT_URI || "http://localhost:3000/",
     SESSION_COOKIE_SECRET: process.env.SESSION_COOKIE_SECRET,
     SESSION_COOKIE_LIFETIME: 7200 // 2 hours
+  },
+  webpack: (config, { buildId, dev, isServer, defaultLoaders, webpack }) => {
+    // alias commonly used modules
+    // https://webpack.js.org/configuration/resolve/#resolvealias
+    config.resolve.alias = {
+      data: path.resolve(__dirname, "data/"),
+      components: path.resolve(__dirname, "components/"),
+      library: path.resolve(__dirname, "shared/library/components/"),
+      style: path.resolve(__dirname, "shared/style/"),
+      enhancers: path.resolve(__dirname, "shared/enhancers/"),
+      ...config.resolve.alias
+    };
+
+    return config;
   }
 };

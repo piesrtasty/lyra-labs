@@ -91,7 +91,8 @@ const Arrow = styled("div")`
 
 const ContentWrapper = styled("div")({
   border: `1px solid ${LILAC}`,
-  backgroundColor: WHITE
+  backgroundColor: WHITE,
+  borderRadius: 5
 });
 
 const TOP = "top";

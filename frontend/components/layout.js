@@ -16,11 +16,12 @@ const Layout = ({ children }) => {
   return (
     <ThemeProvider theme={THEME}>
       <Head>
-        <title>Next.js with Auth0</title>
+        <title>Lyra Labs 🥰</title>
       </Head>
       <Global
         styles={css`
           body {
+            font-size: 18px;
             background-color: ${THEME.COLORS.RICE_CAKE};
             margin: 0;
           }

@@ -1,5 +1,4 @@
 const moment = require('moment')
-// const { photon } = require('@prisma/photon')
 const { PrismaClient } = require('@prisma/client')
 const { users, usernames } = require('../test/sample-data/users')
 const { topics } = require('../test/sample-data/topics')
@@ -205,7 +204,7 @@ async function main() {
       for (let k = minReplies; k < maxReplies; k += 1) {
         const replyAuthor =
           usernames[Math.floor(Math.random() * usernames.length)]
-        const reply = await prisma.reply.create({
+        const reply = await prisma.comment.create({
           data: {
             author: { connect: { username: replyAuthor } },
             text: COMMENT_REPLY_TEXT,
@@ -221,10 +220,10 @@ async function main() {
         )
 
         for (let l = 0; l < selectedUsernames.length; l += 1) {
-          await prisma.replyVote.create({
+          await prisma.commentVote.create({
             data: {
               user: { connect: { username: selectedUsernames[0] } },
-              reply: { connect: { id: reply.id } },
+              comment: { connect: { id: reply.id } },
             },
           })
         }

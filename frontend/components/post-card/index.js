@@ -168,7 +168,6 @@ const PostCard = ({
   });
   const isMobile = useContext(MobileContext);
   const [isOpen, setIsOpen] = useState(false);
-  const [showLoginModal, setShowLoginModal] = useState(false);
   const router = useRouter();
   const href = `/posts/${slug}`;
 

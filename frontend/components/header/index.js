@@ -1,27 +1,47 @@
 import React, { Fragment, useContext, useState } from "react";
 import styled from "@emotion/styled";
 import { withTheme } from "emotion-theming";
-import { Container, Row } from "../../shared/library/components/layout";
+import {
+  Container,
+  Row,
+  SIDEBAR_WIDTH
+} from "../../shared/library/components/layout";
 import { CurrentUserContext } from "../../shared/enhancers/current-user";
 import Logo from "./logo";
+import LinkForm from "./link-form";
 import Search from "./search";
 import Navigation from "./navigation";
 import AuthButtons from "./auth-buttons";
 import UserAvatar from "./user-avatar";
-import { GUNSMOKE, LILAC, WHITE } from "../../shared/style/colors";
+import { DESKTOP } from "style/breakpoints";
+import { CHARCOAL, GUNSMOKE, LILAC, WHITE } from "../../shared/style/colors";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faPlus, faBell } from "@fortawesome/pro-light-svg-icons";
+
+export const HEADER_HEIGHT = 60;
 
 const Wrapper = styled("header")(({ theme: { COLORS: { WHITE, LILAC } } }) => ({
   backgroundColor: WHITE,
   borderBottom: `1px solid ${LILAC}`,
   boxShadow: "0 1px 1px 0 rgba(0,0,0,.05)",
-  height: 66,
-  display: "flex"
+  height: HEADER_HEIGHT,
+  display: "flex",
+  position: "sticky",
+  top: 0,
+  zIndex: 99
 }));
 
-const Avatar = styled("img")({
-  height: 40,
-  width: 40,
-  borderRadius: "50%"
+const Aside = styled("div")({
+  width: SIDEBAR_WIDTH
+});
+
+const LogoContainer = styled("div")({
+  display: "flex",
+  marginRight: 20,
+  marginLeft: 8,
+  [DESKTOP]: {
+    marginLeft: 16
+  }
 });
 
 const StyledContainer = styled(Container)({
@@ -33,26 +53,54 @@ const StyledContainer = styled(Container)({
 const Actions = styled("div")({
   flexGrow: 1,
   display: "flex",
-  justifyContent: "flex-end"
+  alignItems: "center",
+  justifyContent: "flex-end",
+  marginRight: ".5rem",
+  [DESKTOP]: {
+    marginRight: "1rem"
+  }
+});
+
+const CtaLink = styled("div")({
+  marginRight: 20,
+  display: "flex",
+  cursor: "pointer",
+  fontSize: "1.5rem",
+  color: CHARCOAL
 });
 
 const Header = () => {
-  const user = useContext(CurrentUserContext);
+  const [formVisible, setFormVisible] = useState(false);
+  const currentuser = useContext(CurrentUserContext);
   return (
     <Wrapper>
       <StyledContainer>
-        <Logo />
-        <Search />
-        <Navigation />
-        <Actions>
-          {
-            <Fragment>
-              {/* {user && <Avatar src={user.avatar} />} */}
-              {user && <UserAvatar user={user} />}
-              {!user && <AuthButtons />}
-            </Fragment>
-          }
-        </Actions>
+        <Aside>
+          <LogoContainer>
+            <Logo />
+          </LogoContainer>
+        </Aside>
+
+        {/* <Search /> */}
+        {/* <Navigation /> */}
+        {formVisible && <LinkForm setFormVisible={setFormVisible} />}
+        {!formVisible && (
+          <Actions>
+            {currentuser && (
+              <CtaLink onClick={() => setFormVisible(true)}>
+                <FontAwesomeIcon icon={faPlus} />
+              </CtaLink>
+            )}
+            {currentuser && (
+              <CtaLink>
+                <FontAwesomeIcon icon={faBell} />
+              </CtaLink>
+            )}
+
+            {currentuser && <UserAvatar user={currentuser} />}
+            {!currentuser && <AuthButtons />}
+          </Actions>
+        )}
       </StyledContainer>
     </Wrapper>
   );

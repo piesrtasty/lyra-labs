@@ -1,4 +1,5 @@
 import gql from "graphql-tag";
+import { topicFields } from "./fragments";
 
 export const USER_SEARCH = gql`
   query userSearch($keyword: String) {
@@ -9,6 +10,15 @@ export const USER_SEARCH = gql`
       avatar
     }
   }
+`;
+
+export const CURATED_TOPICS_QUERY = gql`
+  query curatedTopics {
+    curatedTopics {
+      ...topicFields
+    }
+  }
+  ${topicFields}
 `;
 
 export const SECTIONS_QUERY = gql`
@@ -30,13 +40,12 @@ export const SECTIONS_QUERY = gql`
         votesCount
         upvoted
         topics {
-          id
-          name
-          slug
+          ...topicFields
         }
       }
     }
   }
+  ${topicFields}
 `;
 
 export const POSTS_QUERY = gql`
@@ -55,26 +64,12 @@ export const CURRENT_USER_QUERY = gql`
       avatar
       username
       followedTopics {
-        id
-        name
-        slug
+        ...topicFields
       }
     }
   }
+  ${topicFields}
 `;
-
-// {
-//   repositoryOwner(login: "Naramsim") {
-//     login
-//     repositories(first: 3, isFork: true,  orderBy: {field: CREATED_AT, direction: ASC}) {
-//       edges {
-//         node {
-//           description
-//         }
-//       }
-//     }
-//   }
-// }
 
 export const POST_QUERY = gql`
   query post($slug: String!) {
@@ -93,7 +88,10 @@ export const POST_QUERY = gql`
         id
         text
         votesCount
+        upvoted
+        updatedAt
         author {
+          id
           avatar
           username
           name
@@ -102,7 +100,10 @@ export const POST_QUERY = gql`
           id
           text
           votesCount
+          upvoted
+          updatedAt
           author {
+            id
             avatar
             username
             name
@@ -125,10 +126,9 @@ export const POST_QUERY = gql`
         id
       }
       topics {
-        id
-        name
-        slug
+        ...topicFields
       }
     }
   }
+  ${topicFields}
 `;

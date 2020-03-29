@@ -12,6 +12,12 @@ const details = {
     cookieLifetime: process.env.SESSION_COOKIE_LIFETIME,
     storeIdToken: true,
     storeAccessToken: true
+  },
+  oidcClient: {
+    // (Optional) Configure the timeout in milliseconds for HTTP requests to Auth0.
+    httpTimeout: 2500,
+    // (Optional) Configure the clock tolerance in milliseconds, if the time on your server is running behind.
+    clockTolerance: 10000
   }
 };
 
