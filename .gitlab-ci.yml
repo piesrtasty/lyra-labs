@@ -1,0 +1,14 @@
+deploy-staging:
+    stage: deploy
+    script:
+      - yarn ci:deploy:staging
+    only:
+      - staging
+      - merge_requests
+  deploy-production:
+    stage: deploy
+    script:
+      - yarn ci:deploy:prod
+    only:
+      - master
+      - merge_requests

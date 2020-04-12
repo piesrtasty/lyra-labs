@@ -9,7 +9,9 @@
     "stop": "docker-compose down",
     "clean": "docker system prune -af",
     "clean:volumes": "docker volume prune -f",
-    "seed": "docker exec -it prisma npm run seed"
+    "seed": "docker exec -it prisma npm run seed",
+    "ci:deploy:staging": "now -A staging.now.json --target=staging --token=$NOW_TOKEN --scope=mthomps4  && now alias -A staging.now.json  --token=$NOW_TOKEN",
+    "ci:deploy:prod": "now -A prod.now.json --target=production --token=$NOW_TOKEN --scope=mthomps4 && now alias -A prod.now.json  --token=$NOW_TOKEN"
   },
   "keywords": [],
   "author": "",
