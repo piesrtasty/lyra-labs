@@ -3,14 +3,14 @@ image: node:latest
 deploy-staging:
   stage: deploy
   script:
-    - npm run ci:deploy:staging
+    - yarn ci:deploy:staging
   only:
     - staging
     - merge_requests
 deploy-production:
   stage: deploy
   script:
-    - npm run ci:deploy:prod
+    - yarn ci:deploy:prod
   only:
     - master
     - merge_requests
