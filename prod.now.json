@@ -30,11 +30,11 @@
   },
   "builds": [
     {
-      "src": "frontend/next.config.js",
+      "src": "./frontend/next.config.js",
       "use": "@now/next"
     },
     {
-      "src": "backend/src/index.js",
+      "src": "./backend/src/index.js",
       "use": "@now/node@canary",
       "config": { "maxLambdaSize": "20mb" }
     }
