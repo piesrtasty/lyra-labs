@@ -11,7 +11,7 @@
     "clean:volumes": "docker volume prune -f",
     "seed": "docker exec -it prisma npm run seed",
     "ci:deploy:staging": "now -A staging.now.json --target=staging --token=$NOW_TOKEN --scope=mthomps4  && now alias -A staging.now.json  --token=$NOW_TOKEN",
-    "ci:deploy:prod": "now -A prod.now.json --target=production --token=fFIRtUzRl3QKETo9r1nQ0IPt && now alias -A prod.now.json  --token=fFIRtUzRl3QKETo9r1nQ0IPt"
+    "ci:deploy:prod": "now prod.now.json --token=fFIRtUzRl3QKETo9r1nQ0IPt"
   },
   "keywords": [],
   "author": "",
