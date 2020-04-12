@@ -5,7 +5,7 @@ deploy-staging:
     only:
       - staging
       - merge_requests
-  deploy-production:
+deploy-production:
     stage: deploy
     script:
       - npm run ci:deploy:prod
