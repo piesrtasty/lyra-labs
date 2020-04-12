@@ -1,4 +1,5 @@
 import gql from "graphql-tag";
+import { postFields } from "./fragments";
 
 export const SIGN_UPLOAD = gql`
   mutation signUpload($fileName: String, $fileType: String) {
@@ -7,6 +8,15 @@ export const SIGN_UPLOAD = gql`
       url
     }
   }
+`;
+
+export const CREATE_POST = gql`
+  mutation createPost($givenUrl: String) {
+    createPost(givenUrl: $givenUrl) {
+      ...postFields
+    }
+  }
+  ${postFields}
 `;
 
 export const CREATE_COMMENT = gql`

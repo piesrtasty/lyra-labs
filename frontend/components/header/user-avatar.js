@@ -4,15 +4,21 @@ import { BASE_TEXT, WEIGHT } from "../../shared/style/typography";
 import { DETROIT } from "../../shared/style/colors";
 import { BOTTOM } from "../../shared/library/components/popovers/base";
 import ListPopover from "../../shared/library/components/popovers/list";
+import { DESKTOP, TABLET } from "style/breakpoints";
 import { HEADER_HEIGHT } from "./";
 
-const AVATAR_DIMENSION = 40;
+const DEFAULT_AVATAR_DIMENSION = 40;
+const MOBILE_AVATAR_DIMENSION = 30;
 
 const Avatar = styled("img")({
-  height: AVATAR_DIMENSION,
-  width: AVATAR_DIMENSION,
+  height: DEFAULT_AVATAR_DIMENSION,
+  width: DEFAULT_AVATAR_DIMENSION,
   borderRadius: "50%",
-  cursor: "pointer"
+  cursor: "pointer",
+  [TABLET]: {
+    height: MOBILE_AVATAR_DIMENSION,
+    width: MOBILE_AVATAR_DIMENSION
+  }
 });
 
 const Container = styled("div")({

@@ -12,9 +12,13 @@ import styled from "@emotion/styled";
 import Page from "../components/page";
 import Sections from "../components/sections";
 import { SectionHeader } from "library/typography/headers";
+import PostList from "components/post-list";
 import TopicList from "components/topic-list";
 import UserCard from "components/user-card";
+import SidebarNav from "components/sidebar-nav";
 import SponsorList from "components/sponsor-list";
+import { useQuery } from "@apollo/react-hooks";
+import { USER_POSTS_INBOX } from "data/queries";
 import { CURATED_TOPICS_QUERY } from "data/queries";
 import WalletPanel from "../components/wallet/panel";
 import { CurrentUserContext } from "enhancers/current-user";
@@ -38,6 +42,7 @@ const StyledDivider = styled(Divider)({
 
 const IndexPage = ({ user }) => {
   const currentUser = useContext(CurrentUserContext);
+
   return (
     <Page>
       <StyledContainer>
@@ -45,21 +50,23 @@ const IndexPage = ({ user }) => {
           {currentUser && (
             <SidebarSection>
               <UserCard user={currentUser} />
+              <SidebarNav />
             </SidebarSection>
           )}
 
-          <TopicList query={CURATED_TOPICS_QUERY} dataKey={"curatedTopics"} />
-          <SidebarSection>
+          {/* <TopicList query={CURATED_TOPICS_QUERY} dataKey={"curatedTopics"} /> */}
+          {/* <SidebarSection>
             <CTALink path={"/tags"} text={"View all-time top tags"} />
           </SidebarSection>
           <SidebarSection>
             <StyledDivider />
           </SidebarSection>
-          <SponsorList />
+          <SponsorList /> */}
         </Sidebar>
         <Main>
-          Goes here
-          {/* <Sections /> */}
+          {currentUser && (
+            <PostList dataKey={"userPostsInbox"} query={USER_POSTS_INBOX} />
+          )}
         </Main>
         <Sidebar position={RIGHT}>
           <WalletPanel />

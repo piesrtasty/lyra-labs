@@ -4,7 +4,7 @@ import { ThemeProvider } from "emotion-theming";
 
 const THEME = {
   COLORS: {
-    ALABASTER: "#f9f9f9",
+    ALABASTER: "#f9fafa",
     RICE_CAKE: "#f3f3f3",
     LILAC: "#e8e8e8",
     WHITE: "#fff",
@@ -22,7 +22,7 @@ const Layout = ({ children }) => {
         styles={css`
           body {
             font-size: 18px;
-            background-color: ${THEME.COLORS.RICE_CAKE};
+            background-color: ${THEME.COLORS.ALABASTER};
             margin: 0;
           }
         `}

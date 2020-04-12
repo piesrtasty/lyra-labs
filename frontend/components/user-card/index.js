@@ -1,5 +1,7 @@
 import React from "react";
 import styled from "@emotion/styled";
+import { BASE_TEXT, WEIGHT } from "style/typography";
+import { SCOPRION } from "style/colors";
 
 const AVATAR_DIMENSION = 48;
 
@@ -9,13 +11,36 @@ const Avatar = styled("img")({
   borderRadius: "50%"
 });
 
+const Container = styled("div")({
+  display: "flex"
+});
+
+const Meta = styled("div")({
+  marginLeft: ".5rem"
+});
+
+const Name = styled("div")({
+  ...BASE_TEXT,
+  fontSize: "1rem",
+  fontWeight: WEIGHT.BOLD
+});
+
+const Username = styled("div")({
+  ...BASE_TEXT,
+  color: SCOPRION,
+  fontSize: ".75rem"
+});
+
 const UserCard = ({ user }) => {
-  console.log("user", user);
-  const { avatar } = user;
+  const { avatar, name, username } = user;
   return (
-    <div>
+    <Container>
       <Avatar src={avatar} />
-    </div>
+      <Meta>
+        <Name>{name}</Name>
+        <Username>{`@${username}`}</Username>
+      </Meta>
+    </Container>
   );
 };
 

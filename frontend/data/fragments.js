@@ -7,3 +7,17 @@ export const topicFields = gql`
     slug
   }
 `;
+
+export const postFields = gql`
+  fragment postFields on Post {
+    id
+    author
+    date
+    description
+    image
+    logo
+    publisher
+    title
+    url
+  }
+`;

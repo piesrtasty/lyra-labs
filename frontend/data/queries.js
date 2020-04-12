@@ -1,5 +1,14 @@
 import gql from "graphql-tag";
-import { topicFields } from "./fragments";
+import { topicFields, postFields } from "./fragments";
+
+export const USER_POSTS_INBOX = gql`
+  query userPostsInbox($username: String) {
+    userPostsInbox(username: $username) {
+      ...postFields
+    }
+  }
+  ${postFields}
+`;
 
 export const USER_SEARCH = gql`
   query userSearch($keyword: String) {
@@ -63,6 +72,7 @@ export const CURRENT_USER_QUERY = gql`
       email
       avatar
       username
+      name
       followedTopics {
         ...topicFields
       }

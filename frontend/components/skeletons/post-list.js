@@ -1,5 +1,5 @@
 import React from "react";
-import { Container } from "../post-list";
+import { Container } from "../post-list/old-index";
 import SkeletonPost from "./post";
 
 const NUM_POSTS = 3;

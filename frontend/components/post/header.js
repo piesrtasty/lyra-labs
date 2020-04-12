@@ -3,7 +3,7 @@ import styled from "@emotion/styled";
 import { BASE_TEXT, WEIGHT } from "../../shared/style/typography";
 import { BLACK } from "../../shared/style/colors";
 import { Tagline } from "../../shared/library/components/typography";
-import { Thumbnail } from "../post-card";
+import { Thumbnail } from "../post-card/old-index";
 import TagList from "../tag-list";
 
 const StyledTagline = styled(Tagline)({

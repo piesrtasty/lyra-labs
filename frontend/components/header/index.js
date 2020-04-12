@@ -13,10 +13,11 @@ import Search from "./search";
 import Navigation from "./navigation";
 import AuthButtons from "./auth-buttons";
 import UserAvatar from "./user-avatar";
-import { DESKTOP } from "style/breakpoints";
+import { DESKTOP, TABLET } from "style/breakpoints";
 import { CHARCOAL, GUNSMOKE, LILAC, WHITE } from "../../shared/style/colors";
+import { BASE_TEXT, WEIGHT } from "style/typography";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faPlus, faBell } from "@fortawesome/pro-light-svg-icons";
+import { faPlus, faBell, faBars } from "@fortawesome/pro-light-svg-icons";
 
 export const HEADER_HEIGHT = 60;
 
@@ -32,17 +33,30 @@ const Wrapper = styled("header")(({ theme: { COLORS: { WHITE, LILAC } } }) => ({
 }));
 
 const Aside = styled("div")({
-  width: SIDEBAR_WIDTH
-});
-
-const LogoContainer = styled("div")({
-  display: "flex",
-  marginRight: 20,
-  marginLeft: 8,
   [DESKTOP]: {
-    marginLeft: 16
+    width: SIDEBAR_WIDTH
   }
 });
+
+const LogoContainer = styled("div")(
+  {
+    display: "flex",
+    alignItems: "center",
+    marginRight: 20,
+    marginLeft: 8,
+    [DESKTOP]: {
+      marginLeft: 16
+    }
+  },
+  ({ formVisible }) => ({
+    [TABLET]: {
+      display: formVisible ? "none" : "flex"
+    }
+    // " > div:last-of-type": {
+    //   zIndex: isOpen ? 999 : 1
+    // }
+  })
+);
 
 const StyledContainer = styled(Container)({
   width: "100%",
@@ -62,11 +76,28 @@ const Actions = styled("div")({
 });
 
 const CtaLink = styled("div")({
-  marginRight: 20,
   display: "flex",
   cursor: "pointer",
   fontSize: "1.5rem",
-  color: CHARCOAL
+  color: CHARCOAL,
+  marginRight: 16,
+  [TABLET]: {
+    marginRight: 8
+  }
+});
+
+const NavMenuCta = styled(FontAwesomeIcon)({
+  display: "none",
+  marginRight: 8,
+  [TABLET]: {
+    display: "flex"
+  }
+});
+
+const Name = styled("div")({
+  ...BASE_TEXT,
+  fontSize: "1.5rem",
+  marginLeft: ".5rem"
 });
 
 const Header = () => {
@@ -76,8 +107,11 @@ const Header = () => {
     <Wrapper>
       <StyledContainer>
         <Aside>
-          <LogoContainer>
+          <LogoContainer formVisible={formVisible}>
+            <NavMenuCta icon={faBars} />
+
             <Logo />
+            <Name>Lyra Labs</Name>
           </LogoContainer>
         </Aside>
 
@@ -89,11 +123,6 @@ const Header = () => {
             {currentuser && (
               <CtaLink onClick={() => setFormVisible(true)}>
                 <FontAwesomeIcon icon={faPlus} />
-              </CtaLink>
-            )}
-            {currentuser && (
-              <CtaLink>
-                <FontAwesomeIcon icon={faBell} />
               </CtaLink>
             )}
 

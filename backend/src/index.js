@@ -12,6 +12,20 @@ const { checkJwt } = require('../middleware/checkJwt')
 const { getUser } = require('../middleware/getUser')
 const { createUser } = require('../utils/create-user')
 
+const metascraper = require('metascraper')([
+  require('metascraper-author')(),
+  require('metascraper-date')(),
+  require('metascraper-description')(),
+  require('metascraper-image')(),
+  require('metascraper-logo')(),
+  require('metascraper-clearbit')(),
+  require('metascraper-publisher')(),
+  require('metascraper-title')(),
+  require('metascraper-url')(),
+])
+
+const got = require('got')
+
 const CURATED_TOPICS = [
   'growth-hacks',
   'startup-lessons',
@@ -141,20 +155,17 @@ const Post = objectType({
   name: 'Post',
   definition(t) {
     t.model.id()
-    t.model.createdAt()
-    t.model.updatedAt()
-    t.model.name()
-    t.model.slug()
-    t.model.link()
-    t.model.thumbnail()
+    t.model.author()
+    t.model.date()
     t.model.description()
-    t.model.tagline()
+    t.model.image()
+    t.model.logo()
+    t.model.publisher()
+    t.model.title()
+    t.model.url()
+
     t.model.submitter()
-    t.model.creators()
-    t.model.galleryThumbs()
     t.model.comments({ ordering: true })
-    t.model.day()
-    t.model.featured()
     t.model.topics()
     t.model.votes()
     t.boolean('upvoted', {
@@ -213,15 +224,27 @@ const Query = objectType({
     t.crud.sections()
     t.crud.posts()
     // t.crud.post()
-    t.list.field('curatedTopics', {
-      type: 'Topic',
-      resolve: async (_, { slug }, ctx) => {
-        const topics = await ctx.prisma.topic.findMany({
-          where: { slug: { in: CURATED_TOPICS } },
-        })
-        return topics
+    t.list.field('userPostsInbox', {
+      type: 'Post',
+      args: {
+        username: stringArg(),
       },
-    })
+      resolve: async (_, { username }, ctx) => {
+        const posts = await ctx.prisma.post.findMany({
+          where: { username },
+        })
+        return posts
+      },
+    }),
+      t.list.field('curatedTopics', {
+        type: 'Topic',
+        resolve: async (_, { slug }, ctx) => {
+          const topics = await ctx.prisma.topic.findMany({
+            where: { slug: { in: CURATED_TOPICS } },
+          })
+          return topics
+        },
+      })
     t.field('post', {
       type: 'Post',
       nullable: true,
@@ -375,6 +398,23 @@ const Mutation = objectType({
           data: {
             user: { connect: { id: userId } },
             post: { connect: { id: postId } },
+          },
+        })
+      },
+    })
+    t.field('createPost', {
+      type: 'Post',
+      args: {
+        givenUrl: stringArg(),
+      },
+      resolve: async (_, { givenUrl }, ctx) => {
+        const currentUser = ctx.request.user
+        const { body: html, url } = await got(givenUrl)
+        const metadata = await metascraper({ html, url })
+        return await prisma.post.create({
+          data: {
+            submitter: { connect: { id: currentUser.id } },
+            ...metadata,
           },
         })
       },
