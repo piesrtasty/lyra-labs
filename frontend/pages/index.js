@@ -46,6 +46,8 @@ const IndexPage = ({ user }) => {
   return (
     <Page>
       <StyledContainer>
+        <h1>Env Flag Test 1</h1>
+        <h1>{process.env ? process.env.APP_ENV : "no process"}</h1>
         <Sidebar>
           {currentUser && (
             <SidebarSection>

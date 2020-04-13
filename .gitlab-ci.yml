@@ -1,0 +1,29 @@
+image: node:10
+
+cache:
+  paths:
+    - node_modules/
+
+stages:
+  - setup
+  - deploy
+
+setup:
+  stage: setup
+  script: npm install now
+
+deploy-staging:
+  stage: deploy
+  script:
+    - npm run ci:deploy:staging
+  only:
+    - staging
+    - merge_requests
+
+deploy-production:
+  stage: deploy
+  script:
+    - npm run ci:deploy:prod
+  only:
+    - master
+    - merge_requests
