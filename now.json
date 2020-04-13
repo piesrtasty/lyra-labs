@@ -16,7 +16,6 @@
     }
   },
   "env": {
-    "APP_ENV": "@dev_app_env",
     "NPM_TOKEN": "@npm_token",
     "POSTGRES_URL": "@postgres_url",
     "BACKEND_URL": "@backend_url",
