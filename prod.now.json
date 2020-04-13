@@ -1,5 +1,6 @@
 {
   "version": 2,
+  "alias": "production-next-now-test.now.sh",
   "build": {
     "env": {
       "NPM_TOKEN": "@npm_token",
