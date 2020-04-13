@@ -45,7 +45,7 @@ const IndexPage = ({ user }) => {
 
   return (
     <Page>
-      <h1>My Test 4</h1>
+      <h1>My Test A</h1>
       <h1>{process ? process.env.APP_ENV : "process unavailable"}</h1>
       <StyledContainer>
         <h1>Env Flag Test 1</h1>
