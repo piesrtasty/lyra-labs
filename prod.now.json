@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "alias": "production-next-now-test.now.sh",
+  "alias": ["lyralabs.io", "prod"],
   "build": {
     "env": {
       "NPM_TOKEN": "@npm_token",
