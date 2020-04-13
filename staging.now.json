@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "alias": ["staging.lyralabs.io", "staging"],
+  "alias": "staging.lyralabs.io",
   "build": {
     "env": {
       "NPM_TOKEN": "@npm_token",
