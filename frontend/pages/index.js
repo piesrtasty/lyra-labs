@@ -45,6 +45,7 @@ const IndexPage = ({ user }) => {
 
   return (
     <Page>
+      <div>COOL!</div>
       <StyledContainer>
         <Sidebar>
           {currentUser && (
