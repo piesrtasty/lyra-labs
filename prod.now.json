@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "alias": ["lyralabs.io", "prod"],
+  "alias": "lyralabs.io",
   "build": {
     "env": {
       "NPM_TOKEN": "@npm_token",
