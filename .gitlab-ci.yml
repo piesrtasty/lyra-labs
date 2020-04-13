@@ -18,7 +18,6 @@ deploy-staging:
     - npm run ci:deploy:staging
   only:
     - staging
-    - merge_requests
 
 deploy-production:
   stage: deploy
@@ -26,4 +25,3 @@ deploy-production:
     - npm run ci:deploy:prod
   only:
     - master
-    - merge_requests
