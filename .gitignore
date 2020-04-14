@@ -14,3 +14,5 @@ build/Release
 
 .env
 .now
+
+env-var-setup.json
