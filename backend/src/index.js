@@ -541,10 +541,10 @@ server.start(
     endpoint: '/graphql',
     playground: '/graphql',
     subscriptions: false,
-    cors: {
-      credentials: true,
-      origin: process.env.FRONTEND_URL,
-    },
+    // cors: {
+    //   credentials: true,
+    //   origin: process.env.FRONTEND_URL,
+    // },
   },
   () =>
     console.log(
