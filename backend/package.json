@@ -6,7 +6,7 @@
   "dependencies": {
     "@metascraper/helpers": "^5.11.6",
     "@nexus/schema": "^0.12.0-rc.13",
-    "@prisma/client": "^2.0.0-preview025",
+    "@prisma/client": "^2.0.0-beta.2",
     "express-jwt": "^5.3.1",
     "got": "^10.6.0",
     "graphql": "^14.6.0",
@@ -27,7 +27,7 @@
     "mobile-detect": "^1.4.4",
     "moment": "^2.24.0",
     "nexus": "^0.12.0-rc.14",
-    "nexus-prisma": "^0.11.1"
+    "nexus-prisma": "^0.12.0"
   },
   "scripts": {
     "dev": "node src",
@@ -44,6 +44,6 @@
     "node": "10"
   },
   "devDependencies": {
-    "@prisma/cli": "^2.0.0-preview025"
+    "@prisma/cli": "^2.0.0-beta.2"
   }
 }
