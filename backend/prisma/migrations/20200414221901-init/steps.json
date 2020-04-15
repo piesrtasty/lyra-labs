@@ -37,7 +37,7 @@
         "source": "db"
       },
       "argument": "url",
-      "value": "\"postgresql://prisma:prisma@0.0.0.0:5432/prisma\""
+      "value": "env(\"POSTGRES_URL\")"
     },
     {
       "tag": "CreateModel",
@@ -807,38 +807,6 @@
     {
       "tag": "CreateField",
       "model": "Post",
-      "field": "topic",
-      "type": "Topic",
-      "arity": "Optional"
-    },
-    {
-      "tag": "CreateDirective",
-      "location": {
-        "path": {
-          "tag": "Field",
-          "model": "Post",
-          "field": "topic"
-        },
-        "directive": "relation"
-      }
-    },
-    {
-      "tag": "CreateArgument",
-      "location": {
-        "tag": "Directive",
-        "path": {
-          "tag": "Field",
-          "model": "Post",
-          "field": "topic"
-        },
-        "directive": "relation"
-      },
-      "argument": "references",
-      "value": "[id]"
-    },
-    {
-      "tag": "CreateField",
-      "model": "Post",
       "field": "comments",
       "type": "Comment",
       "arity": "List"
@@ -849,38 +817,6 @@
       "field": "votes",
       "type": "Vote",
       "arity": "List"
-    },
-    {
-      "tag": "CreateField",
-      "model": "Post",
-      "field": "section",
-      "type": "Section",
-      "arity": "Optional"
-    },
-    {
-      "tag": "CreateDirective",
-      "location": {
-        "path": {
-          "tag": "Field",
-          "model": "Post",
-          "field": "section"
-        },
-        "directive": "relation"
-      }
-    },
-    {
-      "tag": "CreateArgument",
-      "location": {
-        "tag": "Directive",
-        "path": {
-          "tag": "Field",
-          "model": "Post",
-          "field": "section"
-        },
-        "directive": "relation"
-      },
-      "argument": "references",
-      "value": "[id]"
     },
     {
       "tag": "CreateField",
@@ -911,8 +847,29 @@
         },
         "directive": "relation"
       },
+      "argument": "fields",
+      "value": "[submitterId]"
+    },
+    {
+      "tag": "CreateArgument",
+      "location": {
+        "tag": "Directive",
+        "path": {
+          "tag": "Field",
+          "model": "Post",
+          "field": "submitter"
+        },
+        "directive": "relation"
+      },
       "argument": "references",
       "value": "[id]"
+    },
+    {
+      "tag": "CreateField",
+      "model": "Post",
+      "field": "submitterId",
+      "type": "String",
+      "arity": "Required"
     },
     {
       "tag": "CreateModel",
@@ -1051,6 +1008,27 @@
       "value": "[id]"
     },
     {
+      "tag": "CreateArgument",
+      "location": {
+        "tag": "Directive",
+        "path": {
+          "tag": "Field",
+          "model": "Comment",
+          "field": "post"
+        },
+        "directive": "relation"
+      },
+      "argument": "fields",
+      "value": "[postId]"
+    },
+    {
+      "tag": "CreateField",
+      "model": "Comment",
+      "field": "postId",
+      "type": "String",
+      "arity": "Optional"
+    },
+    {
       "tag": "CreateField",
       "model": "Comment",
       "field": "author",
@@ -1081,6 +1059,27 @@
       },
       "argument": "references",
       "value": "[id]"
+    },
+    {
+      "tag": "CreateArgument",
+      "location": {
+        "tag": "Directive",
+        "path": {
+          "tag": "Field",
+          "model": "Comment",
+          "field": "author"
+        },
+        "directive": "relation"
+      },
+      "argument": "fields",
+      "value": "[authorId]"
+    },
+    {
+      "tag": "CreateField",
+      "model": "Comment",
+      "field": "authorId",
+      "type": "String",
+      "arity": "Required"
     },
     {
       "tag": "CreateField",
@@ -1125,8 +1124,29 @@
         },
         "directive": "relation"
       },
+      "argument": "fields",
+      "value": "[parentId]"
+    },
+    {
+      "tag": "CreateArgument",
+      "location": {
+        "tag": "Directive",
+        "path": {
+          "tag": "Field",
+          "model": "Comment",
+          "field": "parent"
+        },
+        "directive": "relation"
+      },
       "argument": "references",
       "value": "[id]"
+    },
+    {
+      "tag": "CreateField",
+      "model": "Comment",
+      "field": "parentId",
+      "type": "String",
+      "arity": "Optional"
     },
     {
       "tag": "CreateField",
@@ -1297,6 +1317,27 @@
       "value": "[id]"
     },
     {
+      "tag": "CreateArgument",
+      "location": {
+        "tag": "Directive",
+        "path": {
+          "tag": "Field",
+          "model": "CommentVote",
+          "field": "user"
+        },
+        "directive": "relation"
+      },
+      "argument": "fields",
+      "value": "[userId]"
+    },
+    {
+      "tag": "CreateField",
+      "model": "CommentVote",
+      "field": "userId",
+      "type": "String",
+      "arity": "Required"
+    },
+    {
       "tag": "CreateField",
       "model": "CommentVote",
       "field": "comment",
@@ -1327,6 +1368,27 @@
       },
       "argument": "references",
       "value": "[id]"
+    },
+    {
+      "tag": "CreateArgument",
+      "location": {
+        "tag": "Directive",
+        "path": {
+          "tag": "Field",
+          "model": "CommentVote",
+          "field": "comment"
+        },
+        "directive": "relation"
+      },
+      "argument": "fields",
+      "value": "[commentId]"
+    },
+    {
+      "tag": "CreateField",
+      "model": "CommentVote",
+      "field": "commentId",
+      "type": "String",
+      "arity": "Required"
     },
     {
       "tag": "CreateModel",
@@ -1458,6 +1520,27 @@
       "value": "[id]"
     },
     {
+      "tag": "CreateArgument",
+      "location": {
+        "tag": "Directive",
+        "path": {
+          "tag": "Field",
+          "model": "Vote",
+          "field": "user"
+        },
+        "directive": "relation"
+      },
+      "argument": "fields",
+      "value": "[userId]"
+    },
+    {
+      "tag": "CreateField",
+      "model": "Vote",
+      "field": "userId",
+      "type": "String",
+      "arity": "Required"
+    },
+    {
       "tag": "CreateField",
       "model": "Vote",
       "field": "post",
@@ -1488,6 +1571,27 @@
       },
       "argument": "references",
       "value": "[id]"
+    },
+    {
+      "tag": "CreateArgument",
+      "location": {
+        "tag": "Directive",
+        "path": {
+          "tag": "Field",
+          "model": "Vote",
+          "field": "post"
+        },
+        "directive": "relation"
+      },
+      "argument": "fields",
+      "value": "[postId]"
+    },
+    {
+      "tag": "CreateField",
+      "model": "Vote",
+      "field": "postId",
+      "type": "String",
+      "arity": "Required"
     },
     {
       "tag": "CreateModel",

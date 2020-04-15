@@ -23,7 +23,7 @@
     "@fortawesome/pro-regular-svg-icons": "^5.12.1",
     "@fortawesome/pro-solid-svg-icons": "^5.12.1",
     "@fortawesome/react-fontawesome": "^0.1.9",
-    "@prisma/client": "^2.0.0-preview023",
+    "@prisma/client": "^2.0.0-beta.2",
     "@zeit/next-css": "^1.0.1",
     "apollo-cache-inmemory": "1.6.3",
     "apollo-client": "2.6.4",
