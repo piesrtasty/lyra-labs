@@ -16,7 +16,7 @@ const PostList = ({ dataKey, query }) => {
   const { loading, error, data, fetchMore } = useQuery(query, {});
   return (
     <Container>
-      {!loading && (
+      {!loading && data && (
         <Fragment>
           {data[dataKey].map(post =>
             post.id === "optimisticResponse" ? (

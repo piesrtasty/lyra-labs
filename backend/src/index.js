@@ -163,7 +163,7 @@ const Post = objectType({
     t.model.publisher()
     t.model.title()
     t.model.url()
-
+    t.model.submitterId()
     t.model.submitter()
     t.model.comments({ ordering: true })
     t.model.topics()
@@ -541,10 +541,10 @@ server.start(
     endpoint: '/graphql',
     playground: '/graphql',
     subscriptions: false,
-    // cors: {
-    //   credentials: true,
-    //   origin: process.env.FRONTEND_URL,
-    // },
+    cors: {
+      credentials: true,
+      origin: process.env.FRONTEND_URL,
+    },
   },
   () =>
     console.log(
