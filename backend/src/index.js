@@ -166,7 +166,6 @@ const Post = objectType({
     t.model.submitterId()
     t.model.submitter()
     t.model.comments({ ordering: true })
-    t.model.topics()
     t.model.votes()
     t.boolean('upvoted', {
       resolve: async (_, _args, ctx) => {
