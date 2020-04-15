@@ -1,5 +1,33 @@
 {
   "version": 2,
+  "build": {
+    "env": {
+      "NPM_TOKEN": "@npm_token",
+      "POSTGRES_URL": "@postgres_url",
+      "BACKEND_URL": "@backend_url",
+      "FRONTEND_URL": "@frontend_url",
+      "AUTH0_DOMAIN": "lyralabs.auth0.com",
+      "AUTH0_CLIENT_ID": "APsVWXILx7E9jPpu47Td0FFGqLIIBZd7",
+      "AUTH0_CLIENT_SECRET": "@auth0_client_secret",
+      "REDIRECT_URI": "https://lyra-labs.piesrtasty.now.sh/api/callback",
+      "POST_LOGOUT_REDIRECT_URI": "https://lyra-labs.piesrtasty.now.sh/",
+      "SESSION_COOKIE_SECRET": "@session_cookie_secret",
+      "SESSION_COOKIE_LIFETIME": "7200"
+    }
+  },
+  "env": {
+    "NPM_TOKEN": "@npm_token",
+    "POSTGRES_URL": "@postgres_url",
+    "BACKEND_URL": "@backend_url",
+    "FRONTEND_URL": "@frontend_url",
+    "AUTH0_DOMAIN": "lyralabs.auth0.com",
+    "AUTH0_CLIENT_ID": "APsVWXILx7E9jPpu47Td0FFGqLIIBZd7",
+    "AUTH0_CLIENT_SECRET": "@auth0_client_secret",
+    "REDIRECT_URI": "https://lyra-labs.piesrtasty.now.sh/api/callback",
+    "POST_LOGOUT_REDIRECT_URI": "https://lyra-labs.piesrtasty.now.sh/",
+    "SESSION_COOKIE_SECRET": "@session_cookie_secret",
+    "SESSION_COOKIE_LIFETIME": "7200"
+  },
   "builds": [
     {
       "src": "frontend/next.config.js",
