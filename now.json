@@ -40,16 +40,21 @@
     }
   ],
   "routes": [
-    { "src": "/graphql", "dest": "/backend/src/index.js" },
     {
-      "src": "/(.*)",
-      "dest": "/frontend/$1",
+      "src": "/graphql",
+      "dest": "/backend/src/index.js",
       "methods": ["POST", "OPTIONS"],
       "headers": {
-        "x-request-path": "$1",
         "Access-Control-Allow-Origin": "/*",
         "Access-Control-Allow-Headers": "Origin, X-Requested-With, Content-Type, Accept",
         "Access-Control-Allow-Credentials": "true"
+      }
+    },
+    {
+      "src": "/(.*)",
+      "dest": "/frontend/$1",
+      "headers": {
+        "x-request-path": "$1"
       }
     }
   ]
