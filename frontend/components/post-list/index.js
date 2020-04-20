@@ -1,6 +1,7 @@
 import React, { Fragment, useState, useEffect, useRef } from "react";
 import styled from "@emotion/styled";
 import { useQuery } from "@apollo/react-hooks";
+import { USER_POSTS } from "@data/queries";
 import PostCard from "../post-card";
 import SkeletonPostCard from "../post-card/skeleton";
 
@@ -9,20 +10,23 @@ const Container = styled("div")({
   flexDirection: "column",
   padding: 0,
   marginBottom: 30,
-  borderRadius: 5
+  borderRadius: 5,
 });
 
-const PostList = ({ dataKey, query }) => {
-  const { loading, error, data, fetchMore } = useQuery(query, {});
+const PostList = ({ archived = false }) => {
+  const { loading, error, data, fetchMore } = useQuery(USER_POSTS, {
+    variables: { archived },
+  });
   return (
     <Container>
+      {loading && <SkeletonPostCard />}
       {!loading && data && (
         <Fragment>
-          {data[dataKey].map(post =>
+          {data.userPosts.map((post, i) =>
             post.id === "optimisticResponse" ? (
-              <SkeletonPostCard />
+              <SkeletonPostCard key={i} />
             ) : (
-              <PostCard post={post} />
+              <PostCard key={i} post={post} />
             )
           )}
         </Fragment>

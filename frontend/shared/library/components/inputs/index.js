@@ -1,6 +1,6 @@
 import styled from "@emotion/styled";
-import { BASE_TEXT, WEIGHT } from "style/typography";
-import { ALABASTER, DETROIT, LILAC, POWDER_BLUE, BLUSH } from "style/colors";
+import { BASE_TEXT, WEIGHT } from "@style/typography";
+import { ALABASTER, DETROIT, LILAC, POWDER_BLUE, BLUSH } from "@style/colors";
 
 export const InputWrapper = styled("div")({
   position: "relative"

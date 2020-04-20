@@ -19,5 +19,7 @@ export const postFields = gql`
     publisher
     title
     url
+    archived
+    pinned
   }
 `;

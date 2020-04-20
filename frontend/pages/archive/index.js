@@ -7,10 +7,10 @@ import { withCurrentUser } from "@enhancers/current-user";
 import { withLoginModal } from "@enhancers/login-modal";
 import { flowRight as compose } from "lodash";
 
-const IndexPage = ({ user }) => {
+const ArchivePage = ({ user }) => {
   const currentUser = useContext(CurrentUserContext);
-  return <Page>{currentUser && <PostList />}</Page>;
+  return <Page>{currentUser && <PostList archived={true} />}</Page>;
 };
 
 const enhance = compose(withCurrentUser, withLoginModal);
-export default enhance(IndexPage);
+export default enhance(ArchivePage);

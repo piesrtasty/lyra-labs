@@ -1,8 +1,8 @@
 import styled from "@emotion/styled";
-import { PURPLE } from "style/colors";
+import { PURPLE } from "@style/colors";
 import Link from "next/link";
 
-import { BASE_TEXT, WEIGHT } from "style/typography";
+import { BASE_TEXT, WEIGHT } from "@style/typography";
 
 const Content = styled("a")({
   ...BASE_TEXT,

@@ -1,9 +1,27 @@
 import gql from "graphql-tag";
 import { topicFields, postFields } from "./fragments";
 
+export const USER_POSTS = gql`
+  query userPosts($username: String, $archived: Boolean, $pinned: Boolean) {
+    userPosts(username: $username, archived: $archived, pinned: $pinned) {
+      ...postFields
+    }
+  }
+  ${postFields}
+`;
+
 export const USER_POSTS_INBOX = gql`
-  query userPostsInbox($username: String) {
-    userPostsInbox(username: $username) {
+  query userPostsInbox {
+    userPostsInbox {
+      ...postFields
+    }
+  }
+  ${postFields}
+`;
+
+export const USER_POSTS_ARCHIVE = gql`
+  query userPostsArchive {
+    userPostsArchive {
       ...postFields
     }
   }

@@ -37,12 +37,16 @@ const Text = styled("div")({
 const ListPopover = ({ items, anchor, position }) => {
   const content = (
     <Container>
-      {items.map(item => {
+      {items.map((item, i) => {
         const Component = item.route ? Link : Text;
         const props = item.route
           ? { href: item.route }
           : { onClick: item.onClick };
-        return <Component {...props}>{item.label}</Component>;
+        return (
+          <Component key={i} {...props}>
+            {item.label}
+          </Component>
+        );
       })}
     </Container>
   );

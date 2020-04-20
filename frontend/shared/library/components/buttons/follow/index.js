@@ -1,14 +1,14 @@
 import React, { useContext } from "react";
 import styled from "@emotion/styled";
 import { useMutation } from "@apollo/react-hooks";
-import { CurrentUserContext } from "enhancers/current-user";
-import { LoginModalContext } from "enhancers/login-modal";
+import { CurrentUserContext } from "@enhancers/current-user";
+import { LoginModalContext } from "@enhancers/login-modal";
 
-import { UPDATE_FOLLOWED_TOPIC } from "data/mutations";
-import { CURRENT_USER_QUERY } from "data/queries";
+import { UPDATE_FOLLOWED_TOPIC } from "@data/mutations";
+import { CURRENT_USER_QUERY } from "@data/queries";
 
-import { WHITE, FOCUS_LAVENDER, PURPLE } from "../../../../style/colors";
-import { BASE_TEXT, WEIGHT } from "../../../../style/typography";
+import { WHITE, FOCUS_LAVENDER, PURPLE } from "@style/colors";
+import { BASE_TEXT, WEIGHT } from "@style/typography";
 
 const Container = styled("div")({
   ...BASE_TEXT,

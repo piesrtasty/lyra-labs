@@ -1,7 +1,7 @@
 import React from "react";
 import styled from "@emotion/styled";
-import { BASE_TEXT, WEIGHT } from "style/typography";
-import { SCOPRION } from "style/colors";
+import { BASE_TEXT, WEIGHT } from "@style/typography";
+import { SCOPRION } from "@style/colors";
 
 const AVATAR_DIMENSION = 48;
 

@@ -1,5 +1,6 @@
 import React from "react";
 import styled from "@emotion/styled";
+import Link from "next/link";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faInbox,
@@ -37,18 +38,20 @@ const Name = styled("div")({
 });
 
 const LINKS = [
-  { icon: "📚", name: "Reading list" },
-  { icon: "📌", name: "Pinned" },
-  { icon: "🗃", name: "Archive" }
+  { icon: "📚", name: "Reading list", route: "/" },
+  //   { icon: "📌", name: "Pinned", route: "/pinned" },
+  { icon: "🗃", name: "Archive", route: "/archive" }
 ];
 
 const SidebarNav = () => (
   <Container>
-    {LINKS.map(({ icon, name }) => (
-      <NavLink>
-        <Icon>{icon}</Icon>
-        <Name>{name}</Name>
-      </NavLink>
+    {LINKS.map(({ icon, name, route }, i) => (
+      <Link key={i} href={route}>
+        <NavLink>
+          <Icon>{icon}</Icon>
+          <Name>{name}</Name>
+        </NavLink>
+      </Link>
     ))}
   </Container>
 );

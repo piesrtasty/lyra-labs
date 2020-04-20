@@ -1,10 +1,10 @@
 import React from "react";
 import styled from "@emotion/styled";
-import { BASE_TEXT, WEIGHT } from "../../shared/style/typography";
-import { DETROIT } from "../../shared/style/colors";
-import { BOTTOM } from "../../shared/library/components/popovers/base";
-import ListPopover from "../../shared/library/components/popovers/list";
-import { DESKTOP, TABLET } from "style/breakpoints";
+import { BASE_TEXT, WEIGHT } from "@style/typography";
+import { DETROIT } from "@style/colors";
+import { BOTTOM } from "@library/components/popovers/base";
+import ListPopover from "@library/components/popovers/list";
+import { DESKTOP, TABLET } from "@style/breakpoints";
 import { HEADER_HEIGHT } from "./";
 
 const DEFAULT_AVATAR_DIMENSION = 40;

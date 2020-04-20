@@ -19,6 +19,15 @@ export const CREATE_POST = gql`
   ${postFields}
 `;
 
+export const ARCHIVE_POST = gql`
+  mutation createPost($postId: String) {
+    archivePost(postId: $postId) {
+      ...postFields
+    }
+  }
+  ${postFields}
+`;
+
 export const CREATE_COMMENT = gql`
   mutation createComment($postId: ID, $parentId: ID, $body: String!) {
     createComment(postId: $postId, parentId: $parentId, body: $body) {

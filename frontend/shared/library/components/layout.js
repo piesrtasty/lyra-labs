@@ -4,7 +4,7 @@ import { BASE_TEXT, WEIGHT } from "../../style/typography";
 import { TABLET, DESKTOP, XL } from "../../style/breakpoints";
 
 const MAX_WIDTH = 1250;
-export const SIDEBAR_WIDTH = 280;
+export const SIDEBAR_WIDTH = 220; // 280 when topics rendered
 const MIN_WIDTH = 320;
 
 export const LEFT = "left";
@@ -78,11 +78,12 @@ export const Sidebar = styled("div")(
   },
   ({ position }) => ({
     [DESKTOP]: {
-      display: position === RIGHT ? "none" : "block"
-    },
-    [XL]: {
+      // display: position === RIGHT ? "none" : "block"
       display: "block"
     }
+    // [XL]: {
+
+    // }
   })
 );
 

@@ -163,6 +163,8 @@ const Post = objectType({
     t.model.publisher()
     t.model.title()
     t.model.url()
+    t.model.archived()
+    t.model.pinned()
     t.model.submitterId()
     t.model.submitter()
     t.model.comments({ ordering: true })
@@ -223,18 +225,43 @@ const Query = objectType({
     t.crud.sections()
     t.crud.posts()
     // t.crud.post()
-    t.list.field('userPostsInbox', {
+    t.list.field('userPosts', {
       type: 'Post',
       args: {
         username: stringArg(),
+        archived: booleanArg(),
+        pinned: booleanArg(),
       },
-      resolve: async (_, { username }, ctx) => {
+      resolve: async (
+        _,
+        { username, archived = false, pinned = false },
+        ctx,
+      ) => {
+        const currentUser = ctx.request.user
+        const user = username
+          ? await ctx.prisma.user.findOne({
+              where: { username },
+            })
+          : currentUser
+
         const posts = await ctx.prisma.post.findMany({
-          where: { username },
+          where: { submitterId: user.id, archived, pinned },
         })
         return posts
       },
     }),
+      t.list.field('userPostsInbox', {
+        type: 'Post',
+        args: {
+          username: stringArg(),
+        },
+        resolve: async (_, { username }, ctx) => {
+          const posts = await ctx.prisma.post.findMany({
+            where: { username },
+          })
+          return posts
+        },
+      }),
       t.list.field('curatedTopics', {
         type: 'Topic',
         resolve: async (_, { slug }, ctx) => {
@@ -336,6 +363,21 @@ const Mutation = objectType({
   name: 'Mutation',
   definition(t) {
     t.crud.createOneUser({ alias: 'signupUser' })
+    t.field('archivePost', {
+      type: 'Post',
+      args: {
+        postId: idArg(),
+      },
+      resolve: async (_, { postId }, ctx) => {
+        const currentUser = ctx.request.user
+        await ctx.prisma.post.update({
+          where: { id: postId, submitterId: currentUser.id },
+          data: {
+            archived: true,
+          },
+        })
+      },
+    })
     t.crud.deleteOnePost()
     t.field('commentVote', {
       type: 'CommentVote',

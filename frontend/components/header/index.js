@@ -1,21 +1,17 @@
 import React, { Fragment, useContext, useState } from "react";
 import styled from "@emotion/styled";
 import { withTheme } from "emotion-theming";
-import {
-  Container,
-  Row,
-  SIDEBAR_WIDTH
-} from "../../shared/library/components/layout";
-import { CurrentUserContext } from "../../shared/enhancers/current-user";
+import { Container, Row, SIDEBAR_WIDTH } from "@library/components/layout";
+import { CurrentUserContext } from "@enhancers/current-user";
 import Logo from "./logo";
 import LinkForm from "./link-form";
 import Search from "./search";
 import Navigation from "./navigation";
 import AuthButtons from "./auth-buttons";
 import UserAvatar from "./user-avatar";
-import { DESKTOP, TABLET } from "style/breakpoints";
-import { CHARCOAL, GUNSMOKE, LILAC, WHITE } from "../../shared/style/colors";
-import { BASE_TEXT, WEIGHT } from "style/typography";
+import { DESKTOP, TABLET } from "@style/breakpoints";
+import { CHARCOAL, GUNSMOKE, LILAC, WHITE } from "@style/colors";
+import { BASE_TEXT, WEIGHT } from "@style/typography";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPlus, faBell, faBars } from "@fortawesome/pro-light-svg-icons";
 
@@ -33,8 +29,9 @@ const Wrapper = styled("header")(({ theme: { COLORS: { WHITE, LILAC } } }) => ({
 }));
 
 const Aside = styled("div")({
+  flexShrink: 0,
   [DESKTOP]: {
-    width: SIDEBAR_WIDTH
+    maxWidth: SIDEBAR_WIDTH
   }
 });
 
@@ -111,7 +108,7 @@ const Header = () => {
             <NavMenuCta icon={faBars} />
 
             <Logo />
-            <Name>Lyra Labs</Name>
+            <Name>LyraLabs</Name>
           </LogoContainer>
         </Aside>
 

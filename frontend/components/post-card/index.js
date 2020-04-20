@@ -1,7 +1,9 @@
 import React from "react";
 import styled from "@emotion/styled";
-import { BASE_TEXT, WEIGHT } from "style/typography";
-import { BLACK, GUNSMOKE, WHITE, SCOPRION } from "style/colors";
+import { BASE_TEXT, WEIGHT } from "@style/typography";
+import { BLACK, GUNSMOKE, WHITE, SCOPRION } from "@style/colors";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faArchive, faThumbtack } from "@fortawesome/pro-light-svg-icons";
 
 export const THUMBNAIL_DIMENSION = 60;
 
@@ -11,15 +13,19 @@ export const Container = styled("div")({
   borderRadius: 3,
   marginBottom: 12,
   backgroundColor: WHITE,
-  boxShadow: "0 1px 2px 0 rgba(0,0,0,.1)"
+  boxShadow: "0 1px 2px 0 rgba(0,0,0,.1)",
+  padding: "1rem"
 });
 
 export const Body = styled("div")({
-  padding: "1rem",
   display: "flex"
 });
 
-const Footer = styled("div")({});
+const Footer = styled("div")({
+  marginTop: ".5rem",
+  display: "flex",
+  flexDirection: "row"
+});
 
 const Thumbnail = styled("div")(
   {
@@ -105,6 +111,45 @@ const Divider = styled("div")({
 
 const DateContainer = styled("div")({});
 
+const Actions = styled("div")({
+  display: "flex",
+  " > div:first-of-type": {
+    marginLeft: 0
+  }
+});
+
+const Action = styled("div")({
+  marginLeft: ".5rem",
+  cursor: "pointer"
+});
+
+const Name = styled("div")({
+  ...BASE_TEXT
+});
+
+const ACTIONS = [
+  // {
+  //   icon: "❤️",
+  //   onClick: () => {
+  //     console.log("clicked heart");
+  //   }
+  // },
+  {
+    icon: "📌",
+    onClick: () => {
+      console.log("clicked pin");
+    }
+  },
+  {
+    icon: "🗃",
+    onClick: () => {
+      console.log("clicked archive");
+    }
+  }
+];
+
+const Icon = styled("div")({});
+
 const PostCard = ({
   post: { image, title, author, url, logo, publisher, date }
 }) => {
@@ -122,7 +167,15 @@ const PostCard = ({
           </PublisherLine>
         </Content>
       </Body>
-      <Footer />
+      <Footer>
+        <Actions>
+          {ACTIONS.map(({ icon, name, onClick }, i) => (
+            <Action key={i}>
+              <Icon>{icon}</Icon>
+            </Action>
+          ))}
+        </Actions>
+      </Footer>
     </Container>
   );
 };
