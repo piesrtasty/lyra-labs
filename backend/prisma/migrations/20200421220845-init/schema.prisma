@@ -62,10 +62,12 @@ model Post {
   publisher   String?
   title       String?
   url         String
+  archived    Boolean   @default(false)
+  pinned      Boolean   @default(false)
   comments    Comment[]
   votes       Vote[]
   submitter   User      @relation(fields: [submitterId],references: [id])
-  submitterId String
+  submitterId String    
 }
 
 model Comment {

@@ -20,8 +20,17 @@ export const CREATE_POST = gql`
 `;
 
 export const ARCHIVE_POST = gql`
-  mutation createPost($postId: String) {
+  mutation archivePost($postId: String) {
     archivePost(postId: $postId) {
+      ...postFields
+    }
+  }
+  ${postFields}
+`;
+
+export const UNARCHIVE_POST = gql`
+  mutation unarchivePost($postId: String) {
+    unarchivePost(postId: $postId) {
       ...postFields
     }
   }
