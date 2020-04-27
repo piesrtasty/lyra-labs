@@ -366,19 +366,32 @@ const Mutation = objectType({
     t.field('archivePost', {
       type: 'Post',
       args: {
-        postId: idArg(),
+        postId: stringArg(),
       },
       resolve: async (_, { postId }, ctx) => {
-        const currentUser = ctx.request.user
-        await ctx.prisma.post.update({
-          where: { id: postId, submitterId: currentUser.id },
+        return await ctx.prisma.post.update({
+          where: { id: postId },
           data: {
             archived: true,
           },
         })
       },
     })
-    t.crud.deleteOnePost()
+    t.field('unarchivePost', {
+      type: 'Post',
+      args: {
+        postId: stringArg(),
+      },
+      resolve: async (_, { postId }, ctx) => {
+        return await ctx.prisma.post.update({
+          where: { id: postId },
+          data: {
+            archived: false,
+          },
+        })
+      },
+    }),
+      t.crud.deleteOnePost()
     t.field('commentVote', {
       type: 'CommentVote',
       args: {

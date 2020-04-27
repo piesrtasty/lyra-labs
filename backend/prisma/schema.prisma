@@ -67,7 +67,7 @@ model Post {
   comments    Comment[]
   votes       Vote[]
   submitter   User      @relation(fields: [submitterId],references: [id])
-  submitterId String
+  submitterId String    
 }
 
 model Comment {
