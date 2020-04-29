@@ -48,8 +48,6 @@
     "node": "10"
   },
   "devDependencies": {
-    "@prisma/cli": "^2.0.0-beta.2",
-    "cross-env": "^7.0.2",
-    "env-cmd": "^10.1.0"
+    "@prisma/cli": "^2.0.0-beta.2"
   }
 }
