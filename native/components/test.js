@@ -18,6 +18,7 @@ const Test = () => {
   return (
     <View>
       <Text>The test component</Text>
+      {error && <Text>{JSON.stringify(error)}</Text>}
       {loading && <Text>Loading....</Text>}
       {!loading && data && (
         <View>
