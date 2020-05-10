@@ -33,6 +33,7 @@
     "dev": "POSTGRES_URL=postgresql://prisma:prisma@0.0.0.0:5432/prisma FRONTEND_URL=http://localhost:3000 node src",
     "start": "node src",
     "seed": "node prisma/seed",
+    "postinstall": "prisma2 generate",
     "migrate:save:dev": "POSTGRES_URL=postgresql://prisma:prisma@0.0.0.0:5432/prisma prisma2 migrate save --experimental",
     "migrate:up:dev": "POSTGRES_URL=postgresql://prisma:prisma@0.0.0.0:5432/prisma prisma migrate up --experimental",
     "migrate:up:staging": "POSTGRES_URL=postgresql://prisma:mypassword@lyra-labs-dev.cctuihe2uaxv.us-west-2.rds.amazonaws.com:5432/staging?sslaccept=accept_invalid_certs prisma migrate up --experimental",
