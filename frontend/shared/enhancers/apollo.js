@@ -163,11 +163,13 @@ function createApolloClient(initialState = {}) {
 
   const setAuthLink = setContext((_, { headers }) => {
     const token = session && session.idToken ? session.idToken : null;
+    const accessToken =
+      session && session.accessToken ? session.accessToken : null;
     return {
       headers: {
         ...headers,
-        authorization: token ? `Bearer ${token}` : ""
-      }
+        authorization: accessToken ? `Bearer ${accessToken}` : "",
+      },
     };
   });
 

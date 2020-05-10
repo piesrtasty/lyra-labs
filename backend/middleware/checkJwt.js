@@ -1,6 +1,8 @@
 const jwt = require('express-jwt')
 const jwksRsa = require('jwks-rsa')
 const AUTH0_DOMAIN = 'lyralabs.auth0.com'
+const AUTH0_ISSUER = 'https://lyralabs.auth0.com/'
+const AUTH0_AUDIENCE = 'https://lyralabs.auth0.com/api/v2/'
 // const AUTH0_AUDIENCE = 'https://lyralabs.auth0.com/api/v2/'
 // const AUTH0_ISSUER = 'https://lyralabs.auth0.com/'
 // Authentication middleware. When used, the
@@ -20,10 +22,8 @@ const checkJwt = jwt({
 
   // Validate the audience and the issuer.
   credentialsRequired: false,
-  //   audience: process.env.AUTH0_AUDIENCE,
-  //   issuer: process.env.AUTH0_ISSUER,
-  //   audience: AUTH0_AUDIENCE,
-  //   issuer: AUTH0_ISSUER,
+  issuer: AUTH0_ISSUER,
+  audience: AUTH0_AUDIENCE,
   algorithms: [`RS256`],
 })
 

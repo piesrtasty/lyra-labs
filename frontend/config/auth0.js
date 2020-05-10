@@ -3,6 +3,7 @@ import { initAuth0 } from "@auth0/nextjs-auth0";
 const details = {
   clientId: process.env.AUTH0_CLIENT_ID,
   clientSecret: process.env.AUTH0_CLIENT_SECRET,
+  audience: "https://lyralabs.auth0.com/api/v2/",
   scope: process.env.AUTH0_SCOPE,
   domain: process.env.AUTH0_DOMAIN,
   redirectUri: process.env.REDIRECT_URI,
