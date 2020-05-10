@@ -5,7 +5,10 @@ const {
   idArg,
   stringArg,
   booleanArg,
-} = require('nexus')
+} = require('@nexus/schema')
+
+// import { schema } from 'nexus'
+
 const { PrismaClient } = require('@prisma/client')
 const { nexusPrismaPlugin } = require('nexus-prisma')
 const { checkJwt } = require('../middleware/checkJwt')

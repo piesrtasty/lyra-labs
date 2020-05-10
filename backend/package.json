@@ -6,7 +6,8 @@
   "dependencies": {
     "@metascraper/helpers": "^5.11.6",
     "@nexus/schema": "^0.12.0-rc.13",
-    "@prisma/client": "^2.0.0-beta.2",
+    "@prisma/cli": "^2.0.0-beta.4",
+    "@prisma/client": "^2.0.0-beta.4",
     "express-jwt": "^5.3.1",
     "got": "^10.6.0",
     "graphql": "^14.6.0",
@@ -26,14 +27,13 @@
     "metascraper-url": "^5.11.6",
     "mobile-detect": "^1.4.4",
     "moment": "^2.24.0",
-    "nexus": "^0.12.0-rc.14",
-    "nexus-prisma": "^0.12.0"
+    "nexus-prisma": "^0.13.0-next.2"
   },
   "scripts": {
     "dev": "POSTGRES_URL=postgresql://prisma:prisma@0.0.0.0:5432/prisma FRONTEND_URL=http://localhost:3000 node src",
     "start": "node src",
     "seed": "node prisma/seed",
-    "postinstall": "prisma generate",
+    "postinstall": "npx prisma generate",
     "migrate:save:dev": "POSTGRES_URL=postgresql://prisma:prisma@0.0.0.0:5432/prisma prisma2 migrate save --experimental",
     "migrate:up:dev": "POSTGRES_URL=postgresql://prisma:prisma@0.0.0.0:5432/prisma prisma migrate up --experimental",
     "migrate:up:staging": "POSTGRES_URL=postgresql://prisma:mypassword@lyra-labs-dev.cctuihe2uaxv.us-west-2.rds.amazonaws.com:5432/staging?sslaccept=accept_invalid_certs prisma migrate up --experimental",
@@ -46,8 +46,5 @@
   },
   "engines": {
     "node": "10"
-  },
-  "devDependencies": {
-    "@prisma/cli": "^2.0.0-beta.2"
   }
 }
