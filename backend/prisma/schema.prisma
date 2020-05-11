@@ -1,11 +1,8 @@
 generator client {
   provider = "prisma-client-js"
-  # binaryTargets = ["native", "debian-openssl-1.0.x"]
 }
 
 datasource db {
-  # provider = "postgresql"
-  # url      = env("POSTGRES_URL")
   provider = "sqlite"
   url      = "file:./dev.db"
 }
@@ -15,7 +12,6 @@ model User {
   createdAt      DateTime      @default(now())
   updatedAt      DateTime      @updatedAt
   email          String        @unique
-  role           Role          @default(USER)
   firstName      String?
   lastName       String?
   name           String
@@ -123,12 +119,3 @@ model SignedUpload {
   url           String
 }
 
-enum Role {
-  ADMIN
-  USER
-}
-
-enum PostType {
-  PRODUCT
-  LINK
-}
