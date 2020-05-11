@@ -560,23 +560,35 @@ const Mutation = objectType({
 })
 
 // const photon = new Photon()
+console.log('---------------')
+console.log('---------------')
+console.log('---------------', PrismaClient)
+console.log('---------------')
+console.log('---------------')
+
 const prisma = new PrismaClient()
 
-console.log('process.env.FRONTEND_URL', process.env.FRONTEND_URL)
+console.log('---------------')
+console.log('---------------')
+console.log('---------------', prisma)
+console.log('---------------')
+console.log('---------------')
+
+// console.log('process.env.FRONTEND_URL', process.env.FRONTEND_URL)
 
 const server = new GraphQLServer({
   schema: makeSchema({
     types: [
       Query,
-      Mutation,
-      Post,
-      User,
-      Section,
-      Comment,
-      CommentVote,
-      Topic,
-      Vote,
-      SignedUpload,
+      // Mutation,
+      // Post,
+      // User,
+      // Section,
+      // Comment,
+      // CommentVote,
+      // Topic,
+      // Vote,
+      // SignedUpload,
     ],
     plugins: [nexusPrismaPlugin()],
   }),
@@ -608,5 +620,3 @@ server.start(
       `🚀 Server ready at: http://localhost:4000\n⭐️ See sample queries: http://pris.ly/e/js/graphql#5-using-the-graphql-api`,
     ),
 )
-
-module.exports = { User, Post }
