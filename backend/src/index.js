@@ -7,8 +7,6 @@ const {
   booleanArg,
 } = require('@nexus/schema')
 
-// import { schema } from 'nexus'
-
 const { PrismaClient } = require('@prisma/client')
 const { nexusPrismaPlugin } = require('nexus-prisma')
 const { checkJwt } = require('../middleware/checkJwt')
@@ -559,22 +557,7 @@ const Mutation = objectType({
   },
 })
 
-// const photon = new Photon()
-console.log('---------------')
-console.log('---------------')
-console.log('---------------', PrismaClient)
-console.log('---------------')
-console.log('---------------')
-
 const prisma = new PrismaClient()
-
-console.log('---------------')
-console.log('---------------')
-console.log('---------------', prisma)
-console.log('---------------')
-console.log('---------------')
-
-// console.log('process.env.FRONTEND_URL', process.env.FRONTEND_URL)
 
 const server = new GraphQLServer({
   schema: makeSchema({

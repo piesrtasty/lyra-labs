@@ -11,10 +11,9 @@ class MyApp extends App {
   render(props) {
     const { Component, pageProps } = this.props;
     return (
-      <div>TEST</div>
-      // <Layout>
-      //   <Component {...pageProps} />
-      // </Layout>
+      <Layout>
+        <Component {...pageProps} />
+      </Layout>
     );
   }
 }
