@@ -250,28 +250,28 @@ const Query = objectType({
         })
         return posts
       },
-    }),
-      t.list.field('userPostsInbox', {
-        type: 'Post',
-        args: {
-          username: stringArg(),
-        },
-        resolve: async (_, { username }, ctx) => {
-          const posts = await ctx.prisma.post.findMany({
-            where: { username },
-          })
-          return posts
-        },
-      }),
-      t.list.field('curatedTopics', {
-        type: 'Topic',
-        resolve: async (_, { slug }, ctx) => {
-          const topics = await ctx.prisma.topic.findMany({
-            where: { slug: { in: CURATED_TOPICS } },
-          })
-          return topics
-        },
-      })
+    })
+    t.list.field('userPostsInbox', {
+      type: 'Post',
+      args: {
+        username: stringArg(),
+      },
+      resolve: async (_, { username }, ctx) => {
+        const posts = await ctx.prisma.post.findMany({
+          where: { username },
+        })
+        return posts
+      },
+    })
+    t.list.field('curatedTopics', {
+      type: 'Topic',
+      resolve: async (_, { slug }, ctx) => {
+        const topics = await ctx.prisma.topic.findMany({
+          where: { slug: { in: CURATED_TOPICS } },
+        })
+        return topics
+      },
+    })
     t.field('post', {
       type: 'Post',
       nullable: true,
