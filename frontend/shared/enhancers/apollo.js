@@ -42,7 +42,7 @@ export function withApollo(PageComponent, { ssr = true } = {}) {
   }
 
   if (ssr || PageComponent.getInitialProps) {
-    WithApollo.getInitialProps = async ctx => {
+    WithApollo.getInitialProps = async (ctx) => {
       const { AppTree } = ctx;
       const session = ctx.req ? await auth0.getSession(ctx.req) : null;
       // const md = ctx.req
@@ -78,7 +78,7 @@ export function withApollo(PageComponent, { ssr = true } = {}) {
               <AppTree
                 pageProps={{
                   ...pageProps,
-                  apolloClient
+                  apolloClient,
                 }}
               />
             );
@@ -101,7 +101,7 @@ export function withApollo(PageComponent, { ssr = true } = {}) {
       return {
         ...pageProps,
         // isMobile,
-        apolloState
+        apolloState,
       };
     };
   }
@@ -141,7 +141,7 @@ const httpLink = new HttpLink({
   // uri: "http://localhost:4000/graphql",
   credentials: "same-origin", // Additional fetch() options like `credentials` or `headers`
   // Use fetch() polyfill on the server
-  fetch: !isBrowser && fetch
+  fetch: !isBrowser && fetch,
   // fetchOptions: {
   //   mode: "no-cors"
   // }
@@ -163,6 +163,10 @@ function createApolloClient(initialState = {}) {
 
   const setAuthLink = setContext((_, { headers }) => {
     const token = session && session.idToken ? session.idToken : null;
+    console.log("------------------------");
+    console.log("------------------------", token);
+    console.log("------------------------");
+
     const accessToken =
       session && session.accessToken ? session.accessToken : null;
     return {
@@ -182,6 +186,6 @@ function createApolloClient(initialState = {}) {
     // link: concat(authMiddleware, httpLink),
     link: setAuthLink.concat(httpLink),
     // link: httpLink,
-    cache: new InMemoryCache().restore(initialState)
+    cache: new InMemoryCache().restore(initialState),
   });
 }

@@ -1,7 +1,21 @@
 const { LocalAddress, CryptoUtils } = require('loom-js')
+const axios = require('axios')
 
-const createUser = async ({ request: { user }, prisma }) => {
-  const { token } = user
+// const createUser = async ({ request: { user }, prisma }) => {
+const createUser = async ({ request, prisma }) => {
+  console.log('-----------------------')
+  console.log('----------------------- request', request)
+  const authHeader = request.headers.authorization
+  const accessToken = authHeader.split(' ')[1]
+
+  //lyralabs.auth0.com/userinfo
+
+  const response = await axios.get('https://lyralabs.auth0.com/userinfo', {
+    headers: { Authorization: `Bearer ${accessToken}` },
+  })
+
+  const userInfo = response.data
+
   const bytes = CryptoUtils.generatePrivateKey()
   const privateKey = Buffer.from(
     bytes.buffer,
@@ -14,17 +28,17 @@ const createUser = async ({ request: { user }, prisma }) => {
 
   const newUser = await prisma.user.create({
     data: {
-      identity: token.sub.split(`|`)[0],
-      auth0id: token.sub,
-      name: token.name,
-      name_lower: token.name ? token.name.toLowerCase() : '',
-      firstName: token.given_name ? token.given_name : '',
-      lastName: token.family_name ? token.family_name : '',
-      email: token.email ? token.email : '',
-      avatar: token.picture,
+      identity: userInfo.sub.split(`|`)[0],
+      auth0id: userInfo.sub,
+      name: userInfo.name ? userInfo.name : '',
+      name_lower: userInfo.name ? userInfo.name.toLowerCase() : '',
+      firstName: userInfo.given_name ? userInfo.given_name : '',
+      lastName: userInfo.family_name ? userInfo.family_name : '',
+      email: userInfo.email ? userInfo.email : '',
+      avatar: userInfo.picture ? userInfo.picture : '',
       privateKey: privateKeyStr,
-      username: token.nickname ? token.nickname : '',
-      username_lower: token.nickname ? token.nickname.toLowerCase() : '',
+      username: userInfo.nickname ? userInfo.nickname : '',
+      username_lower: userInfo.nickname ? userInfo.nickname.toLowerCase() : '',
       address,
     },
   })

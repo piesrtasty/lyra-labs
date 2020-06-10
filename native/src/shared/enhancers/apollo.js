@@ -44,10 +44,6 @@ export const withApollo = Component => {
       fetchSession();
     }, []);
 
-    const login = () => {};
-
-    const logout = () => {};
-
     if (!client) {
       return (
         <View>
