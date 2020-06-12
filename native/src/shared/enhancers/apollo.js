@@ -12,9 +12,11 @@ export const AuthContext = React.createContext({});
 const createApolloClient = accessToken => {
   const link = new HttpLink({
     uri: 'http://localhost:4000/graphql',
-    headers: {
-      Authorization: `Bearer ${accessToken}`,
-    },
+    headers: accessToken
+      ? {
+          Authorization: `Bearer ${accessToken}`,
+        }
+      : {},
   });
   const cache = new InMemoryCache();
   const client = new ApolloClient({
@@ -29,8 +31,19 @@ export const withApollo = Component => {
     const [client, setClient] = useState(null);
 
     const fetchSession = async () => {
+      console.log('------------------------------------');
+      console.log('------------------------------------');
+      console.log('---------- fetching session -----------------');
+      console.log('----- session ------', session);
+      console.log('------------------------------------');
+      console.log('------------------------------------');
+      let accessToken = null;
       const session = await AsyncStorage.getItem('session');
-      const {accessToken} = JSON.parse(session);
+      if (session) {
+        const parsedSession = JSON.parse(session);
+        accessToken = parsedSession.accessToken;
+      }
+      // const {accessToken} = JSON.parse(session);
       console.log('--------------------');
       console.log('----------------------');
       console.log('accessToken', accessToken);
