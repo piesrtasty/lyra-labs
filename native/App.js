@@ -1,5 +1,6 @@
 import 'react-native-gesture-handler';
-import React, {useState, useContext} from 'react';
+import React, {useState, useEffect, useContext} from 'react';
+import ReceiveSharingIntent from 'react-native-receive-sharing-intent';
 import {NavigationContainer} from '@react-navigation/native';
 import {createStackNavigator} from '@react-navigation/stack';
 import {flowRight as compose} from 'lodash';
@@ -38,12 +39,38 @@ const auth0 = new Auth0({
 
 const App = () => {
   const Stack = createStackNavigator();
+
+  useEffect(() => {
+    // To get All Recived Urls
+    console.log('>>>>>>>>>>> IN USE EFFECT');
+    ReceiveSharingIntent.getReceivedFiles(
+      files => {
+        console.log('------------------ ');
+        console.log('------------------ ReceiveSharingIntent');
+        console.log('------------------ files', files);
+        console.log('------------------ ReceiveSharingIntent');
+        console.log('------------------ ');
+        // files returns as JSON Array example
+        //[{ filePath: null, text: null, weblink: null, mimeType: null, contentUri: null, fileName: null, extension: null }]
+      },
+      error => {
+        console.log(error);
+      },
+    );
+
+    return () => {
+      ReceiveSharingIntent.clearReceivedFiles();
+    };
+  }, []);
+
   const {isLoading, accessToken} = useContext(AuthContext);
 
   if (isLoading) {
     // We haven't finished checking for the token yet
     return <SplashScreen />;
   }
+
+  // console.log('ReceiveSharingIntent', ReceiveSharingIntent);
 
   return (
     <NavigationContainer>
