@@ -22,6 +22,8 @@
 		<string>1</string>
 		<key>NSExtension</key>
 		<dict>
+			<key>NSExtensionPrincipalClass</key>
+			<string>CustomShareNavigationController</string>
 			<key>NSExtensionAttributes</key>
 			<dict>
 				<key>PHSupportedMediaTypes</key>
@@ -36,6 +38,8 @@
 					<!--TODO: Add this flag, if you want to support sharing text into your app-->
 					<key>NSExtensionActivationSupportsText</key>
 					<true/>
+					<key>NSExtensionActivationSupportsWebPageWithMaxCount</key>
+					<integer>1</integer>
 					<!--TODO: Add this tag, if you want to support sharing urls into your app-->
 					<key>NSExtensionActivationSupportsWebURLWithMaxCount</key>
 					<integer>1</integer>
@@ -51,8 +55,6 @@
 					<integer>100</integer>
 				</dict>
 			</dict>
-			<key>NSExtensionMainStoryboard</key>
-			<string>MainInterface</string>
 			<key>NSExtensionPointIdentifier</key>
 			<string>com.apple.share-services</string>
 		</dict>

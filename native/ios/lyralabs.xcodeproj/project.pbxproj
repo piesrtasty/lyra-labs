@@ -18,7 +18,6 @@
 		2D02E4BF1E0B4AB3006451C7 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB71A68108700A75B9A /* main.m */; };
 		2DCD954D1E0B4F2C00145EB5 /* lyralabsTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 00E356F21AD99517003FC87E /* lyralabsTests.m */; };
 		47BB08E82495C71600D9C925 /* ShareViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47BB08E72495C71600D9C925 /* ShareViewController.swift */; };
-		47BB08EB2495C71600D9C925 /* MainInterface.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 47BB08E92495C71600D9C925 /* MainInterface.storyboard */; };
 		47BB08EF2495C71600D9C925 /* MyShareEx.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = 47BB08E52495C71600D9C925 /* MyShareEx.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		6325CF6CAA47E85CCB81CA66 /* libPods-lyralabs-tvOS.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 018EE2D53983DF6D604DA385 /* libPods-lyralabs-tvOS.a */; };
 		8E33C288D7E42FC96C43C1C4 /* libPods-lyralabs-lyralabsTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = E97C596B624CF705786A680C /* libPods-lyralabs-lyralabsTests.a */; };
@@ -84,7 +83,6 @@
 		453F4CB5DCC3B9574268EB90 /* Pods-lyralabs-tvOS.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-lyralabs-tvOS.debug.xcconfig"; path = "Target Support Files/Pods-lyralabs-tvOS/Pods-lyralabs-tvOS.debug.xcconfig"; sourceTree = "<group>"; };
 		47BB08E52495C71600D9C925 /* MyShareEx.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = MyShareEx.appex; sourceTree = BUILT_PRODUCTS_DIR; };
 		47BB08E72495C71600D9C925 /* ShareViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShareViewController.swift; sourceTree = "<group>"; };
-		47BB08EA2495C71600D9C925 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/MainInterface.storyboard; sourceTree = "<group>"; };
 		47BB08EC2495C71600D9C925 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		47BB08F42495CAF300D9C925 /* lyralabs.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; name = lyralabs.entitlements; path = lyralabs/lyralabs.entitlements; sourceTree = "<group>"; };
 		47BB08F52495CBD400D9C925 /* MyShareEx.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = MyShareEx.entitlements; sourceTree = "<group>"; };
@@ -192,7 +190,6 @@
 			children = (
 				47BB08F52495CBD400D9C925 /* MyShareEx.entitlements */,
 				47BB08E72495C71600D9C925 /* ShareViewController.swift */,
-				47BB08E92495C71600D9C925 /* MainInterface.storyboard */,
 				47BB08EC2495C71600D9C925 /* Info.plist */,
 			);
 			path = MyShareEx;
@@ -439,7 +436,6 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				47BB08EB2495C71600D9C925 /* MainInterface.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -673,14 +669,6 @@
 			);
 			name = LaunchScreen.xib;
 			path = lyralabs;
-			sourceTree = "<group>";
-		};
-		47BB08E92495C71600D9C925 /* MainInterface.storyboard */ = {
-			isa = PBXVariantGroup;
-			children = (
-				47BB08EA2495C71600D9C925 /* Base */,
-			);
-			name = MainInterface.storyboard;
 			sourceTree = "<group>";
 		};
 /* End PBXVariantGroup section */
