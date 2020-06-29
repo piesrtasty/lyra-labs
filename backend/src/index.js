@@ -579,10 +579,34 @@ const server = new GraphQLServer({
   middlewares: [],
 })
 
+server.express.get('/save', async (req, res, done) => {
+  const params = req.body
+  res.json({ status: 'UP', name: 'Luke' })
+  // Invoke prisma from here
+  // let smth = await prismaClient.query.users(...);
+})
+
+server.express.get('/healthz', async (req, res, done) => {
+  const healthcheck = {
+    uptime: process.uptime(),
+    message: 'OK',
+    timestamp: Date.now(),
+  }
+  res.json(healthcheck)
+})
+
 server.express.post('/graphql', checkJwt, (err, req, res, next) => {
   if (err) return res.status(401).send(err.message)
   next()
 })
+
+// server.express.get('/health', (req, res, next) => {
+//   console.log('---------------- ')
+//   console.log('---------------- ')
+//   console.log('---------------- ')
+//   console.log('---------------- ')
+//   res.json({ status: 'UP' })
+// })
 
 server.express.use('/graphql', (req, res, next) => {
   getUser(req, res, next, prisma)

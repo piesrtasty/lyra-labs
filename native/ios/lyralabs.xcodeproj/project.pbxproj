@@ -8,20 +8,23 @@
 
 /* Begin PBXBuildFile section */
 		00E356F31AD99517003FC87E /* lyralabsTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 00E356F21AD99517003FC87E /* lyralabsTests.m */; };
-		05DEA51A3A84E70F68892214 /* libPods-lyralabs-tvOSTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 96CE140497AB347AF28E91DE /* libPods-lyralabs-tvOSTests.a */; };
 		13B07FBC1A68108700A75B9A /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB01A68108700A75B9A /* AppDelegate.m */; };
 		13B07FBD1A68108700A75B9A /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 13B07FB11A68108700A75B9A /* LaunchScreen.xib */; };
 		13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 13B07FB51A68108700A75B9A /* Images.xcassets */; };
 		13B07FC11A68108700A75B9A /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB71A68108700A75B9A /* main.m */; };
+		1543DB87C026E3D764C56A85 /* libPods-lyralabs-tvOS.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 58CB3FA737601904B1BEF341 /* libPods-lyralabs-tvOS.a */; };
 		2D02E4BC1E0B4A80006451C7 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB01A68108700A75B9A /* AppDelegate.m */; };
 		2D02E4BD1E0B4A84006451C7 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 13B07FB51A68108700A75B9A /* Images.xcassets */; };
 		2D02E4BF1E0B4AB3006451C7 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB71A68108700A75B9A /* main.m */; };
 		2DCD954D1E0B4F2C00145EB5 /* lyralabsTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 00E356F21AD99517003FC87E /* lyralabsTests.m */; };
+		471BF15F249C666C00343A6C /* MainInterface.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 471BF15E249C666C00343A6C /* MainInterface.storyboard */; };
+		47673C7224A9A3D7004826F7 /* KeychainAccess.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 47673C6D24A9A3B9004826F7 /* KeychainAccess.framework */; };
+		47673C7324A9A3D7004826F7 /* KeychainAccess.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 47673C6D24A9A3B9004826F7 /* KeychainAccess.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		47BB08E82495C71600D9C925 /* ShareViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47BB08E72495C71600D9C925 /* ShareViewController.swift */; };
 		47BB08EF2495C71600D9C925 /* MyShareEx.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = 47BB08E52495C71600D9C925 /* MyShareEx.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
-		6325CF6CAA47E85CCB81CA66 /* libPods-lyralabs-tvOS.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 018EE2D53983DF6D604DA385 /* libPods-lyralabs-tvOS.a */; };
-		8E33C288D7E42FC96C43C1C4 /* libPods-lyralabs-lyralabsTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = E97C596B624CF705786A680C /* libPods-lyralabs-lyralabsTests.a */; };
-		BE7F54F31F8180052421F128 /* libPods-lyralabs.a in Frameworks */ = {isa = PBXBuildFile; fileRef = D1AD3F1FF4A77B8DCEE464A4 /* libPods-lyralabs.a */; };
+		89D264656A98B8A45F94481D /* libPods-lyralabs-tvOSTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = B1A125D70734F621AF6B922C /* libPods-lyralabs-tvOSTests.a */; };
+		93104329370F8DD65F85220A /* libPods-lyralabs.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 9FA4D73352E04A1612253370 /* libPods-lyralabs.a */; };
+		C7134AB6D0DFD8B6F46CAE89 /* libPods-lyralabs-lyralabsTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = D9D9BFA365E59D7FE414380D /* libPods-lyralabs-lyralabsTests.a */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -39,6 +42,27 @@
 			remoteGlobalIDString = 2D02E47A1E0B4A5D006451C7;
 			remoteInfo = "lyralabs-tvOS";
 		};
+		47673C6C24A9A3B9004826F7 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 47673C6624A9A3B9004826F7 /* KeychainAccess.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 140F195C1A49D79400B0016A;
+			remoteInfo = KeychainAccess;
+		};
+		47673C6E24A9A3B9004826F7 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 47673C6624A9A3B9004826F7 /* KeychainAccess.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 140F19671A49D79500B0016A;
+			remoteInfo = KeychainAccessTests;
+		};
+		47673C7024A9A3B9004826F7 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 47673C6624A9A3B9004826F7 /* KeychainAccess.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 14A630151D3293C700809B3F;
+			remoteInfo = TestHost;
+		};
 		47BB08ED2495C71600D9C925 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 83CBB9F71A601CBA00E9B192 /* Project object */;
@@ -49,6 +73,17 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXCopyFilesBuildPhase section */
+		47673C7424A9A3D7004826F7 /* Embed Frameworks */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+				47673C7324A9A3D7004826F7 /* KeychainAccess.framework in Embed Frameworks */,
+			);
+			name = "Embed Frameworks";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		47BB08F02495C71600D9C925 /* Embed App Extensions */ = {
 			isa = PBXCopyFilesBuildPhase;
 			buildActionMask = 2147483647;
@@ -67,8 +102,6 @@
 		00E356EE1AD99517003FC87E /* lyralabsTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = lyralabsTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		00E356F11AD99517003FC87E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		00E356F21AD99517003FC87E /* lyralabsTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = lyralabsTests.m; sourceTree = "<group>"; };
-		018EE2D53983DF6D604DA385 /* libPods-lyralabs-tvOS.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-lyralabs-tvOS.a"; sourceTree = BUILT_PRODUCTS_DIR; };
-		0570287D5B8DB3F37AB3F871 /* Pods-lyralabs.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-lyralabs.release.xcconfig"; path = "Target Support Files/Pods-lyralabs/Pods-lyralabs.release.xcconfig"; sourceTree = "<group>"; };
 		13B07F961A680F5B00A75B9A /* lyralabs.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = lyralabs.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		13B07FAF1A68108700A75B9A /* AppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AppDelegate.h; path = lyralabs/AppDelegate.h; sourceTree = "<group>"; };
 		13B07FB01A68108700A75B9A /* AppDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AppDelegate.m; path = lyralabs/AppDelegate.m; sourceTree = "<group>"; };
@@ -76,25 +109,35 @@
 		13B07FB51A68108700A75B9A /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = Images.xcassets; path = lyralabs/Images.xcassets; sourceTree = "<group>"; };
 		13B07FB61A68108700A75B9A /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = Info.plist; path = lyralabs/Info.plist; sourceTree = "<group>"; };
 		13B07FB71A68108700A75B9A /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = main.m; path = lyralabs/main.m; sourceTree = "<group>"; };
+		199DB80BDF8E4014EECB00AE /* Pods-lyralabs.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-lyralabs.debug.xcconfig"; path = "Target Support Files/Pods-lyralabs/Pods-lyralabs.debug.xcconfig"; sourceTree = "<group>"; };
 		2D02E47B1E0B4A5D006451C7 /* lyralabs-tvOS.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "lyralabs-tvOS.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		2D02E4901E0B4A5D006451C7 /* lyralabs-tvOSTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "lyralabs-tvOSTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
-		397CAC6E855CD552603F9E9E /* Pods-lyralabs-tvOSTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-lyralabs-tvOSTests.release.xcconfig"; path = "Target Support Files/Pods-lyralabs-tvOSTests/Pods-lyralabs-tvOSTests.release.xcconfig"; sourceTree = "<group>"; };
-		3FACA44BC7BA44CEFE07B205 /* Pods-lyralabs-lyralabsTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-lyralabs-lyralabsTests.debug.xcconfig"; path = "Target Support Files/Pods-lyralabs-lyralabsTests/Pods-lyralabs-lyralabsTests.debug.xcconfig"; sourceTree = "<group>"; };
-		453F4CB5DCC3B9574268EB90 /* Pods-lyralabs-tvOS.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-lyralabs-tvOS.debug.xcconfig"; path = "Target Support Files/Pods-lyralabs-tvOS/Pods-lyralabs-tvOS.debug.xcconfig"; sourceTree = "<group>"; };
+		408D3221D0722ACD27998203 /* Pods-lyralabs-lyralabsTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-lyralabs-lyralabsTests.debug.xcconfig"; path = "Target Support Files/Pods-lyralabs-lyralabsTests/Pods-lyralabs-lyralabsTests.debug.xcconfig"; sourceTree = "<group>"; };
+		471BF15E249C666C00343A6C /* MainInterface.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = MainInterface.storyboard; sourceTree = "<group>"; };
+		471BF16624A02AA800343A6C /* ShareViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShareViewController.swift; sourceTree = "<group>"; };
+		471BF16924A02AA800343A6C /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/MainInterface.storyboard; sourceTree = "<group>"; };
+		471BF16B24A02AA800343A6C /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		47673C6524A989A4004826F7 /* MyShareExDebug.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = MyShareExDebug.entitlements; sourceTree = "<group>"; };
+		47673C6624A9A3B9004826F7 /* KeychainAccess.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = KeychainAccess.xcodeproj; path = ../../../KeychainAccess/Lib/KeychainAccess.xcodeproj; sourceTree = "<group>"; };
 		47BB08E52495C71600D9C925 /* MyShareEx.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = MyShareEx.appex; sourceTree = BUILT_PRODUCTS_DIR; };
 		47BB08E72495C71600D9C925 /* ShareViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShareViewController.swift; sourceTree = "<group>"; };
 		47BB08EC2495C71600D9C925 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		47BB08F42495CAF300D9C925 /* lyralabs.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; name = lyralabs.entitlements; path = lyralabs/lyralabs.entitlements; sourceTree = "<group>"; };
 		47BB08F52495CBD400D9C925 /* MyShareEx.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = MyShareEx.entitlements; sourceTree = "<group>"; };
-		62CC0D96B053EB5BE74FA372 /* Pods-lyralabs-tvOSTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-lyralabs-tvOSTests.debug.xcconfig"; path = "Target Support Files/Pods-lyralabs-tvOSTests/Pods-lyralabs-tvOSTests.debug.xcconfig"; sourceTree = "<group>"; };
-		6B699588B07A44F57ED97858 /* Pods-lyralabs-tvOS.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-lyralabs-tvOS.release.xcconfig"; path = "Target Support Files/Pods-lyralabs-tvOS/Pods-lyralabs-tvOS.release.xcconfig"; sourceTree = "<group>"; };
-		96CE140497AB347AF28E91DE /* libPods-lyralabs-tvOSTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-lyralabs-tvOSTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
-		C9E02B858B8F2B1AB0B54B6E /* Pods-lyralabs.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-lyralabs.debug.xcconfig"; path = "Target Support Files/Pods-lyralabs/Pods-lyralabs.debug.xcconfig"; sourceTree = "<group>"; };
-		CB52C620F2BD8CD7C8EA300B /* Pods-lyralabs-lyralabsTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-lyralabs-lyralabsTests.release.xcconfig"; path = "Target Support Files/Pods-lyralabs-lyralabsTests/Pods-lyralabs-lyralabsTests.release.xcconfig"; sourceTree = "<group>"; };
-		D1AD3F1FF4A77B8DCEE464A4 /* libPods-lyralabs.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-lyralabs.a"; sourceTree = BUILT_PRODUCTS_DIR; };
-		E97C596B624CF705786A680C /* libPods-lyralabs-lyralabsTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-lyralabs-lyralabsTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		58CB3FA737601904B1BEF341 /* libPods-lyralabs-tvOS.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-lyralabs-tvOS.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		6CEE78AF509292D796788EC3 /* Pods-lyralabs-tvOS.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-lyralabs-tvOS.release.xcconfig"; path = "Target Support Files/Pods-lyralabs-tvOS/Pods-lyralabs-tvOS.release.xcconfig"; sourceTree = "<group>"; };
+		724877CDF18FD147245B82D9 /* Pods-lyralabs-tvOSTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-lyralabs-tvOSTests.debug.xcconfig"; path = "Target Support Files/Pods-lyralabs-tvOSTests/Pods-lyralabs-tvOSTests.debug.xcconfig"; sourceTree = "<group>"; };
+		764A40AA523EF623D8F61039 /* Pods-MyShareEx.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MyShareEx.debug.xcconfig"; path = "Target Support Files/Pods-MyShareEx/Pods-MyShareEx.debug.xcconfig"; sourceTree = "<group>"; };
+		794CFD752E7EAA81F7BFCB79 /* Pods-MyShareEx.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MyShareEx.release.xcconfig"; path = "Target Support Files/Pods-MyShareEx/Pods-MyShareEx.release.xcconfig"; sourceTree = "<group>"; };
+		81BE30766C96B2E72866F413 /* Pods-lyralabs-lyralabsTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-lyralabs-lyralabsTests.release.xcconfig"; path = "Target Support Files/Pods-lyralabs-lyralabsTests/Pods-lyralabs-lyralabsTests.release.xcconfig"; sourceTree = "<group>"; };
+		92B9EAE0D4EC10FCF9F8B463 /* Pods-lyralabs-tvOSTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-lyralabs-tvOSTests.release.xcconfig"; path = "Target Support Files/Pods-lyralabs-tvOSTests/Pods-lyralabs-tvOSTests.release.xcconfig"; sourceTree = "<group>"; };
+		9FA4D73352E04A1612253370 /* libPods-lyralabs.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-lyralabs.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		B1A125D70734F621AF6B922C /* libPods-lyralabs-tvOSTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-lyralabs-tvOSTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		BAC672972E10A9E12DF31F88 /* Pods-lyralabs-tvOS.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-lyralabs-tvOS.debug.xcconfig"; path = "Target Support Files/Pods-lyralabs-tvOS/Pods-lyralabs-tvOS.debug.xcconfig"; sourceTree = "<group>"; };
+		D9D9BFA365E59D7FE414380D /* libPods-lyralabs-lyralabsTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-lyralabs-lyralabsTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		ED297162215061F000B7C4FE /* JavaScriptCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JavaScriptCore.framework; path = System/Library/Frameworks/JavaScriptCore.framework; sourceTree = SDKROOT; };
 		ED2971642150620600B7C4FE /* JavaScriptCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JavaScriptCore.framework; path = Platforms/AppleTVOS.platform/Developer/SDKs/AppleTVOS12.0.sdk/System/Library/Frameworks/JavaScriptCore.framework; sourceTree = DEVELOPER_DIR; };
+		F2F70717BA08040B93A753B5 /* Pods-lyralabs.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-lyralabs.release.xcconfig"; path = "Target Support Files/Pods-lyralabs/Pods-lyralabs.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -102,7 +145,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				8E33C288D7E42FC96C43C1C4 /* libPods-lyralabs-lyralabsTests.a in Frameworks */,
+				C7134AB6D0DFD8B6F46CAE89 /* libPods-lyralabs-lyralabsTests.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -110,7 +153,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				BE7F54F31F8180052421F128 /* libPods-lyralabs.a in Frameworks */,
+				93104329370F8DD65F85220A /* libPods-lyralabs.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -118,7 +161,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				6325CF6CAA47E85CCB81CA66 /* libPods-lyralabs-tvOS.a in Frameworks */,
+				1543DB87C026E3D764C56A85 /* libPods-lyralabs-tvOS.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -126,7 +169,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				05DEA51A3A84E70F68892214 /* libPods-lyralabs-tvOSTests.a in Frameworks */,
+				89D264656A98B8A45F94481D /* libPods-lyralabs-tvOSTests.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -134,6 +177,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				47673C7224A9A3D7004826F7 /* KeychainAccess.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -177,20 +221,42 @@
 			children = (
 				ED297162215061F000B7C4FE /* JavaScriptCore.framework */,
 				ED2971642150620600B7C4FE /* JavaScriptCore.framework */,
-				D1AD3F1FF4A77B8DCEE464A4 /* libPods-lyralabs.a */,
-				E97C596B624CF705786A680C /* libPods-lyralabs-lyralabsTests.a */,
-				018EE2D53983DF6D604DA385 /* libPods-lyralabs-tvOS.a */,
-				96CE140497AB347AF28E91DE /* libPods-lyralabs-tvOSTests.a */,
+				9FA4D73352E04A1612253370 /* libPods-lyralabs.a */,
+				D9D9BFA365E59D7FE414380D /* libPods-lyralabs-lyralabsTests.a */,
+				58CB3FA737601904B1BEF341 /* libPods-lyralabs-tvOS.a */,
+				B1A125D70734F621AF6B922C /* libPods-lyralabs-tvOSTests.a */,
 			);
 			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		471BF16524A02AA800343A6C /* Test */ = {
+			isa = PBXGroup;
+			children = (
+				471BF16624A02AA800343A6C /* ShareViewController.swift */,
+				471BF16824A02AA800343A6C /* MainInterface.storyboard */,
+				471BF16B24A02AA800343A6C /* Info.plist */,
+			);
+			path = Test;
+			sourceTree = "<group>";
+		};
+		47673C6724A9A3B9004826F7 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				47673C6D24A9A3B9004826F7 /* KeychainAccess.framework */,
+				47673C6F24A9A3B9004826F7 /* KeychainAccessTests.xctest */,
+				47673C7124A9A3B9004826F7 /* TestHost.app */,
+			);
+			name = Products;
 			sourceTree = "<group>";
 		};
 		47BB08E62495C71600D9C925 /* MyShareEx */ = {
 			isa = PBXGroup;
 			children = (
+				47673C6524A989A4004826F7 /* MyShareExDebug.entitlements */,
 				47BB08F52495CBD400D9C925 /* MyShareEx.entitlements */,
 				47BB08E72495C71600D9C925 /* ShareViewController.swift */,
 				47BB08EC2495C71600D9C925 /* Info.plist */,
+				471BF15E249C666C00343A6C /* MainInterface.storyboard */,
 			);
 			path = MyShareEx;
 			sourceTree = "<group>";
@@ -205,10 +271,12 @@
 		83CBB9F61A601CBA00E9B192 = {
 			isa = PBXGroup;
 			children = (
+				47673C6624A9A3B9004826F7 /* KeychainAccess.xcodeproj */,
 				13B07FAE1A68108700A75B9A /* lyralabs */,
 				832341AE1AAA6A7D00B99B32 /* Libraries */,
 				00E356EF1AD99517003FC87E /* lyralabsTests */,
 				47BB08E62495C71600D9C925 /* MyShareEx */,
+				471BF16524A02AA800343A6C /* Test */,
 				83CBBA001A601CBA00E9B192 /* Products */,
 				2D16E6871FA4F8E400B85C8A /* Frameworks */,
 				C62BE51CEB5C65262F166F50 /* Pods */,
@@ -233,14 +301,16 @@
 		C62BE51CEB5C65262F166F50 /* Pods */ = {
 			isa = PBXGroup;
 			children = (
-				C9E02B858B8F2B1AB0B54B6E /* Pods-lyralabs.debug.xcconfig */,
-				0570287D5B8DB3F37AB3F871 /* Pods-lyralabs.release.xcconfig */,
-				3FACA44BC7BA44CEFE07B205 /* Pods-lyralabs-lyralabsTests.debug.xcconfig */,
-				CB52C620F2BD8CD7C8EA300B /* Pods-lyralabs-lyralabsTests.release.xcconfig */,
-				453F4CB5DCC3B9574268EB90 /* Pods-lyralabs-tvOS.debug.xcconfig */,
-				6B699588B07A44F57ED97858 /* Pods-lyralabs-tvOS.release.xcconfig */,
-				62CC0D96B053EB5BE74FA372 /* Pods-lyralabs-tvOSTests.debug.xcconfig */,
-				397CAC6E855CD552603F9E9E /* Pods-lyralabs-tvOSTests.release.xcconfig */,
+				199DB80BDF8E4014EECB00AE /* Pods-lyralabs.debug.xcconfig */,
+				F2F70717BA08040B93A753B5 /* Pods-lyralabs.release.xcconfig */,
+				408D3221D0722ACD27998203 /* Pods-lyralabs-lyralabsTests.debug.xcconfig */,
+				81BE30766C96B2E72866F413 /* Pods-lyralabs-lyralabsTests.release.xcconfig */,
+				BAC672972E10A9E12DF31F88 /* Pods-lyralabs-tvOS.debug.xcconfig */,
+				6CEE78AF509292D796788EC3 /* Pods-lyralabs-tvOS.release.xcconfig */,
+				724877CDF18FD147245B82D9 /* Pods-lyralabs-tvOSTests.debug.xcconfig */,
+				92B9EAE0D4EC10FCF9F8B463 /* Pods-lyralabs-tvOSTests.release.xcconfig */,
+				764A40AA523EF623D8F61039 /* Pods-MyShareEx.debug.xcconfig */,
+				794CFD752E7EAA81F7BFCB79 /* Pods-MyShareEx.release.xcconfig */,
 			);
 			path = Pods;
 			sourceTree = "<group>";
@@ -252,7 +322,7 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 00E357021AD99517003FC87E /* Build configuration list for PBXNativeTarget "lyralabsTests" */;
 			buildPhases = (
-				FDE94D3AF82CA0945FBD9792 /* [CP] Check Pods Manifest.lock */,
+				165DE95BE95A40D9BFFFDCFC /* [CP] Check Pods Manifest.lock */,
 				00E356EA1AD99517003FC87E /* Sources */,
 				00E356EB1AD99517003FC87E /* Frameworks */,
 				00E356EC1AD99517003FC87E /* Resources */,
@@ -271,7 +341,7 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 13B07F931A680F5B00A75B9A /* Build configuration list for PBXNativeTarget "lyralabs" */;
 			buildPhases = (
-				67D7C42D77671FA044B08E94 /* [CP] Check Pods Manifest.lock */,
+				465DE1DBAFAA7E35F1B6A5F0 /* [CP] Check Pods Manifest.lock */,
 				FD10A7F022414F080027D42C /* Start Packager */,
 				13B07F871A680F5B00A75B9A /* Sources */,
 				13B07F8C1A680F5B00A75B9A /* Frameworks */,
@@ -293,7 +363,7 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 2D02E4BA1E0B4A5E006451C7 /* Build configuration list for PBXNativeTarget "lyralabs-tvOS" */;
 			buildPhases = (
-				C230C7CCF5E31CEB61C5A8C0 /* [CP] Check Pods Manifest.lock */,
+				4E866C336A099FC4C852CCDD /* [CP] Check Pods Manifest.lock */,
 				FD10A7F122414F3F0027D42C /* Start Packager */,
 				2D02E4771E0B4A5D006451C7 /* Sources */,
 				2D02E4781E0B4A5D006451C7 /* Frameworks */,
@@ -313,7 +383,7 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 2D02E4BB1E0B4A5E006451C7 /* Build configuration list for PBXNativeTarget "lyralabs-tvOSTests" */;
 			buildPhases = (
-				EE0F1A3C226B900FA101C748 /* [CP] Check Pods Manifest.lock */,
+				A478BCD116351B0340D01680 /* [CP] Check Pods Manifest.lock */,
 				2D02E48C1E0B4A5D006451C7 /* Sources */,
 				2D02E48D1E0B4A5D006451C7 /* Frameworks */,
 				2D02E48E1E0B4A5D006451C7 /* Resources */,
@@ -335,6 +405,7 @@
 				47BB08E12495C71600D9C925 /* Sources */,
 				47BB08E22495C71600D9C925 /* Frameworks */,
 				47BB08E32495C71600D9C925 /* Resources */,
+				47673C7424A9A3D7004826F7 /* Embed Frameworks */,
 			);
 			buildRules = (
 			);
@@ -352,7 +423,7 @@
 			isa = PBXProject;
 			attributes = {
 				LastSwiftUpdateCheck = 1150;
-				LastUpgradeCheck = 1130;
+				LastUpgradeCheck = 1150;
 				TargetAttributes = {
 					00E356ED1AD99517003FC87E = {
 						CreatedOnToolsVersion = 6.2;
@@ -389,6 +460,12 @@
 			mainGroup = 83CBB9F61A601CBA00E9B192;
 			productRefGroup = 83CBBA001A601CBA00E9B192 /* Products */;
 			projectDirPath = "";
+			projectReferences = (
+				{
+					ProductGroup = 47673C6724A9A3B9004826F7 /* Products */;
+					ProjectRef = 47673C6624A9A3B9004826F7 /* KeychainAccess.xcodeproj */;
+				},
+			);
 			projectRoot = "";
 			targets = (
 				13B07F861A680F5B00A75B9A /* lyralabs */,
@@ -399,6 +476,30 @@
 			);
 		};
 /* End PBXProject section */
+
+/* Begin PBXReferenceProxy section */
+		47673C6D24A9A3B9004826F7 /* KeychainAccess.framework */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.framework;
+			path = KeychainAccess.framework;
+			remoteRef = 47673C6C24A9A3B9004826F7 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		47673C6F24A9A3B9004826F7 /* KeychainAccessTests.xctest */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.cfbundle;
+			path = KeychainAccessTests.xctest;
+			remoteRef = 47673C6E24A9A3B9004826F7 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		47673C7124A9A3B9004826F7 /* TestHost.app */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.application;
+			path = TestHost.app;
+			remoteRef = 47673C7024A9A3B9004826F7 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+/* End PBXReferenceProxy section */
 
 /* Begin PBXResourcesBuildPhase section */
 		00E356EC1AD99517003FC87E /* Resources */ = {
@@ -436,6 +537,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				471BF15F249C666C00343A6C /* MainInterface.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -456,6 +558,28 @@
 			shellPath = /bin/sh;
 			shellScript = "export NODE_BINARY=node\n../node_modules/react-native/scripts/react-native-xcode.sh";
 		};
+		165DE95BE95A40D9BFFFDCFC /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-lyralabs-lyralabsTests-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
 		2D02E4CB1E0B4B27006451C7 /* Bundle React Native Code And Images */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -470,7 +594,7 @@
 			shellPath = /bin/sh;
 			shellScript = "export NODE_BINARY=node\n../node_modules/react-native/scripts/react-native-xcode.sh";
 		};
-		67D7C42D77671FA044B08E94 /* [CP] Check Pods Manifest.lock */ = {
+		465DE1DBAFAA7E35F1B6A5F0 /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -492,7 +616,7 @@
 			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
 			showEnvVarsInLog = 0;
 		};
-		C230C7CCF5E31CEB61C5A8C0 /* [CP] Check Pods Manifest.lock */ = {
+		4E866C336A099FC4C852CCDD /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -514,7 +638,7 @@
 			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
 			showEnvVarsInLog = 0;
 		};
-		EE0F1A3C226B900FA101C748 /* [CP] Check Pods Manifest.lock */ = {
+		A478BCD116351B0340D01680 /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -572,28 +696,6 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "export RCT_METRO_PORT=\"${RCT_METRO_PORT:=8081}\"\necho \"export RCT_METRO_PORT=${RCT_METRO_PORT}\" > \"${SRCROOT}/../node_modules/react-native/scripts/.packager.env\"\nif [ -z \"${RCT_NO_LAUNCH_PACKAGER+xxx}\" ] ; then\n  if nc -w 5 -z localhost ${RCT_METRO_PORT} ; then\n    if ! curl -s \"http://localhost:${RCT_METRO_PORT}/status\" | grep -q \"packager-status:running\" ; then\n      echo \"Port ${RCT_METRO_PORT} already in use, packager is either not running or not running correctly\"\n      exit 2\n    fi\n  else\n    open \"$SRCROOT/../node_modules/react-native/scripts/launchPackager.command\" || echo \"Can't start packager automatically\"\n  fi\nfi\n";
-			showEnvVarsInLog = 0;
-		};
-		FDE94D3AF82CA0945FBD9792 /* [CP] Check Pods Manifest.lock */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-			);
-			inputPaths = (
-				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
-				"${PODS_ROOT}/Manifest.lock",
-			);
-			name = "[CP] Check Pods Manifest.lock";
-			outputFileListPaths = (
-			);
-			outputPaths = (
-				"$(DERIVED_FILE_DIR)/Pods-lyralabs-lyralabsTests-checkManifestLockResult.txt",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
 			showEnvVarsInLog = 0;
 		};
 /* End PBXShellScriptBuildPhase section */
@@ -671,13 +773,22 @@
 			path = lyralabs;
 			sourceTree = "<group>";
 		};
+		471BF16824A02AA800343A6C /* MainInterface.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				471BF16924A02AA800343A6C /* Base */,
+			);
+			name = MainInterface.storyboard;
+			sourceTree = "<group>";
+		};
 /* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
 		00E356F61AD99517003FC87E /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 3FACA44BC7BA44CEFE07B205 /* Pods-lyralabs-lyralabsTests.debug.xcconfig */;
+			baseConfigurationReference = 408D3221D0722ACD27998203 /* Pods-lyralabs-lyralabsTests.debug.xcconfig */;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				GCC_PREPROCESSOR_DEFINITIONS = (
 					"DEBUG=1",
@@ -699,8 +810,9 @@
 		};
 		00E356F71AD99517003FC87E /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = CB52C620F2BD8CD7C8EA300B /* Pods-lyralabs-lyralabsTests.release.xcconfig */;
+			baseConfigurationReference = 81BE30766C96B2E72866F413 /* Pods-lyralabs-lyralabsTests.release.xcconfig */;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				COPY_PHASE_STRIP = NO;
 				INFOPLIST_FILE = lyralabsTests/Info.plist;
@@ -719,7 +831,7 @@
 		};
 		13B07F941A680F5B00A75B9A /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = C9E02B858B8F2B1AB0B54B6E /* Pods-lyralabs.debug.xcconfig */;
+			baseConfigurationReference = 199DB80BDF8E4014EECB00AE /* Pods-lyralabs.debug.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
@@ -749,7 +861,7 @@
 		};
 		13B07F951A680F5B00A75B9A /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 0570287D5B8DB3F37AB3F871 /* Pods-lyralabs.release.xcconfig */;
+			baseConfigurationReference = F2F70717BA08040B93A753B5 /* Pods-lyralabs.release.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
@@ -773,7 +885,7 @@
 		};
 		2D02E4971E0B4A5E006451C7 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 453F4CB5DCC3B9574268EB90 /* Pods-lyralabs-tvOS.debug.xcconfig */;
+			baseConfigurationReference = BAC672972E10A9E12DF31F88 /* Pods-lyralabs-tvOS.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = "App Icon & Top Shelf Image";
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
@@ -801,7 +913,7 @@
 		};
 		2D02E4981E0B4A5E006451C7 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 6B699588B07A44F57ED97858 /* Pods-lyralabs-tvOS.release.xcconfig */;
+			baseConfigurationReference = 6CEE78AF509292D796788EC3 /* Pods-lyralabs-tvOS.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = "App Icon & Top Shelf Image";
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
@@ -829,7 +941,7 @@
 		};
 		2D02E4991E0B4A5E006451C7 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 62CC0D96B053EB5BE74FA372 /* Pods-lyralabs-tvOSTests.debug.xcconfig */;
+			baseConfigurationReference = 724877CDF18FD147245B82D9 /* Pods-lyralabs-tvOSTests.debug.xcconfig */;
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				CLANG_ANALYZER_NONNULL = YES;
@@ -856,7 +968,7 @@
 		};
 		2D02E49A1E0B4A5E006451C7 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 397CAC6E855CD552603F9E9E /* Pods-lyralabs-tvOSTests.release.xcconfig */;
+			baseConfigurationReference = 92B9EAE0D4EC10FCF9F8B463 /* Pods-lyralabs-tvOSTests.release.xcconfig */;
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				CLANG_ANALYZER_NONNULL = YES;
@@ -890,11 +1002,50 @@
 				CLANG_ENABLE_OBJC_WEAK = YES;
 				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
 				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
-				CODE_SIGN_ENTITLEMENTS = MyShareEx/MyShareEx.entitlements;
+				CODE_SIGN_ENTITLEMENTS = MyShareEx/MyShareExDebug.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				DEVELOPMENT_TEAM = YYX7RJEJSR;
 				GCC_C_LANGUAGE_STANDARD = gnu11;
+				HEADER_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"${PODS_ROOT}/Headers/Public\"",
+					"\"${PODS_ROOT}/Headers/Public/A0Auth0\"",
+					"\"${PODS_ROOT}/Headers/Public/CocoaAsyncSocket\"",
+					"\"${PODS_ROOT}/Headers/Public/CocoaLibEvent\"",
+					"\"${PODS_ROOT}/Headers/Public/DoubleConversion\"",
+					"\"${PODS_ROOT}/Headers/Public/FBLazyVector\"",
+					"\"${PODS_ROOT}/Headers/Public/FBReactNativeSpec\"",
+					"\"${PODS_ROOT}/Headers/Public/Flipper\"",
+					"\"${PODS_ROOT}/Headers/Public/Flipper-DoubleConversion\"",
+					"\"${PODS_ROOT}/Headers/Public/Flipper-Folly\"",
+					"\"${PODS_ROOT}/Headers/Public/Flipper-Glog\"",
+					"\"${PODS_ROOT}/Headers/Public/Flipper-PeerTalk\"",
+					"\"${PODS_ROOT}/Headers/Public/Flipper-RSocket\"",
+					"\"${PODS_ROOT}/Headers/Public/FlipperKit\"",
+					"\"${PODS_ROOT}/Headers/Public/OpenSSL-Universal\"",
+					"\"${PODS_ROOT}/Headers/Public/RCTRequired\"",
+					"\"${PODS_ROOT}/Headers/Public/RCTTypeSafety\"",
+					"\"${PODS_ROOT}/Headers/Public/RNCAsyncStorage\"",
+					"\"${PODS_ROOT}/Headers/Public/RNCMaskedView\"",
+					"\"${PODS_ROOT}/Headers/Public/RNGestureHandler\"",
+					"\"${PODS_ROOT}/Headers/Public/RNKeychain\"",
+					"\"${PODS_ROOT}/Headers/Public/RNReanimated\"",
+					"\"${PODS_ROOT}/Headers/Public/RNScreens\"",
+					"\"${PODS_ROOT}/Headers/Public/React-Core\"",
+					"\"${PODS_ROOT}/Headers/Public/React-RCTText\"",
+					"\"${PODS_ROOT}/Headers/Public/React-cxxreact\"",
+					"\"${PODS_ROOT}/Headers/Public/React-jsi\"",
+					"\"${PODS_ROOT}/Headers/Public/React-jsiexecutor\"",
+					"\"${PODS_ROOT}/Headers/Public/React-jsinspector\"",
+					"\"${PODS_ROOT}/Headers/Public/ReactCommon\"",
+					"\"${PODS_ROOT}/Headers/Public/Yoga\"",
+					"\"${PODS_ROOT}/Headers/Public/YogaKit\"",
+					"\"${PODS_ROOT}/Headers/Public/glog\"",
+					"\"${PODS_ROOT}/Headers/Public/react-native-receive-sharing-intent\"",
+					"\"${PODS_ROOT}/Headers/Public/react-native-safe-area-context\"",
+					"\"${PODS_ROOT}/Headers/Public/KeychainAccess\"",
+				);
 				INFOPLIST_FILE = MyShareEx/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 13.5;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @executable_path/../../Frameworks";
@@ -926,6 +1077,45 @@
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				DEVELOPMENT_TEAM = YYX7RJEJSR;
 				GCC_C_LANGUAGE_STANDARD = gnu11;
+				HEADER_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"${PODS_ROOT}/Headers/Public\"",
+					"\"${PODS_ROOT}/Headers/Public/A0Auth0\"",
+					"\"${PODS_ROOT}/Headers/Public/CocoaAsyncSocket\"",
+					"\"${PODS_ROOT}/Headers/Public/CocoaLibEvent\"",
+					"\"${PODS_ROOT}/Headers/Public/DoubleConversion\"",
+					"\"${PODS_ROOT}/Headers/Public/FBLazyVector\"",
+					"\"${PODS_ROOT}/Headers/Public/FBReactNativeSpec\"",
+					"\"${PODS_ROOT}/Headers/Public/Flipper\"",
+					"\"${PODS_ROOT}/Headers/Public/Flipper-DoubleConversion\"",
+					"\"${PODS_ROOT}/Headers/Public/Flipper-Folly\"",
+					"\"${PODS_ROOT}/Headers/Public/Flipper-Glog\"",
+					"\"${PODS_ROOT}/Headers/Public/Flipper-PeerTalk\"",
+					"\"${PODS_ROOT}/Headers/Public/Flipper-RSocket\"",
+					"\"${PODS_ROOT}/Headers/Public/FlipperKit\"",
+					"\"${PODS_ROOT}/Headers/Public/OpenSSL-Universal\"",
+					"\"${PODS_ROOT}/Headers/Public/RCTRequired\"",
+					"\"${PODS_ROOT}/Headers/Public/RCTTypeSafety\"",
+					"\"${PODS_ROOT}/Headers/Public/RNCAsyncStorage\"",
+					"\"${PODS_ROOT}/Headers/Public/RNCMaskedView\"",
+					"\"${PODS_ROOT}/Headers/Public/RNGestureHandler\"",
+					"\"${PODS_ROOT}/Headers/Public/RNKeychain\"",
+					"\"${PODS_ROOT}/Headers/Public/RNReanimated\"",
+					"\"${PODS_ROOT}/Headers/Public/RNScreens\"",
+					"\"${PODS_ROOT}/Headers/Public/React-Core\"",
+					"\"${PODS_ROOT}/Headers/Public/React-RCTText\"",
+					"\"${PODS_ROOT}/Headers/Public/React-cxxreact\"",
+					"\"${PODS_ROOT}/Headers/Public/React-jsi\"",
+					"\"${PODS_ROOT}/Headers/Public/React-jsiexecutor\"",
+					"\"${PODS_ROOT}/Headers/Public/React-jsinspector\"",
+					"\"${PODS_ROOT}/Headers/Public/ReactCommon\"",
+					"\"${PODS_ROOT}/Headers/Public/Yoga\"",
+					"\"${PODS_ROOT}/Headers/Public/YogaKit\"",
+					"\"${PODS_ROOT}/Headers/Public/glog\"",
+					"\"${PODS_ROOT}/Headers/Public/react-native-receive-sharing-intent\"",
+					"\"${PODS_ROOT}/Headers/Public/react-native-safe-area-context\"",
+					"\"${PODS_ROOT}/Headers/Public/KeychainAccess\"",
+				);
 				INFOPLIST_FILE = MyShareEx/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 13.5;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @executable_path/../../Frameworks";
@@ -1049,6 +1239,7 @@
 				);
 				MTL_ENABLE_DEBUG_INFO = NO;
 				SDKROOT = iphoneos;
+				SWIFT_COMPILATION_MODE = wholemodule;
 				VALIDATE_PRODUCT = YES;
 			};
 			name = Release;

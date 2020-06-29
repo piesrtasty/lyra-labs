@@ -1,3 +1,9 @@
+if (__DEV__) {
+  import('./src/lib/ReactotronConfig').then(() =>
+    console.log('Reactotron Configured'),
+  );
+}
+
 import 'react-native-gesture-handler';
 import React, {useState, useEffect, useContext} from 'react';
 import ReceiveSharingIntent from 'react-native-receive-sharing-intent';
@@ -40,28 +46,28 @@ const auth0 = new Auth0({
 const App = () => {
   const Stack = createStackNavigator();
 
-  useEffect(() => {
-    // To get All Recived Urls
-    console.log('>>>>>>>>>>> IN USE EFFECT');
-    ReceiveSharingIntent.getReceivedFiles(
-      files => {
-        console.log('------------------ ');
-        console.log('------------------ ReceiveSharingIntent');
-        console.log('------------------ files', files);
-        console.log('------------------ ReceiveSharingIntent');
-        console.log('------------------ ');
-        // files returns as JSON Array example
-        //[{ filePath: null, text: null, weblink: null, mimeType: null, contentUri: null, fileName: null, extension: null }]
-      },
-      error => {
-        console.log(error);
-      },
-    );
+  // useEffect(() => {
+  //   // To get All Recived Urls
+  //   console.log('>>>>>>>>>>> IN USE EFFECT');
+  //   ReceiveSharingIntent.getReceivedFiles(
+  //     files => {
+  //       console.log('------------------ ');
+  //       console.log('------------------ ReceiveSharingIntent');
+  //       console.log('------------------ files', files);
+  //       console.log('------------------ ReceiveSharingIntent');
+  //       console.log('------------------ ');
+  //       // files returns as JSON Array example
+  //       //[{ filePath: null, text: null, weblink: null, mimeType: null, contentUri: null, fileName: null, extension: null }]
+  //     },
+  //     error => {
+  //       console.log(error);
+  //     },
+  //   );
 
-    return () => {
-      ReceiveSharingIntent.clearReceivedFiles();
-    };
-  }, []);
+  //   return () => {
+  //     ReceiveSharingIntent.clearReceivedFiles();
+  //   };
+  // }, []);
 
   const {isLoading, accessToken} = useContext(AuthContext);
 

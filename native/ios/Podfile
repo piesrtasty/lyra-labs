@@ -77,6 +77,8 @@ target 'lyralabs' do
   pod 'glog', :podspec => '../node_modules/react-native/third-party-podspecs/glog.podspec'
   pod 'Folly', :podspec => '../node_modules/react-native/third-party-podspecs/Folly.podspec'
 
+  pod 'KeychainAccess'
+  
   target 'lyralabsTests' do
     inherit! :complete
     # Pods for testing
@@ -92,7 +94,14 @@ target 'lyralabs' do
   post_install do |installer|
     flipper_post_install(installer)
   end
+  
+ 
 end
+
+#target 'MyShareEx' do
+#
+#  pod 'KeychainAccess'
+#end
 
 target 'lyralabs-tvOS' do
   # Pods for lyralabs-tvOS
@@ -102,3 +111,11 @@ target 'lyralabs-tvOS' do
     # Pods for testing
   end
 end
+
+#post_install do |installer|
+#  installer.pods_project.targets.each do |target|
+#    target.build_configurations.each do |config|
+#      config.build_settings['APPLICATION_EXTENSION_API_ONLY'] = 'NO'
+#    end
+#  end
+#end
