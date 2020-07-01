@@ -48,9 +48,6 @@ const AuthScreen = () => {
       <TouchableOpacity onPress={signIn}>
         <Text>signIn</Text>
       </TouchableOpacity>
-      <TouchableOpacity onPress={handlePress}>
-        <Text>Print AsyncSotrage</Text>
-      </TouchableOpacity>
     </View>
   );
 };

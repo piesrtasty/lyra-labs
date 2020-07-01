@@ -1,9 +1,15 @@
 import React, {useReducer, useMemo, useEffect} from 'react';
 import {Alert} from 'react-native';
 import AsyncStorage from '@react-native-community/async-storage';
+import * as Keychain from 'react-native-keychain';
 import Auth0 from 'react-native-auth0';
 
 const audience = 'https://lyralabs.auth0.com/api/v2/';
+
+const TEAM_ID = 'YYX7RJEJSR';
+const KEYCHAIN_GROUP = 'org.reactjs.native.example.lyralabs';
+const ACCESS_GROUP = `${TEAM_ID}.${KEYCHAIN_GROUP}`;
+const SESSION_KEY = 'session';
 
 const auth0 = new Auth0({
   domain: 'lyralabs.auth0.com',
@@ -48,8 +54,18 @@ export const withAuth = Component => {
     useEffect(() => {
       // Fetch the token from storage then navigate to our appropriate place
       const bootstrapAsync = async () => {
+        console.log('-----------------------');
+        console.log('-----------------------');
+        console.log('CALLING BOOTSTRAP ASYNC');
+        console.log('-----------------------');
+        console.log('-----------------------');
         let accessToken = null;
         try {
+          const credentials = await Keychain.getGenericPassword();
+          console.log('************************************');
+          console.log('------credentials we received-------', credentials);
+          console.log('************************************');
+
           const session = await AsyncStorage.getItem('session');
           const sessionObj = JSON.parse(session);
           accessToken = sessionObj.accessToken;
@@ -89,9 +105,20 @@ export const withAuth = Component => {
               audience: 'https://lyralabs.auth0.com/api/v2/',
             })
             .then(async credentials => {
-              await AsyncStorage.setItem(
-                'session',
+              console.log('-------------------------');
+              console.log('-------------------------');
+              console.log('this is the signin Call', credentials);
+              console.log('-------------------------');
+              console.log('-------------------------');
+              await Keychain.setGenericPassword(
+                SESSION_KEY,
                 JSON.stringify(credentials),
+                [
+                  {
+                    service: KEYCHAIN_GROUP,
+                    accessGroup: ACCESS_GROUP,
+                  },
+                ],
               );
               dispatch({type: 'SIGN_IN', token: credentials.accessToken});
             })
@@ -101,7 +128,9 @@ export const withAuth = Component => {
           auth0.webAuth
             .clearSession({})
             .then(async success => {
-              await AsyncStorage.removeItem('session');
+              const removedItem = Keychain.resetGenericPassword();
+              console.log('removedItem from logout', removedItem);
+              // await AsyncStorage.removeItem('session');
               dispatch({type: 'SIGN_OUT'});
             })
             .catch(error => console.log(error));
