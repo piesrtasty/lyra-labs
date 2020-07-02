@@ -61,19 +61,16 @@ export const withAuth = Component => {
         console.log('-----------------------');
         let accessToken = null;
         try {
-          const credentials = await Keychain.getGenericPassword();
-          console.log('************************************');
-          console.log('------credentials we received-------', credentials);
-          console.log('************************************');
-
-          const session = await AsyncStorage.getItem('session');
-          const sessionObj = JSON.parse(session);
+          const session = await Keychain.getGenericPassword();
+          const sessionObj = JSON.parse(session.password);
           accessToken = sessionObj.accessToken;
           const refreshToken = sessionObj.refreshToken;
+          console.log('refreshToken', refreshToken);
           // Get a new access token
           auth0.auth
             .refreshToken({refreshToken})
             .then(async response => {
+              console.log('response from refresh token', response);
               // Set the response from the refresh token as the new session
               await AsyncStorage.setItem('session', JSON.stringify(response));
             })
@@ -104,15 +101,10 @@ export const withAuth = Component => {
               scope: 'openid profile email offline_access',
               audience: 'https://lyralabs.auth0.com/api/v2/',
             })
-            .then(async credentials => {
-              console.log('-------------------------');
-              console.log('-------------------------');
-              console.log('this is the signin Call', credentials);
-              console.log('-------------------------');
-              console.log('-------------------------');
+            .then(async session => {
               await Keychain.setGenericPassword(
                 SESSION_KEY,
-                JSON.stringify(credentials),
+                JSON.stringify(session),
                 [
                   {
                     service: KEYCHAIN_GROUP,
@@ -120,7 +112,7 @@ export const withAuth = Component => {
                   },
                 ],
               );
-              dispatch({type: 'SIGN_IN', token: credentials.accessToken});
+              dispatch({type: 'SIGN_IN', token: session.accessToken});
             })
             .catch(error => console.log(error));
         },
