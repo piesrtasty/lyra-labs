@@ -4,11 +4,11 @@
 <dict>
 	<key>com.apple.security.application-groups</key>
 	<array>
-		<string>group.org.reactjs.native.example.lyralabs</string>
+		<string>group.com.lyralabs.app</string>
 	</array>
 	<key>keychain-access-groups</key>
 	<array>
-		<string>$(AppIdentifierPrefix)org.reactjs.native.example.lyralabs</string>
+		<string>$(AppIdentifierPrefix)com.lyralabs.app</string>
 	</array>
 </dict>
 </plist>

@@ -6,8 +6,8 @@ import Auth0 from 'react-native-auth0';
 
 const audience = 'https://lyralabs.auth0.com/api/v2/';
 
-const TEAM_ID = 'YYX7RJEJSR';
-const KEYCHAIN_GROUP = 'org.reactjs.native.example.lyralabs';
+const TEAM_ID = 'KU5GP44363';
+const KEYCHAIN_GROUP = 'com.lyralabs.app';
 const ACCESS_GROUP = `${TEAM_ID}.${KEYCHAIN_GROUP}`;
 const SESSION_KEY = 'session';
 
@@ -62,10 +62,12 @@ export const withAuth = Component => {
         let accessToken = null;
         try {
           const session = await Keychain.getGenericPassword();
+          console.log('--session--', session);
           const sessionObj = JSON.parse(session.password);
+          // console.log('---sessionObj---', sessionObj);
           accessToken = sessionObj.accessToken;
           const refreshToken = sessionObj.refreshToken;
-          console.log('refreshToken', refreshToken);
+          // console.log('refreshToken', refreshToken);
           // Get a new access token
           auth0.auth
             .refreshToken({refreshToken})

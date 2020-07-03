@@ -16,7 +16,7 @@ class CustomShareViewController: UIViewController {
     @IBOutlet var ctaButton: UIButton!
     @IBOutlet var openHostApp: UIButton!
     // TODO: IMPORTANT: This should be your host app bundle identifier
-    let hostAppBundleIdentifier = "org.reactjs.native.example.lyralabs"
+    let hostAppBundleIdentifier = "com.lyralabs.app"
     let sharedKey = "ShareKey"
     var sharedMedia: [SharedMediaFile] = []
     var sharedText: [String] = []
@@ -31,10 +31,10 @@ class CustomShareViewController: UIViewController {
     @IBAction func triggerCtaButton(_: UIButton) {
       print("Calling the CTA Button!!!!!! 4")
       // let keychain = Keychain(service: "YYX7RJEJSR.org.reactjs.native.example.lyralabs", accessGroup: "group.org.reactjs.native.example.lyralabs")
-      let keychain = Keychain(service: "org.reactjs.native.example.lyralabs", accessGroup: "YYX7RJEJSR.org.reactjs.native.example.lyralabs")
+      let keychain = Keychain(service: "com.lyralabs.app", accessGroup: "KU5GP44363.com.lyralabs.app")
       // let keychain = Keychain(service: "org.reactjs.native.example.lyralabs", accessGroup: "group.org.reactjs.native.example.lyralabs")
       // keychain["kishikawakatsumi"] = "01234567-89ab-cdef-0123-456789abcdef"
-      let value = try! keychain.getData("cool")
+      let value = try! keychain.getData("session")
       print("Start of value")
       print(keychain)
       print(value)
