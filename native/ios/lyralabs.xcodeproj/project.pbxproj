@@ -17,6 +17,8 @@
 		47673C7324A9A3D7004826F7 /* KeychainAccess.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 47673C6D24A9A3B9004826F7 /* KeychainAccess.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		47BB08E82495C71600D9C925 /* ShareViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47BB08E72495C71600D9C925 /* ShareViewController.swift */; };
 		47BB08EF2495C71600D9C925 /* MyShareEx.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = 47BB08E52495C71600D9C925 /* MyShareEx.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		47F9577824B2BE2B00D2BBEC /* lyra-labs-logo.png in Resources */ = {isa = PBXBuildFile; fileRef = 47F9577524B2BE2B00D2BBEC /* lyra-labs-logo.png */; };
+		47F9577924B2BE2B00D2BBEC /* lyra-labs-logo@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 47F9577624B2BE2B00D2BBEC /* lyra-labs-logo@2x.png */; };
 		93104329370F8DD65F85220A /* libPods-lyralabs.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 9FA4D73352E04A1612253370 /* libPods-lyralabs.a */; };
 		C7134AB6D0DFD8B6F46CAE89 /* libPods-lyralabs-lyralabsTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = D9D9BFA365E59D7FE414380D /* libPods-lyralabs-lyralabsTests.a */; };
 /* End PBXBuildFile section */
@@ -109,6 +111,8 @@
 		47BB08EC2495C71600D9C925 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		47BB08F42495CAF300D9C925 /* lyralabs.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; name = lyralabs.entitlements; path = lyralabs/lyralabs.entitlements; sourceTree = "<group>"; };
 		47BB08F52495CBD400D9C925 /* MyShareEx.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = MyShareEx.entitlements; sourceTree = "<group>"; };
+		47F9577524B2BE2B00D2BBEC /* lyra-labs-logo.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "lyra-labs-logo.png"; sourceTree = "<group>"; };
+		47F9577624B2BE2B00D2BBEC /* lyra-labs-logo@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "lyra-labs-logo@2x.png"; sourceTree = "<group>"; };
 		58CB3FA737601904B1BEF341 /* libPods-lyralabs-tvOS.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-lyralabs-tvOS.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		6CEE78AF509292D796788EC3 /* Pods-lyralabs-tvOS.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-lyralabs-tvOS.release.xcconfig"; path = "Target Support Files/Pods-lyralabs-tvOS/Pods-lyralabs-tvOS.release.xcconfig"; sourceTree = "<group>"; };
 		724877CDF18FD147245B82D9 /* Pods-lyralabs-tvOSTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-lyralabs-tvOSTests.debug.xcconfig"; path = "Target Support Files/Pods-lyralabs-tvOSTests/Pods-lyralabs-tvOSTests.debug.xcconfig"; sourceTree = "<group>"; };
@@ -221,6 +225,7 @@
 		47BB08E62495C71600D9C925 /* MyShareEx */ = {
 			isa = PBXGroup;
 			children = (
+				47F9577424B2BE0800D2BBEC /* images */,
 				47673C6524A989A4004826F7 /* MyShareExDebug.entitlements */,
 				47BB08F52495CBD400D9C925 /* MyShareEx.entitlements */,
 				47BB08E72495C71600D9C925 /* ShareViewController.swift */,
@@ -228,6 +233,15 @@
 				471BF15E249C666C00343A6C /* MainInterface.storyboard */,
 			);
 			path = MyShareEx;
+			sourceTree = "<group>";
+		};
+		47F9577424B2BE0800D2BBEC /* images */ = {
+			isa = PBXGroup;
+			children = (
+				47F9577524B2BE2B00D2BBEC /* lyra-labs-logo.png */,
+				47F9577624B2BE2B00D2BBEC /* lyra-labs-logo@2x.png */,
+			);
+			path = images;
 			sourceTree = "<group>";
 		};
 		832341AE1AAA6A7D00B99B32 /* Libraries */ = {
@@ -441,7 +455,9 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				47F9577824B2BE2B00D2BBEC /* lyra-labs-logo.png in Resources */,
 				471BF15F249C666C00343A6C /* MainInterface.storyboard in Resources */,
+				47F9577924B2BE2B00D2BBEC /* lyra-labs-logo@2x.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

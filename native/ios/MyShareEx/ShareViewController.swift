@@ -15,6 +15,8 @@ class CustomShareViewController: UIViewController {
 
     @IBOutlet var ctaButton: UIButton!
     @IBOutlet var openHostApp: UIButton!
+    @IBOutlet weak var authLabel: UILabel!
+    @IBOutlet var tapRecognizer: UITapGestureRecognizer!
     // TODO: IMPORTANT: This should be your host app bundle identifier
     let hostAppBundleIdentifier = "com.lyralabs.app"
     let sharedKey = "ShareKey"
@@ -27,18 +29,17 @@ class CustomShareViewController: UIViewController {
     let fileURLType = kUTTypeFileURL as String
 
     // MARK: Actions
-
+    @IBAction func triggerTapRecognizer(_ sender: Any) {
+        print("handling tap")
+    }
+    
     @IBAction func triggerCtaButton(_: UIButton) {
       print("Calling the CTA Button!!!!!! 4")
+//      authLabel.isHidden = false
+//      authLabel.text = "COOL GUY"
+        
       // let keychain = Keychain(service: "YYX7RJEJSR.org.reactjs.native.example.lyralabs", accessGroup: "group.org.reactjs.native.example.lyralabs")
-      let keychain = Keychain(service: "com.lyralabs.app", accessGroup: "KU5GP44363.com.lyralabs.app")
-      // let keychain = Keychain(service: "org.reactjs.native.example.lyralabs", accessGroup: "group.org.reactjs.native.example.lyralabs")
-      // keychain["kishikawakatsumi"] = "01234567-89ab-cdef-0123-456789abcdef"
-      let value = try! keychain.getData("session")
-      print("Start of value")
-      print(keychain)
-      print(value)
-      print("End of Value")
+      
 //      let itemKey = "zuck"
 //      let itemValue = "My secretive bee 🐝"
 //      let keychainAccessGroupName = "YYX7RJEJSR.org.reactjs.native.example.lyralabs"
@@ -108,27 +109,49 @@ class CustomShareViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        let keychain = Keychain(service: "com.lyralabs.app", accessGroup: "KU5GP44363.com.lyralabs.app")
+//        let value = try! keychain.getData("friend")
+        if let value = try! keychain.getData("sessionx") { // If casting, use, eg, if let var = abc as? NSString
+            print("AAAAAA")
+          if let content = extensionContext!.inputItems[0] as? NSExtensionItem {
+              if let contents = content.attachments {
+                  for (index, attachment) in contents.enumerated() {
+                      if attachment.hasItemConformingToTypeIdentifier(imageContentType) {
+                          handleUnsupportedMediaType()
+                      } else if attachment.hasItemConformingToTypeIdentifier(textContentType) {
+                          handleUnsupportedMediaType()
+                      } else if attachment.hasItemConformingToTypeIdentifier(fileURLType) {
+                          handleUnsupportedMediaType()
+                      } else if attachment.hasItemConformingToTypeIdentifier(urlContentType) {
+                          handleUrl(content: content, attachment: attachment, index: index)
+                      } else if attachment.hasItemConformingToTypeIdentifier(videoContentType) {
+                          handleUnsupportedMediaType()
+                      }
+                  }
+              }
+          }
+            // variableName will be abc, unwrapped
+        } else {
+          print("BBBBB")
+            authLabel.isHidden = false
+            authLabel.text = "Log in to save to Lyra Labs"
+            // abc is nil
+        }
+//        print("Start of value")
+//        print(keychain)
+//        print(value)
+//        print("End of Value")
         // Check if the user is logged in
+//      let userDefaults = UserDefaults(suiteName: "group.\(self.hostAppBundleIdentifier)")
+//                    userDefaults?.set(self.sharedText, forKey: self.sharedKey)
+//                    userDefaults?.synchronize()
+      //               self?.didSelectPost();
+//                    this.redirectToHostApp(type: .text)
+//      self.redirectToHostApp(type: .text)
 
         // If user is logged in then upload the post
         // This is called after the user selects Post. Do the upload of contentText and/or NSExtensionContext attachments.
-        if let content = extensionContext!.inputItems[0] as? NSExtensionItem {
-            if let contents = content.attachments {
-                for (index, attachment) in contents.enumerated() {
-                    if attachment.hasItemConformingToTypeIdentifier(imageContentType) {
-                        handleUnsupportedMediaType()
-                    } else if attachment.hasItemConformingToTypeIdentifier(textContentType) {
-                        handleUnsupportedMediaType()
-                    } else if attachment.hasItemConformingToTypeIdentifier(fileURLType) {
-                        handleUnsupportedMediaType()
-                    } else if attachment.hasItemConformingToTypeIdentifier(urlContentType) {
-                        handleUrl(content: content, attachment: attachment, index: index)
-                    } else if attachment.hasItemConformingToTypeIdentifier(videoContentType) {
-                        handleUnsupportedMediaType()
-                    }
-                }
-            }
-        }
+        
     }
 
     private func handleUnsupportedMediaType() {
@@ -137,31 +160,33 @@ class CustomShareViewController: UIViewController {
         present(alert, animated: true, completion: nil)
     }
 
-    private func handleUrl(content _: NSExtensionItem, attachment: NSItemProvider, index _: Int) {
+    private func handleUrl (content: NSExtensionItem, attachment: NSItemProvider, index: Int) {
         attachment.loadItem(forTypeIdentifier: urlContentType, options: nil) { [weak self] data, error in
-
-            if error == nil, let item = data as? URL, let this = self {
-                print("calling handleUrl")
-                print("calling handleUrl")
-                print("item")
-                print(item)
-                print("done")
-//        this.sharedText.append(item.absoluteString)
-//
-//        // If this is the last item, save imagesData in userDefaults and redirect to host app
-//        if index == (content.attachments?.count)! - 1 {
-//          let userDefaults = UserDefaults(suiteName: "group.\(this.hostAppBundleIdentifier)")
-//          userDefaults?.set(this.sharedText, forKey: this.sharedKey)
-//          userDefaults?.synchronize()
-//           self?.didSelectPost();
-//          this.redirectToHostApp(type: .text)
-//        }
-
-            } else {
-                self?.dismissWithError()
+          
+          if error == nil, let item = data as? URL, let this = self {
+            
+            
+            print("calling handleUrl")
+            print("calling handleUrl")
+            print("item")
+            print(item)
+            print("done")
+            this.sharedText.append(item.absoluteString)
+    //
+            // If this is the last item, save imagesData in userDefaults and redirect to host app
+            if index == (content.attachments?.count)! - 1 {
+              let userDefaults = UserDefaults(suiteName: "group.\(this.hostAppBundleIdentifier)")
+              userDefaults?.set(this.sharedText, forKey: this.sharedKey)
+              userDefaults?.synchronize()
+//               self?.didSelectPost();
+              this.redirectToHostApp(type: .text)
             }
+            
+          } else {
+            self?.dismissWithError()
+          }
         }
-    }
+      }
 
     private func dismissWithError() {
         print("[ERROR] Error loading data!")
@@ -177,12 +202,21 @@ class CustomShareViewController: UIViewController {
     }
 
     private func redirectToHostApp(type: RedirectType) {
+        print("GOT HERE CCCCC")
         let url = URL(string: "ShareMedia://dataUrl=\(sharedKey)#\(type)")
+        print("url")
+        print(url)
         var responder = self as UIResponder?
+        print("responser")
+        print(responder)
         let selectorOpenURL = sel_registerName("openURL:")
+        print("selectorOpenURL")
+        print(selectorOpenURL)
 
         while responder != nil {
+          print("E")
             if (responder?.responds(to: selectorOpenURL))! {
+              print("DDDDDD")
                 _ = responder?.perform(selectorOpenURL, with: url)
             }
             responder = responder!.next
