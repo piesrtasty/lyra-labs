@@ -1,4 +1,5 @@
 const { GraphQLServer } = require('graphql-yoga')
+const bodyParser = require('body-parser')
 const {
   makeSchema,
   objectType,
@@ -579,6 +580,9 @@ const server = new GraphQLServer({
   middlewares: [],
 })
 
+server.express.use(bodyParser.json()) // support json encoded bodies
+server.express.use(bodyParser.urlencoded({ extended: true })) // support encoded bodies
+
 server.express.get('/save', async (req, res, done) => {
   const params = req.body
   res.json({ status: 'UP', name: 'Luke' })
@@ -593,6 +597,12 @@ server.express.get('/healthz', async (req, res, done) => {
     timestamp: Date.now(),
   }
   res.json(healthcheck)
+})
+
+server.express.post('/bookmarks', async (req, res, done) => {
+  const givenUrl = req.body.givenUrl
+  console.log('...givenUrl...', givenUrl)
+  res.json({ cool: 'guy' })
 })
 
 server.express.post('/graphql', checkJwt, (err, req, res, next) => {

@@ -12,10 +12,8 @@ import KeychainAccess
 
 class CustomShareViewController: UIViewController {
     // MARK: Properties
-
-    @IBOutlet var ctaButton: UIButton!
-    @IBOutlet var openHostApp: UIButton!
     @IBOutlet weak var authLabel: UILabel!
+    @IBOutlet weak var statusLabel: UILabel!
     @IBOutlet var tapRecognizer: UITapGestureRecognizer!
     // TODO: IMPORTANT: This should be your host app bundle identifier
     let hostAppBundleIdentifier = "com.lyralabs.app"
@@ -30,89 +28,13 @@ class CustomShareViewController: UIViewController {
 
     // MARK: Actions
     @IBAction func triggerTapRecognizer(_ sender: Any) {
-        print("handling tap")
-    }
-    
-    @IBAction func triggerCtaButton(_: UIButton) {
-      print("Calling the CTA Button!!!!!! 4")
-//      authLabel.isHidden = false
-//      authLabel.text = "COOL GUY"
-        
-      // let keychain = Keychain(service: "YYX7RJEJSR.org.reactjs.native.example.lyralabs", accessGroup: "group.org.reactjs.native.example.lyralabs")
-      
-//      let itemKey = "zuck"
-//      let itemValue = "My secretive bee 🐝"
-//      let keychainAccessGroupName = "YYX7RJEJSR.org.reactjs.native.example.lyralabs"
-//
-//      print(itemKey)
-//      let queryLoad: [String: AnyObject] = [
-//        kSecClass as String: kSecClassGenericPassword,
-//        kSecAttrAccount as String: itemKey as AnyObject,
-//        kSecReturnData as String: kCFBooleanTrue,
-//        kSecMatchLimit as String: kSecMatchLimitOne,
-//        kSecAttrAccessGroup as String: keychainAccessGroupName as AnyObject
-//      ]
-
-//      var result: AnyObject?
-//
-//      let resultCodeLoad = withUnsafeMutablePointer(to: &result) {
-//        SecItemCopyMatching(queryLoad as CFDictionary, UnsafeMutablePointer($0))
-//      }
-//
-//      if resultCodeLoad == noErr {
-//        if let result = result as? Data,
-//          let keyValue = NSString(data: result,
-//                                  encoding: String.Encoding.utf8.rawValue) as? String {
-//
-//          // Found successfully
-//          print("AAAAAA")
-//          print(keyValue)
-//          print("BBBBB")
-//        }
-//      } else {
-//        print("Error loading from Keychain: \(resultCodeLoad)")
-//      }
-
-//      
-//        extensionContext!.completeRequest(returningItems: nil, completionHandler: nil)
-
-        //      let session = URLSession.shared
-        //      let url = URL(string: "http://localhost:4000/healthz")!
-
-        //   let task = session.dataTask(with: url) { data, response, error in
-
-        //       if error != nil || data == nil {
-        //           print("Client error!")
-        //           return
-        //       }
-
-        //       guard let response = response as? HTTPURLResponse, (200...299).contains(response.statusCode) else {
-        //           print("Server error!")
-        //           return
-        //       }
-
-        //       guard let mime = response.mimeType, mime == "application/json" else {
-        //           print("Wrong MIME type!")
-        //           return
-        //       }
-
-        //       do {
-        //           let json = try JSONSerialization.jsonObject(with: data!, options: [])
-        //           print(json)
-        //       } catch {
-        //           print("JSON error: \(error.localizedDescription)")
-        //       }
-        //   }
-
-        //   task.resume()
+        extensionContext!.completeRequest(returningItems: nil, completionHandler: nil)
     }
 
     override func viewDidLoad() {
         super.viewDidLoad()
         let keychain = Keychain(service: "com.lyralabs.app", accessGroup: "KU5GP44363.com.lyralabs.app")
-//        let value = try! keychain.getData("friend")
-        if let value = try! keychain.getData("sessionx") { // If casting, use, eg, if let var = abc as? NSString
-            print("AAAAAA")
+        if let value = try! keychain.getData("session") {
           if let content = extensionContext!.inputItems[0] as? NSExtensionItem {
               if let contents = content.attachments {
                   for (index, attachment) in contents.enumerated() {
@@ -130,28 +52,10 @@ class CustomShareViewController: UIViewController {
                   }
               }
           }
-            // variableName will be abc, unwrapped
         } else {
-          print("BBBBB")
-            authLabel.isHidden = false
-            authLabel.text = "Log in to save to Lyra Labs"
-            // abc is nil
+            statusLabel.isHidden = false
+            statusLabel.text = "Log in to save to Lyra Labs"
         }
-//        print("Start of value")
-//        print(keychain)
-//        print(value)
-//        print("End of Value")
-        // Check if the user is logged in
-//      let userDefaults = UserDefaults(suiteName: "group.\(self.hostAppBundleIdentifier)")
-//                    userDefaults?.set(self.sharedText, forKey: self.sharedKey)
-//                    userDefaults?.synchronize()
-      //               self?.didSelectPost();
-//                    this.redirectToHostApp(type: .text)
-//      self.redirectToHostApp(type: .text)
-
-        // If user is logged in then upload the post
-        // This is called after the user selects Post. Do the upload of contentText and/or NSExtensionContext attachments.
-        
     }
 
     private func handleUnsupportedMediaType() {
@@ -164,23 +68,52 @@ class CustomShareViewController: UIViewController {
         attachment.loadItem(forTypeIdentifier: urlContentType, options: nil) { [weak self] data, error in
           
           if error == nil, let item = data as? URL, let this = self {
-            
-            
-            print("calling handleUrl")
-            print("calling handleUrl")
-            print("item")
-            print(item)
-            print("done")
-            this.sharedText.append(item.absoluteString)
-    //
-            // If this is the last item, save imagesData in userDefaults and redirect to host app
-            if index == (content.attachments?.count)! - 1 {
-              let userDefaults = UserDefaults(suiteName: "group.\(this.hostAppBundleIdentifier)")
-              userDefaults?.set(this.sharedText, forKey: this.sharedKey)
-              userDefaults?.synchronize()
-//               self?.didSelectPost();
-              this.redirectToHostApp(type: .text)
+            // Prepare URL
+            let url = URL(string: "http://localhost:4000/bookmarks")
+            guard let requestUrl = url else { fatalError() }
+            // Prepare URL Request Object
+            var request = URLRequest(url: requestUrl)
+            request.httpMethod = "POST"
+             
+            // HTTP Request Parameters which will be sent in HTTP Request Body
+            let postString = "givenUrl=\(item)";
+            // Set HTTP Request Body
+            request.httpBody = postString.data(using: String.Encoding.utf8);
+            // Perform HTTP Request
+            let task = URLSession.shared.dataTask(with: request) { (data, response, error) in
+                    
+                    // Check for Error
+                    if let error = error {
+                        print("Error took place \(error)")
+                        self?.statusLabel.isHidden = false
+                        self?.statusLabel.text = "Failed to save to Lyra Labs. Please try again later."
+                        
+                        return
+                    }
+             
+                    // Convert HTTP Response Data to a String
+                    if let data = data, let dataString = String(data: data, encoding: .utf8) {
+                        print("Response data string:\n \(dataString)")
+                        self.statusLabel.isHidden = false
+                        self.statusLabel.text = "Saved to Lyra Labs"
+                    }
             }
+            task.resume()
+            
+//            print("calling handleUrl")
+//            print("item")
+            
+//            print("done")
+//            this.sharedText.append(item.absoluteString)
+//    //
+//            // If this is the last item, save imagesData in userDefaults and redirect to host app
+//            if index == (content.attachments?.count)! - 1 {
+//              let userDefaults = UserDefaults(suiteName: "group.\(this.hostAppBundleIdentifier)")
+//              userDefaults?.set(this.sharedText, forKey: this.sharedKey)
+//              userDefaults?.synchronize()
+////               self?.didSelectPost();
+//              this.redirectToHostApp(type: .text)
+//            }
             
           } else {
             self?.dismissWithError()
