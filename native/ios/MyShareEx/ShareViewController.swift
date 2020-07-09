@@ -12,12 +12,16 @@ import KeychainAccess
 
 class CustomShareViewController: UIViewController {
     // MARK: Properties
-    @IBOutlet weak var authLabel: UILabel!
-    @IBOutlet weak var statusLabel: UILabel!
+    @IBOutlet weak var msgLabel: UILabel!
+    @IBOutlet weak var subMsgLabel: UILabel!
+    @IBOutlet weak var activityIndicator: UIActivityIndicatorView!
+    
+    
     @IBOutlet var tapRecognizer: UITapGestureRecognizer!
     // TODO: IMPORTANT: This should be your host app bundle identifier
     let hostAppBundleIdentifier = "com.lyralabs.app"
     let sharedKey = "ShareKey"
+    var accessToken = ""
     var sharedMedia: [SharedMediaFile] = []
     var sharedText: [String] = []
     let imageContentType = kUTTypeImage as String
@@ -30,31 +34,42 @@ class CustomShareViewController: UIViewController {
     @IBAction func triggerTapRecognizer(_ sender: Any) {
         extensionContext!.completeRequest(returningItems: nil, completionHandler: nil)
     }
-
+    
     override func viewDidLoad() {
         super.viewDidLoad()
+        self.msgLabel.text = ""
+        self.subMsgLabel.text = ""
         let keychain = Keychain(service: "com.lyralabs.app", accessGroup: "KU5GP44363.com.lyralabs.app")
-        if let value = try! keychain.getData("session") {
-          if let content = extensionContext!.inputItems[0] as? NSExtensionItem {
-              if let contents = content.attachments {
-                  for (index, attachment) in contents.enumerated() {
-                      if attachment.hasItemConformingToTypeIdentifier(imageContentType) {
-                          handleUnsupportedMediaType()
-                      } else if attachment.hasItemConformingToTypeIdentifier(textContentType) {
-                          handleUnsupportedMediaType()
-                      } else if attachment.hasItemConformingToTypeIdentifier(fileURLType) {
-                          handleUnsupportedMediaType()
-                      } else if attachment.hasItemConformingToTypeIdentifier(urlContentType) {
-                          handleUrl(content: content, attachment: attachment, index: index)
-                      } else if attachment.hasItemConformingToTypeIdentifier(videoContentType) {
-                          handleUnsupportedMediaType()
-                      }
-                  }
+        if let value = try! keychain.getString("session") {
+          let data = Data(value.utf8)
+          do {
+              if let json = try JSONSerialization.jsonObject(with: data, options: []) as? [String: Any] {
+                let token = json["accessToken"] as! String
+                self.accessToken = token
+                if let content = extensionContext!.inputItems[0] as? NSExtensionItem {
+                    if let contents = content.attachments {
+                        for (index, attachment) in contents.enumerated() {
+                            if attachment.hasItemConformingToTypeIdentifier(imageContentType) {
+                                handleUnsupportedMediaType()
+                            } else if attachment.hasItemConformingToTypeIdentifier(textContentType) {
+                                handleUnsupportedMediaType()
+                            } else if attachment.hasItemConformingToTypeIdentifier(fileURLType) {
+                                handleUnsupportedMediaType()
+                            } else if attachment.hasItemConformingToTypeIdentifier(urlContentType) {
+                                handleUrl(content: content, attachment: attachment, index: index)
+                            } else if attachment.hasItemConformingToTypeIdentifier(videoContentType) {
+                                handleUnsupportedMediaType()
+                            }
+                        }
+                    }
+                }
+                
               }
+          } catch let error as NSError {
+              print("Failed to load: \(error.localizedDescription)")
           }
         } else {
-            statusLabel.isHidden = false
-            statusLabel.text = "Log in to save to Lyra Labs"
+            msgLabel.text = "Log in to save to Lyra Labs"
         }
     }
 
@@ -65,9 +80,14 @@ class CustomShareViewController: UIViewController {
     }
 
     private func handleUrl (content: NSExtensionItem, attachment: NSItemProvider, index: Int) {
+        self.activityIndicator.startAnimating()
+        self.activityIndicator.isHidden = false
         attachment.loadItem(forTypeIdentifier: urlContentType, options: nil) { [weak self] data, error in
           
           if error == nil, let item = data as? URL, let this = self {
+            print("----in handleURL---")
+            print(self?.accessToken)
+            print("---------")
             // Prepare URL
             let url = URL(string: "http://localhost:4000/bookmarks")
             guard let requestUrl = url else { fatalError() }
@@ -81,21 +101,26 @@ class CustomShareViewController: UIViewController {
             request.httpBody = postString.data(using: String.Encoding.utf8);
             // Perform HTTP Request
             let task = URLSession.shared.dataTask(with: request) { (data, response, error) in
-                    
+                
+                self?.activityIndicator.isHidden = true
+                self?.activityIndicator.stopAnimating()
+                
+                
                     // Check for Error
                     if let error = error {
                         print("Error took place \(error)")
-                        self?.statusLabel.isHidden = false
-                        self?.statusLabel.text = "Failed to save to Lyra Labs. Please try again later."
                         
+                        self?.msgLabel.text = "Failed to save to Lyra Labs"
+                        self?.subMsgLabel.text = "Please try again later"
                         return
                     }
              
                     // Convert HTTP Response Data to a String
                     if let data = data, let dataString = String(data: data, encoding: .utf8) {
                         print("Response data string:\n \(dataString)")
-                        self.statusLabel.isHidden = false
-                        self.statusLabel.text = "Saved to Lyra Labs"
+                
+                        self?.msgLabel.text = "Saved to Lyra Labs"
+                        
                     }
             }
             task.resume()

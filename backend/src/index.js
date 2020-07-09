@@ -465,14 +465,9 @@ const Mutation = objectType({
       },
       resolve: async (_, { givenUrl }, ctx) => {
         const currentUser = ctx.request.user
-        const { body: html, url } = await got(givenUrl)
-        const metadata = await metascraper({ html, url })
-        return await prisma.post.create({
-          data: {
-            submitter: { connect: { id: currentUser.id } },
-            ...metadata,
-          },
-        })
+        const response = saveUrl(givenUrl, currentUser)
+        console.log('---- response ----', response)
+        return response
       },
     })
     t.field('createComment', {
@@ -558,6 +553,17 @@ const Mutation = objectType({
   },
 })
 
+const saveUrl = async (givenUrl, currentUser) => {
+  const { body: html, url } = await got(givenUrl)
+  const metadata = await metascraper({ html, url })
+  return await prisma.post.create({
+    data: {
+      submitter: { connect: { id: currentUser.id } },
+      ...metadata,
+    },
+  })
+}
+
 const prisma = new PrismaClient()
 
 const server = new GraphQLServer({
@@ -601,7 +607,9 @@ server.express.get('/healthz', async (req, res, done) => {
 
 server.express.post('/bookmarks', async (req, res, done) => {
   const givenUrl = req.body.givenUrl
+  const user = req.user
   console.log('...givenUrl...', givenUrl)
+  console.log('---user---', user)
   res.json({ cool: 'guy' })
 })
 
