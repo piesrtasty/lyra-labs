@@ -608,9 +608,9 @@ server.express.get('/healthz', async (req, res, done) => {
 server.express.post('/bookmarks', async (req, res, done) => {
   const givenUrl = req.body.givenUrl
   const user = req.user
-  console.log('...givenUrl...', givenUrl)
-  console.log('---user---', user)
-  res.json({ cool: 'guy' })
+  // console.log('...givenUrl...', givenUrl)
+  // console.log('---user---', user)
+  res.json({ sendUrl: givenUrl })
 })
 
 server.express.post('/graphql', checkJwt, (err, req, res, next) => {

@@ -14,7 +14,6 @@ class CustomShareViewController: UIViewController {
     // MARK: Properties
     @IBOutlet weak var msgLabel: UILabel!
     @IBOutlet weak var subMsgLabel: UILabel!
-    @IBOutlet weak var activityIndicator: UIActivityIndicatorView!
     
     
     @IBOutlet var tapRecognizer: UITapGestureRecognizer!
@@ -80,8 +79,6 @@ class CustomShareViewController: UIViewController {
     }
 
     private func handleUrl (content: NSExtensionItem, attachment: NSItemProvider, index: Int) {
-        self.activityIndicator.startAnimating()
-        self.activityIndicator.isHidden = false
         attachment.loadItem(forTypeIdentifier: urlContentType, options: nil) { [weak self] data, error in
           
           if error == nil, let item = data as? URL, let this = self {
@@ -89,7 +86,8 @@ class CustomShareViewController: UIViewController {
             print(self?.accessToken)
             print("---------")
             // Prepare URL
-            let url = URL(string: "http://localhost:4000/bookmarks")
+//            let url = URL(string: "http://localhost:4000/bookmarks")
+            let url = URL(string: "http://luke.local:4000/bookmarks")
             guard let requestUrl = url else { fatalError() }
             // Prepare URL Request Object
             var request = URLRequest(url: requestUrl)
@@ -102,16 +100,15 @@ class CustomShareViewController: UIViewController {
             // Perform HTTP Request
             let task = URLSession.shared.dataTask(with: request) { (data, response, error) in
                 
-                self?.activityIndicator.isHidden = true
-                self?.activityIndicator.stopAnimating()
+                
                 
                 
                     // Check for Error
                     if let error = error {
                         print("Error took place \(error)")
                         
-                        self?.msgLabel.text = "Failed to save to Lyra Labs"
-                        self?.subMsgLabel.text = "Please try again later"
+//                        self?.msgLabel.text = "Failed to save to Lyra Labs"
+//                        self?.subMsgLabel.text = "Please try again later"
                         return
                     }
              
@@ -119,10 +116,12 @@ class CustomShareViewController: UIViewController {
                     if let data = data, let dataString = String(data: data, encoding: .utf8) {
                         print("Response data string:\n \(dataString)")
                 
-                        self?.msgLabel.text = "Saved to Lyra Labs"
+//                        self?.msgLabel.text = "Saved to Lyra Labs"
                         
                     }
             }
+            
+            self?.msgLabel.text = "Saved to Lyra Labs"
             task.resume()
             
 //            print("calling handleUrl")
