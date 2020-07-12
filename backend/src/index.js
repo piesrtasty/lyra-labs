@@ -589,13 +589,6 @@ const server = new GraphQLServer({
 server.express.use(bodyParser.json()) // support json encoded bodies
 server.express.use(bodyParser.urlencoded({ extended: true })) // support encoded bodies
 
-server.express.get('/save', async (req, res, done) => {
-  const params = req.body
-  res.json({ status: 'UP', name: 'Luke' })
-  // Invoke prisma from here
-  // let smth = await prismaClient.query.users(...);
-})
-
 server.express.get('/healthz', async (req, res, done) => {
   const healthcheck = {
     uptime: process.uptime(),
@@ -605,11 +598,18 @@ server.express.get('/healthz', async (req, res, done) => {
   res.json(healthcheck)
 })
 
-server.express.post('/bookmarks', async (req, res, done) => {
-  const givenUrl = req.body.givenUrl
+server.express.post('/save', checkJwt, async (req, res, done) => {
+  console.log('-------req.body------')
+  console.log(req.body)
+  console.log('-------------')
+  console.log('-------req.headers------')
+  console.log(req.headers)
+  console.log('---------------')
+  const { givenUrl, title } = req.body
+  // const title = req.body.givenUrl
   const user = req.user
   // console.log('...givenUrl...', givenUrl)
-  // console.log('---user---', user)
+  console.log('---user---', user)
   res.json({ sendUrl: givenUrl })
 })
 

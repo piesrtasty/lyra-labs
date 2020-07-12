@@ -99,29 +99,16 @@ class CustomShareViewController: UIViewController {
             request.httpBody = postString.data(using: String.Encoding.utf8);
             // Perform HTTP Request
             let task = URLSession.shared.dataTask(with: request) { (data, response, error) in
-                
-                
-                
-                
                     // Check for Error
                     if let error = error {
                         print("Error took place \(error)")
-                        
-//                        self?.msgLabel.text = "Failed to save to Lyra Labs"
-//                        self?.subMsgLabel.text = "Please try again later"
                         return
                     }
-             
                     // Convert HTTP Response Data to a String
                     if let data = data, let dataString = String(data: data, encoding: .utf8) {
                         print("Response data string:\n \(dataString)")
-                
-//                        self?.msgLabel.text = "Saved to Lyra Labs"
-                        
                     }
             }
-            
-            self?.msgLabel.text = "Saved to Lyra Labs"
             task.resume()
             
 //            print("calling handleUrl")
