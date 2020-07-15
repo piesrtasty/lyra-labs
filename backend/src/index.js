@@ -465,7 +465,7 @@ const Mutation = objectType({
       },
       resolve: async (_, { givenUrl }, ctx) => {
         const currentUser = ctx.request.user
-        const response = saveUrl(givenUrl, currentUser)
+        const response = await saveUrl(givenUrl, currentUser)
         console.log('---- response ----', response)
         return response
       },
@@ -599,6 +599,7 @@ server.express.get('/healthz', async (req, res, done) => {
 })
 
 server.express.post('/save', checkJwt, async (req, res, done) => {
+  // getUser(req, res, next, prisma)
   console.log('-------req.body------')
   console.log(req.body)
   console.log('-------------')
@@ -608,8 +609,13 @@ server.express.post('/save', checkJwt, async (req, res, done) => {
   const { givenUrl, title } = req.body
   // const title = req.body.givenUrl
   const user = req.user
+  const auth0id = req.user.sub
+  const currentUser = await prisma.user.findOne({ where: { auth0id } })
+  console.log('---currentUser---', currentUser)
+  const response = await saveUrl(givenUrl, currentUser)
+  console.log('---- response test ----', response)
   // console.log('...givenUrl...', givenUrl)
-  console.log('---user---', user)
+
   res.json({ sendUrl: givenUrl })
 })
 

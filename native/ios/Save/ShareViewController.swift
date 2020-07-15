@@ -68,9 +68,7 @@ class ShareViewController: SLComposeServiceViewController {
                         let postString = "givenUrl=\(shareURL)&title=\(self.textView.text as String)";
                         // Set HTTP Request Body
                         request.httpBody = postString.data(using: String.Encoding.utf8);
-                        
                         request.setValue("Bearer \(self.accessToken as String)", forHTTPHeaderField: "Authorization")
-
                         // Perform HTTP Request
                         let task = URLSession.shared.dataTask(with: request) { (data, response, error) in
                           // Check for Error
