@@ -21,12 +21,13 @@ class ShareViewController: SLComposeServiceViewController {
         // Do validation of contentText and/or NSExtensionContext attachments here
         return true
     }
-  
+
     override func viewDidLoad() {
       super.viewDidLoad()
+      navigationController?.navigationBar.tintColor = .white
+      navigationController?.navigationBar.backgroundColor = UIColor(red:0.39, green:0.46, blue:0.86, alpha:1.00)
       let keychain = Keychain(service: "com.lyralabs.app", accessGroup: "KU5GP44363.com.lyralabs.app")
       if let value = try! keychain.getString("session") {
-        print("AAAAA")
         let data = Data(value.utf8)
         do {
             if let json = try JSONSerialization.jsonObject(with: data, options: []) as? [String: Any] {
@@ -37,22 +38,23 @@ class ShareViewController: SLComposeServiceViewController {
             print("Failed to load: \(error.localizedDescription)")
         }
       } else {
-         let alert = UIAlertController(title: "Log in to save to Lyra Labs.", message: nil, preferredStyle: UIAlertController.Style.alert)
-             alert.addAction(UIAlertAction(title: "Ok", style: UIAlertAction.Style.default, handler: closeExtensionHandler))
-             present(alert, animated: true, completion: nil)
+        displayUIAlertController(title: "Log in to save to Lyra Labs.")
       }
-      
     }
   
     func closeExtensionHandler(alert: UIAlertAction!) {
       self.extensionContext?.completeRequest(returningItems: [], completionHandler:nil)
     }
   
+    func displayUIAlertController(title: String, message: String? = nil) {
+      let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
+      alert.addAction(UIAlertAction(title: "OK", style: UIAlertAction.Style.default, handler: { (action: UIAlertAction!) -> () in
+        self.extensionContext!.completeRequest(returningItems: [], completionHandler: nil)
+      }))
+      self.present(alert, animated: true, completion: nil)
+    }
+  
     override func didSelectPost() {
-      print("------on did select post ------")
-      print(self.accessToken)
-      print("----------------")
-      
       if let item = extensionContext?.inputItems.first as? NSExtensionItem {
           if let itemProvider = item.attachments?.first {
               if itemProvider.hasItemConformingToTypeIdentifier("public.url") {
@@ -74,55 +76,37 @@ class ShareViewController: SLComposeServiceViewController {
                           // Check for Error
                           if let error = error {
                             print("Error took place \(error)")
+                            DispatchQueue.main.async {
+                              self.displayUIAlertController(title: "Failed to save 😔", message: "Please try again later.")
+                            }
                             return
                           }
                           // Convert HTTP Response Data to a String
                           if let data = data, let dataString = String(data: data, encoding: .utf8) {
                             print("Response data string:\n \(dataString)")
+                            DispatchQueue.main.async {
+                              self.displayUIAlertController(title: "Saved to Lyra Labs! 🥳")
+                            }
                           }
                         }
                         task.resume()
-                          // do what you want to do with shareURL
                       }
-//                      self.extensionContext?.completeRequest(returningItems: [], completionHandler:nil)
                   })
               }
           }
       }
-//      self.extensionContext?.completeRequest(returningItems: [], completionHandler:nil)
-     
     }
   
-    
+//  override func configurationItems() -> [Any]! {
+//      if let deck = SLComposeSheetConfigurationItem() {
+//          deck.title = "Selected Deck"
+//          deck.value = "Deck Title"
+//          deck.tapHandler = {
+//              // on tap
+//          }
+//          return [deck]
+//      }
+//      return nil
+//  }
   
-  
-//    override func didSelectPost() {
-//        // This is called after the user selects Post. Do the upload of contentText and/or NSExtensionContext attachments.
-//
-//
-//
-//        // Inform the host that we're done, so it un-blocks its UI. Note: Alternatively you could call super's -didSelectPost, which will similarly complete the extension context.
-//        self.extensionContext!.completeRequest(returningItems: [], completionHandler: nil)
-//    }
-
-    override func configurationItems() -> [Any]! {
-        // To add configuration options via table cells at the bottom of the sheet, return an array of SLComposeSheetConfigurationItem here.
-        return []
-    }
-  
-    private func handleUnsupportedMediaType() {
-        let alert = UIAlertController(title: "This media type is not supported yet.", message: nil, preferredStyle: UIAlertController.Style.alert)
-        alert.addAction(UIAlertAction(title: "Ok", style: UIAlertAction.Style.default, handler: nil))
-        present(alert, animated: true, completion: nil)
-    }
-
-}
-
-extension NSItemProvider {
-  var isURL: Bool {
-    return hasItemConformingToTypeIdentifier(kUTTypeURL as String)
-  }
-  var isText: Bool {
-    return hasItemConformingToTypeIdentifier(kUTTypeText as String)
-  }
 }

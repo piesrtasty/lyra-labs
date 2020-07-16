@@ -12,13 +12,6 @@
 		13B07FBD1A68108700A75B9A /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 13B07FB11A68108700A75B9A /* LaunchScreen.xib */; };
 		13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 13B07FB51A68108700A75B9A /* Images.xcassets */; };
 		13B07FC11A68108700A75B9A /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB71A68108700A75B9A /* main.m */; };
-		471BF15F249C666C00343A6C /* MainInterface.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 471BF15E249C666C00343A6C /* MainInterface.storyboard */; };
-		47673C7224A9A3D7004826F7 /* KeychainAccess.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 47673C6D24A9A3B9004826F7 /* KeychainAccess.framework */; };
-		47673C7324A9A3D7004826F7 /* KeychainAccess.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 47673C6D24A9A3B9004826F7 /* KeychainAccess.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
-		47BB08E82495C71600D9C925 /* ShareViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47BB08E72495C71600D9C925 /* ShareViewController.swift */; };
-		47BB08EF2495C71600D9C925 /* MyShareEx.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = 47BB08E52495C71600D9C925 /* MyShareEx.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
-		47F9577824B2BE2B00D2BBEC /* lyra-labs-logo.png in Resources */ = {isa = PBXBuildFile; fileRef = 47F9577524B2BE2B00D2BBEC /* lyra-labs-logo.png */; };
-		47F9577924B2BE2B00D2BBEC /* lyra-labs-logo@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 47F9577624B2BE2B00D2BBEC /* lyra-labs-logo@2x.png */; };
 		47F9578224B7FCB900D2BBEC /* ShareViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47F9578124B7FCB900D2BBEC /* ShareViewController.swift */; };
 		47F9578524B7FCB900D2BBEC /* MainInterface.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 47F9578324B7FCB900D2BBEC /* MainInterface.storyboard */; };
 		47F9578924B7FCB900D2BBEC /* Save.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = 47F9577F24B7FCB900D2BBEC /* Save.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
@@ -57,13 +50,6 @@
 			remoteGlobalIDString = 14A630151D3293C700809B3F;
 			remoteInfo = TestHost;
 		};
-		47BB08ED2495C71600D9C925 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 83CBB9F71A601CBA00E9B192 /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = 47BB08E42495C71600D9C925;
-			remoteInfo = MyShareEx;
-		};
 		47F9578724B7FCB900D2BBEC /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 83CBB9F71A601CBA00E9B192 /* Project object */;
@@ -74,24 +60,12 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXCopyFilesBuildPhase section */
-		47673C7424A9A3D7004826F7 /* Embed Frameworks */ = {
-			isa = PBXCopyFilesBuildPhase;
-			buildActionMask = 2147483647;
-			dstPath = "";
-			dstSubfolderSpec = 10;
-			files = (
-				47673C7324A9A3D7004826F7 /* KeychainAccess.framework in Embed Frameworks */,
-			);
-			name = "Embed Frameworks";
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 		47BB08F02495C71600D9C925 /* Embed App Extensions */ = {
 			isa = PBXCopyFilesBuildPhase;
 			buildActionMask = 2147483647;
 			dstPath = "";
 			dstSubfolderSpec = 13;
 			files = (
-				47BB08EF2495C71600D9C925 /* MyShareEx.appex in Embed App Extensions */,
 				47F9578924B7FCB900D2BBEC /* Save.appex in Embed App Extensions */,
 			);
 			name = "Embed App Extensions";
@@ -124,19 +98,8 @@
 		13B07FB71A68108700A75B9A /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = main.m; path = lyralabs/main.m; sourceTree = "<group>"; };
 		199DB80BDF8E4014EECB00AE /* Pods-lyralabs.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-lyralabs.debug.xcconfig"; path = "Target Support Files/Pods-lyralabs/Pods-lyralabs.debug.xcconfig"; sourceTree = "<group>"; };
 		408D3221D0722ACD27998203 /* Pods-lyralabs-lyralabsTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-lyralabs-lyralabsTests.debug.xcconfig"; path = "Target Support Files/Pods-lyralabs-lyralabsTests/Pods-lyralabs-lyralabsTests.debug.xcconfig"; sourceTree = "<group>"; };
-		471BF15E249C666C00343A6C /* MainInterface.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = MainInterface.storyboard; sourceTree = "<group>"; };
-		471BF16624A02AA800343A6C /* ShareViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShareViewController.swift; sourceTree = "<group>"; };
-		471BF16924A02AA800343A6C /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/MainInterface.storyboard; sourceTree = "<group>"; };
-		471BF16B24A02AA800343A6C /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		47673C6524A989A4004826F7 /* MyShareExDebug.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = MyShareExDebug.entitlements; sourceTree = "<group>"; };
 		47673C6624A9A3B9004826F7 /* KeychainAccess.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = KeychainAccess.xcodeproj; path = ../../../KeychainAccess/Lib/KeychainAccess.xcodeproj; sourceTree = "<group>"; };
-		47BB08E52495C71600D9C925 /* MyShareEx.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = MyShareEx.appex; sourceTree = BUILT_PRODUCTS_DIR; };
-		47BB08E72495C71600D9C925 /* ShareViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShareViewController.swift; sourceTree = "<group>"; };
-		47BB08EC2495C71600D9C925 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		47BB08F42495CAF300D9C925 /* lyralabs.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; name = lyralabs.entitlements; path = lyralabs/lyralabs.entitlements; sourceTree = "<group>"; };
-		47BB08F52495CBD400D9C925 /* MyShareEx.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = MyShareEx.entitlements; sourceTree = "<group>"; };
-		47F9577524B2BE2B00D2BBEC /* lyra-labs-logo.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "lyra-labs-logo.png"; sourceTree = "<group>"; };
-		47F9577624B2BE2B00D2BBEC /* lyra-labs-logo@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "lyra-labs-logo@2x.png"; sourceTree = "<group>"; };
 		47F9577F24B7FCB900D2BBEC /* Save.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = Save.appex; sourceTree = BUILT_PRODUCTS_DIR; };
 		47F9578124B7FCB900D2BBEC /* ShareViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShareViewController.swift; sourceTree = "<group>"; };
 		47F9578424B7FCB900D2BBEC /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/MainInterface.storyboard; sourceTree = "<group>"; };
@@ -172,14 +135,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				93104329370F8DD65F85220A /* libPods-lyralabs.a in Frameworks */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		47BB08E22495C71600D9C925 /* Frameworks */ = {
-			isa = PBXFrameworksBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				47673C7224A9A3D7004826F7 /* KeychainAccess.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -239,16 +194,6 @@
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
-		471BF16524A02AA800343A6C /* Test */ = {
-			isa = PBXGroup;
-			children = (
-				471BF16624A02AA800343A6C /* ShareViewController.swift */,
-				471BF16824A02AA800343A6C /* MainInterface.storyboard */,
-				471BF16B24A02AA800343A6C /* Info.plist */,
-			);
-			path = Test;
-			sourceTree = "<group>";
-		};
 		47673C6724A9A3B9004826F7 /* Products */ = {
 			isa = PBXGroup;
 			children = (
@@ -257,28 +202,6 @@
 				47673C7124A9A3B9004826F7 /* TestHost.app */,
 			);
 			name = Products;
-			sourceTree = "<group>";
-		};
-		47BB08E62495C71600D9C925 /* MyShareEx */ = {
-			isa = PBXGroup;
-			children = (
-				47F9577424B2BE0800D2BBEC /* images */,
-				47673C6524A989A4004826F7 /* MyShareExDebug.entitlements */,
-				47BB08F52495CBD400D9C925 /* MyShareEx.entitlements */,
-				47BB08E72495C71600D9C925 /* ShareViewController.swift */,
-				47BB08EC2495C71600D9C925 /* Info.plist */,
-				471BF15E249C666C00343A6C /* MainInterface.storyboard */,
-			);
-			path = MyShareEx;
-			sourceTree = "<group>";
-		};
-		47F9577424B2BE0800D2BBEC /* images */ = {
-			isa = PBXGroup;
-			children = (
-				47F9577524B2BE2B00D2BBEC /* lyra-labs-logo.png */,
-				47F9577624B2BE2B00D2BBEC /* lyra-labs-logo@2x.png */,
-			);
-			path = images;
 			sourceTree = "<group>";
 		};
 		47F9578024B7FCB900D2BBEC /* Save */ = {
@@ -306,8 +229,6 @@
 				13B07FAE1A68108700A75B9A /* lyralabs */,
 				832341AE1AAA6A7D00B99B32 /* Libraries */,
 				00E356EF1AD99517003FC87E /* lyralabsTests */,
-				47BB08E62495C71600D9C925 /* MyShareEx */,
-				471BF16524A02AA800343A6C /* Test */,
 				47F9578024B7FCB900D2BBEC /* Save */,
 				83CBBA001A601CBA00E9B192 /* Products */,
 				2D16E6871FA4F8E400B85C8A /* Frameworks */,
@@ -323,7 +244,6 @@
 			children = (
 				13B07F961A680F5B00A75B9A /* lyralabs.app */,
 				00E356EE1AD99517003FC87E /* lyralabsTests.xctest */,
-				47BB08E52495C71600D9C925 /* MyShareEx.appex */,
 				47F9577F24B7FCB900D2BBEC /* Save.appex */,
 			);
 			name = Products;
@@ -383,31 +303,12 @@
 			buildRules = (
 			);
 			dependencies = (
-				47BB08EE2495C71600D9C925 /* PBXTargetDependency */,
 				47F9578824B7FCB900D2BBEC /* PBXTargetDependency */,
 			);
 			name = lyralabs;
 			productName = lyralabs;
 			productReference = 13B07F961A680F5B00A75B9A /* lyralabs.app */;
 			productType = "com.apple.product-type.application";
-		};
-		47BB08E42495C71600D9C925 /* MyShareEx */ = {
-			isa = PBXNativeTarget;
-			buildConfigurationList = 47BB08F32495C71600D9C925 /* Build configuration list for PBXNativeTarget "MyShareEx" */;
-			buildPhases = (
-				47BB08E12495C71600D9C925 /* Sources */,
-				47BB08E22495C71600D9C925 /* Frameworks */,
-				47BB08E32495C71600D9C925 /* Resources */,
-				47673C7424A9A3D7004826F7 /* Embed Frameworks */,
-			);
-			buildRules = (
-			);
-			dependencies = (
-			);
-			name = MyShareEx;
-			productName = MyShareEx;
-			productReference = 47BB08E52495C71600D9C925 /* MyShareEx.appex */;
-			productType = "com.apple.product-type.app-extension";
 		};
 		47F9577E24B7FCB900D2BBEC /* Save */ = {
 			isa = PBXNativeTarget;
@@ -446,11 +347,6 @@
 						LastSwiftMigration = 1120;
 						ProvisioningStyle = Automatic;
 					};
-					47BB08E42495C71600D9C925 = {
-						CreatedOnToolsVersion = 11.5;
-						DevelopmentTeam = KU5GP44363;
-						ProvisioningStyle = Automatic;
-					};
 					47F9577E24B7FCB900D2BBEC = {
 						CreatedOnToolsVersion = 11.5;
 						DevelopmentTeam = KU5GP44363;
@@ -479,7 +375,6 @@
 			targets = (
 				13B07F861A680F5B00A75B9A /* lyralabs */,
 				00E356ED1AD99517003FC87E /* lyralabsTests */,
-				47BB08E42495C71600D9C925 /* MyShareEx */,
 				47F9577E24B7FCB900D2BBEC /* Save */,
 			);
 		};
@@ -523,16 +418,6 @@
 			files = (
 				13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */,
 				13B07FBD1A68108700A75B9A /* LaunchScreen.xib in Resources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		47BB08E32495C71600D9C925 /* Resources */ = {
-			isa = PBXResourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				47F9577824B2BE2B00D2BBEC /* lyra-labs-logo.png in Resources */,
-				471BF15F249C666C00343A6C /* MainInterface.storyboard in Resources */,
-				47F9577924B2BE2B00D2BBEC /* lyra-labs-logo@2x.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -644,14 +529,6 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		47BB08E12495C71600D9C925 /* Sources */ = {
-			isa = PBXSourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				47BB08E82495C71600D9C925 /* ShareViewController.swift in Sources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 		47F9577B24B7FCB900D2BBEC /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -668,11 +545,6 @@
 			target = 13B07F861A680F5B00A75B9A /* lyralabs */;
 			targetProxy = 00E356F41AD99517003FC87E /* PBXContainerItemProxy */;
 		};
-		47BB08EE2495C71600D9C925 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = 47BB08E42495C71600D9C925 /* MyShareEx */;
-			targetProxy = 47BB08ED2495C71600D9C925 /* PBXContainerItemProxy */;
-		};
 		47F9578824B7FCB900D2BBEC /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = 47F9577E24B7FCB900D2BBEC /* Save */;
@@ -688,14 +560,6 @@
 			);
 			name = LaunchScreen.xib;
 			path = lyralabs;
-			sourceTree = "<group>";
-		};
-		471BF16824A02AA800343A6C /* MainInterface.storyboard */ = {
-			isa = PBXVariantGroup;
-			children = (
-				471BF16924A02AA800343A6C /* Base */,
-			);
-			name = MainInterface.storyboard;
 			sourceTree = "<group>";
 		};
 		47F9578324B7FCB900D2BBEC /* MainInterface.storyboard */ = {
@@ -815,143 +679,6 @@
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_VERSION = 5.0;
 				VERSIONING_SYSTEM = "apple-generic";
-			};
-			name = Release;
-		};
-		47BB08F12495C71600D9C925 /* Debug */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				CLANG_ANALYZER_NONNULL = YES;
-				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
-				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
-				CLANG_ENABLE_OBJC_WEAK = YES;
-				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
-				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
-				CODE_SIGN_ENTITLEMENTS = MyShareEx/MyShareExDebug.entitlements;
-				CODE_SIGN_STYLE = Automatic;
-				DEBUG_INFORMATION_FORMAT = dwarf;
-				DEVELOPMENT_TEAM = KU5GP44363;
-				GCC_C_LANGUAGE_STANDARD = gnu11;
-				HEADER_SEARCH_PATHS = (
-					"$(inherited)",
-					"\"${PODS_ROOT}/Headers/Public\"",
-					"\"${PODS_ROOT}/Headers/Public/A0Auth0\"",
-					"\"${PODS_ROOT}/Headers/Public/CocoaAsyncSocket\"",
-					"\"${PODS_ROOT}/Headers/Public/CocoaLibEvent\"",
-					"\"${PODS_ROOT}/Headers/Public/DoubleConversion\"",
-					"\"${PODS_ROOT}/Headers/Public/FBLazyVector\"",
-					"\"${PODS_ROOT}/Headers/Public/FBReactNativeSpec\"",
-					"\"${PODS_ROOT}/Headers/Public/Flipper\"",
-					"\"${PODS_ROOT}/Headers/Public/Flipper-DoubleConversion\"",
-					"\"${PODS_ROOT}/Headers/Public/Flipper-Folly\"",
-					"\"${PODS_ROOT}/Headers/Public/Flipper-Glog\"",
-					"\"${PODS_ROOT}/Headers/Public/Flipper-PeerTalk\"",
-					"\"${PODS_ROOT}/Headers/Public/Flipper-RSocket\"",
-					"\"${PODS_ROOT}/Headers/Public/FlipperKit\"",
-					"\"${PODS_ROOT}/Headers/Public/OpenSSL-Universal\"",
-					"\"${PODS_ROOT}/Headers/Public/RCTRequired\"",
-					"\"${PODS_ROOT}/Headers/Public/RCTTypeSafety\"",
-					"\"${PODS_ROOT}/Headers/Public/RNCAsyncStorage\"",
-					"\"${PODS_ROOT}/Headers/Public/RNCMaskedView\"",
-					"\"${PODS_ROOT}/Headers/Public/RNGestureHandler\"",
-					"\"${PODS_ROOT}/Headers/Public/RNKeychain\"",
-					"\"${PODS_ROOT}/Headers/Public/RNReanimated\"",
-					"\"${PODS_ROOT}/Headers/Public/RNScreens\"",
-					"\"${PODS_ROOT}/Headers/Public/React-Core\"",
-					"\"${PODS_ROOT}/Headers/Public/React-RCTText\"",
-					"\"${PODS_ROOT}/Headers/Public/React-cxxreact\"",
-					"\"${PODS_ROOT}/Headers/Public/React-jsi\"",
-					"\"${PODS_ROOT}/Headers/Public/React-jsiexecutor\"",
-					"\"${PODS_ROOT}/Headers/Public/React-jsinspector\"",
-					"\"${PODS_ROOT}/Headers/Public/ReactCommon\"",
-					"\"${PODS_ROOT}/Headers/Public/Yoga\"",
-					"\"${PODS_ROOT}/Headers/Public/YogaKit\"",
-					"\"${PODS_ROOT}/Headers/Public/glog\"",
-					"\"${PODS_ROOT}/Headers/Public/react-native-receive-sharing-intent\"",
-					"\"${PODS_ROOT}/Headers/Public/react-native-safe-area-context\"",
-					"\"${PODS_ROOT}/Headers/Public/KeychainAccess\"",
-				);
-				INFOPLIST_FILE = MyShareEx/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 13.5;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @executable_path/../../Frameworks";
-				LIBRARY_SEARCH_PATHS = "\"$(TOOLCHAIN_DIR)/usr/lib/swift/$(PLATFORM_NAME)\"";
-				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
-				MTL_FAST_MATH = YES;
-				PRODUCT_BUNDLE_IDENTIFIER = com.lyralabs.app.MyShareEx;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				SKIP_INSTALL = YES;
-				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
-				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
-				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
-			};
-			name = Debug;
-		};
-		47BB08F22495C71600D9C925 /* Release */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				CLANG_ANALYZER_NONNULL = YES;
-				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
-				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
-				CLANG_ENABLE_OBJC_WEAK = YES;
-				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
-				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
-				CODE_SIGN_ENTITLEMENTS = MyShareEx/MyShareEx.entitlements;
-				CODE_SIGN_STYLE = Automatic;
-				COPY_PHASE_STRIP = NO;
-				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
-				DEVELOPMENT_TEAM = KU5GP44363;
-				GCC_C_LANGUAGE_STANDARD = gnu11;
-				HEADER_SEARCH_PATHS = (
-					"$(inherited)",
-					"\"${PODS_ROOT}/Headers/Public\"",
-					"\"${PODS_ROOT}/Headers/Public/A0Auth0\"",
-					"\"${PODS_ROOT}/Headers/Public/CocoaAsyncSocket\"",
-					"\"${PODS_ROOT}/Headers/Public/CocoaLibEvent\"",
-					"\"${PODS_ROOT}/Headers/Public/DoubleConversion\"",
-					"\"${PODS_ROOT}/Headers/Public/FBLazyVector\"",
-					"\"${PODS_ROOT}/Headers/Public/FBReactNativeSpec\"",
-					"\"${PODS_ROOT}/Headers/Public/Flipper\"",
-					"\"${PODS_ROOT}/Headers/Public/Flipper-DoubleConversion\"",
-					"\"${PODS_ROOT}/Headers/Public/Flipper-Folly\"",
-					"\"${PODS_ROOT}/Headers/Public/Flipper-Glog\"",
-					"\"${PODS_ROOT}/Headers/Public/Flipper-PeerTalk\"",
-					"\"${PODS_ROOT}/Headers/Public/Flipper-RSocket\"",
-					"\"${PODS_ROOT}/Headers/Public/FlipperKit\"",
-					"\"${PODS_ROOT}/Headers/Public/OpenSSL-Universal\"",
-					"\"${PODS_ROOT}/Headers/Public/RCTRequired\"",
-					"\"${PODS_ROOT}/Headers/Public/RCTTypeSafety\"",
-					"\"${PODS_ROOT}/Headers/Public/RNCAsyncStorage\"",
-					"\"${PODS_ROOT}/Headers/Public/RNCMaskedView\"",
-					"\"${PODS_ROOT}/Headers/Public/RNGestureHandler\"",
-					"\"${PODS_ROOT}/Headers/Public/RNKeychain\"",
-					"\"${PODS_ROOT}/Headers/Public/RNReanimated\"",
-					"\"${PODS_ROOT}/Headers/Public/RNScreens\"",
-					"\"${PODS_ROOT}/Headers/Public/React-Core\"",
-					"\"${PODS_ROOT}/Headers/Public/React-RCTText\"",
-					"\"${PODS_ROOT}/Headers/Public/React-cxxreact\"",
-					"\"${PODS_ROOT}/Headers/Public/React-jsi\"",
-					"\"${PODS_ROOT}/Headers/Public/React-jsiexecutor\"",
-					"\"${PODS_ROOT}/Headers/Public/React-jsinspector\"",
-					"\"${PODS_ROOT}/Headers/Public/ReactCommon\"",
-					"\"${PODS_ROOT}/Headers/Public/Yoga\"",
-					"\"${PODS_ROOT}/Headers/Public/YogaKit\"",
-					"\"${PODS_ROOT}/Headers/Public/glog\"",
-					"\"${PODS_ROOT}/Headers/Public/react-native-receive-sharing-intent\"",
-					"\"${PODS_ROOT}/Headers/Public/react-native-safe-area-context\"",
-					"\"${PODS_ROOT}/Headers/Public/KeychainAccess\"",
-				);
-				INFOPLIST_FILE = MyShareEx/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 13.5;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @executable_path/../../Frameworks";
-				LIBRARY_SEARCH_PATHS = "\"$(TOOLCHAIN_DIR)/usr/lib/swift/$(PLATFORM_NAME)\"";
-				MTL_FAST_MATH = YES;
-				PRODUCT_BUNDLE_IDENTIFIER = com.lyralabs.app.MyShareEx;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				SKIP_INSTALL = YES;
-				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
-				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Release;
 		};
@@ -1147,15 +874,6 @@
 			buildConfigurations = (
 				13B07F941A680F5B00A75B9A /* Debug */,
 				13B07F951A680F5B00A75B9A /* Release */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
-		};
-		47BB08F32495C71600D9C925 /* Build configuration list for PBXNativeTarget "MyShareEx" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				47BB08F12495C71600D9C925 /* Debug */,
-				47BB08F22495C71600D9C925 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
