@@ -17,21 +17,21 @@ const Avatar = styled("img")({
   cursor: "pointer",
   [TABLET]: {
     height: MOBILE_AVATAR_DIMENSION,
-    width: MOBILE_AVATAR_DIMENSION
-  }
+    width: MOBILE_AVATAR_DIMENSION,
+  },
 });
 
 const Container = styled("div")({
   height: 60,
   display: "flex",
-  alignItems: "center"
+  alignItems: "center",
 });
 
 const UserAvatar = ({ user }) => {
   const LINKS = [
     { label: "My Profile", route: `@${user.username}` },
-    { label: "Settings", route: "/my/settings/edit" },
-    { label: "Logout", route: "/api/logout" }
+    { label: "Settings", route: "/settings" },
+    { label: "Logout", route: "/api/logout" },
   ];
   const anchor = (
     <Container>
