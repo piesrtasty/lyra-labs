@@ -1,10 +1,25 @@
 import React from "react";
 
-const login = "/login?redirected=true";
+const login = "/";
 
-const checkUserAuthentication = () => {
-  //   return { auth: null }; // change null to { isAdmin: true } for test it.
-  return false; // change null to { isAdmin: true } for test it.
+const checkUserAuthentication = async (req) => {
+  const dev = process.env.NODE_ENV !== "production";
+  const server = dev ? "http://localhost:3000" : "https://lyralabs.io";
+  try {
+    const response = await fetch(`${server}/api/me`, {
+      headers: {
+        cookie: req.headers.cookie,
+      },
+    });
+    const profile = await response.json();
+    if (profile.error) {
+      return false;
+    } else {
+      return true;
+    }
+  } catch (err) {
+    return false;
+  }
 };
 
 export const withPrivateRoute = (Component, options = {}) => {
@@ -12,10 +27,8 @@ export const withPrivateRoute = (Component, options = {}) => {
     return <Component {...props} />;
   };
   WithPrivateRoute.getInitialProps = async (ctx) => {
-    console.log("XXXXX CRYSTAL CLEAR XXX", ctx.res);
-    const res = ctx.res;
-    const isAuthorized = await checkUserAuthentication();
-    // console.log("XXX userAuth XXX", userAuth);
+    const { req, res } = ctx;
+    const isAuthorized = await checkUserAuthentication(req);
     if (!isAuthorized) {
       // Handle server-side and client-side rendering.
       if (res) {
@@ -27,26 +40,10 @@ export const withPrivateRoute = (Component, options = {}) => {
         Router.replace(login);
       }
     } else {
-      console.log("AT THE COOL PART");
       let pageProps = {};
       pageProps = await Component.getInitialProps(ctx);
       return { ...pageProps };
     }
-
-    // else if (Component.getInitialProps) {
-    //   const wrappedProps = await Component.getInitialProps();
-    //   return { ...wrappedProps };
-    // }
-    // res?.writeHead(302, {
-    //   Location: login,
-    // });
-    // res?.end();
-    // const req = ctx.ctx.req;
-    // const md = req ? new MobileDetect(req.headers["user-agent"]) : null;
-    // const isMobile = md ? (md.phone() ? true : false) : false;
-    // let pageProps = {};
-    // pageProps = await Component.getInitialProps(ctx);
-    // return { ...pageProps, isMobile };
   };
   return WithPrivateRoute;
 };

@@ -20,5 +20,3 @@ const enhance = compose(
   withPrivateRoute
 );
 export default enhance(SettingsPage);
-
-// export default withPrivateRoute(SettingsPage);
