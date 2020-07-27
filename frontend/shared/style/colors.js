@@ -22,6 +22,12 @@ export const POWDER_BLUE = "rgba(47,160,255,.4)";
 export const A = "84FFFF";
 export const B = "";
 
+export const JET = "#333333";
+export const LIGHT_CORAL = "#ff8484";
+export const MAGIC_MINT = "#95f2d9";
+export const MANATEE = "#8d99ae";
+export const LAVENDER_FLORAL = "#af80ff";
+
 // #E9FFC4
 // #84FFFF
 // #2EFFCA
@@ -36,3 +42,37 @@ export const B = "";
 // '#08d9d6'
 // '#252a34'
 // '#eaeaea'
+
+// /* CSS */
+// --jet: hsla(0, 0%, 20%, 1);
+// --light-coral: hsla(0, 100%, 76%, 1);
+// --magic-mint: hsla(164, 78%, 77%, 1);
+// --manatee: hsla(218, 17%, 62%, 1);
+// --lavender-floral: hsla(262, 100%, 75%, 1);
+
+/* SCSS HEX */
+
+// /* SCSS HSL */
+// $jet: hsla(0, 0%, 20%, 1);
+// $light-coral: hsla(0, 100%, 76%, 1);
+// $magic-mint: hsla(164, 78%, 77%, 1);
+// $manatee: hsla(218, 17%, 62%, 1);
+// $lavender-floral: hsla(262, 100%, 75%, 1);
+
+// /* SCSS RGB */
+// $jet: rgba(51, 51, 51, 1);
+// $light-coral: rgba(255, 132, 132, 1);
+// $magic-mint: rgba(149, 242, 217, 1);
+// $manatee: rgba(141, 153, 174, 1);
+// $lavender-floral: rgba(175, 128, 255, 1);
+
+// /* SCSS Gradient */
+// $gradient-top: linear-gradient(0deg, #333333ff, #ff8484ff, #95f2d9ff, #8d99aeff, #af80ffff);
+// $gradient-right: linear-gradient(90deg, #333333ff, #ff8484ff, #95f2d9ff, #8d99aeff, #af80ffff);
+// $gradient-bottom: linear-gradient(180deg, #333333ff, #ff8484ff, #95f2d9ff, #8d99aeff, #af80ffff);
+// $gradient-left: linear-gradient(270deg, #333333ff, #ff8484ff, #95f2d9ff, #8d99aeff, #af80ffff);
+// $gradient-top-right: linear-gradient(45deg, #333333ff, #ff8484ff, #95f2d9ff, #8d99aeff, #af80ffff);
+// $gradient-bottom-right: linear-gradient(135deg, #333333ff, #ff8484ff, #95f2d9ff, #8d99aeff, #af80ffff);
+// $gradient-top-left: linear-gradient(225deg, #333333ff, #ff8484ff, #95f2d9ff, #8d99aeff, #af80ffff);
+// $gradient-bottom-left: linear-gradient(315deg, #333333ff, #ff8484ff, #95f2d9ff, #8d99aeff, #af80ffff);
+// $gradient-radial: radial-gradient(#333333ff, #ff8484ff, #95f2d9ff, #8d99aeff, #af80ffff);

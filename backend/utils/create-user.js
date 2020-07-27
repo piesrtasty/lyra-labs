@@ -1,10 +1,8 @@
-const { LocalAddress, CryptoUtils } = require('loom-js')
+// const { LocalAddress, CryptoUtils } = require('loom-js')
 const axios = require('axios')
 
 // const createUser = async ({ request: { user }, prisma }) => {
 const createUser = async ({ request, prisma }) => {
-  console.log('-----------------------')
-  console.log('----------------------- request', request)
   const authHeader = request.headers.authorization
   const accessToken = authHeader.split(' ')[1]
 
@@ -16,15 +14,15 @@ const createUser = async ({ request, prisma }) => {
 
   const userInfo = response.data
 
-  const bytes = CryptoUtils.generatePrivateKey()
-  const privateKey = Buffer.from(
-    bytes.buffer,
-    bytes.byteOffset,
-    bytes.byteLength,
-  )
-  const privateKeyStr = privateKey.toString('base64')
-  const publicKey = CryptoUtils.publicKeyFromPrivateKey(privateKey)
-  const address = LocalAddress.fromPublicKey(publicKey).toString()
+  // const bytes = CryptoUtils.generatePrivateKey()
+  // const privateKey = Buffer.from(
+  //   bytes.buffer,
+  //   bytes.byteOffset,
+  //   bytes.byteLength,
+  // )
+  // const privateKeyStr = privateKey.toString('base64')
+  // const publicKey = CryptoUtils.publicKeyFromPrivateKey(privateKey)
+  // const address = LocalAddress.fromPublicKey(publicKey).toString()
 
   const newUser = await prisma.user.create({
     data: {
@@ -36,10 +34,10 @@ const createUser = async ({ request, prisma }) => {
       lastName: userInfo.family_name ? userInfo.family_name : '',
       email: userInfo.email ? userInfo.email : '',
       avatar: userInfo.picture ? userInfo.picture : '',
-      privateKey: privateKeyStr,
+      privateKey: 'def',
       username: userInfo.nickname ? userInfo.nickname : '',
       username_lower: userInfo.nickname ? userInfo.nickname.toLowerCase() : '',
-      address,
+      address: 'abc',
     },
   })
   return newUser

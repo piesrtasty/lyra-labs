@@ -6,9 +6,12 @@
     "build": "next build",
     "start": "next start",
     "storybook": "start-storybook -p 6006",
-    "build-storybook": "build-storybook"
+    "build-storybook": "build-storybook",
+    "dev:emulator": "docker run -p 3570:3569 -p 8080:8080 -e FLOW_VERBOSE=true -e FLOW_PERSIST=true -e FLOW_PORT=3570 -e FLOW_HTTPPORT=8080 -e FLOW_SERVICEPRIVATEKEY=95a711a3dc58a6b60c87b7199a66ad691fff7d2c6722520fc83052fbb3e7348b gcr.io/dl-flow/emulator",
+    "dev:wallet": "PK=95a711a3dc58a6b60c87b7199a66ad691fff7d2c6722520fc83052fbb3e7348b fcl-wallet"
   },
   "dependencies": {
+    "@apollo/client": "^3.0.2",
     "@apollo/react-hooks": "3.0.0",
     "@apollo/react-ssr": "3.0.0",
     "@auth0/nextjs-auth0": "^0.5.0",
@@ -23,6 +26,7 @@
     "@fortawesome/pro-regular-svg-icons": "^5.12.1",
     "@fortawesome/pro-solid-svg-icons": "^5.12.1",
     "@fortawesome/react-fontawesome": "^0.1.9",
+    "@onflow/fcl": "0.0.45",
     "@zeit/next-css": "^1.0.1",
     "apollo-cache-inmemory": "1.6.3",
     "apollo-client": "2.6.4",
@@ -33,7 +37,7 @@
     "body-scroll-lock": "^2.6.4",
     "dotenv": "^8.2.0",
     "emotion-theming": "^10.0.19",
-    "graphql": "^14.0.2",
+    "graphql": "15.0.0",
     "graphql-tag": "2.10.1",
     "isomorphic-unfetch": "^3.0.0",
     "lodash.flowright": "^3.5.0",
@@ -45,6 +49,7 @@
     "react": "^16.13.1",
     "react-apollo": "^3.1.3",
     "react-dom": "^16.13.1",
+    "react-json-pretty": "^2.2.0",
     "react-mentions": "^3.3.1",
     "react-popper": "^1.3.7",
     "react-responsive": "^8.0.1",
@@ -54,6 +59,7 @@
   "license": "ISC",
   "devDependencies": {
     "@babel/core": "^7.8.3",
+    "@onflow/dev-wallet": "0.0.8",
     "@storybook/addon-actions": "^5.3.8",
     "@storybook/addon-links": "^5.3.8",
     "@storybook/addons": "^5.3.8",
@@ -62,6 +68,6 @@
     "webpack": "^4.41.2"
   },
   "engines": {
-    "node": "10"
+    "node": "12"
   }
 }
