@@ -148,6 +148,15 @@ const Column = styled("div")({
   flexDirection: "column",
 });
 
+const printAuth = () => {
+  const { authorization } = fcl.currentUser();
+  console.log("authorization", authorization);
+};
+
+const printUser = () => {
+  console.log("fcl.currentUser()", fcl.currentUser());
+};
+
 const SettingsPage = ({ user }) => {
   fcl.currentUser().subscribe((user) => {
     console.log("---------- user change -----------");
@@ -167,6 +176,9 @@ const SettingsPage = ({ user }) => {
 
   return (
     <Page>
+      <button onClick={printAuth}>Print Auth</button>
+      <br />
+      <button onClick={printUser}>Print User</button>
       <UserProfile />
       <Column>
         <button onClick={() => fcl.authenticate()}>Connect Wallet</button>
