@@ -11,12 +11,10 @@ const MainVaultTx = require('../../transactions/main-vault.cdc')
 const { generateCode, authorization, APP_ACCT_ADDR } = require('../../utils')
 
 const createMainVault = async () => {
-  //   const code = await generateCode(MainVaultTx, {
-  //     query: /(0x01|0x02)/g,
-  //     '0x01': APP_ACCT_ADDR,
-  //   })
-
-  const code = await generateCode(MainVaultTx)
+  const code = await generateCode(MainVaultTx, {
+    query: /(0x01|0x02)/g,
+    '0x01': `0x${APP_ACCT_ADDR}`,
+  })
 
   return fcl.send(
     [

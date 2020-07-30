@@ -24,7 +24,11 @@ export const B = "";
 
 export const JET = "#333333";
 export const LIGHT_CORAL = "#ff8484";
-export const MAGIC_MINT = "#95f2d9";
+export const BRIGHT_CORAL = "#FF7171";
+export const EXTRA_BRIGHT_CORAL = "#FF5E5E";
+export const LIGHT_MINT = "#95f2d9";
+export const BRIGHT_MINT = "#85F0D3";
+export const EXTRA_BRIGHT_MINT = "#74EECD";
 export const MANATEE = "#8d99ae";
 export const LAVENDER_FLORAL = "#af80ff";
 

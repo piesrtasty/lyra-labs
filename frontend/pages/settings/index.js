@@ -2,6 +2,7 @@ import React, { useState, useContext, useEffect } from "react";
 import styled from "@emotion/styled";
 import JSONPretty from "react-json-pretty";
 import Page from "@components/page";
+import WalletSettings from "@components/wallet-settings";
 import PostList from "@components/post-list";
 import { USER_POSTS_INBOX } from "@data/queries";
 import { CurrentUserContext } from "@enhancers/current-user";
@@ -63,8 +64,6 @@ const simpleTransaction = async () => {
     sdk.authorizations([authorization]),
     sdk.limit(100),
   ]);
-
-  console.log({ tx });
 
   fcl.tx(tx).subscribe((txStatus) => {
     if (fcl.tx.isExecuted(txStatus)) {
@@ -176,7 +175,8 @@ const SettingsPage = ({ user }) => {
 
   return (
     <Page>
-      <button onClick={printAuth}>Print Auth</button>
+      <WalletSettings />
+      {/* <button onClick={printAuth}>Print Auth</button>
       <br />
       <button onClick={printUser}>Print User</button>
       <UserProfile />
@@ -187,7 +187,7 @@ const SettingsPage = ({ user }) => {
         <br />
         <button onClick={pingAccount}>Ping for Hello</button>
       </Column>
-      <button onClick={callScript}>Execute Script</button>
+      <button onClick={callScript}>Execute Script</button> */}
       {/* {scriptResult && (
         <div>
           <p className="script-result">Computation Result: {scriptResult}</p>
