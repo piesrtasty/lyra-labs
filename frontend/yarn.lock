@@ -1628,6 +1628,14 @@
     "@improbable-eng/grpc-web" "^0.12.0"
     google-protobuf "^3.11.4"
 
+"@onflow/protobuf@0.1.6":
+  version "0.1.6"
+  resolved "https://registry.yarnpkg.com/@onflow/protobuf/-/protobuf-0.1.6.tgz#40b3fea8a8c41318085a8f6c018e1d185734aa75"
+  integrity sha512-VpPffJqrpTKQVMxB527Ehix3YBnId36Iu8AQdO7aFA3HOhLWIPr6iNTlHhUEtlnQv2vbKnrcJqTX8y6tY1HgMA==
+  dependencies:
+    "@improbable-eng/grpc-web" "^0.12.0"
+    google-protobuf "^3.11.4"
+
 "@onflow/response@0.0.2":
   version "0.0.2"
   resolved "https://registry.yarnpkg.com/@onflow/response/-/response-0.0.2.tgz#8cf2aa501a623d4dea9a924b574c8800c854b942"
@@ -1644,6 +1652,17 @@
     "@onflow/send" "0.0.15"
     "@qvvg/templar" "0.0.1"
 
+"@onflow/sdk@^0.0.30":
+  version "0.0.30"
+  resolved "https://registry.yarnpkg.com/@onflow/sdk/-/sdk-0.0.30.tgz#ff92e7835b62107a6abd031ed4de1ae1d38a6145"
+  integrity sha512-FFp3E8H6JiUJXnDLuC5Y2tNlgsv2VNpj7JQPSKfqjC1Xul/GMMr13DDo0wmrkd1t/0WtKGGaMnCmIYUTJVpSMQ==
+  dependencies:
+    "@onflow/decode" "0.0.6"
+    "@onflow/encode" "0.0.4"
+    "@onflow/interaction" "0.0.8"
+    "@onflow/send" "0.0.17"
+    "@qvvg/templar" "0.0.1"
+
 "@onflow/send@0.0.15":
   version "0.0.15"
   resolved "https://registry.yarnpkg.com/@onflow/send/-/send-0.0.15.tgz#28f98dff72e153ed75b105f3cc283d9abeda57c1"
@@ -1653,6 +1672,17 @@
     "@improbable-eng/grpc-web-node-http-transport" "0.12.0"
     "@onflow/interaction" "0.0.7"
     "@onflow/protobuf" "0.1.5"
+    "@onflow/response" "0.0.2"
+
+"@onflow/send@0.0.17":
+  version "0.0.17"
+  resolved "https://registry.yarnpkg.com/@onflow/send/-/send-0.0.17.tgz#b1a35928dbcd39a82695b00bbdd4e1bb4aeb79ea"
+  integrity sha512-Q9MuiR5UdZp5PeKp4AcLRi6VJD/yY5L4BvJhRMYy/EtuxglrK68M3wsH7YHiWdYZO5Yz9qRISuh78Xa8ClS9xA==
+  dependencies:
+    "@improbable-eng/grpc-web" "0.12.0"
+    "@improbable-eng/grpc-web-node-http-transport" "0.12.0"
+    "@onflow/interaction" "0.0.7"
+    "@onflow/protobuf" "0.1.6"
     "@onflow/response" "0.0.2"
 
 "@onflow/types@0.0.1":
@@ -9159,6 +9189,14 @@ raw-loader@^3.1.0:
   dependencies:
     loader-utils "^1.1.0"
     schema-utils "^2.0.1"
+
+raw-loader@^4.0.1:
+  version "4.0.1"
+  resolved "https://registry.yarnpkg.com/raw-loader/-/raw-loader-4.0.1.tgz#14e1f726a359b68437e183d5a5b7d33a3eba6933"
+  integrity sha512-baolhQBSi3iNh1cglJjA0mYzga+wePk7vdEX//1dTFd+v4TsQlQE0jitJSNF1OIP82rdYulH7otaVmdlDaJ64A==
+  dependencies:
+    loader-utils "^2.0.0"
+    schema-utils "^2.6.5"
 
 rc@^1.2.7, rc@^1.2.8:
   version "1.2.8"

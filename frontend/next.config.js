@@ -16,7 +16,7 @@ module.exports = withCSS({
     POST_LOGOUT_REDIRECT_URI:
       process.env.POST_LOGOUT_REDIRECT_URI || "http://localhost:3000/",
     SESSION_COOKIE_SECRET: process.env.SESSION_COOKIE_SECRET,
-    SESSION_COOKIE_LIFETIME: process.env.SESSION_COOKIE_LIFETIME
+    SESSION_COOKIE_LIFETIME: process.env.SESSION_COOKIE_LIFETIME,
   },
   webpack: (config, { buildId, dev, isServer, defaultLoaders, webpack }) => {
     // alias commonly used modules
@@ -27,9 +27,10 @@ module.exports = withCSS({
       "@library": path.resolve(__dirname, "shared/library/"),
       "@style": path.resolve(__dirname, "shared/style/"),
       "@enhancers": path.resolve(__dirname, "shared/enhancers/"),
-      ...config.resolve.alias
+      ...config.resolve.alias,
     };
+    config.module.rules.push({ test: /\.cdc/, use: "raw-loader" });
 
     return config;
-  }
+  },
 });

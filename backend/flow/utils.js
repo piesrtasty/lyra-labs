@@ -3,13 +3,9 @@ const EC = require('elliptic').ec
 const ec = new EC('p256')
 const { SHA3 } = require('sha3')
 
-// const APP_ACCT_ADDR = 'f8d6e0586b0a20c7'
-// const APP_ACCT_PK =
-//   '95a711a3dc58a6b60c87b7199a66ad691fff7d2c6722520fc83052fbb3e7348b'
-
 const APP_ACCT_ADDR = '01cf0e2f2f715450'
 const APP_ACCT_PK =
-  '322aaaee136b7b6a7c5bbbaac4414aeed44533dda36b46c0876405c1471bf0bb'
+  '166a1ff85f18afd6d70c1ffc99ddaf0db4fc1c4604a44b401f59611630c83815'
 
 const generateCode = async (rawCode, match) => {
   if (!match) {

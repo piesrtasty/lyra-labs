@@ -1,6 +1,6 @@
 // Transaction1.cdc
 
-import FungibleToken from 0x01cf0e2f2f715450
+import FungibleToken from 0x01
 
 // This transaction creates a capability 
 // that is linked to the account's token vault.
@@ -24,7 +24,7 @@ transaction {
     // by getting the public capability and checking 
     // that it points to a valid `Vault` object 
     // that implements the `Receiver` interface
-    getAccount(0x01cf0e2f2f715450).getCapability(/public/MainReceiver)!
+    getAccount(0x01).getCapability(/public/MainReceiver)!
                     .check<&FungibleToken.Vault{FungibleToken.Receiver}>():
                     "Vault Receiver Reference was not created correctly"
     }
