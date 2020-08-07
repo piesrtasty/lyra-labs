@@ -5,8 +5,22 @@ import Sidebar from "@components/sidebar";
 import WalletPanel from "@components/wallet/panel";
 
 const StyledContainer = styled(Container)({
-  width: "100%"
+  width: "100%",
 });
+
+// const Wrapper = styled("div")({
+//   fontSize:
+// });
+
+// font-size: var(--fs-base);
+// width: 100%;
+// max-width: var(--site-width);
+// margin: 0 auto;
+// display: grid;
+// grid-gap: var(--layout-gap);
+// grid-template-columns: var(--layout);
+// padding: var(--layout-padding);
+// }
 
 const Page = ({ children }) => (
   <Column>
@@ -15,6 +29,7 @@ const Page = ({ children }) => (
       <StyledContainer>
         <Sidebar />
         <Main>{children}</Main>
+        <WalletPanel />
         {/* <Sidebar position={RIGHT}>
           <WalletPanel />
         </Sidebar> */}

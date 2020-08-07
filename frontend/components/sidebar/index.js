@@ -1,7 +1,7 @@
 import React, { useContext } from "react";
 import {
   Sidebar as Container,
-  SidebarSection
+  SidebarSection,
 } from "@library/components/layout";
 import UserCard from "@components/user-card";
 import Nav from "./nav";

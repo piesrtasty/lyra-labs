@@ -6,14 +6,21 @@ require.extensions['.cdc'] = function(module, filename) {
   module.exports = fs.readFileSync(filename, 'utf8')
 }
 
-const MainVaultTx = require('../../transactions/main-vault.cdc')
+const { generateCode, createAuthorization } = require('../../../utils')
 
-const { generateCode, authorization, APP_ACCT_ADDR } = require('../../utils')
+const { FUNGIBLE_TOKEN_CONTRACT_ACCT } = require('../../../../../flow-accounts')
+
+const MainVaultTx = require('../../../transactions/fungible-token/main-vault.cdc')
 
 const createMainVault = async () => {
+  const authorization = await createAuthorization({
+    address: FUNGIBLE_TOKEN_CONTRACT_ACCT.address,
+    privateKey: FUNGIBLE_TOKEN_CONTRACT_ACCT.privateKey,
+  })
+
   const code = await generateCode(MainVaultTx, {
     query: /(0x01|0x02)/g,
-    '0x01': `0x${APP_ACCT_ADDR}`,
+    '0x01': `0x${FUNGIBLE_TOKEN_CONTRACT_ACCT.address}`,
   })
 
   return fcl.send(
@@ -32,21 +39,8 @@ const createMainVault = async () => {
 
 const run = async () => {
   const response = await createMainVault()
-  //   var response = await fcl.send([
-  //     fcl.transaction`
-  //         transaction {
-  //           execute {
-  //             log("Hello from execute")
-  //           }
-  //         }
-  //       `,
-  //     fcl.proposer(authorization),
-  //     fcl.payer(authorization),
-  //   ])
-
   var transaction = await fcl.tx(response).onceSealed()
   console.log(transaction)
-  //   console.log('response', response)
 }
 
 run()

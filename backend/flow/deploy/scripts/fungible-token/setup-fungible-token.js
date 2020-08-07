@@ -3,16 +3,24 @@ const fcl = require('@onflow/fcl')
 const sdk = require('@onflow/sdk')
 const { Identity } = require('@onflow/types')
 
-const { generateCode, authorization } = require('../../utils')
-
 require.extensions['.cdc'] = function(module, filename) {
   module.exports = fs.readFileSync(filename, 'utf8')
 }
 
-const FungibleToken = require('../../contracts/FungibleToken.cdc')
+const { generateCode, createAuthorization } = require('../../../utils')
+
+const { FUNGIBLE_TOKEN_CONTRACT_ACCT } = require('../../../../../flow-accounts')
+
+const FungibleTokenContract = require('../../../contracts/FungibleToken.cdc')
 
 const deploy = async () => {
-  const code = await generateCode(FungibleToken)
+  const authorization = await createAuthorization({
+    address: FUNGIBLE_TOKEN_CONTRACT_ACCT.address,
+    privateKey: FUNGIBLE_TOKEN_CONTRACT_ACCT.privateKey,
+  })
+
+  const code = await generateCode(FungibleTokenContract)
+
   return fcl.send(
     [
       sdk.transaction`
