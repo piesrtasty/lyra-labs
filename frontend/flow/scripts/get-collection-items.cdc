@@ -3,7 +3,7 @@ import NonFungibleToken from 0x01
 // Print the NFTs owned by account 0x03.
 pub fun main():[UInt64] {
     // Get the public account object for account 0x03
-    let nftOwner = getAccount(0x01)
+    let nftOwner = getAccount(0x02)
 
     // Find the public Receiver capability for their Collection
     let capability = nftOwner.getCapability(/public/NFTReceiver)!

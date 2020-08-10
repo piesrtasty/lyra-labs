@@ -5,15 +5,15 @@ pub fun main():Bool {
     // Cadence code can get an account's public account object
     // by using the getAccount() built-in function.
     let accountToCheck = getAccount(0x02)
-    log("------------------------------")
-    log(accountToCheck)
-    log("------------------------------")
+    // log("------------------------------")
+    // log(accountToCheck)
+    // log("------------------------------")
     let capability = accountToCheck.getCapability(/public/MainReceiver)
-    log(capability)
-    log("------------------------------")
+    // log(capability)
+    // log("------------------------------")
     let checkResult = capability!.check<&FungibleToken.Vault{FungibleToken.Receiver}>()
-    log(checkResult)
-    log("------------------------------")
+    // log(checkResult)
+    // log("------------------------------")
     return checkResult
     
 
