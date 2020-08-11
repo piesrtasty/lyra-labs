@@ -14,6 +14,10 @@ import styled from "@emotion/styled";
 import * as fcl from "@onflow/fcl";
 import { WHITE, LIGHT_CORAL, MAGIC_MINT } from "@style/colors";
 
+fcl
+  .config()
+  .put("challenge.handshake", "http://localhost:8701/flow/authenticate");
+
 const Container = styled("div")({
   display: "flex",
   flexDirection: "column",
@@ -23,7 +27,8 @@ const Container = styled("div")({
   padding: "1rem",
 });
 
-const WalletSettings = () => {
+const WalletSettings = ({ currentUser }) => {
+  console.log("currentUser", currentUser);
   const [walletUser, setWalletUser] = useState(null);
   const [vaultIsSetup, setVaultIsSetup] = useState(false);
   const [collectionIsSetup, setCollectionIsSetup] = useState(false);
@@ -200,6 +205,7 @@ const WalletSettings = () => {
 
   return (
     <Container>
+      <div>-------------------------------------</div>
       <div>
         {walletNotConnected && (
           <CoralButton onClick={fcl.authenticate}>Connect Wallet</CoralButton>
