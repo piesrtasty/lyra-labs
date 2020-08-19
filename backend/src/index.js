@@ -13,6 +13,7 @@ const { nexusPrismaPlugin } = require('nexus-prisma')
 const { checkJwt } = require('../middleware/checkJwt')
 const { getUser } = require('../middleware/getUser')
 const { createUser } = require('../utils/create-user')
+const FlowClient = require('../flow/client')
 
 const metascraper = require('metascraper')([
   require('metascraper-author')(),
@@ -69,6 +70,8 @@ const User = objectType({
     t.model.avatar()
     t.model.username()
     t.model.headline()
+    t.model.walletAddress()
+    t.model.walletIsSetup()
     t.model.name()
     t.model.followedTopics()
   },
@@ -365,6 +368,22 @@ const Mutation = objectType({
   name: 'Mutation',
   definition(t) {
     t.crud.createOneUser({ alias: 'signupUser' })
+    t.field('associateWallet', {
+      type: 'User',
+      args: {
+        address: stringArg(),
+      },
+      resolve: async (_, { address }, ctx) => {
+        const currentUser = ctx.request.user
+        return await ctx.prisma.user.update({
+          where: { id: currentUser.id },
+          data: {
+            walletAddress: address,
+            walletIsSetup: true,
+          },
+        })
+      },
+    })
     t.field('archivePost', {
       type: 'Post',
       args: {
@@ -465,8 +484,15 @@ const Mutation = objectType({
       },
       resolve: async (_, { givenUrl }, ctx) => {
         const currentUser = ctx.request.user
+        const { walletIsSetup, walletAddress } = currentUser
         const response = await saveUrl(givenUrl, currentUser)
-        console.log('---- response ----', response)
+        // Send 1 token to user that created the post
+        if (walletIsSetup && walletAddress && process.env.FLOW_ENABLED) {
+          FlowClient.mintAndSendTokens({
+            quantity: 1,
+            address: walletAddress,
+          })
+        }
         return response
       },
     })

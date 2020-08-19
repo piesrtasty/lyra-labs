@@ -16,9 +16,9 @@ const IndexPage = ({ user }) => {
         <>
           <WalletSettings currentUser={currentUser} />
           <br />
+          <PostList />
         </>
       )}
-      <div>HELLLLLLO</div>
     </Page>
   );
 };

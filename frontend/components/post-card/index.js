@@ -298,7 +298,7 @@ const PostCard = ({
       },
     },
     {
-      icon: "🗃",
+      icon: "💾",
       boxShadowColor: "#cfc9f3",
       gradientStartColor: "#cac3f3",
       gradientEndColor: "#958aee",

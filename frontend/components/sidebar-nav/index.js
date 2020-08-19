@@ -4,7 +4,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faInbox,
   faArchive,
-  faThumbtack
+  faThumbtack,
 } from "@fortawesome/pro-light-svg-icons";
 import { BASE_TEXT, WEIGHT } from "@style/typography";
 import { SCOPRION } from "@style/colors";
@@ -12,13 +12,13 @@ import { SCOPRION } from "@style/colors";
 export const Container = styled("div")({
   display: "flex",
   flexDirection: "column",
-  marginTop: "1rem"
+  marginTop: "1rem",
 });
 
 const NavLink = styled("div")({
   display: "flex",
   alignItems: "center",
-  marginTop: ".75rem"
+  marginTop: ".75rem",
 });
 
 const IconWrapper = styled("div")({});
@@ -33,13 +33,13 @@ const Icon = styled("div")({});
 const Name = styled("div")({
   ...BASE_TEXT,
   fontSize: "1rem",
-  marginLeft: ".5rem"
+  marginLeft: ".5rem",
 });
 
 const LINKS = [
   { icon: "📚", name: "Reading list" },
   { icon: "📌", name: "Pinned" },
-  { icon: "🗃", name: "Archive" }
+  { icon: "💾", name: "Archive" },
 ];
 
 const SidebarNav = () => (

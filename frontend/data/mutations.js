@@ -1,6 +1,15 @@
 import gql from "graphql-tag";
 import { postFields } from "./fragments";
 
+export const ASSOCIATE_WALLET = gql`
+  mutation associateWallet($address: String) {
+    associateWallet(address: $address) {
+      walletAddress
+      walletIsSetup
+    }
+  }
+`;
+
 export const SIGN_UPLOAD = gql`
   mutation signUpload($fileName: String, $fileType: String) {
     signUpload(fileName: $fileName, fileType: $fileType) {

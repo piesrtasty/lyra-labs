@@ -1,11 +1,16 @@
 import React, { useState, useEffect } from "react";
 import * as sdk from "@onflow/sdk";
+import { useMutation } from "@apollo/react-hooks";
+import { ASSOCIATE_WALLET } from "@data/mutations";
 import JSONPretty from "react-json-pretty";
+import { toast } from "react-toastify";
+import { CURRENT_USER_QUERY } from "../../data/queries";
 import CoralButton from "@library/components/buttons/coral";
 import MintButton from "@library/components/buttons/mint";
 import GradientButton from "@library/components/buttons/gradient";
 import checkReference from "../../flow/scripts/check-ref.cdc";
 import checkCollection from "../../flow/scripts/check-collection.cdc";
+import checkActiveWallet from "../../flow/scripts/check-active-wallet.cdc";
 import vaultBalance from "../../flow/scripts/vault-balance.cdc";
 import getCollectionItems from "../../flow/scripts/get-collection-items.cdc";
 import userVault from "../../flow/transactions/user-vault.cdc";
@@ -17,6 +22,9 @@ import { WHITE, LIGHT_CORAL, MAGIC_MINT } from "@style/colors";
 fcl
   .config()
   .put("challenge.handshake", "http://localhost:8701/flow/authenticate");
+
+const FUNGIBLE_TOKEN_CONTRACT_ADDRESS = "01cf0e2f2f715450";
+const NON_FUNGIBLE_TOKEN_CONTRACT_ADDRESS = "f3fcd2c1a78f5eee";
 
 const Container = styled("div")({
   display: "flex",
@@ -32,6 +40,15 @@ const WalletSettings = ({ currentUser }) => {
   const [walletUser, setWalletUser] = useState(null);
   const [vaultIsSetup, setVaultIsSetup] = useState(false);
   const [collectionIsSetup, setCollectionIsSetup] = useState(false);
+  const [walletBalance, setWalletBalance] = useState(null);
+  const [walletCollection, setWalletCollection] = useState(null);
+
+  let pollId = null;
+  const startBalancePoll = async () => {
+    const balance = await getUserBalance();
+    setWalletBalance(balance);
+    pollId = setTimeout(startBalancePoll, 2000);
+  };
 
   useEffect(
     () =>
@@ -41,15 +58,39 @@ const WalletSettings = ({ currentUser }) => {
           // Check if the wallet is set up yet
           const vaultStatus = await checkUserVaultStatus();
           setVaultIsSetup(vaultStatus);
-          console.log("vaultIsSetup", vaultIsSetup);
+          if (vaultStatus) {
+            startBalancePoll();
+          }
           const collectionStatus = await checkUserCollectionStatus();
           setCollectionIsSetup(collectionStatus);
-          console.log("collectionStatus", collectionStatus);
+          if (collectionStatus) {
+            getUserCollection();
+          }
         } else {
           console.log("is not logged in");
         }
       }),
     []
+  );
+
+  const [associateWallet, { data, loading, error }] = useMutation(
+    ASSOCIATE_WALLET,
+    {
+      update: (cache, { data }) => {
+        const { me: currentUserData } = cache.readQuery({
+          query: CURRENT_USER_QUERY,
+        });
+        cache.writeQuery({
+          query: CURRENT_USER_QUERY,
+          data: { me: { ...currentUserData, ...data.associateWallet } },
+        });
+      },
+      onError: () => {
+        toast.error("😳Ekkk! Failed to associate wallet.", {
+          position: "bottom-left",
+        });
+      },
+    }
   );
 
   const walletConnected = walletUser && walletUser.loggedIn;
@@ -71,7 +112,6 @@ const WalletSettings = ({ currentUser }) => {
   };
 
   const getUserBalance = async () => {
-    console.log("checking user balance");
     const user = fcl.currentUser();
     const snapshot = await user.snapshot();
     const address = getAddress(snapshot);
@@ -84,9 +124,7 @@ const WalletSettings = ({ currentUser }) => {
     const script = sdk.script`${scriptCode}`;
     const response = await fcl.send([script]);
     const balance = await fcl.decode(response);
-    console.log("---------------");
-    console.log("balance", balance);
-    console.log("---------------");
+    return balance;
   };
 
   const getUserCollection = async () => {
@@ -103,9 +141,7 @@ const WalletSettings = ({ currentUser }) => {
     const script = sdk.script`${scriptCode}`;
     const response = await fcl.send([script]);
     const items = await fcl.decode(response);
-    console.log("---------------");
-    console.log("items", items);
-    console.log("---------------");
+    setWalletCollection(items);
   };
 
   const setupUserVault = async () => {
@@ -203,8 +239,64 @@ const WalletSettings = ({ currentUser }) => {
     }
   };
 
+  const connectActiveWalletToLyraLabs = async () => {
+    associateWallet({
+      variables: {
+        address: walletUser.addr,
+      },
+    });
+  };
+
+  const checkActiveWallet = async () => {
+    // Checks if the active wallet is setup
+    const user = fcl.currentUser();
+    const snapshot = await user.snapshot();
+    const address = getAddress(snapshot);
+    const scriptCode = await generateCode(checkActiveWallet, {
+      query: /(0x01|0x02|0x03)/g,
+      "0x01": `0x${FUNGIBLE_TOKEN_CONTRACT_ADDRESS}`,
+      "0x02": `0x${NON_FUNGIBLE_TOKEN_CONTRACT_ADDRESS}`,
+      "0x03": address,
+    });
+    const script = sdk.script`${scriptCode}`;
+    const response = await fcl.send([script]);
+    const activeWalletStatus = await fcl.decode(response);
+    return activeWalletStatus;
+  };
+
+  const setupActiveWallet = async () => {
+    // Creates a vault and collection in the active wallet
+  };
+
   return (
     <Container>
+      {currentUser &&
+        currentUser.walletAddress &&
+        currentUser.walletIsSetup && (
+          <div>{`Current Associated Wallet Address: ${currentUser.walletAddress}`}</div>
+        )}
+      {walletConnected && walletUser && (
+        <div>{`Active Wallet Address: ${walletUser.addr}`}</div>
+      )}
+      {walletConnected && vaultIsSetup && walletBalance && (
+        <div>{`Balance: ${walletBalance} `}</div>
+      )}
+      {walletConnected && collectionIsSetup && walletCollection && (
+        <div>{`Collection: ${JSON.stringify(walletCollection)}`}</div>
+      )}
+      {walletConnected &&
+        walletUser &&
+        walletUser.addr &&
+        currentUser &&
+        !currentUser.walletIsSetup &&
+        !currentUser.walletAddress && (
+          <div>
+            <CoralButton onClick={connectActiveWalletToLyraLabs}>
+              Connect Active Wallet to LyraLabs account
+            </CoralButton>
+          </div>
+        )}
+
       <div>-------------------------------------</div>
       <div>
         {walletNotConnected && (
@@ -222,25 +314,12 @@ const WalletSettings = ({ currentUser }) => {
             Setup Collection
           </CoralButton>
         )}
-        <br />
-        <br />
-        {walletConnected && vaultIsSetup && (
-          <CoralButton onClick={getUserBalance}>Get User Balance</CoralButton>
-        )}
-        <br />
-        <br />
-        {walletConnected && collectionIsSetup && (
-          <CoralButton onClick={getUserCollection}>
-            Get User Collection
-          </CoralButton>
-        )}
-        <br />
-        <br />
-        {walletConnected && (
+
+        {/* {walletConnected && (
           <div style={{ fontSize: 14 }}>
             <JSONPretty id="json-pretty" data={walletUser}></JSONPretty>
           </div>
-        )}
+        )} */}
       </div>
     </Container>
   );
