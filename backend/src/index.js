@@ -230,6 +230,22 @@ const Query = objectType({
     t.crud.sections()
     t.crud.posts()
     // t.crud.post()
+    t.list.field('feedPosts', {
+      type: 'Post',
+
+      resolve: async (_, {}, ctx) => {
+        const currentUser = ctx.request.user
+        let queryParams = {}
+        if (currentUser) {
+          queryParams = { where: { NOT: { submitterId: currentUser.id } } }
+        }
+
+        // const queryParams = currentUser
+
+        const posts = await ctx.prisma.post.findMany(queryParams)
+        return posts
+      },
+    })
     t.list.field('userPosts', {
       type: 'Post',
       args: {

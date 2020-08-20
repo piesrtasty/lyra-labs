@@ -23,6 +23,12 @@ const ACCOUNTS = {
     privateKey:
       "42035ff340f57c2b913d875b96c0e59d7e5651ae098d9a284be4814921df1513",
   },
+  LUIS_ACCT: {
+    // f / f
+    address: "120e725050340cab",
+    privateKey:
+      "a67200cd126e994dd426c2cbab83331925d2e8983275910bc567a3c319478be2",
+  },
 };
 
 module.exports = ACCOUNTS;

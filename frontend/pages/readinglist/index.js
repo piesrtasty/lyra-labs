@@ -8,7 +8,7 @@ import { withCurrentUser } from "@enhancers/current-user";
 import { withLoginModal } from "@enhancers/login-modal";
 import { flowRight as compose } from "lodash";
 
-const IndexPage = ({ user }) => {
+const ReadingList = ({ user }) => {
   const currentUser = useContext(CurrentUserContext);
   return (
     <Page>
@@ -24,4 +24,4 @@ const IndexPage = ({ user }) => {
 };
 
 const enhance = compose(withCurrentUser, withLoginModal);
-export default enhance(IndexPage);
+export default enhance(ReadingList);

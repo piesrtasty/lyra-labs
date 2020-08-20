@@ -10,6 +10,15 @@ export const USER_POSTS = gql`
   ${postFields}
 `;
 
+export const FEED_POSTS = gql`
+  query feedPosts {
+    feedPosts {
+      ...postFields
+    }
+  }
+  ${postFields}
+`;
+
 export const USER_POSTS_INBOX = gql`
   query userPostsInbox {
     userPostsInbox {

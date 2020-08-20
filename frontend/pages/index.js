@@ -1,6 +1,6 @@
 import React, { useContext } from "react";
 import Page from "@components/page";
-import PostList from "@components/post-list";
+import Feed from "@components/feed";
 import WalletSettings from "@components/wallet-settings";
 import { USER_POSTS_INBOX } from "@data/queries";
 import { CurrentUserContext } from "@enhancers/current-user";
@@ -18,7 +18,7 @@ const IndexPage = ({ user }) => {
           <br />
         </>
       )}
-      <div>HELLLLLLO</div>
+      <Feed />
     </Page>
   );
 };
