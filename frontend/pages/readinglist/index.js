@@ -1,7 +1,7 @@
 import React, { useContext } from "react";
 import Page from "@components/page";
 import PostList from "@components/post-list";
-import WalletSettings from "@components/wallet-settings";
+import WalletDetails from "@components/wallet-details";
 import { USER_POSTS_INBOX } from "@data/queries";
 import { CurrentUserContext } from "@enhancers/current-user";
 import { withCurrentUser } from "@enhancers/current-user";
@@ -14,7 +14,7 @@ const ReadingList = ({ user }) => {
     <Page>
       {currentUser && (
         <>
-          <WalletSettings currentUser={currentUser} />
+          <WalletDetails currentUser={currentUser} />
           <br />
           <PostList />
         </>

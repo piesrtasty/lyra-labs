@@ -13,7 +13,7 @@ const Container = styled("div")({
   borderRadius: 5,
 });
 
-const Feed = ({ archived = false }) => {
+const Feed = ({ archived = false, currentUser = null }) => {
   const { loading, error, data, fetchMore } = useQuery(FEED_POSTS, {});
   return (
     <Container>
@@ -25,7 +25,7 @@ const Feed = ({ archived = false }) => {
             post.id === "optimisticResponse" ? (
               <SkeletonPostCard key={i} />
             ) : (
-              <PostCard key={i} post={post} />
+              <PostCard key={i} post={post} currentUser={currentUser} />
             )
           )}
         </Fragment>

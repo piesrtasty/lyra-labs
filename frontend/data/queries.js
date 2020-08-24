@@ -14,6 +14,10 @@ export const FEED_POSTS = gql`
   query feedPosts {
     feedPosts {
       ...postFields
+      submitter {
+        walletIsSetup
+        walletAddress
+      }
     }
   }
   ${postFields}

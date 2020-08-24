@@ -1,4 +1,5 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
+import { WalletContext } from "@enhancers/wallet-provider";
 import styled from "@emotion/styled";
 import { BASE_TEXT, WEIGHT } from "@style/typography";
 import {
@@ -174,6 +175,11 @@ const Action = styled("div")(
   })
 );
 
+const GiveAwardCta = styled("div")({
+  ...BASE_TEXT,
+  cursor: "pointer",
+});
+
 const ACTION_TIMEOUT = 1000;
 
 const Icon = styled("div")({
@@ -183,6 +189,7 @@ const Icon = styled("div")({
 });
 
 const PostCard = ({
+  currentUser = null,
   post: {
     id,
     image,
@@ -197,6 +204,8 @@ const PostCard = ({
   },
   post,
 }) => {
+  const { giveAward } = useContext(WalletContext);
+
   const [archivePost] = useMutation(ARCHIVE_POST, {
     update: (cache, { data: { archivePost: post } }) => {
       console.log("DONE", cache);
@@ -314,6 +323,12 @@ const PostCard = ({
     },
   ];
 
+  const showGiveAward = currentUser && post.submitter.walletIsSetup;
+
+  const handleGiveAward = () => {
+    giveAward({ recipientAddress: post.submitter.walletAddress });
+  };
+
   return (
     <Container>
       <Body>
@@ -329,7 +344,11 @@ const PostCard = ({
         {image && <Thumbnail src={image} />}
       </Body>
       <Footer>
-        <Actions>
+        {showGiveAward && (
+          <GiveAwardCta onClick={handleGiveAward}>Give Award</GiveAwardCta>
+        )}
+
+        {/* <Actions>
           {ACTIONS.map(
             (
               {
@@ -355,7 +374,7 @@ const PostCard = ({
               </Action>
             )
           )}
-        </Actions>
+        </Actions> */}
       </Footer>
     </Container>
   );
