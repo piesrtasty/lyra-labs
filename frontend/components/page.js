@@ -29,7 +29,7 @@ const Page = ({ children }) => (
       <StyledContainer>
         <Sidebar />
         <Main>{children}</Main>
-        <WalletPanel />
+        {/* <WalletPanel /> */}
         {/* <Sidebar position={RIGHT}>
           <WalletPanel />
         </Sidebar> */}

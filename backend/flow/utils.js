@@ -3,6 +3,8 @@ const EC = require('elliptic').ec
 const ec = new EC('p256')
 const { SHA3 } = require('sha3')
 
+fcl.config().put('accessNode.api', 'https://access-testnet.onflow.org') // connect to Flow testnet
+
 const generateCode = async (rawCode, match) => {
   if (!match) {
     return rawCode
@@ -15,6 +17,7 @@ const generateCode = async (rawCode, match) => {
 
 const getAccount = async addr => {
   const { account } = await fcl.send([fcl.getAccount(addr)])
+  console.log('account is', account)
   return account
 }
 

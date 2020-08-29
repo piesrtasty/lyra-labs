@@ -16,31 +16,31 @@ export const Container = styled("div")({
   minWidth: MIN_WIDTH,
   display: "flex",
   // padding: "0px 15px",
-  boxSizing: "border-box"
+  boxSizing: "border-box",
 });
 
 export const Row = styled("div")({
   display: "flex",
-  flexDirection: "row"
+  flexDirection: "row",
 });
 
 export const Column = styled("div")({
   display: "flex",
   flexDirection: "column",
-  width: "100%"
+  width: "100%",
 });
 
 export const Section = styled("div")({
   width: "100%",
   display: "flex",
-  flexDirection: "column"
+  flexDirection: "column",
 });
 
 export const Panel = styled("div")({
   backgroundColor: WHITE,
   padding: 20,
   borderRadius: 5,
-  boxShadow: "0 1px 2px 0 rgba(0,0,0,.1)"
+  boxShadow: "0 1px 2px 0 rgba(0,0,0,.1)",
 });
 
 export const Main = styled("main")({
@@ -49,24 +49,24 @@ export const Main = styled("main")({
   boxSizing: "border-box",
   [DESKTOP]: {
     maxWidth: `calc(100% - ${SIDEBAR_WIDTH}px)`,
-    padding: 16
+    padding: 16,
   },
   [XL]: {
-    maxWidth: `calc(100% - ${2 * SIDEBAR_WIDTH}px)`
-  }
+    maxWidth: `calc(100% - ${2 * SIDEBAR_WIDTH}px)`,
+  },
 });
 
 export const SidebarSectionHeader = styled("header")({
   ...BASE_TEXT,
   fontSize: "1em",
   fontWeight: WEIGHT.BOLD,
-  padding: "8px 0"
+  padding: "8px 0",
 });
 
 export const Widget = styled("div")({
   margin: "8px 0 16px 0",
   padding: "0 16px 16px 16px",
-  overflow: "scroll"
+  overflow: "scroll",
 });
 
 export const Sidebar = styled("div")(
@@ -74,13 +74,13 @@ export const Sidebar = styled("div")(
     width: SIDEBAR_WIDTH,
     display: "none",
     padding: "16px 0",
-    fontSize: "0.85em"
+    fontSize: "0.85em",
   },
   ({ position }) => ({
     [DESKTOP]: {
       // display: position === RIGHT ? "none" : "block"
-      display: "block"
-    }
+      display: "block",
+    },
     // [XL]: {
 
     // }
@@ -89,24 +89,24 @@ export const Sidebar = styled("div")(
 
 export const SidebarSection = styled("div")({
   padding: "0 16px",
-  overflow: "scroll"
+  overflow: "scroll",
 });
 
 export const Aside = styled("aside")(
   {
     [TABLET]: {
-      display: "none"
+      display: "none",
     },
     marginLeft: 30,
-    width: 320
+    width: 320,
   },
   ({ position }) => ({
     marginLeft: position === LEFT ? 0 : 30,
-    marginRight: position === LEFT ? 30 : 0
+    marginRight: position === LEFT ? 30 : 0,
   })
 );
 
 export const Divider = styled("div")({
   borderBottom: `1px solid ${LILAC}`,
-  width: "100%"
+  width: "100%",
 });

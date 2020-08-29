@@ -92,7 +92,7 @@ const Arrow = styled("div")`
 const ContentWrapper = styled("div")({
   border: `1px solid ${LILAC}`,
   backgroundColor: WHITE,
-  borderRadius: 5
+  borderRadius: 5,
 });
 
 const TOP = "top";
@@ -121,7 +121,7 @@ const Popover = ({ anchor, content, position = AUTO }) => {
     addOutsideClickHandler();
   };
 
-  const handleOutsideClick = event => {
+  const handleOutsideClick = (event) => {
     if (
       containerRef &&
       containerRef.current &&
@@ -149,10 +149,10 @@ const Popover = ({ anchor, content, position = AUTO }) => {
               addMargin: {
                 order: 1,
                 enabled: true,
-                function: data => {
+                function: (data) => {
                   const {
                     placement,
-                    offsets: { popper }
+                    offsets: { popper },
                   } = data;
                   switch (placement) {
                     case TOP:
@@ -162,7 +162,6 @@ const Popover = ({ anchor, content, position = AUTO }) => {
                       popper[LEFT] += OFFSET;
                       break;
                     case BOTTOM:
-                      console.log("HERE", popper);
                       popper[TOP] += OFFSET;
                       popper[LEFT] -= 20;
                       break;
@@ -174,15 +173,19 @@ const Popover = ({ anchor, content, position = AUTO }) => {
                   }
                   data.offsets.popper = popper;
                   return data;
-                }
-              }
+                },
+              },
             }}
           >
             {({ ref, style, placement, arrowProps }) => {
               if ([TOP, BOTTOM].includes(placement)) {
-                arrowProps.style.left += ARROW_OFFSET;
+                {
+                  /* arrowProps.style.left += ARROW_OFFSET; */
+                }
               } else if (placement === LEFT) {
-                arrowProps.style.top += ARROW_OFFSET;
+                {
+                  /* arrowProps.style.top += ARROW_OFFSET; */
+                }
               }
               return (
                 <div

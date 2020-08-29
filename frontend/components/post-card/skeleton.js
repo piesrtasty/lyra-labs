@@ -17,9 +17,8 @@ const Thumbnail = styled("div")({
   height: THUMBNAIL_DIMENSION,
   backgroundImage: shineGradient(BASE_COLOR, SHINE_COLOR),
   backgroundSize: 600,
-  marginRight: 10,
   borderRadius: 3,
-  animation: `${shine(-110, 250, AVATAR_OFFSET)} 1.6s infinite linear`
+  animation: `${shine(-110, 250)} 1.6s infinite linear`,
 });
 
 const Line = styled("div")({
@@ -29,21 +28,22 @@ const Line = styled("div")({
   height: 16,
   borderRadius: 3,
   marginBottom: 10,
-  animation: `${shine(-110, 250)} 1.6s infinite linear`
+
+  animation: `${shine(-110, 250, AVATAR_OFFSET)} 1.6s infinite linear`,
 });
 
 const LongerLine = styled(Line)({
-  width: 250
+  width: 250,
 });
 
 const SkeletonPostCard = () => (
   <Container>
     <Body>
-      <Thumbnail />
       <Content>
         <LongerLine />
         <Line />
       </Content>
+      <Thumbnail />
     </Body>
   </Container>
 );

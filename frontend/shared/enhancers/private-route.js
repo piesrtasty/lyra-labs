@@ -1,15 +1,15 @@
 import React from "react";
+import Router from "next/router";
 
 const login = "/";
 
 const checkUserAuthentication = async (req) => {
   const dev = process.env.NODE_ENV !== "production";
   const server = dev ? "http://localhost:3000" : "https://lyralabs.io";
+  const headers = req && req.headers ? { cookie: req.headers.cookie } : {};
   try {
     const response = await fetch(`${server}/api/me`, {
-      headers: {
-        cookie: req.headers.cookie,
-      },
+      headers,
     });
     const profile = await response.json();
     if (profile.error) {

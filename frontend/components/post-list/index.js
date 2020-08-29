@@ -4,6 +4,7 @@ import { useQuery } from "@apollo/react-hooks";
 import { USER_POSTS } from "@data/queries";
 import PostCard from "../post-card";
 import SkeletonPostCard from "../post-card/skeleton";
+import EmptyPlaceholder from "./empty-placeholder";
 
 const Container = styled("div")({
   display: "flex",
@@ -19,7 +20,13 @@ const PostList = ({ archived = false }) => {
   });
   return (
     <Container>
-      {loading && <SkeletonPostCard />}
+      {loading && (
+        <>
+          <SkeletonPostCard />
+          <SkeletonPostCard />
+          <SkeletonPostCard />
+        </>
+      )}
       {!loading && data && (
         <Fragment>
           {data.userPosts.map((post, i) =>
@@ -31,6 +38,7 @@ const PostList = ({ archived = false }) => {
           )}
         </Fragment>
       )}
+      {!loading && data.userPosts.length === 0 && <EmptyPlaceholder />}
     </Container>
   );
 };

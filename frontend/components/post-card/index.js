@@ -1,7 +1,9 @@
 import React, { useState, useContext } from "react";
+import { useRouter } from "next/router";
 import { WalletContext } from "@enhancers/wallet-provider";
 import styled from "@emotion/styled";
 import { BASE_TEXT, WEIGHT } from "@style/typography";
+import CoralButton from "@library/components/buttons/coral";
 import {
   BLACK,
   GUNSMOKE,
@@ -9,6 +11,7 @@ import {
   BLUSH,
   FOCUS_BLUSH,
   SCOPRION,
+  PURPLE,
   ALABASTER,
   FOCUS_LAVENDER,
 } from "@style/colors";
@@ -178,6 +181,9 @@ const Action = styled("div")(
 const GiveAwardCta = styled("div")({
   ...BASE_TEXT,
   cursor: "pointer",
+  "&:hover": {
+    color: PURPLE,
+  },
 });
 
 const ACTION_TIMEOUT = 1000;
@@ -186,6 +192,11 @@ const Icon = styled("div")({
   fontSize: ".875rem",
   marginTop: -2,
   letterSpacing: -5,
+});
+
+const StyledCoralButton = styled(CoralButton)({
+  height: 24,
+  fontSize: 11,
 });
 
 const PostCard = ({
@@ -205,6 +216,9 @@ const PostCard = ({
   post,
 }) => {
   const { giveAward } = useContext(WalletContext);
+  const router = useRouter();
+  const route = router.route;
+  const showActions = route !== "/";
 
   const [archivePost] = useMutation(ARCHIVE_POST, {
     update: (cache, { data: { archivePost: post } }) => {
@@ -296,22 +310,24 @@ const PostCard = ({
   });
 
   const ACTIONS = [
-    {
-      icon: "📌",
-      boxShadowColor: "#d0e3ff",
-      gradientStartColor: "#c5d9f8",
-      gradientEndColor: "#90bbff",
-      activeKey: "pinned",
-      onClick: () => {
-        console.log("clicked pin");
-      },
-    },
+    // {
+    //   icon: "📌",
+    //   boxShadowColor: "#d0e3ff",
+    //   gradientStartColor: "#c5d9f8",
+    //   gradientEndColor: "#90bbff",
+    //   activeKey: "pinned",
+    //   name: "Pin",
+    //   onClick: () => {
+    //     console.log("clicked pin");
+    //   },
+    // },
     {
       icon: "💾",
       boxShadowColor: "#cfc9f3",
       gradientStartColor: "#cac3f3",
       gradientEndColor: "#958aee",
       activeKey: "archived",
+      name: "Archive",
       onClick: () => {
         const func = archived ? unarchivePost : archivePost;
         func({
@@ -344,37 +360,35 @@ const PostCard = ({
         {image && <Thumbnail src={image} />}
       </Body>
       <Footer>
-        {showGiveAward && (
-          <GiveAwardCta onClick={handleGiveAward}>Give Award</GiveAwardCta>
-        )}
-
-        {/* <Actions>
-          {ACTIONS.map(
-            (
-              {
-                icon,
-                name,
-                onClick,
-                boxShadowColor,
-                gradientStartColor,
-                gradientEndColor,
-                activeKey,
-              },
-              i
-            ) => (
-              <Action
-                active={post[activeKey]}
-                boxShadowColor={boxShadowColor}
-                gradientStartColor={gradientStartColor}
-                gradientEndColor={gradientEndColor}
-                key={i}
-                onClick={() => onClick(id)}
-              >
-                <Icon>{icon}</Icon>
-              </Action>
-            )
+        <Actions>
+          {showGiveAward && (
+            <StyledCoralButton onClick={handleGiveAward}>
+              🏅 Give Award
+            </StyledCoralButton>
           )}
-        </Actions> */}
+          {showActions && (
+            <>
+              {ACTIONS.map(
+                (
+                  {
+                    icon,
+                    name,
+                    onClick,
+                    boxShadowColor,
+                    gradientStartColor,
+                    gradientEndColor,
+                    activeKey,
+                  },
+                  i
+                ) => (
+                  <StyledCoralButton onClick={() => onClick(id)}>
+                    {icon} {`${post[activeKey] ? " Unarchive" : " Archive"}`}
+                  </StyledCoralButton>
+                )
+              )}
+            </>
+          )}
+        </Actions>
       </Footer>
     </Container>
   );

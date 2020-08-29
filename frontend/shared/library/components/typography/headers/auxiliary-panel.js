@@ -2,15 +2,17 @@ import React from "react";
 import styled from "@emotion/styled";
 import { BASE_TEXT, WEIGHT } from "../../../../style/typography";
 
-const Container = styled("div")({
+export const AuxiliaryPanelHeader = styled("div")({
   ...BASE_TEXT,
   fontSize: 16,
   fontWeight: WEIGHT.BOLD,
-  marginBottom: 10
+  marginBottom: 10,
 });
 
-const AuxiliaryPanelHeader = ({ text }) => {
-  return <Container>{text}</Container>;
-};
+export const AuxiliaryPanelHeaderLarge = styled(AuxiliaryPanelHeader)({
+  fontSize: 22,
+});
 
-export default AuxiliaryPanelHeader;
+// const AuxiliaryPanelHeader = ({ text }) => {
+//   return <Container>{text}</Container>;
+// };

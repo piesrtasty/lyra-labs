@@ -25,14 +25,14 @@ const Wrapper = styled("header")(({ theme: { COLORS: { WHITE, LILAC } } }) => ({
   display: "flex",
   position: "sticky",
   top: 0,
-  zIndex: 99
+  zIndex: 0,
 }));
 
 const Aside = styled("div")({
   flexShrink: 0,
   [DESKTOP]: {
-    maxWidth: SIDEBAR_WIDTH
-  }
+    maxWidth: SIDEBAR_WIDTH,
+  },
 });
 
 const LogoContainer = styled("div")(
@@ -42,13 +42,13 @@ const LogoContainer = styled("div")(
     marginRight: 20,
     marginLeft: 8,
     [DESKTOP]: {
-      marginLeft: 16
-    }
+      marginLeft: 16,
+    },
   },
   ({ formVisible }) => ({
     [TABLET]: {
-      display: formVisible ? "none" : "flex"
-    }
+      display: formVisible ? "none" : "flex",
+    },
     // " > div:last-of-type": {
     //   zIndex: isOpen ? 999 : 1
     // }
@@ -58,7 +58,7 @@ const LogoContainer = styled("div")(
 const StyledContainer = styled(Container)({
   width: "100%",
   display: "flex",
-  alignItems: "center"
+  alignItems: "center",
 });
 
 const Actions = styled("div")({
@@ -68,8 +68,8 @@ const Actions = styled("div")({
   justifyContent: "flex-end",
   marginRight: ".5rem",
   [DESKTOP]: {
-    marginRight: "1rem"
-  }
+    marginRight: "1rem",
+  },
 });
 
 const CtaLink = styled("div")({
@@ -79,22 +79,22 @@ const CtaLink = styled("div")({
   color: CHARCOAL,
   marginRight: 16,
   [TABLET]: {
-    marginRight: 8
-  }
+    marginRight: 8,
+  },
 });
 
 const NavMenuCta = styled(FontAwesomeIcon)({
   display: "none",
   marginRight: 8,
   [TABLET]: {
-    display: "flex"
-  }
+    display: "flex",
+  },
 });
 
 const Name = styled("div")({
   ...BASE_TEXT,
   fontSize: "1.5rem",
-  marginLeft: ".5rem"
+  marginLeft: ".5rem",
 });
 
 const Header = () => {

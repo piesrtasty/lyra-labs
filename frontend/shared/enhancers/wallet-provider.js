@@ -7,21 +7,19 @@ import { useMutation } from "@apollo/react-hooks";
 import { ASSOCIATE_WALLET } from "@data/mutations";
 import { toast } from "react-toastify";
 import { CURRENT_USER_QUERY } from "../../data/queries";
+import flowConfig from "@config/flow";
 
 import checkReference from "../../flow/scripts/check-ref.cdc";
 import checkCollection from "../../flow/scripts/check-collection.cdc";
-import checkActiveWalletScript from "../../flow/scripts/check-active-wallet.cdc";
 import vaultBalance from "../../flow/scripts/vault-balance.cdc";
 import getCollectionItems from "../../flow/scripts/get-collection-items.cdc";
-import userVault from "../../flow/transactions/user-vault.cdc";
-import setupNFTCollection from "../../flow/transactions/setup-nft-collection.cdc";
 import giveNFTAward from "../../flow/transactions/give-nft-award.cdc";
+
+import setupUserWallet from "../../flow/transactions/setup-user-wallet.cdc";
 
 export const WalletContext = React.createContext({});
 
-fcl
-  .config()
-  .put("challenge.handshake", "http://localhost:8701/flow/authenticate");
+const { TOKEN_CONTRACT_ADDRESS, AWARD_CONTRACT_ADDRESS } = flowConfig;
 
 const getAddress = (user, nullPrefix = true) => {
   return nullPrefix ? `0x${user.addr}` : user.addr;
@@ -44,6 +42,11 @@ export const withWallet = (Component) => {
     const [collectionIsSetup, setCollectionIsSetup] = useState(false);
     const [walletBalance, setWalletBalance] = useState(null);
     const [walletCollection, setWalletCollection] = useState(null);
+    const [authHandlerIsSetup, setAuthHandlerIsSetup] = useState(false);
+    const [getResourcesComplete, setGetResourcesComplete] = useState(false);
+
+    const [status, setStatus] = useState(null);
+    const [transaction, setTransaction] = useState(null);
 
     const walletConnected = walletUser && walletUser.loggedIn;
     const walletNotConnected =
@@ -53,38 +56,46 @@ export const withWallet = (Component) => {
       fcl.currentUser().subscribe(async (user) => {
         if (user.loggedIn) {
           setWalletUser(user);
-          // Check if the wallet is set up yet
-          const vaultStatus = await checkUserVaultStatus();
-          setVaultIsSetup(vaultStatus);
-          if (vaultStatus) {
-            startBalancePoll();
-          }
-          const collectionStatus = await checkUserCollectionStatus();
-          setCollectionIsSetup(collectionStatus);
-          if (collectionStatus) {
-            getUserCollection();
-          }
-        } else {
-          console.log("is not logged in");
+          getWalletResources();
         }
       });
     };
 
-    let pollId = null;
+    const getWalletResources = async () => {
+      const vaultStatus = await checkUserVaultStatus();
+      setVaultIsSetup(vaultStatus);
+      if (vaultStatus) {
+        startBalancePoll();
+      }
+      const collectionStatus = await checkUserCollectionStatus();
+      setCollectionIsSetup(collectionStatus);
+      if (collectionStatus) {
+        startCollectionPoll();
+      }
+      setGetResourcesComplete(true);
+    };
+
+    let balancePollId = null;
     const startBalancePoll = async () => {
       const balance = await getUserBalance();
       setWalletBalance(balance);
-      pollId = setTimeout(startBalancePoll, 2000);
+      balancePollId = setTimeout(startBalancePoll, 2000);
+    };
+
+    let collectionPollId = null;
+    const startCollectionPoll = async () => {
+      const items = await getUserCollection();
+      setWalletCollection(items);
+      collectionPollId = setTimeout(startCollectionPoll, 2000);
     };
 
     const getUserBalance = async () => {
       const user = fcl.currentUser();
       const snapshot = await user.snapshot();
       const address = getAddress(snapshot);
-      const contractAddress = "0x01cf0e2f2f715450";
       const scriptCode = await generateCode(vaultBalance, {
         query: /(0x01|0x02)/g,
-        "0x01": contractAddress,
+        "0x01": `0x${TOKEN_CONTRACT_ADDRESS}`,
         "0x02": address,
       });
       const script = sdk.script`${scriptCode}`;
@@ -97,56 +108,24 @@ export const withWallet = (Component) => {
       const user = fcl.currentUser();
       const snapshot = await user.snapshot();
       const address = getAddress(snapshot);
-      //   const contractAddress = "0xf3fcd2c1a78f5eee";
-      const contractAddress = "0xfd43f9148d4b725d";
       const scriptCode = await generateCode(getCollectionItems, {
         query: /(0x01|0x02)/g,
-        "0x01": contractAddress,
+        "0x01": `0x${AWARD_CONTRACT_ADDRESS}`,
         "0x02": address,
       });
       const script = sdk.script`${scriptCode}`;
       const response = await fcl.send([script]);
       const items = await fcl.decode(response);
-      setWalletCollection(items);
-    };
-
-    const setupUserVault = async () => {
-      // Create the user vault
-      const user = fcl.currentUser();
-      const { authorization } = user;
-      const snapshot = await user.snapshot();
-      const address = getAddress(snapshot);
-      const contractAddress = "0x01cf0e2f2f715450";
-      const initCode = await generateCode(userVault, {
-        query: /(0x01)/g,
-        "0x01": contractAddress,
-      });
-      try {
-        const initResponse = await fcl.send(
-          [
-            sdk.transaction`${initCode}`,
-            fcl.proposer(authorization),
-            fcl.payer(authorization),
-            fcl.authorizations([authorization]),
-            fcl.limit(100),
-          ],
-          {
-            node: "http://localhost:8080",
-          }
-        );
-      } catch (e) {
-        console.log("setupUserVault caught error", e);
-      }
+      return items;
     };
 
     const checkUserVaultStatus = async () => {
       const user = fcl.currentUser();
       const snapshot = await user.snapshot();
       const address = getAddress(snapshot);
-      const contractAddress = "0x01cf0e2f2f715450";
       const scriptCode = await generateCode(checkReference, {
         query: /(0x01|0x02)/g,
-        "0x01": contractAddress,
+        "0x01": `0x${TOKEN_CONTRACT_ADDRESS}`,
         "0x02": address,
       });
       const script = sdk.script`${scriptCode}`;
@@ -159,103 +138,133 @@ export const withWallet = (Component) => {
       const user = fcl.currentUser();
       const snapshot = await user.snapshot();
       const address = getAddress(snapshot);
-      //   const contractAddress = "0xf3fcd2c1a78f5eee";
-      const contractAddress = "0xfd43f9148d4b725d";
       const scriptCode = await generateCode(checkCollection, {
         query: /(0x01|0x02)/g,
-        "0x01": contractAddress,
+        "0x01": `0x${AWARD_CONTRACT_ADDRESS}`,
         "0x02": address,
       });
-
       const script = sdk.script`${scriptCode}`;
       const response = await fcl.send([script]);
       const checkResult = await fcl.decode(response);
       return checkResult;
     };
 
-    const setupUserCollection = async () => {
-      // Create the user vault
-      const user = fcl.currentUser();
-      const { authorization } = user;
-      const snapshot = await user.snapshot();
-      const address = getAddress(snapshot);
-      // const contractAddress = "0xf3fcd2c1a78f5eee";
-      const contractAddress = "0xfd43f9148d4b725d";
-      const initCode = await generateCode(setupNFTCollection, {
-        query: /(0x01)/g,
-        "0x01": contractAddress,
-      });
-      try {
-        const initResponse = await fcl.send(
-          [
-            sdk.transaction`${initCode}`,
-            fcl.proposer(authorization),
-            fcl.payer(authorization),
-            fcl.authorizations([authorization]),
-            fcl.limit(100),
-          ],
-          {
-            node: "http://localhost:8080",
+    const runSampleTx = async () => {
+      const simpleTransaction = `\
+        transaction {
+          execute {
+            log("Hello World!!")
           }
-        );
+        }
+      `;
+      setStatus("Resolving...");
+      const blockResponse = await fcl.send([fcl.getLatestBlock()]);
+      const block = await fcl.decode(blockResponse);
+      try {
+        const tx = await fcl.send([
+          fcl.transaction(simpleTransaction),
+          fcl.proposer(fcl.currentUser().authorization),
+          fcl.payer(fcl.currentUser().authorization),
+          fcl.ref(block.id),
+        ]);
+
+        const { transactionId } = tx;
+
+        setStatus("Transaction sent, waiting for confirmation");
+
+        const unsub = fcl.tx({ transactionId }).subscribe((transaction) => {
+          setTransaction(transaction);
+
+          if (fcl.tx.isSealed(transaction)) {
+            setStatus("Transaction is Sealed");
+            unsub();
+          }
+        });
       } catch (e) {
-        console.log("setupNFTCollection caught error", e);
+        console.error(e);
+        setStatus("Transaction failed");
       }
     };
 
-    const checkActiveWallet = async () => {
-      // Checks if the active wallet is setup
-      const user = fcl.currentUser();
-      const snapshot = await user.snapshot();
-      const address = getAddress(snapshot);
-      const scriptCode = await generateCode(checkActiveWalletScript, {
-        query: /(0x01|0x02|0x03)/g,
-        "0x01": `0x${FUNGIBLE_TOKEN_CONTRACT_ADDRESS}`,
-        "0x02": `0x${NON_FUNGIBLE_TOKEN_CONTRACT_ADDRESS}`,
-        "0x03": address,
+    const setupWallet = async () => {
+      // Create a vault and a collection
+      const initCode = await generateCode(setupUserWallet, {
+        query: /(0x01|0x02)/g,
+        "0x01": `0x${TOKEN_CONTRACT_ADDRESS}`,
+        "0x02": `0x${AWARD_CONTRACT_ADDRESS}`,
       });
-      const script = sdk.script`${scriptCode}`;
-      const response = await fcl.send([script]);
-      const activeWalletStatus = await fcl.decode(response);
-      return activeWalletStatus;
-    };
 
-    const setupActiveWallet = async () => {
-      // Creates a vault and collection in the active wallet
+      setStatus("Resolving...");
+
+      const blockResponse = await fcl.send([fcl.getLatestBlock()]);
+      const block = await fcl.decode(blockResponse);
+
+      try {
+        const tx = await fcl.send([
+          sdk.transaction`${initCode}`,
+          fcl.proposer(fcl.currentUser().authorization),
+          fcl.payer(fcl.currentUser().authorization),
+          fcl.ref(block.id),
+          fcl.authorizations([fcl.currentUser().authorization]),
+          fcl.limit(100),
+        ]);
+
+        const { transactionId } = tx;
+
+        setStatus("Transaction sent, waiting for confirmation");
+
+        const unsub = fcl.tx({ transactionId }).subscribe((transaction) => {
+          setTransaction(transaction);
+
+          if (fcl.tx.isSealed(transaction)) {
+            setStatus("Transaction is Sealed");
+            getWalletResources();
+            unsub();
+          }
+        });
+      } catch (e) {
+        console.error(error);
+        setStatus("Transaction failed");
+      }
     };
 
     const giveAward = async ({ recipientAddress }) => {
-      console.log("giving award to recipientAddress", recipientAddress);
-      // Create the user vault
-      const user = fcl.currentUser();
-      const { authorization } = user;
-      const snapshot = await user.snapshot();
-      const address = getAddress(snapshot);
-      // const contractAddress = "0xf3fcd2c1a78f5eee";
-      const fungibleTokenContractAddress = "0x01cf0e2f2f715450";
-      const awardContractAddress = "0xfd43f9148d4b725d";
       const initCode = await generateCode(giveNFTAward, {
         query: /(0x01|0x02|0x03)/g,
-        "0x01": awardContractAddress,
-        "0x02": fungibleTokenContractAddress,
+        "0x01": `0x${TOKEN_CONTRACT_ADDRESS}`,
+        "0x02": `0x${AWARD_CONTRACT_ADDRESS}`,
         "0x03": `0x${recipientAddress}`,
       });
+
+      setStatus("Resolving...");
+
+      const blockResponse = await fcl.send([fcl.getLatestBlock()]);
+      const block = await fcl.decode(blockResponse);
+
       try {
-        const initResponse = await fcl.send(
-          [
-            sdk.transaction`${initCode}`,
-            fcl.proposer(authorization),
-            fcl.payer(authorization),
-            fcl.authorizations([authorization]),
-            fcl.limit(100),
-          ],
-          {
-            node: "http://localhost:8080",
+        const tx = await fcl.send([
+          sdk.transaction`${initCode}`,
+          fcl.proposer(fcl.currentUser().authorization),
+          fcl.payer(fcl.currentUser().authorization),
+          fcl.ref(block.id),
+          fcl.authorizations([fcl.currentUser().authorization]),
+          fcl.limit(100),
+        ]);
+        const { transactionId } = tx;
+
+        setStatus("Transaction sent, waiting for confirmation");
+
+        const unsub = fcl.tx({ transactionId }).subscribe((transaction) => {
+          setTransaction(transaction);
+
+          if (fcl.tx.isSealed(transaction)) {
+            setStatus("Transaction is Sealed");
+            unsub();
           }
-        );
-        console.log("give award initResponse", initResponse);
+        });
       } catch (e) {
-        console.log("give award caught error", e);
+        console.error(external);
+        setStatus("Transaction failed");
       }
     };
 
@@ -272,7 +281,7 @@ export const withWallet = (Component) => {
           });
         },
         onError: () => {
-          toast.error("😳Ekkk! Failed to associate wallet.", {
+          toast.error("😳 Ekkk! Failed to link wallet.", {
             position: "bottom-left",
           });
         },
@@ -290,18 +299,25 @@ export const withWallet = (Component) => {
     return (
       <WalletContext.Provider
         value={{
+          status,
+          setStatus,
+          transaction,
+          setTransaction,
           walletConnected,
           walletNotConnected,
+          setupWallet,
           setupFCLAuthHandler,
           walletUser,
-          setupUserVault,
           vaultIsSetup,
-          setupUserCollection,
           collectionIsSetup,
           walletBalance,
           walletCollection,
           connectActiveWalletToLyraLabs,
           giveAward,
+          authHandlerIsSetup,
+          setAuthHandlerIsSetup,
+          getResourcesComplete,
+          runSampleTx,
         }}
       >
         <Component />

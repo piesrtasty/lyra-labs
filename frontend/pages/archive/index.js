@@ -1,16 +1,26 @@
 import React, { useContext } from "react";
+import { withPrivateRoute } from "@enhancers/private-route";
 import Page from "@components/page";
 import PostList from "@components/post-list";
-import { USER_POSTS_INBOX } from "@data/queries";
-import { CurrentUserContext } from "@enhancers/current-user";
+import { withWallet } from "@enhancers/wallet-provider";
 import { withCurrentUser } from "@enhancers/current-user";
 import { withLoginModal } from "@enhancers/login-modal";
 import { flowRight as compose } from "lodash";
+import { AuxiliaryPanelHeaderLarge } from "@library/components/typography/headers/auxiliary-panel";
 
-const ArchivePage = ({ user }) => {
-  const currentUser = useContext(CurrentUserContext);
-  return <Page>{currentUser && <PostList archived={true} />}</Page>;
+const ArchivePage = () => {
+  return (
+    <Page>
+      <AuxiliaryPanelHeaderLarge>Archive</AuxiliaryPanelHeaderLarge>
+      <PostList archived={true} />
+    </Page>
+  );
 };
 
-const enhance = compose(withCurrentUser, withLoginModal);
+const enhance = compose(
+  withPrivateRoute,
+  withCurrentUser,
+  withLoginModal,
+  withWallet
+);
 export default enhance(ArchivePage);

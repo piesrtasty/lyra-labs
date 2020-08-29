@@ -17,11 +17,26 @@ module.exports = withCSS({
       process.env.POST_LOGOUT_REDIRECT_URI || "http://localhost:3000/",
     SESSION_COOKIE_SECRET: process.env.SESSION_COOKIE_SECRET,
     SESSION_COOKIE_LIFETIME: process.env.SESSION_COOKIE_LIFETIME,
+    FLOW_CONFIG: {
+      development: {
+        TOKEN_CONTRACT_ADDRESS: process.env.LOCAL_TOKEN_CONTRACT_ADDRESS,
+        AWARD_CONTRACT_ADDRESS: process.env.LOCAL_AWARD_CONTRACT_ADDRESS,
+        ACCESS_NODE_API: process.env.LOCAL_ACCESS_NODE_API,
+        CHALLENGE_HANDSHAKE: process.env.LOCAL_CHALLENGE_HANDSHAKE,
+      },
+      production: {
+        TOKEN_CONTRACT_ADDRESS: process.env.TESTNET_TOKEN_CONTRACT_ADDRESS,
+        AWARD_CONTRACT_ADDRESS: process.env.TESTNET_AWARD_CONTRACT_ADDRESS,
+        ACCESS_NODE_API: process.env.TESTNET_ACCESS_NODE_API,
+        CHALLENGE_HANDSHAKE: process.env.TESTNET_CHALLENGE_HANDSHAKE,
+      },
+    },
   },
   webpack: (config, { buildId, dev, isServer, defaultLoaders, webpack }) => {
     // alias commonly used modules
     // https://webpack.js.org/configuration/resolve/#resolvealias
     config.resolve.alias = {
+      "@config": path.resolve(__dirname, "config/"),
       "@data": path.resolve(__dirname, "data/"),
       "@components": path.resolve(__dirname, "components/"),
       "@library": path.resolve(__dirname, "shared/library/"),

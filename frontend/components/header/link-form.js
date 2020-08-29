@@ -107,18 +107,20 @@ const LinkForm = ({ setFormVisible }) => {
   const router = useRouter();
   const [createPost, { data, loading, error }] = useMutation(CREATE_POST, {
     update: (cache, { data: { createPost: post } }) => {
-      if (router.route !== "/") {
-        router.push("/", "/", { shallow: true });
+      if (router.route !== "/readinglist") {
+        router.push("/readinglist", "/readinglist", { shallow: true });
+        const { userPosts: posts } = cache.readQuery({
+          query: USER_POSTS,
+          variables: { archived: false },
+        });
+        if (posts) {
+          cache.writeQuery({
+            query: USER_POSTS,
+            variables: { archived: false },
+            data: { userPosts: [post, ...posts] },
+          });
+        }
       }
-      const { userPosts: posts } = cache.readQuery({
-        query: USER_POSTS,
-        variables: { archived: false },
-      });
-      cache.writeQuery({
-        query: USER_POSTS,
-        variables: { archived: false },
-        data: { userPosts: [post, ...posts] },
-      });
     },
     optimisticResponse: {
       createPost: {

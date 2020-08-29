@@ -29,8 +29,8 @@ const Container = styled("div")({
 
 const UserAvatar = ({ user }) => {
   const LINKS = [
-    { label: "My Profile", route: `@${user.username}` },
-    { label: "Settings", route: "/settings" },
+    // { label: "My Profile", route: `@${user.username}` },
+    // { label: "Settings", route: "/settings" },
     { label: "Logout", route: "/api/logout" },
   ];
   const anchor = (

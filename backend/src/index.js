@@ -1,3 +1,4 @@
+require('dotenv').config()
 const { GraphQLServer } = require('graphql-yoga')
 const bodyParser = require('body-parser')
 const {
@@ -242,7 +243,12 @@ const Query = objectType({
 
         // const queryParams = currentUser
 
-        const posts = await ctx.prisma.post.findMany(queryParams)
+        const posts = await ctx.prisma.post.findMany({
+          ...queryParams,
+          orderBy: {
+            createdAt: 'desc',
+          },
+        })
         return posts
       },
     })
@@ -267,6 +273,9 @@ const Query = objectType({
 
         const posts = await ctx.prisma.post.findMany({
           where: { submitterId: user.id, archived, pinned },
+          orderBy: {
+            createdAt: 'desc',
+          },
         })
         return posts
       },

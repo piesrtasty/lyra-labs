@@ -8,8 +8,8 @@ const THEME = {
     RICE_CAKE: "#f3f3f3",
     LILAC: "#e8e8e8",
     WHITE: "#fff",
-    BLACK: "#000"
-  }
+    BLACK: "#000",
+  },
 };
 
 const Layout = ({ children }) => {
