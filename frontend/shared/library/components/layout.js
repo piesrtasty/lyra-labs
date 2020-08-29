@@ -5,8 +5,8 @@ import { TABLET, DESKTOP, XL, LAPTOP } from "../../style/breakpoints";
 
 // const MAX_WIDTH = 1250;
 const MAX_WIDTH = 1100;
-export const SIDEBAR_WIDTH = 220; // 280 when topics rendered
-// export const SIDEBAR_WIDTH = 240; // 280 when topics rendered
+// export const SIDEBAR_WIDTH = 220; // 280 when topics rendered
+export const SIDEBAR_WIDTH = 240; // 280 when topics rendered
 const MIN_WIDTH = 320;
 
 export const LEFT = "left";
@@ -73,6 +73,7 @@ export const Widget = styled("div")({
 
 export const Sidebar = styled("div")(
   {
+    flex: 1,
     minWidth: SIDEBAR_WIDTH,
     display: "none",
     padding: "16px 0",
