@@ -13,10 +13,31 @@ const THEME = {
 };
 
 const Layout = ({ children }) => {
+  const isProduction = process.env.NODE_ENV === "production";
   return (
     <ThemeProvider theme={THEME}>
       <Head>
         <title>Lyra Labs 🥰</title>
+        {isProduction && (
+          <>
+            <script
+              async
+              src="https://www.googletagmanager.com/gtag/js?id=G-EW50ZSVFBP"
+            ></script>
+
+            <script
+              dangerouslySetInnerHTML={{
+                __html: `
+            window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-EW50ZSVFBP');
+              `,
+              }}
+            />
+          </>
+        )}
       </Head>
       <Global
         styles={css`
@@ -25,9 +46,13 @@ const Layout = ({ children }) => {
             background-color: ${THEME.COLORS.ALABASTER};
             margin: 0;
           }
+          iframe {
+            z-index: 2;
+          }
         `}
       />
       <main>{children}</main>
+      <link rel="shortcut icon" href="/static/favicon.ico" />
     </ThemeProvider>
   );
 };

@@ -1,5 +1,9 @@
+import React, { useContext } from "react";
 import styled from "@emotion/styled";
+import { BASE_TEXT } from "@style/typography";
 import { Container, Column, Main } from "@library/components/layout";
+import { LAPTOP } from "../shared/style/breakpoints";
+import { CurrentUserContext } from "@enhancers/current-user";
 import Header from "@components/header";
 import Sidebar from "@components/sidebar";
 import WalletPanel from "@components/wallet/panel";
@@ -22,20 +26,40 @@ const StyledContainer = styled(Container)({
 // padding: var(--layout-padding);
 // }
 
-const Page = ({ children }) => (
-  <Column>
-    <Header />
+const MobileMsg = styled("div")({
+  marginBottom: 10,
+  display: "flex",
+  [LAPTOP]: {
+    display: "none",
+  },
+});
+
+const Text = styled("div")({
+  ...BASE_TEXT,
+});
+
+const Page = ({ children }) => {
+  const currentUser = useContext(CurrentUserContext);
+
+  return (
     <Column>
-      <StyledContainer>
-        <Sidebar />
-        <Main>{children}</Main>
-        {/* <WalletPanel /> */}
-        {/* <Sidebar position={RIGHT}>
-          <WalletPanel />
-        </Sidebar> */}
-      </StyledContainer>
+      <Header />
+      <Column>
+        <StyledContainer>
+          {currentUser && <Sidebar />}
+          <Main>
+            <MobileMsg>
+              <Text>
+                Not optimized for mobile devices yet. Some features may not be
+                available (e.g. Flow Wallet) 🧐
+              </Text>
+            </MobileMsg>
+            {children}
+          </Main>
+        </StyledContainer>
+      </Column>
     </Column>
-  </Column>
-);
+  );
+};
 
 export default Page;

@@ -39,7 +39,7 @@ const Name = styled("div")({
 });
 
 const LINKS = [
-  { icon: "🏄‍♀️", name: "Discovery Feed", route: "/" },
+  { icon: "🚀", name: "Discovery Feed", route: "/" },
   { icon: "📚", name: "Reading list", route: "/readinglist" },
   { icon: "💾", name: "Archive", route: "/archive" },
 ];

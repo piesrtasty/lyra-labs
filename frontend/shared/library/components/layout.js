@@ -1,10 +1,12 @@
 import styled from "@emotion/styled";
 import { WHITE, LILAC } from "../../style/colors";
 import { BASE_TEXT, WEIGHT } from "../../style/typography";
-import { TABLET, DESKTOP, XL } from "../../style/breakpoints";
+import { TABLET, DESKTOP, XL, LAPTOP } from "../../style/breakpoints";
 
-const MAX_WIDTH = 1250;
+// const MAX_WIDTH = 1250;
+const MAX_WIDTH = 1100;
 export const SIDEBAR_WIDTH = 220; // 280 when topics rendered
+// export const SIDEBAR_WIDTH = 240; // 280 when topics rendered
 const MIN_WIDTH = 320;
 
 export const LEFT = "left";
@@ -47,13 +49,13 @@ export const Main = styled("main")({
   width: "100%",
   padding: 8,
   boxSizing: "border-box",
-  [DESKTOP]: {
-    maxWidth: `calc(100% - ${SIDEBAR_WIDTH}px)`,
-    padding: 16,
-  },
-  [XL]: {
-    maxWidth: `calc(100% - ${2 * SIDEBAR_WIDTH}px)`,
-  },
+  // [DESKTOP]: {
+  //   maxWidth: `calc(100% - ${SIDEBAR_WIDTH}px)`,
+  //   padding: 16,
+  // },
+  // [XL]: {
+  //   maxWidth: `calc(100% - ${2 * SIDEBAR_WIDTH}px)`,
+  // },
 });
 
 export const SidebarSectionHeader = styled("header")({
@@ -71,13 +73,14 @@ export const Widget = styled("div")({
 
 export const Sidebar = styled("div")(
   {
-    width: SIDEBAR_WIDTH,
+    minWidth: SIDEBAR_WIDTH,
     display: "none",
     padding: "16px 0",
     fontSize: "0.85em",
   },
   ({ position }) => ({
-    [DESKTOP]: {
+    // [DESKTOP]: {
+    [LAPTOP]: {
       // display: position === RIGHT ? "none" : "block"
       display: "block",
     },

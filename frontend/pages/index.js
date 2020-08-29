@@ -1,6 +1,8 @@
 import React, { useContext } from "react";
+import styled from "@emotion/styled";
 import Page from "@components/page";
 import Feed from "@components/feed";
+import { LAPTOP } from "../shared/style/breakpoints";
 import { CurrentUserContext } from "@enhancers/current-user";
 import { withCurrentUser } from "@enhancers/current-user";
 import { withWallet } from "@enhancers/wallet-provider";

@@ -381,7 +381,7 @@ const PostCard = ({
                   },
                   i
                 ) => (
-                  <StyledCoralButton onClick={() => onClick(id)}>
+                  <StyledCoralButton key={name} onClick={() => onClick(id)}>
                     {icon} {`${post[activeKey] ? " Unarchive" : " Archive"}`}
                   </StyledCoralButton>
                 )

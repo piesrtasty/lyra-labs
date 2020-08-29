@@ -4,6 +4,8 @@ import styled from "@emotion/styled";
 
 import * as fcl from "@onflow/fcl";
 
+import flowConfig from "@config/flow";
+
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faLink,
@@ -12,6 +14,7 @@ import {
   faTrophyAlt,
   faSatelliteDish,
   faBracketsCurly,
+  faWifi,
 } from "@fortawesome/pro-regular-svg-icons";
 
 import { WHITE } from "@style/colors";
@@ -25,6 +28,8 @@ import { AuxiliaryPanelHeader } from "@library/components/typography/headers/aux
 
 import { Divider } from "@library/components/layout";
 
+const { NETWORK } = flowConfig;
+
 const Container = styled("div")({
   display: "flex",
   flexDirection: "column",
@@ -32,6 +37,11 @@ const Container = styled("div")({
   backgroundColor: WHITE,
   boxShadow: "0 1px 2px 0 rgba(0,0,0,.1)",
   padding: "1rem",
+});
+
+const Wrapper = styled("div")({
+  display: "flex",
+  flexDirection: "column",
 });
 
 const Label = styled("div")({
@@ -84,6 +94,11 @@ const AwardId = styled("div")({
   ...BASE_TEXT,
 });
 
+const HeaderTag = styled("div")({
+  ...BASE_TEXT,
+  fontSize: 10,
+});
+
 const WalletDetails = ({ currentUser }) => {
   const {
     status,
@@ -122,9 +137,19 @@ const WalletDetails = ({ currentUser }) => {
   const walletIsConfigured = vaultIsSetup && collectionIsSetup;
 
   return (
-    <>
-      <AuxiliaryPanelHeader>Flow Wallet</AuxiliaryPanelHeader>
+    <Wrapper>
+      <AuxiliaryPanelHeader>
+        Flow Wallet<HeaderTag>Experimental Feature</HeaderTag>
+      </AuxiliaryPanelHeader>
+
       <Container>
+        <TextGroup>
+          <Label>
+            <FontAwesomeIcon icon={faWifi} /> Network
+          </Label>
+          <Value>{NETWORK}</Value>
+        </TextGroup>
+        <StyledDivider />
         <TextGroup>
           <Label>
             <FontAwesomeIcon icon={faLink} /> Linked Wallet
@@ -247,7 +272,7 @@ const WalletDetails = ({ currentUser }) => {
           </>
         )}
       </Container>
-    </>
+    </Wrapper>
   );
 };
 

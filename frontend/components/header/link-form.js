@@ -109,6 +109,8 @@ const LinkForm = ({ setFormVisible }) => {
     update: (cache, { data: { createPost: post } }) => {
       if (router.route !== "/readinglist") {
         router.push("/readinglist", "/readinglist", { shallow: true });
+      }
+      try {
         const { userPosts: posts } = cache.readQuery({
           query: USER_POSTS,
           variables: { archived: false },
@@ -120,7 +122,7 @@ const LinkForm = ({ setFormVisible }) => {
             data: { userPosts: [post, ...posts] },
           });
         }
-      }
+      } catch {}
     },
     optimisticResponse: {
       createPost: {

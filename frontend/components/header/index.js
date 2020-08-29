@@ -1,5 +1,6 @@
 import React, { Fragment, useContext, useState } from "react";
 import styled from "@emotion/styled";
+
 import { withTheme } from "emotion-theming";
 import { Container, Row, SIDEBAR_WIDTH } from "@library/components/layout";
 import { CurrentUserContext } from "@enhancers/current-user";
@@ -25,7 +26,7 @@ const Wrapper = styled("header")(({ theme: { COLORS: { WHITE, LILAC } } }) => ({
   display: "flex",
   position: "sticky",
   top: 0,
-  zIndex: 0,
+  zIndex: 1,
 }));
 
 const Aside = styled("div")({
@@ -97,6 +98,15 @@ const Name = styled("div")({
   marginLeft: ".5rem",
 });
 
+const Title = styled("div")({
+  display: "flex",
+});
+
+const BetaTag = styled("div")({
+  ...BASE_TEXT,
+  fontSize: 10,
+});
+
 const Header = () => {
   const [formVisible, setFormVisible] = useState(false);
   const currentuser = useContext(CurrentUserContext);
@@ -105,10 +115,13 @@ const Header = () => {
       <StyledContainer>
         <Aside>
           <LogoContainer formVisible={formVisible}>
-            <NavMenuCta icon={faBars} />
+            {/* <NavMenuCta icon={faBars} /> */}
 
             <Logo />
-            <Name>LyraLabs</Name>
+            <Title>
+              <Name>Lyra Labs</Name>
+              <BetaTag>beta</BetaTag>
+            </Title>
           </LogoContainer>
         </Aside>
 
