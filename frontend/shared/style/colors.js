@@ -32,6 +32,8 @@ export const EXTRA_BRIGHT_MINT = "#74EECD";
 export const MANATEE = "#8d99ae";
 export const LAVENDER_FLORAL = "#af80ff";
 
+// #FF8484
+
 // #E9FFC4
 // #84FFFF
 // #2EFFCA

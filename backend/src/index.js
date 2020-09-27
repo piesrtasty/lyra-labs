@@ -157,6 +157,13 @@ const Vote = objectType({
   },
 })
 
+const MetaData = objectType({
+  name: 'MetaData',
+  definition(t) {
+    t.int('count')
+  },
+})
+
 const Post = objectType({
   name: 'Post',
   definition(t) {
@@ -325,6 +332,25 @@ const Query = objectType({
           where: { id },
         })
         return comment
+      },
+    })
+    t.field('savedPostsDetails', {
+      type: 'MetaData',
+      args: {
+        username: stringArg(),
+      },
+      resolve: async (_, { username }, ctx) => {
+        const currentUser = ctx.request.user
+        const user = username
+          ? await ctx.prisma.user.findOne({
+              where: { username },
+            })
+          : currentUser
+
+        const count = await ctx.prisma.post.count({
+          where: { submitterId: user.id, archived: false, pinned: false },
+        })
+        return { count }
       },
     })
     t.field('me', {
@@ -630,6 +656,7 @@ const server = new GraphQLServer({
       Topic,
       Vote,
       SignedUpload,
+      MetaData,
     ],
     plugins: [nexusPrismaPlugin()],
   }),
