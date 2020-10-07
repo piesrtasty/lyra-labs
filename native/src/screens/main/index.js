@@ -1,20 +1,121 @@
 import React, { useContext } from "react";
-import { View, Text, TouchableOpacity, StyleSheet } from "react-native";
 import { AuthContext } from "../../shared/enhancers/auth";
+import { SlideMenuContext } from "@components/slide-menu";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
+import { useRoute } from "@react-navigation/native";
+import { getTabBarStyles } from "@shared/utils";
+import { SlideMenu } from "@components/slide-menu";
+import { Pressable, SafeAreaView, StyleSheet, View } from "react-native";
 
 const Tab = createBottomTabNavigator();
 
+import { faSort } from "@fortawesome/pro-regular-svg-icons";
+
 import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
-import { MAIN_TABS } from "@shared/routes";
+import { MAIN_TABS, ROUTES, ROUTE_HOME } from "@shared/routes";
 
 import { useTheme } from "../../shared/enhancers/theme-manager";
 
-const styles = StyleSheet.create({
-  container: {
-    backgroundColor: "red",
+var styles = StyleSheet.create({
+  container: {},
+  bar: {
+    height: 80,
+    display: "flex",
+    flexDirection: "row",
+    justifyContent: "center",
+  },
+  item: {
+    display: "flex",
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "center",
+    paddingTop: 15,
+    paddingLeft: 20,
+    paddingRight: 20,
+  },
+  sort: {
+    marginRight: 5,
   },
 });
+
+const CustomTabBar = ({ state, descriptors, navigation }) => {
+  const focusedOptions = descriptors[state.routes[state.index].key].options;
+  if (focusedOptions.tabBarVisible === false) {
+    return null;
+  }
+
+  const { theme } = useTheme();
+  const route = useRoute();
+
+  const tabBarStyles = getTabBarStyles(route, theme);
+
+  const { toggleModal, activeMenuItem } = useContext(SlideMenuContext);
+
+  return (
+    <View style={styles.container}>
+      <SafeAreaView style={{ ...tabBarStyles, ...styles.bar }}>
+        {state.routes.map((route, index) => {
+          const { options } = descriptors[route.key];
+          const label =
+            options.tabBarLabel !== undefined
+              ? options.tabBarLabel
+              : options.title !== undefined
+              ? options.title
+              : route.name;
+
+          const isFocused = state.index === index;
+
+          const isHomeRoute = route.name === ROUTE_HOME;
+
+          const onPress = () => {
+            const event = navigation.emit({
+              type: "tabPress",
+              target: route.key,
+              canPreventDefault: true,
+            });
+
+            if (!isFocused && !event.defaultPrevented) {
+              navigation.navigate(route.name);
+            }
+
+            if (isFocused && isHomeRoute) {
+              toggleModal();
+              console.log("show the menu");
+            }
+          };
+
+          const { icon, iconSolid } = isHomeRoute
+            ? activeMenuItem
+            : ROUTES[route.name];
+
+          return (
+            <Pressable onPress={onPress} style={styles.item}>
+              {isHomeRoute && (
+                <FontAwesomeIcon
+                  style={{
+                    color: "white",
+                    opacity: 0.6,
+                    marginRight: 5,
+                  }}
+                  size={20}
+                  icon={faSort}
+                />
+              )}
+              <FontAwesomeIcon
+                style={{
+                  color: "white",
+                  opacity: isFocused ? 1 : 0.6,
+                }}
+                size={24}
+                icon={isFocused ? iconSolid : icon}
+              />
+            </Pressable>
+          );
+        })}
+      </SafeAreaView>
+    </View>
+  );
+};
 
 const MainScreen = () => {
   const {
@@ -23,66 +124,26 @@ const MainScreen = () => {
 
   const { theme } = useTheme();
 
-  // return (
-  //   <View>
-  //     <Text>COOL</Text>
-  //   </View>
-  // );
+  const route = useRoute();
+
+  const tabBarStyles = getTabBarStyles(route, theme);
 
   return (
-    // <View style={styles.container}>
-    <Tab.Navigator
-      screenOptions={(screenProps) => ({})}
-      tabBarOptions={{
-        showLabel: false,
-        activeTintColor: "tomato",
-        inactiveTintColor: "gray",
-        style: {
-          backgroundColor: theme.tabNavigatorBackground,
-        },
-      }}
-    >
-      {MAIN_TABS.map(({ route, component, icon }) => (
-        <Tab.Screen
-          name={route}
-          component={component}
-          options={({ route }) => ({
-            cardStyle: { backgroundColor: "#000" },
-            tabBarIcon: ({ focused, color, size }) => {
-              // You can return any component that you like here!
-              return (
-                <FontAwesomeIcon
-                  style={{
-                    color: focused ? theme.tabBarIconActive : theme.tabBarIcon,
-                  }}
-                  size={24}
-                  icon={icon}
-                />
-              );
-            },
-          })}
-        />
-      ))}
-      {/* <Tab.Screen name="HomeScreen" component={HomeScreen} />
-      <Tab.Screen
-        name="ReadingListScreen"
-        component={ReadingListScreen}
-        options={({route}) => ({
-          tabBarIcon: ({focused, color, size}) => {
-            // You can return any component that you like here!
-            return (
-              <View>
-                <Text>COOL</Text>
-              </View>
-            );
+    <SlideMenu>
+      <Tab.Navigator
+        tabBar={(props) => <CustomTabBar {...props} />}
+        tabBarOptions={{
+          showLabel: false,
+          style: {
+            ...tabBarStyles,
           },
-        })}
-      />
-      <Tab.Screen name="ArchiveScreen" component={ArchiveScreen} />
-      <Tab.Screen name="ActivityScreen" component={ActivityScreen} />
-      <Tab.Screen name="ProfileScreen" component={ProfileScreen} /> */}
-    </Tab.Navigator>
-    // </View>
+        }}
+      >
+        {MAIN_TABS.map(({ route, component, icon }) => (
+          <Tab.Screen name={route} component={component} />
+        ))}
+      </Tab.Navigator>
+    </SlideMenu>
   );
 };
 

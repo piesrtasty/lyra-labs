@@ -7,7 +7,7 @@ import { CurrentUserContext } from "@shared/enhancers/current-user";
 const Profile = () => {
   const data = useContext(CurrentUserContext);
   return (
-    <Layout>
+    <Layout transparentBg={true}>
       <Text style={{ color: "#fff" }}>{JSON.stringify(data)}</Text>
     </Layout>
   );

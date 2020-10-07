@@ -5,7 +5,7 @@ import { getTheme } from "../theme";
 const osTheme = Appearance.getColorScheme();
 
 const LIGHT = "light";
-const DARK = "dark";
+export const DARK = "dark";
 
 export const ManageThemeContext = React.createContext({});
 

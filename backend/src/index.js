@@ -5,6 +5,7 @@ const {
   makeSchema,
   objectType,
   idArg,
+  intArg,
   stringArg,
   booleanArg,
 } = require('@nexus/schema')
@@ -236,8 +237,7 @@ const Query = objectType({
   name: 'Query',
   definition(t) {
     t.crud.sections()
-    t.crud.posts()
-    // t.crud.post()
+    t.crud.posts({ pagination: true, ordering: true, filtering: true })
     t.list.field('feedPosts', {
       type: 'Post',
 
@@ -252,6 +252,37 @@ const Query = objectType({
 
         const posts = await ctx.prisma.post.findMany({
           ...queryParams,
+          orderBy: {
+            createdAt: 'desc',
+          },
+        })
+        return posts
+      },
+    })
+    t.list.field('userPostsPagination', {
+      type: 'Post',
+      args: {
+        username: stringArg(),
+        archived: booleanArg(),
+        skip: intArg(),
+        take: intArg(),
+      },
+      resolve: async (
+        _,
+        { username, archived = false, skip = 0, take = 5 },
+        ctx,
+      ) => {
+        const currentUser = ctx.request.user
+        const user = username
+          ? await ctx.prisma.user.findOne({
+              where: { username },
+            })
+          : currentUser
+
+        const posts = await ctx.prisma.post.findMany({
+          skip,
+          take,
+          where: { submitterId: user.id, archived, pinned },
           orderBy: {
             createdAt: 'desc',
           },

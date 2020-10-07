@@ -12,16 +12,27 @@ import {
   faUserAstronaut,
 } from "@fortawesome/pro-regular-svg-icons";
 
+import {
+  faHomeAlt as faHomeAltSolid,
+  faBookmark as faBookmarkSolid,
+  faPlus as faPlusSolid,
+  faBell as faBellSolid,
+  faUserAstronaut as faUserAstronautSolid,
+} from "@fortawesome/pro-solid-svg-icons";
+
 export const ROUTE_HOME = "home";
 const ROUTE_READING_LIST = "reading-list";
 const ROUTE_CREATE_POST = "create-post";
-const ROUTE_ACTIVITY = "activity";
-const ROUTE_PROFILE = "profile";
+export const ROUTE_ACTIVITY = "activity";
+export const ROUTE_PROFILE = "profile";
+
+export const GRADIENT_ROUTES = [ROUTE_ACTIVITY, ROUTE_PROFILE];
 
 const HOME = {
   route: ROUTE_HOME,
   component: HomeScreen,
   icon: faHomeAlt,
+  iconSolid: faHomeAltSolid,
   label: "Home",
 };
 
@@ -29,6 +40,7 @@ const READING_LIST = {
   route: ROUTE_READING_LIST,
   component: ReadingListScreen,
   icon: faBookmark,
+  iconSolid: faBookmarkSolid,
   label: "Reading List",
 };
 
@@ -36,6 +48,7 @@ const CREATE_POST = {
   route: ROUTE_CREATE_POST,
   component: CreatePostScreen,
   icon: faPlus,
+  iconSolid: faPlusSolid,
   label: "Create Post",
 };
 
@@ -43,6 +56,7 @@ const ACTIVITY = {
   route: ROUTE_ACTIVITY,
   component: ActivityScreen,
   icon: faBell,
+  iconSolid: faBellSolid,
   label: "Activity",
 };
 
@@ -50,6 +64,7 @@ const PROFILE = {
   route: ROUTE_PROFILE,
   component: ProfileScreen,
   icon: faUserAstronaut,
+  iconSolid: faUserAstronautSolid,
   label: "Profile",
 };
 

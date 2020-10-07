@@ -76,6 +76,10 @@ export const ThemeColors = {
     light: CHARCOAL,
     dark: WHITE,
   },
+  loadingIndicatorFilename: {
+    light: "loading-indicator-light.json",
+    dark: "loading-indicator-dark.json",
+  },
 };
 
 export const getTheme = (mode) => {

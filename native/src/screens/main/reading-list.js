@@ -15,6 +15,9 @@ import { SAVED_POSTS_COUNT } from "@data/queries";
 import SavedPosts from "@components/posts/saved";
 import ArchivedPosts from "@components/posts/archived";
 
+import { useRoute } from "@react-navigation/native";
+import { getRouteName } from "@shared/utils";
+
 import { CurrentUserContext } from "@shared/enhancers/current-user";
 
 const initialLayout = { width: Dimensions.get("window").width };

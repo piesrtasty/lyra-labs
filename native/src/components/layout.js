@@ -1,19 +1,13 @@
 import React from "react";
-import { SafeAreaView, StyleSheet } from "react-native";
+import { SafeAreaView } from "react-native";
+import { getLayoutStyles } from "@shared/utils";
 
 import { useTheme } from "@shared/enhancers/theme-manager";
 
-const Layout = ({ children }) => {
+const Layout = ({ children, transparentBg = false }) => {
   const { theme } = useTheme();
-
-  const styles = StyleSheet.create({
-    container: {
-      backgroundColor: theme.primaryBackground,
-      flex: 1,
-    },
-  });
-
-  return <SafeAreaView style={styles.container}>{children}</SafeAreaView>;
+  const layoutStyles = getLayoutStyles(transparentBg, theme);
+  return <SafeAreaView style={layoutStyles}>{children}</SafeAreaView>;
 };
 
 export default Layout;

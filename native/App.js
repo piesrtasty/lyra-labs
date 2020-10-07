@@ -10,12 +10,30 @@ import { NavigationContainer } from "@react-navigation/native";
 import { flowRight as compose } from "lodash";
 import SplashScreen from "@screens/splash";
 import { withAuth, AuthContext } from "./src/shared/enhancers/auth";
-
 import { withApollo } from "@shared/enhancers/apollo";
 import { withCurrentUser } from "@shared/enhancers/current-user";
-
 import { AppearanceProvider } from "react-native-appearance";
 import { ThemeManager } from "./src/shared/enhancers/theme-manager";
+
+import LinearGradient from "react-native-linear-gradient";
+
+const colors = [
+  "#FF5E5E",
+  "#F55C6D",
+  "#EB5A7B",
+  "#E1588A",
+  "#D75699",
+  "#CD54A7",
+  "#C351B6",
+  "#B94FC4",
+  "#AF4DD3",
+  "#A54BE2",
+  "#9B49F0",
+  "#9147FF",
+];
+
+const START = 0.3;
+const END = 1;
 
 const App = () => {
   const { isLoading } = useContext(AuthContext);
@@ -25,14 +43,27 @@ const App = () => {
     return <SplashScreen />;
   }
 
+  const theme = {
+    colors: {
+      background: "transparent",
+    },
+  };
+
   return (
-    <AppearanceProvider>
-      <ThemeManager>
-        <NavigationContainer>
-          <Entry />
-        </NavigationContainer>
-      </ThemeManager>
-    </AppearanceProvider>
+    <LinearGradient
+      start={{ x: START, y: START }}
+      end={{ x: END, y: END }}
+      colors={colors}
+      style={{ flex: 1 }}
+    >
+      <AppearanceProvider>
+        <ThemeManager>
+          <NavigationContainer theme={theme}>
+            <Entry />
+          </NavigationContainer>
+        </ThemeManager>
+      </AppearanceProvider>
+    </LinearGradient>
   );
 };
 

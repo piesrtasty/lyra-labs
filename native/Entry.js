@@ -6,7 +6,8 @@ import AuthScreen from "@screens/auth";
 import MainScreen from "@screens/main";
 
 import { useTheme } from "@shared/enhancers/theme-manager";
-import { getHeaderTitle } from "@shared/utils";
+
+import { getHeaderTitle, getHeaderStyles } from "@shared/utils";
 
 import { createStackNavigator } from "@react-navigation/stack";
 
@@ -19,19 +20,15 @@ const Entry = () => {
 
   return (
     <Stack.Navigator
-      screenOptions={({ route, navigation }) => ({
-        headerStyle: {
-          backgroundColor: theme.headerBackground,
-          borderStyle: "solid",
-          borderBottomWidth: 1,
-          borderBottomColor: theme.gridLine,
-          shadowColor: theme.gridLine,
-        },
-        headerTitle: () => getHeaderTitle(route),
-        cardStyle: {
-          backgroundColor: "pink",
-        },
-      })}
+      screenOptions={({ route, navigation }) => {
+        console.log("navigation.state", navigation.state);
+        const headerStyles = getHeaderStyles(route, theme);
+
+        return {
+          headerStyle: { ...headerStyles },
+          headerTitle: () => getHeaderTitle(route),
+        };
+      }}
     >
       {accessToken === null ? (
         // No token found, user isn't signed in
