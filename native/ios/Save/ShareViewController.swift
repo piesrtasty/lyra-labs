@@ -15,7 +15,7 @@ class ShareViewController: SLComposeServiceViewController {
   
   let hostAppBundleIdentifier = "com.lyralabs.app"
   let sharedKey = "ShareKey"
-  var accessToken = ""
+  var DIDToken = ""
 
     override func isContentValid() -> Bool {
         // Do validation of contentText and/or NSExtensionContext attachments here
@@ -27,18 +27,11 @@ class ShareViewController: SLComposeServiceViewController {
       navigationController?.navigationBar.tintColor = .white
       navigationController?.navigationBar.backgroundColor = UIColor(red:0.39, green:0.46, blue:0.86, alpha:1.00)
       let keychain = Keychain(service: "com.lyralabs.app", accessGroup: "KU5GP44363.com.lyralabs.app")
-      if let value = try! keychain.getString("session") {
-        let data = Data(value.utf8)
-        do {
-            if let json = try JSONSerialization.jsonObject(with: data, options: []) as? [String: Any] {
-              let token = json["accessToken"] as! String
-              self.accessToken = token
-            }
-        } catch let error as NSError {
-            print("Failed to load: \(error.localizedDescription)")
-        }
+      if let value = try! keychain.getString("DIDToken") {
+        let data = value
+        self.DIDToken = data
       } else {
-        displayUIAlertController(title: "Log in to save to Lyra Labs.")
+        displayUIAlertController(title: "Log in to save to Lyra Labs 🤪")
       }
     }
   
@@ -70,24 +63,38 @@ class ShareViewController: SLComposeServiceViewController {
                         let postString = "givenUrl=\(shareURL)&title=\(self.textView.text as String)";
                         // Set HTTP Request Body
                         request.httpBody = postString.data(using: String.Encoding.utf8);
-                        request.setValue("Bearer \(self.accessToken as String)", forHTTPHeaderField: "Authorization")
-                        // Perform HTTP Request
+                        request.setValue("Bearer \(self.DIDToken as String)", forHTTPHeaderField: "Authorization")
                         let task = URLSession.shared.dataTask(with: request) { (data, response, error) in
+                          if let httpResponse = response as? HTTPURLResponse {
+                            if httpResponse.statusCode == 401 {
+                              DispatchQueue.main.async {
+                                self.displayUIAlertController(title: "Please login to Lyra Labs 🤪")
+                              }
+                            } else if httpResponse.statusCode == 200 {
+                              DispatchQueue.main.async {
+                                self.displayUIAlertController(title: "Saved to Lyra Labs! 🥳")
+                              }
+                            } else {
+                              DispatchQueue.main.async {
+                                self.displayUIAlertController(title: "Failed to save 😔", message: "Please try again later.")
+                              }
+                            }
+                          }
                           // Check for Error
-                          if let error = error {
-                            print("Error took place \(error)")
-                            DispatchQueue.main.async {
-                              self.displayUIAlertController(title: "Failed to save 😔", message: "Please try again later.")
-                            }
-                            return
-                          }
-                          // Convert HTTP Response Data to a String
-                          if let data = data, let dataString = String(data: data, encoding: .utf8) {
-                            print("Response data string:\n \(dataString)")
-                            DispatchQueue.main.async {
-                              self.displayUIAlertController(title: "Saved to Lyra Labs! 🥳")
-                            }
-                          }
+//                          if let error = error {
+//                            print("Error took place \(error)")
+//                            DispatchQueue.main.async {
+//                              self.displayUIAlertController(title: "Failed to save 😔", message: "Please try again later.")
+//                            }
+//                            return
+//                          }
+//                          // Convert HTTP Response Data to a String
+//                          if let data = data, let dataString = String(data: data, encoding: .utf8) {
+//                            print("Response data string:\n \(dataString)")
+//                            DispatchQueue.main.async {
+//                              self.displayUIAlertController(title: "Saved to Lyra Labs! 🥳")
+//                            }
+//                          }
                         }
                         task.resume()
                       }

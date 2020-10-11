@@ -1,8 +1,10 @@
 import React, { useContext } from "react";
 
-import { AuthContext } from "@shared/enhancers/auth";
+// import { AuthContext } from "@shared/enhancers/auth";
+import { AuthContext } from "@shared/enhancers/magic-auth";
 
 import AuthScreen from "@screens/auth";
+import MagicAuthScreen from "@screens/magic-auth";
 import MainScreen from "@screens/main";
 
 import { useTheme } from "@shared/enhancers/theme-manager";
@@ -16,12 +18,17 @@ const Entry = () => {
 
   const { theme } = useTheme();
 
-  const { accessToken } = useContext(AuthContext);
+  // const { DIDToken } = useContext(AuthContext);
+
+  const DIDToken = null;
+
+  console.log("ENTRY DIDToken", DIDToken);
 
   return (
     <Stack.Navigator
+      initialRouteName={"Main"}
       screenOptions={({ route, navigation }) => {
-        console.log("navigation.state", navigation.state);
+        // console.log("navigation.state", navigation.state);
         const headerStyles = getHeaderStyles(route, theme);
 
         return {
@@ -30,13 +37,15 @@ const Entry = () => {
         };
       }}
     >
-      {accessToken === null ? (
-        // No token found, user isn't signed in
-        <Stack.Screen name="Auth" component={AuthScreen} />
-      ) : (
-        // User is signed in
-        <Stack.Screen name="Main" component={MainScreen} />
-      )}
+      {/* <Stack.Screen name="Auth" component={AuthScreen} />
+      {/* <Stack.Screen name="MagicAuth" component={MagicAuthScreen} /> */}
+      {/* {DIDToken === null ? ( */}
+      {/* // No token found, user isn't signed in */}
+      {/* ) : ( */}
+      {/* // User is signed in */}
+      {/* )} */}
+      <Stack.Screen name="Main" component={MainScreen} />
+      <Stack.Screen name="Auth" component={AuthScreen} />
     </Stack.Navigator>
   );
 };

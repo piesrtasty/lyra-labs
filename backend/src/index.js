@@ -1,6 +1,12 @@
 require('dotenv').config()
 const { GraphQLServer } = require('graphql-yoga')
 const bodyParser = require('body-parser')
+const session = require('express-session')
+const pg = require('pg')
+const PgStore = require('connect-pg-simple')(session)
+const { Magic } = require('@magic-sdk/admin')
+const passport = require('passport')
+const MagicStrategy = require('passport-magic').Strategy
 const {
   makeSchema,
   objectType,
@@ -389,15 +395,22 @@ const Query = objectType({
       nullable: true,
       resolve: async (_, _args, ctx) => {
         const user = ctx.request.user
+        console.log('----------------------------', user)
+
         if (user) {
-          if (!user.token) {
-            const currentUser = await ctx.prisma.user.findOne({
-              where: { id: user.id },
-            })
-            return currentUser
-          } else {
-            return createUser(ctx)
-          }
+          const currentUser = await ctx.prisma.user.findOne({
+            where: { issuer: user.issuer },
+          })
+          return currentUser
+
+          // if (user.token) {
+          //   // const currentUser = await ctx.prisma.user.findOne({
+          //   //   where: { id: user.id },
+          //   // })
+          //   // return currentUser
+          // } else {
+          //   return createUser(ctx)
+          // }
         }
         return null
       },
@@ -698,7 +711,138 @@ const server = new GraphQLServer({
 server.express.use(bodyParser.json()) // support json encoded bodies
 server.express.use(bodyParser.urlencoded({ extended: true })) // support encoded bodies
 
-server.express.get('/healthz', async (req, res, done) => {
+const SESSION_SECRET = 'abcxyz'
+const useSecureCookie = true
+
+const DB_USER = 'prisma'
+const DB_HOST = '0.0.0.0'
+const DB_DATABASE = 'prisma'
+const DB_PASSWORD = 'prisma'
+const DB_PORT = '5432'
+
+const sessionStore = new PgStore({
+  pool: new pg.Pool({
+    user: DB_USER,
+    host: DB_HOST,
+    database: DB_DATABASE,
+    password: DB_PASSWORD,
+    port: DB_PORT,
+  }),
+})
+
+server.express.use(
+  session({
+    secret: SESSION_SECRET,
+    store: sessionStore,
+    resave: false,
+    saveUninitialized: true,
+    cookie: {
+      maxAge: 60 * 60 * 1000 * 24 * 7, // 7 days
+      // secure: useSecureCookie,
+      sameSite: true,
+    },
+  }),
+)
+
+// server.express.use(
+//   session({
+//     secret: "not my cat's name",
+//     resave: false,
+//     saveUninitialized: true,
+//     cookie: {
+//       maxAge: 60 * 60 * 1000 * 24, // 1 hour
+//       // secure: true, // Uncomment this line to enforce HTTPS protocol.
+//       sameSite: true,
+//     },
+//   }),
+// )
+
+server.express.use(passport.initialize())
+server.express.use(passport.session())
+
+/* 1️⃣ Setup Magic Admin SDK */
+
+const magic = new Magic('sk_test_1F83C852158CEE86')
+
+/* 2️⃣ Implement Auth Strategy */
+
+const strategy = new MagicStrategy(async function(user, done) {
+  const userMetadata = await magic.users.getMetadataByIssuer(user.issuer)
+  const existingUser = await prisma.user.findOne({
+    where: { issuer: user.issuer },
+  })
+  if (!existingUser) {
+    /* Create new user if doesn't exist */
+    return signup(user, userMetadata, done)
+  } else {
+    /* Login user if otherwise */
+    return login(user, done)
+  }
+})
+
+/* Implement User Signup */
+const signup = async (user, userMetadata, done) => {
+  // console.log(">>> user", user)
+  console.log('At THE SIGNUP FUNC')
+  // let newUser = {
+  //   issuer: user.issuer,
+  //   email: userMetadata.email,
+  //   lastLoginAt: user.claim.iat,
+  // }
+  // await users.insert(newUser)
+  // return done(null, newUser)
+}
+
+/* Implement User Login */
+const login = async (user, done) => {
+  /* Replay attack protection (https://go.magic.link/replay-attack) */
+  if (user.claim.iat <= user.lastLoginAt) {
+    return done(null, false, {
+      message: `Replay attack detected for user ${user.issuer}}.`,
+    })
+  }
+  await prisma.user.update({
+    where: { issuer: user.issuer },
+    data: {
+      publicEthAddress: user.publicAddress,
+      lastLoginAt: user.claim.iat,
+    },
+  })
+  return done(null, user)
+}
+
+/* Defines what data are stored in the user session */
+passport.serializeUser((user, done) => {
+  done(null, user.issuer)
+})
+
+/* Populates user data in the req.user object */
+passport.deserializeUser(async (id, done) => {
+  try {
+    const user = await prisma.user.findOne({
+      where: { issuer: id },
+    })
+    console.log('in deserialize', user)
+    done(null, user)
+  } catch (err) {
+    done(err, null)
+  }
+})
+
+passport.use(strategy)
+
+const requireAuthenticated = (req, res, next) => {
+  // console.log('req', req)
+
+  console.log('req.isAuthenticated()', req.isAuthenticated())
+  if (req.isAuthenticated()) {
+    next()
+  } else {
+    res.sendStatus(401)
+  }
+}
+
+server.express.get('/healthz', requireAuthenticated, async (req, res, done) => {
   const healthcheck = {
     uptime: process.uptime(),
     message: 'OK',
@@ -707,28 +851,96 @@ server.express.get('/healthz', async (req, res, done) => {
   res.json(healthcheck)
 })
 
-server.express.post('/save', checkJwt, async (req, res, done) => {
-  // getUser(req, res, next, prisma)
-  console.log('-------req.body------')
-  console.log(req.body)
-  console.log('-------------')
-  console.log('-------req.headers------')
-  console.log(req.headers)
-  console.log('---------------')
-  const { givenUrl, title } = req.body
-  // const title = req.body.givenUrl
-  const user = req.user
-  const auth0id = req.user.sub
-  const currentUser = await prisma.user.findOne({ where: { auth0id } })
-  console.log('---currentUser---', currentUser)
-  const response = await saveUrl(givenUrl, currentUser)
-  console.log('---- response test ----', response)
-  // console.log('...givenUrl...', givenUrl)
+server.express.post(
+  '/user/login',
+  passport.authenticate('magic'),
+  (req, res) => {
+    console.log('COOL BRO')
+    if (req.user) {
+      console.log('req.user', req.user)
+      res.status(200).end('User is logged in.')
+    } else {
+      return res.status(401).end('Could not log user in.')
+    }
+  },
+)
 
-  res.json({ sendUrl: givenUrl })
+server.express.get('/user-details', async (req, res) => {
+  if (req.isAuthenticated()) {
+    return res
+      .status(200)
+      .json(req.user)
+      .end()
+  } else {
+    return res.status(401).end(`User is not logged in.`)
+  }
 })
 
-server.express.post('/graphql', checkJwt, (err, req, res, next) => {
+server.express.post('/user/logout', async (req, res) => {
+  if (req.isAuthenticated()) {
+    await magic.users.logoutByIssuer(req.user.issuer)
+    req.logout()
+    return res.status(200).end()
+  } else {
+    return res.status(401).end(`User is not logged in.`)
+  }
+})
+
+const savePost = () => {
+  console.log('Calling save POST!!!!!')
+}
+
+server.express.post('/save', async (req, res, done) => {
+  res.sendStatus(200)
+
+  // const authHeader = req.headers.authorization
+  // if (authHeader) {
+  //   const DIDToken = authHeader.substring(7)
+  //   try {
+  //     magic.token.validate(DIDToken)
+  //     savePost()
+  //   } catch (err) {
+  //     console.log('Token Validation failed')
+  //     res.status(401).send(err)
+  //   }
+  // } else {
+  //   console.log('No Auth header')
+  //   res.status(401).send('Missing auth header')
+  // }
+  // const authHeader = header
+  // console.log('')
+
+  // const didToken = req.headers.authorization!.substring(7);
+  // console.log('req.isAuthenticated()', req.isAuthenticated())
+  // console.log('------------------------')
+  // console.log('in the save handler - req.headers', req.headers)
+  // console.log('------------------------')
+
+  // getUser(req, res, next, prisma)
+  // console.log('-------req.body------')
+  // console.log(req.body)
+  // console.log('-------------')
+  // console.log('-------req.headers------')
+  // console.log(req.headers)
+  // console.log('---------------')
+  // const { givenUrl, title } = req.body
+  // // const title = req.body.givenUrl
+  // const user = req.user
+  // const auth0id = req.user.sub
+  // const currentUser = await prisma.user.findOne({ where: { auth0id } })
+  // console.log('---currentUser---', currentUser)
+  // const response = await saveUrl(givenUrl, currentUser)
+  // console.log('---- response test ----', response)
+  // // console.log('...givenUrl...', givenUrl)
+  // res.json({ sendUrl: givenUrl })
+})
+
+// server.express.post('/graphql', checkJwt, (err, req, res, next) => {
+//   if (err) return res.status(401).send(err.message)
+//   next()
+// })
+
+server.express.post('/graphql', requireAuthenticated, (err, req, res, next) => {
   if (err) return res.status(401).send(err.message)
   next()
 })
@@ -741,9 +953,9 @@ server.express.post('/graphql', checkJwt, (err, req, res, next) => {
 //   res.json({ status: 'UP' })
 // })
 
-server.express.use('/graphql', (req, res, next) => {
-  getUser(req, res, next, prisma)
-})
+// server.express.use('/graphql', (req, res, next) => {
+//   getUser(req, res, next, prisma)
+// })
 
 server.start(
   {

@@ -5,7 +5,7 @@ generator client {
 
 datasource db {
   provider = "postgresql"
-  url      = env("POSTGRES_URL")
+  url = "***"
 }
 
 model User {
@@ -15,7 +15,6 @@ model User {
   email            String        @unique
   issuer           String?       @unique
   publicEthAddress String?
-  lastLoginAt      Int?
   role             Role          @default(USER)
   walletAddress    String?       @unique
   walletIsSetup    Boolean?      @default(false)

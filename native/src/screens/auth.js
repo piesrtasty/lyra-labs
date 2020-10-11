@@ -1,52 +1,67 @@
-import React, {useContext} from 'react';
-import {View, Text, TouchableOpacity} from 'react-native';
-import {AuthContext} from '../shared/enhancers/auth';
-import AsyncStorage from '@react-native-community/async-storage';
-import * as Keychain from 'react-native-keychain';
+import React, { useContext } from "react";
+import { View, Text, TouchableOpacity } from "react-native";
+import { AuthContext } from "../shared/enhancers/magic-auth";
+import { useNavigation } from "@react-navigation/native";
+
+import { Magic } from "@magic-sdk/react-native";
+const magic = new Magic("pk_test_789150F1861195B5");
 
 const AuthScreen = () => {
   const {
-    authContext: {signIn},
+    authContext: { signIn, DIDToken },
   } = useContext(AuthContext);
 
-  const handlePress = async () => {
-    const username = 'cool';
-    const password = 'itworks-it really doesSSS';
+  // const authData = useContext(AuthContext);
 
-    const myService = 'org.reactjs.native.example.lyralabs';
-    console.log('myService', myService);
+  const navigation = useNavigation();
 
-    // Store the credentials
-    const test = await Keychain.setGenericPassword(username, password, [
-      {
-        service: myService,
-        accessGroup: 'YYX7RJEJSR.org.reactjs.native.example.lyralabs',
-      },
-    ]);
+  const serverUrl = "http://localhost:4000/";
 
-    console.log('test4', test);
+  const handleLogin = async () => {
+    const didToken = await magic.auth.loginWithMagicLink({
+      email: "lukehamiltonmail@gmail.com",
+    });
+    await fetch(`${serverUrl}user/login`, {
+      headers: new Headers({
+        Authorization: "Bearer " + didToken,
+      }),
+      withCredentials: true,
+      credentials: "same-origin",
+      method: "POST",
+    });
+  };
 
-    try {
-      // Retrieve the credentials
-      const credentials = await Keychain.getGenericPassword();
-      if (credentials) {
-        console.log(
-          'Credentials successfully loaded for user ' + credentials.username,
-        );
-      } else {
-        console.log('No credentials stored');
-      }
-    } catch (error) {
-      console.log("Keychain couldn't be accessed!", error);
-    }
-    // await Keychain.resetGenericPassword();
+  const handleLogout = async () => {
+    await fetch(`${serverUrl}user/logout`, { method: "POST" });
+  };
+
+  const handleAuthTest = async () => {
+    console.log("handling the auth test");
+    let res = await fetch(`${serverUrl}user-details`);
+    console.log("res", res);
+  };
+
+  const handleNavigate = () => {
+    // console.log("navigation", navigation);
+    navigation.navigate("Main");
   };
 
   return (
     <View>
-      <Text>Auth</Text>
       <TouchableOpacity onPress={signIn}>
-        <Text>signIn</Text>
+        <Text>handleLogin</Text>
+      </TouchableOpacity>
+      <Text>----------------------</Text>
+      <TouchableOpacity onPress={handleLogout}>
+        <Text>handleLogout Login</Text>
+      </TouchableOpacity>
+      <Text>----------------------</Text>
+      <TouchableOpacity onPress={handleAuthTest}>
+        <Text>handleAuthTest</Text>
+      </TouchableOpacity>
+      <Text>----------------------</Text>
+      <TouchableOpacity onPress={handleNavigate}>
+        <Text>Navigagte to main</Text>
       </TouchableOpacity>
     </View>
   );
