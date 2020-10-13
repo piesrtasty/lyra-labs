@@ -54,7 +54,8 @@ class ShareViewController: SLComposeServiceViewController {
                   itemProvider.loadItem(forTypeIdentifier: "public.url", options: nil, completionHandler: { (url, error) -> Void in
                       if let shareURL = url as? NSURL {
                         // Prepare URL
-                        let url = URL(string: "http://localhost:4000/save")
+//                        let url = URL(string: "http://localhost:4000/save")
+                        let url = URL(string: "http://localhost:4000/test-cookie-auth")
                         guard let requestUrl = url else { fatalError() }
                         // Prepare URL Request Object
                         var request = URLRequest(url: requestUrl)
@@ -63,7 +64,9 @@ class ShareViewController: SLComposeServiceViewController {
                         let postString = "givenUrl=\(shareURL)&title=\(self.textView.text as String)";
                         // Set HTTP Request Body
                         request.httpBody = postString.data(using: String.Encoding.utf8);
-                        request.setValue("Bearer \(self.DIDToken as String)", forHTTPHeaderField: "Authorization")
+//                        request.setValue("Bearer \(self.DIDToken as String)", forHTTPHeaderField: "Authorization")
+                        request.setValue("connect.sid=s%3Aa2RnXR6sgFc0TesnSyZk9nh25QSAfvlT.UJQDFkkJ1u2Jw2wZaGpI8D21jv4D%2B41irhaIZZD6ikQ; Path=/; Expires=Tue, 20 Oct 2020 04:09:26 GMT; HttpOnly; SameSite=Strict", forHTTPHeaderField: "Cookie")
+                        request.httpShouldHandleCookies = true
                         let task = URLSession.shared.dataTask(with: request) { (data, response, error) in
                           if let httpResponse = response as? HTTPURLResponse {
                             if httpResponse.statusCode == 401 {

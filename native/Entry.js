@@ -7,6 +7,8 @@ import AuthScreen from "@screens/auth";
 import MagicAuthScreen from "@screens/magic-auth";
 import MainScreen from "@screens/main";
 
+import { ROUTE_AUTH, ROUTE_MAIN } from "@shared/routes";
+
 import { useTheme } from "@shared/enhancers/theme-manager";
 
 import { getHeaderTitle, getHeaderStyles } from "@shared/utils";
@@ -18,15 +20,15 @@ const Entry = () => {
 
   const { theme } = useTheme();
 
-  // const { DIDToken } = useContext(AuthContext);
+  const { DIDToken } = useContext(AuthContext);
+  console.log("DIDToken in entry", DIDToken);
+  // const DIDToken = null;
 
-  const DIDToken = null;
-
-  console.log("ENTRY DIDToken", DIDToken);
+  const initialRoute = DIDToken ? ROUTE_MAIN : ROUTE_AUTH;
 
   return (
     <Stack.Navigator
-      initialRouteName={"Main"}
+      initialRouteName={initialRoute}
       screenOptions={({ route, navigation }) => {
         // console.log("navigation.state", navigation.state);
         const headerStyles = getHeaderStyles(route, theme);
@@ -44,8 +46,8 @@ const Entry = () => {
       {/* ) : ( */}
       {/* // User is signed in */}
       {/* )} */}
-      <Stack.Screen name="Main" component={MainScreen} />
-      <Stack.Screen name="Auth" component={AuthScreen} />
+      <Stack.Screen name={ROUTE_AUTH} component={AuthScreen} />
+      <Stack.Screen name={ROUTE_MAIN} component={MainScreen} />
     </Stack.Navigator>
   );
 };

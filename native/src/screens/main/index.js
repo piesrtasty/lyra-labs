@@ -1,5 +1,5 @@
 import React, { useContext } from "react";
-import { AuthContext } from "../../shared/enhancers/magic-auth";
+import { AuthContext } from "@shared/enhancers/magic-auth";
 import { SlideMenuContext } from "@components/slide-menu";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { useRoute } from "@react-navigation/native";
@@ -14,7 +14,7 @@ import { faSort } from "@fortawesome/pro-regular-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
 import { MAIN_TABS, ROUTES, ROUTE_HOME } from "@shared/routes";
 
-import { useTheme } from "../../shared/enhancers/theme-manager";
+import { useTheme } from "@shared/enhancers/theme-manager";
 
 var styles = StyleSheet.create({
   container: {},

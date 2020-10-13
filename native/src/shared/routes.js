@@ -25,6 +25,8 @@ const ROUTE_READING_LIST = "reading-list";
 const ROUTE_CREATE_POST = "create-post";
 export const ROUTE_ACTIVITY = "activity";
 export const ROUTE_PROFILE = "profile";
+export const ROUTE_AUTH = "auth";
+export const ROUTE_MAIN = "main";
 
 export const GRADIENT_ROUTES = [ROUTE_ACTIVITY, ROUTE_PROFILE];
 

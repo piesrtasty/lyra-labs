@@ -15,6 +15,43 @@ const SESSION_KEY = "DIDToken";
 
 export const AuthContext = React.createContext();
 
+const validateToken = async (DIDToken) => {
+  // const resp = await
+  // fetch("http://localhost:4000/validate-token", {
+  //   headers: new Headers({
+  //     Authorization: "Bearer " + DIDToken,
+  //     Accept: "application/json",
+  //   }),
+  //   withCredentials: true,
+  //   credentials: "same-origin",
+  //   method: "POST",
+  // })
+  //   .then((r) => r.json().then((data) => ({ status: r.status, body: data })))
+  //   .then((obj) => console.log(obj));
+  const resp = await fetch("http://localhost:4000/validate-token", {
+    headers: new Headers({
+      Authorization: "Bearer " + DIDToken,
+      Accept: "application/json",
+    }),
+    withCredentials: true,
+    credentials: "same-origin",
+    method: "POST",
+  });
+
+  const r = await resp.json();
+  console.log("r", r);
+  // .then((r) => r.json().then((data) => ({ status: r.status, body: data })))
+  // .then((obj) => console.log(obj));
+
+  // fetch("https://jsonplaceholder.typicode.com/posts/1");
+
+  // const responseJson = resp.json();
+  // const parsedResp = JSON.parse(resp);
+  console.log("------------------------");
+  // console.log("resp from validate token ------ ", responseJson);
+  console.log("------------------------");
+};
+
 export const withAuth = (Component) => {
   const WithAuth = () => {
     const [state, dispatch] = useReducer(
@@ -52,9 +89,11 @@ export const withAuth = (Component) => {
       const bootstrapAsync = async () => {
         Keychain.getGenericPassword().then(async ({ password: DIDToken }) => {
           await AsyncStorage.setItem("DIDToken", DIDToken);
-          dispatch({ type: "RESTORE_TOKEN", token: DIDToken });
+          // After restoring token, we may need to validate it in production apps
+          const tokenIsValid = validateToken(DIDToken);
+          // dispatch({ type: "RESTORE_TOKEN", token: DIDToken });
+          // dispatch({ type: "RESTORE_TOKEN", token: "abcxyz" });
         });
-        // After restoring token, we may need to validate it in production apps
 
         // This will switch to the App screen or Auth screen and this loading
         // screen will be unmounted and thrown away.
@@ -93,12 +132,21 @@ export const withAuth = (Component) => {
                 credentials: "same-origin",
                 method: "POST",
               });
-              await Keychain.setGenericPassword(SESSION_KEY, DIDToken, [
-                {
-                  service: KEYCHAIN_GROUP,
-                  accessGroup: ACCESS_GROUP,
-                },
-              ]);
+
+              const longDurationToken = await magic.user.getIdToken({
+                lifespan: 604800,
+              });
+
+              await Keychain.setGenericPassword(
+                SESSION_KEY,
+                longDurationToken,
+                [
+                  {
+                    service: KEYCHAIN_GROUP,
+                    accessGroup: ACCESS_GROUP,
+                  },
+                ]
+              );
               dispatch({ type: "SIGN_IN", token: DIDToken });
             })
             .once("email-not-deliverable", () => {
