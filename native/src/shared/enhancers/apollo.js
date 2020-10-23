@@ -6,17 +6,11 @@ import { ApolloProvider } from "@apollo/react-hooks";
 import { HttpLink } from "apollo-link-http";
 import { InMemoryCache } from "apollo-cache-inmemory";
 import { setContext } from "apollo-link-context";
-import { onError } from "apollo-link-error";
+import SplashScreen from "@screens/splash";
 
 export const AuthContext = React.createContext({});
 
-const logoutLink = onError(({ networkError }) => {
-  if (networkError.statusCode === 401) {
-  }
-  // console.log("hadnling the network error", networkError.statusCode);
-});
-
-const createApolloClient = (DIDToken) => {
+const createApolloClient = () => {
   // console.log("----------------------");
   // console.log("----------------------");
   // console.log("DIDToken", DIDToken);
@@ -60,9 +54,9 @@ export const withApollo = (Component) => {
     const fetchSession = async () => {
       // console.log("calling fetch session XXX");
 
-      const DIDToken = await AsyncStorage.getItem("DIDToken");
+      // const DIDToken = await AsyncStorage.getItem("DIDToken");
       // console.log("in the fetchSession call", DIDToken);
-      const client = createApolloClient(DIDToken);
+      const client = createApolloClient();
       setClient(client);
     };
 
@@ -71,11 +65,7 @@ export const withApollo = (Component) => {
     }, []);
 
     if (!client) {
-      return (
-        <View>
-          <Text>Loading...</Text>
-        </View>
-      );
+      return <SplashScreen />;
     }
 
     return (

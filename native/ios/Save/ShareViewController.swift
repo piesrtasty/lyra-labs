@@ -15,7 +15,7 @@ class ShareViewController: SLComposeServiceViewController {
   
   let hostAppBundleIdentifier = "com.lyralabs.app"
   let sharedKey = "ShareKey"
-  var DIDToken = ""
+  var magicAuthCookie = ""
 
     override func isContentValid() -> Bool {
         // Do validation of contentText and/or NSExtensionContext attachments here
@@ -27,9 +27,9 @@ class ShareViewController: SLComposeServiceViewController {
       navigationController?.navigationBar.tintColor = .white
       navigationController?.navigationBar.backgroundColor = UIColor(red:0.39, green:0.46, blue:0.86, alpha:1.00)
       let keychain = Keychain(service: "com.lyralabs.app", accessGroup: "KU5GP44363.com.lyralabs.app")
-      if let value = try! keychain.getString("DIDToken") {
+      if let value = try! keychain.getString("magicAuthCookie") {
         let data = value
-        self.DIDToken = data
+        self.magicAuthCookie = data
       } else {
         displayUIAlertController(title: "Log in to save to Lyra Labs 🤪")
       }
@@ -65,7 +65,7 @@ class ShareViewController: SLComposeServiceViewController {
                         // Set HTTP Request Body
                         request.httpBody = postString.data(using: String.Encoding.utf8);
 //                        request.setValue("Bearer \(self.DIDToken as String)", forHTTPHeaderField: "Authorization")
-                        request.setValue("connect.sid=s%3Aa2RnXR6sgFc0TesnSyZk9nh25QSAfvlT.UJQDFkkJ1u2Jw2wZaGpI8D21jv4D%2B41irhaIZZD6ikQ; Path=/; Expires=Tue, 20 Oct 2020 04:09:26 GMT; HttpOnly; SameSite=Strict", forHTTPHeaderField: "Cookie")
+                        request.setValue(self.magicAuthCookie as String, forHTTPHeaderField: "Cookie")
                         request.httpShouldHandleCookies = true
                         let task = URLSession.shared.dataTask(with: request) { (data, response, error) in
                           if let httpResponse = response as? HTTPURLResponse {

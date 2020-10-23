@@ -1,36 +1,21 @@
 import React, { useContext } from "react";
-
-// import { AuthContext } from "@shared/enhancers/auth";
-import { AuthContext } from "@shared/enhancers/magic-auth";
-
+import { MagicAuthContext } from "@shared/enhancers/magic-auth";
 import AuthScreen from "@screens/auth";
-import MagicAuthScreen from "@screens/magic-auth";
 import MainScreen from "@screens/main";
-
 import { ROUTE_AUTH, ROUTE_MAIN } from "@shared/routes";
-
 import { useTheme } from "@shared/enhancers/theme-manager";
-
 import { getHeaderTitle, getHeaderStyles } from "@shared/utils";
-
 import { createStackNavigator } from "@react-navigation/stack";
 
 const Entry = () => {
   const Stack = createStackNavigator();
 
   const { theme } = useTheme();
-
-  const { DIDToken } = useContext(AuthContext);
-  console.log("DIDToken in entry", DIDToken);
-  // const DIDToken = null;
-
-  const initialRoute = DIDToken ? ROUTE_MAIN : ROUTE_AUTH;
+  const { isLoggedIn } = useContext(MagicAuthContext);
 
   return (
     <Stack.Navigator
-      initialRouteName={initialRoute}
       screenOptions={({ route, navigation }) => {
-        // console.log("navigation.state", navigation.state);
         const headerStyles = getHeaderStyles(route, theme);
 
         return {
@@ -39,15 +24,17 @@ const Entry = () => {
         };
       }}
     >
-      {/* <Stack.Screen name="Auth" component={AuthScreen} />
-      {/* <Stack.Screen name="MagicAuth" component={MagicAuthScreen} /> */}
-      {/* {DIDToken === null ? ( */}
-      {/* // No token found, user isn't signed in */}
-      {/* ) : ( */}
-      {/* // User is signed in */}
-      {/* )} */}
-      <Stack.Screen name={ROUTE_AUTH} component={AuthScreen} />
-      <Stack.Screen name={ROUTE_MAIN} component={MainScreen} />
+      {isLoggedIn ? (
+        <Stack.Screen name={ROUTE_MAIN} component={MainScreen} />
+      ) : (
+        <Stack.Screen
+          options={{
+            headerShown: false,
+          }}
+          name={ROUTE_AUTH}
+          component={AuthScreen}
+        />
+      )}
     </Stack.Navigator>
   );
 };

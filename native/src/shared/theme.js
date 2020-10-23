@@ -17,7 +17,7 @@ const VAPOR_GREEN = "#05ffa1"; // (5,255,161)
 const VAPOR_PURPLE = "#b967ff"; // (185,103,255)
 const VAPOR_YELLOW = "#fffb96"; // (255,251,150)
 
-const PRIMARY_BG_DARK = BLACKOUT;
+export const PRIMARY_BG_DARK = BLACKOUT;
 const PRIMARY_GRIDLINE_DARK = BLACKJACK;
 
 // #191919 = RGB  25, 25, 25 NERO

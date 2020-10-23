@@ -1,11 +1,18 @@
 import React, { useContext } from "react";
-import { AuthContext } from "@shared/enhancers/magic-auth";
+import { MagicAuthContext } from "@shared/enhancers/magic-auth";
 import { SlideMenuContext } from "@components/slide-menu";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { useRoute } from "@react-navigation/native";
 import { getTabBarStyles } from "@shared/utils";
 import { SlideMenu } from "@components/slide-menu";
-import { Pressable, SafeAreaView, StyleSheet, View, Text } from "react-native";
+import {
+  Pressable,
+  SafeAreaView,
+  StyleSheet,
+  View,
+  Text,
+  TouchableOpacity,
+} from "react-native";
 
 const Tab = createBottomTabNavigator();
 
@@ -128,9 +135,14 @@ const MainScreen = () => {
 
   const tabBarStyles = getTabBarStyles(route, theme);
 
+  const { signOut } = useContext(MagicAuthContext);
+
   return (
     <View>
       <Text>Main Screen</Text>
+      <TouchableOpacity onPress={signOut}>
+        <Text>Sign Out</Text>
+      </TouchableOpacity>
     </View>
     // <SlideMenu>
     //   <Tab.Navigator

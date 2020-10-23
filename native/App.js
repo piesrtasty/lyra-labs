@@ -9,8 +9,11 @@ import React, { useContext } from "react";
 import { NavigationContainer } from "@react-navigation/native";
 import { flowRight as compose } from "lodash";
 import SplashScreen from "@screens/splash";
-// import { withAuth, AuthContext } from "./src/shared/enhancers/auth";
-import { withAuth, AuthContext } from "./src/shared/enhancers/magic-auth";
+
+import {
+  withMagicAuth,
+  MagicAuthContext,
+} from "./src/shared/enhancers/magic-auth";
 import { withApollo } from "@shared/enhancers/apollo";
 import { withCurrentUser } from "@shared/enhancers/current-user";
 import { AppearanceProvider } from "react-native-appearance";
@@ -40,11 +43,9 @@ const START = 0.3;
 const END = 1;
 
 const App = () => {
-  // const { isLoading } = useContext(AuthContext);
-  const { isLoading } = false;
+  const { isLoading } = useContext(MagicAuthContext);
 
   if (isLoading) {
-    // We haven't finished checking for the token yet
     return <SplashScreen />;
   }
 
@@ -73,7 +74,7 @@ const App = () => {
   );
 };
 
-const enhance = compose(withCurrentUser, withAuth, withApollo);
+const enhance = compose(withCurrentUser, withMagicAuth, withApollo);
 // const enhance = compose(withAuth, withApollo);
 // const enhance = compose(withAuth);
 

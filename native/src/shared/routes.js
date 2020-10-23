@@ -27,6 +27,8 @@ export const ROUTE_ACTIVITY = "activity";
 export const ROUTE_PROFILE = "profile";
 export const ROUTE_AUTH = "auth";
 export const ROUTE_MAIN = "main";
+export const ROUTE_AUTH_SELECT = "auth-select";
+export const ROUTE_AUTH_FORM = "auth-form";
 
 export const GRADIENT_ROUTES = [ROUTE_ACTIVITY, ROUTE_PROFILE];
 

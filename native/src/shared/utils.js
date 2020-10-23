@@ -12,6 +12,14 @@ export const getHeaderTitle = (route) => {
   // This can happen during if there hasn't been any navigation inside the screen
   // In our case, it's "Feed" as that's the first screen inside the navigator
   const routeName = getRouteName(route);
+  // const test = getFocusedRouteNameFromRoute(route);
+  console.log("---------------");
+  console.log("routeName", routeName);
+  console.log("---------------");
+  // if (routeName === "auth") {
+  //   return null;
+  // }
+
   return routeName === ROUTE_HOME ? (
     <LogoTitle />
   ) : (
