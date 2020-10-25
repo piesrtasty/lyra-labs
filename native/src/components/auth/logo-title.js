@@ -30,15 +30,17 @@ var styles = StyleSheet.create({
   title: {
     // fontFamily: "OpenSauceSans-Medium",
 
-    fontFamily: "OpenSauceSans-Bold",
+    // fontFamily: "OpenSauceSans-Bold",
     fontSize: 30,
     letterSpacing: 5,
     // lineHeight: 40,
   },
   logoText: {
-    fontSize: 60,
+    fontSize: 44,
     color: "#FFF",
     fontFamily: "Milkshake",
+    // fontFamily: "OpenSauceSans-Medium",
+    fontFamily: "RobotoSlab-Medium",
   },
 });
 
