@@ -1,4 +1,5 @@
 import React from "react";
+import { Dimensions } from "react-native";
 import { getFocusedRouteNameFromRoute } from "@react-navigation/native";
 import { ROUTES, ROUTE_HOME, GRADIENT_ROUTES } from "@shared/routes";
 
@@ -62,4 +63,11 @@ export const getLayoutStyles = (transparentBg, theme) => {
     backgroundColor: transparentBg ? "transparent" : theme.primaryBackground,
   };
   return { flex: 1, ...routeSpecificStyles };
+};
+
+const { width: viewportWidth } = Dimensions.get("window");
+
+export const wp = (percentage) => {
+  const value = (percentage * viewportWidth) / 100;
+  return Math.round(value);
 };

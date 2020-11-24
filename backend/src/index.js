@@ -865,17 +865,6 @@ server.express.post(
   },
 )
 
-server.express.get('/user-details', async (req, res) => {
-  if (req.isAuthenticated()) {
-    return res
-      .status(200)
-      .json(req.user)
-      .end()
-  } else {
-    return res.status(401).end(`User is not logged in.`)
-  }
-})
-
 server.express.post('/user/logout', async (req, res) => {
   if (req.isAuthenticated()) {
     await magic.users.logoutByIssuer(req.user.issuer)
@@ -885,6 +874,14 @@ server.express.post('/user/logout', async (req, res) => {
     return res.status(401).end(`User is not logged in.`)
   }
 })
+
+server.express.get(
+  '/check-authentication',
+  requireAuthenticated,
+  async (req, res, done) => {
+    res.status(200).end()
+  },
+)
 
 const savePost = () => {
   console.log('Calling save POST!!!!!')

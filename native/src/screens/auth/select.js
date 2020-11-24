@@ -15,7 +15,7 @@ import { DM_SANS_REGULAR, DM_SANS_MEDIUM, DM_SANS_BOLD } from "@shared/fonts";
 
 var styles = StyleSheet.create({
   container: {
-    // backgroundColor: "#FF5E5E",
+    // backgroundColor: PRIMARY_BG_DARK,
     // backgroundColor: "#FFF",
     // backgroundColor: PRIMARY_BG_DARK,
     flex: 1,

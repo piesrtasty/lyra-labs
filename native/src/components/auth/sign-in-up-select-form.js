@@ -67,8 +67,6 @@ const SignInUpSelectForm = () => {
     : "Don't have an account?";
   const ctaText = isSignUp ? "Sign in." : "Sign up.";
 
-  // const
-
   const iconOpacity = isPressed ? 0.4 : 0.9;
 
   const handlePressCta = () => {
@@ -82,7 +80,10 @@ const SignInUpSelectForm = () => {
   const navigation = useNavigation();
 
   const handlePress = () => {
-    navigation.navigate(ROUTE_AUTH_FORM);
+    navigation.navigate({
+      name: ROUTE_AUTH_FORM,
+      params: { isSignUp },
+    });
   };
 
   return (

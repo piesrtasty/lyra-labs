@@ -22,25 +22,7 @@ import { Magic } from "@magic-sdk/react-native";
 
 const magic = new Magic("pk_test_789150F1861195B5");
 
-import LinearGradient from "react-native-linear-gradient";
-
-const colors = [
-  "#FF5E5E",
-  "#F55C6D",
-  "#EB5A7B",
-  "#E1588A",
-  "#D75699",
-  "#CD54A7",
-  "#C351B6",
-  "#B94FC4",
-  "#AF4DD3",
-  "#A54BE2",
-  "#9B49F0",
-  "#9147FF",
-];
-
-const START = 0.3;
-const END = 1;
+import { LinearGradient } from "@shared/enhancers/linear-gradient";
 
 const App = () => {
   const { isLoading } = useContext(MagicAuthContext);
@@ -56,12 +38,7 @@ const App = () => {
   };
 
   return (
-    <LinearGradient
-      start={{ x: START, y: START }}
-      end={{ x: END, y: END }}
-      colors={colors}
-      style={{ flex: 1 }}
-    >
+    <LinearGradient>
       <AppearanceProvider>
         <ThemeManager>
           <NavigationContainer theme={theme}>
