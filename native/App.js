@@ -9,37 +9,25 @@ import React, { useContext } from "react";
 import { NavigationContainer } from "@react-navigation/native";
 import { flowRight as compose } from "lodash";
 import SplashScreen from "@screens/splash";
-import { withAuth, AuthContext } from "./src/shared/enhancers/auth";
+
+import {
+  withMagicAuth,
+  MagicAuthContext,
+} from "./src/shared/enhancers/magic-auth";
 import { withApollo } from "@shared/enhancers/apollo";
 import { withCurrentUser } from "@shared/enhancers/current-user";
 import { AppearanceProvider } from "react-native-appearance";
 import { ThemeManager } from "./src/shared/enhancers/theme-manager";
+import { Magic } from "@magic-sdk/react-native";
 
-import LinearGradient from "react-native-linear-gradient";
+const magic = new Magic("pk_test_789150F1861195B5");
 
-const colors = [
-  "#FF5E5E",
-  "#F55C6D",
-  "#EB5A7B",
-  "#E1588A",
-  "#D75699",
-  "#CD54A7",
-  "#C351B6",
-  "#B94FC4",
-  "#AF4DD3",
-  "#A54BE2",
-  "#9B49F0",
-  "#9147FF",
-];
-
-const START = 0.3;
-const END = 1;
+import { LinearGradient } from "@shared/enhancers/linear-gradient";
 
 const App = () => {
-  const { isLoading } = useContext(AuthContext);
+  const { isLoading } = useContext(MagicAuthContext);
 
   if (isLoading) {
-    // We haven't finished checking for the token yet
     return <SplashScreen />;
   }
 
@@ -50,15 +38,11 @@ const App = () => {
   };
 
   return (
-    <LinearGradient
-      start={{ x: START, y: START }}
-      end={{ x: END, y: END }}
-      colors={colors}
-      style={{ flex: 1 }}
-    >
+    <LinearGradient>
       <AppearanceProvider>
         <ThemeManager>
           <NavigationContainer theme={theme}>
+            <magic.Relayer />
             <Entry />
           </NavigationContainer>
         </ThemeManager>
@@ -67,6 +51,9 @@ const App = () => {
   );
 };
 
-const enhance = compose(withCurrentUser, withAuth, withApollo);
+const enhance = compose(withCurrentUser, withMagicAuth, withApollo);
+// const enhance = compose(withAuth, withApollo);
+// const enhance = compose(withAuth);
 
 export default enhance(App);
+// export default App;

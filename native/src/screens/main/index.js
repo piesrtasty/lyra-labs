@@ -1,11 +1,18 @@
 import React, { useContext } from "react";
-import { AuthContext } from "../../shared/enhancers/auth";
+import { MagicAuthContext } from "@shared/enhancers/magic-auth";
 import { SlideMenuContext } from "@components/slide-menu";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { useRoute } from "@react-navigation/native";
 import { getTabBarStyles } from "@shared/utils";
 import { SlideMenu } from "@components/slide-menu";
-import { Pressable, SafeAreaView, StyleSheet, View } from "react-native";
+import {
+  Pressable,
+  SafeAreaView,
+  StyleSheet,
+  View,
+  Text,
+  TouchableOpacity,
+} from "react-native";
 
 const Tab = createBottomTabNavigator();
 
@@ -14,7 +21,7 @@ import { faSort } from "@fortawesome/pro-regular-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
 import { MAIN_TABS, ROUTES, ROUTE_HOME } from "@shared/routes";
 
-import { useTheme } from "../../shared/enhancers/theme-manager";
+import { useTheme } from "@shared/enhancers/theme-manager";
 
 var styles = StyleSheet.create({
   container: {},
@@ -118,9 +125,9 @@ const CustomTabBar = ({ state, descriptors, navigation }) => {
 };
 
 const MainScreen = () => {
-  const {
-    authContext: { signOut },
-  } = useContext(AuthContext);
+  // const {
+  //   authContext: { signOut },
+  // } = useContext(AuthContext);
 
   const { theme } = useTheme();
 
@@ -128,22 +135,30 @@ const MainScreen = () => {
 
   const tabBarStyles = getTabBarStyles(route, theme);
 
+  const { signOut } = useContext(MagicAuthContext);
+
   return (
-    <SlideMenu>
-      <Tab.Navigator
-        tabBar={(props) => <CustomTabBar {...props} />}
-        tabBarOptions={{
-          showLabel: false,
-          style: {
-            ...tabBarStyles,
-          },
-        }}
-      >
-        {MAIN_TABS.map(({ route, component, icon }) => (
-          <Tab.Screen name={route} component={component} />
-        ))}
-      </Tab.Navigator>
-    </SlideMenu>
+    <View>
+      <Text>Main Screen</Text>
+      <TouchableOpacity onPress={signOut}>
+        <Text>Sign Out</Text>
+      </TouchableOpacity>
+    </View>
+    // <SlideMenu>
+    //   <Tab.Navigator
+    //     tabBar={(props) => <CustomTabBar {...props} />}
+    //     tabBarOptions={{
+    //       showLabel: false,
+    //       style: {
+    //         ...tabBarStyles,
+    //       },
+    //     }}
+    //   >
+    //     {MAIN_TABS.map(({ route, component, icon }) => (
+    //       <Tab.Screen name={route} component={component} />
+    //     ))}
+    //   </Tab.Navigator>
+    // </SlideMenu>
   );
 };
 

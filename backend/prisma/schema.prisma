@@ -9,33 +9,36 @@ datasource db {
 }
 
 model User {
-  id             String        @default(cuid()) @id
-  createdAt      DateTime      @default(now())
-  updatedAt      DateTime      @updatedAt
-  email          String        
-  role           Role          @default(USER)
-  walletAddress  String?       @unique
-  walletIsSetup  Boolean?      @default(false)
-  firstName      String?
-  lastName       String?
-  name           String?
-  name_lower     String?
-  username       String?       @unique
-  username_lower String?       @unique
-  headline       String?
-  avatar         String?
-  auth0id        String        @unique
-  identity       String?
-  privateKey     String
-  follows        User[]        @relation("follows", references: [id])
-  followedBy     User[]        @relation("follows", references: [id])
-  address        String
-  followedTopics Topic[]       @relation(references: [id])
-  comments       Comment[]
-  commentVotes   CommentVote[]
-  votes          Vote[]
-  posts          Post[]
-}
+  id               String        @default(cuid()) @id
+  createdAt        DateTime      @default(now())
+  updatedAt        DateTime      @updatedAt
+  email            String        @unique
+  issuer           String?       @unique
+  publicEthAddress String?
+  lastLoginAt      Int?
+  role             Role          @default(USER)
+  walletAddress    String?       @unique
+  walletIsSetup    Boolean?      @default(false)
+  firstName        String?
+  lastName         String?
+  name             String?
+  name_lower       String?
+  username         String?       @unique
+  username_lower   String?       @unique
+  headline         String?
+  avatar           String?
+  auth0id          String        @unique
+  identity         String?
+  privateKey       String
+  follows          User[]        @relation("follows", references: [id])
+  followedBy       User[]        @relation("follows", references: [id])
+  address          String
+  followedTopics   Topic[]       @relation(references: [id])
+  comments         Comment[]
+  commentVotes     CommentVote[]
+  votes            Vote[]
+  posts            Post[]
+}  
 
 model Topic {
   id             String   @default(cuid()) @id
