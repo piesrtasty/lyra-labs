@@ -1,4 +1,5 @@
 const getUser = async (req, res, next, prisma) => {
+  // console.log('in getUser req.user', req.user)
   if (req.user) {
     const auth0id = req.user.sub
     const user = await prisma.user.findOne({ where: { auth0id } })
