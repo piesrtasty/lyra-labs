@@ -1,9 +1,8 @@
 import React, { Fragment, useContext, useState } from "react";
 import moment from "moment";
 import styled from "@emotion/styled";
-import gql from "graphql-tag";
-import { defaultDataIdFromObject } from "apollo-cache-inmemory";
-import { useMutation } from "@apollo/react-hooks";
+
+import { useMutation, defaultDataIdFromObject, gql } from "@apollo/client";
 import { COMMENT_VOTE } from "../../data/mutations";
 import { CurrentUserContext } from "../../shared/enhancers/current-user";
 import { LoginModalContext } from "../../shared/enhancers/login-modal";
@@ -13,7 +12,7 @@ import {
   RICE_CAKE,
   SCOPRION,
   FOCUS_LAVENDER,
-  PURPLE
+  PURPLE,
 } from "../../shared/style/colors";
 import CommentForm from "../comment-form";
 import { buildInitialCommentReply } from "../../shared/utils";
@@ -22,31 +21,31 @@ import Ellipsis from "../../shared/style/icons/ellipsis.svg";
 
 const Container = styled("div")({
   width: "100%",
-  marginBottom: 20
+  marginBottom: 20,
 });
 
 const UserDetails = styled("div")({});
 
 const User = styled("div")({
   display: "flex",
-  alignItems: "center"
+  alignItems: "center",
 });
 
 const Avatar = styled("img")({
   height: 30,
   width: 30,
-  borderRadius: "50%"
+  borderRadius: "50%",
 });
 
 const AvatarLink = styled("a")({
-  marginRight: 10
+  marginRight: 10,
 });
 
 const DisplayName = styled("a")({
   ...BASE_TEXT,
   fontWeight: WEIGHT.BOLD,
   color: BLACK,
-  textDecoration: "none"
+  textDecoration: "none",
 });
 
 const CommentContainer = styled("div")(
@@ -54,10 +53,10 @@ const CommentContainer = styled("div")(
     marginLeft: 13,
     paddingLeft: 24,
 
-    marginTop: 10
+    marginTop: 10,
   },
   ({ hasReplies = false }) => ({
-    borderLeft: `3px solid ${hasReplies ? `${RICE_CAKE}` : "transparent"}`
+    borderLeft: `3px solid ${hasReplies ? `${RICE_CAKE}` : "transparent"}`,
   })
 );
 
@@ -69,16 +68,16 @@ const CommentBody = styled("div")({
     textDecoration: "none",
     color: FOCUS_LAVENDER,
     "&:hover": {
-      textDecoration: "underline"
-    }
-  }
+      textDecoration: "underline",
+    },
+  },
 });
 
 const CommentMeta = styled("div")({
   display: "flex",
   " > div": {
-    marginRight: 20
-  }
+    marginRight: 20,
+  },
 });
 
 const ActionButton = styled("div")(
@@ -86,10 +85,10 @@ const ActionButton = styled("div")(
     ...BASE_TEXT,
     fontSize: 11,
     fontWeight: WEIGHT.BOLD,
-    cursor: "pointer"
+    cursor: "pointer",
   },
   ({ selected = false }) => ({
-    color: selected ? PURPLE : SCOPRION
+    color: selected ? PURPLE : SCOPRION,
   })
 );
 
@@ -106,15 +105,15 @@ const Comment = ({
     upvoted,
     replies = [],
     author,
-    author: { avatar, username, name }
-  }
+    author: { avatar, username, name },
+  },
 }) => {
-  const renderBody = body => {
+  const renderBody = (body) => {
     return {
       __html: body.replace(
         /@\[(.+?)\]\((.+?)\)/g,
         `<a href="/@$1" target="_blank" rel="nofollow noopener noreferrer">@$1</a>`
-      )
+      ),
     };
   };
 
@@ -135,10 +134,10 @@ const Comment = ({
         `,
         data: {
           upvoted: !upvoted,
-          votesCount: upvoted ? votesCount - 1 : votesCount + 1
-        }
+          votesCount: upvoted ? votesCount - 1 : votesCount + 1,
+        },
       });
-    }
+    },
   });
 
   const handleVoteClick = () => {
@@ -146,8 +145,8 @@ const Comment = ({
       commentVote({
         variables: {
           userId: currentUser.id,
-          commentId: id
-        }
+          commentId: id,
+        },
       });
     } else {
       showLogin();
@@ -164,7 +163,7 @@ const Comment = ({
   const SHARE_LINKS = [
     { label: "Facebook", onClick: () => console.log("Facebook share") },
     { label: "Twitter", onClick: () => console.log("Twitter share") },
-    { label: "Embed", onClick: () => console.log("Embed share") }
+    { label: "Embed", onClick: () => console.log("Embed share") },
   ];
 
   return (

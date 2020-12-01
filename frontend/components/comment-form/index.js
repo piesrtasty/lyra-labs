@@ -2,7 +2,7 @@ import React, { useEffect, useState, useRef, useContext } from "react";
 import styled from "@emotion/styled";
 import { CurrentUserContext } from "../../shared/enhancers/current-user";
 import { LoginModalContext } from "../../shared/enhancers/login-modal";
-import { useMutation } from "@apollo/react-hooks";
+import { useMutation } from "@apollo/client";
 import { withApollo } from "react-apollo";
 import UserAvatar from "../../shared/library/components/avatars/user";
 import { USER_SEARCH, POST_QUERY } from "../../data/queries";
@@ -17,22 +17,22 @@ import {
   LILAC,
   BLUSH,
   WHITE,
-  DETROIT
+  DETROIT,
 } from "../../shared/style/colors";
 
 const AvatarWrapper = styled("div")({
   height: 34,
   display: "flex",
-  alignItems: "center"
+  alignItems: "center",
 });
 
 const Container = styled("div")(
   {
-    display: "flex"
+    display: "flex",
   },
   ({ isReply = false }) => ({
     marginTop: isReply ? 20 : 0,
-    marginBottom: isReply ? 20 : 0
+    marginBottom: isReply ? 20 : 0,
   })
 );
 
@@ -40,31 +40,31 @@ const Help = styled("div")({
   ...BASE_TEXT,
   display: "flex",
   marginTop: 10,
-  color: DETROIT
+  color: DETROIT,
 });
 
 const style = {
   control: {
     backgroundColor: "#fff",
     fontSize: 14,
-    fontWeight: "normal"
+    fontWeight: "normal",
   },
 
   highlighter: {
-    overflow: "hidden"
+    overflow: "hidden",
   },
 
   input: {
-    margin: 0
+    margin: 0,
   },
 
   "&multiLine": {
     control: {
-      fontFamily: "monospace"
+      fontFamily: "monospace",
     },
 
     highlighter: {
-      padding: 9
+      padding: 9,
     },
 
     input: {
@@ -73,8 +73,8 @@ const style = {
       padding: "5px 10px",
       minHeight: 34,
       outline: 0,
-      border: 0
-    }
+      border: 0,
+    },
   },
 
   suggestions: {
@@ -82,7 +82,7 @@ const style = {
       backgroundColor: WHITE,
       width: 190,
       borderRadius: 5,
-      boxShadow: "0 1px 10px 1px rgba(0,0,0,.15)"
+      boxShadow: "0 1px 10px 1px rgba(0,0,0,.15)",
     },
 
     item: {
@@ -90,10 +90,10 @@ const style = {
       borderBottom: `1px solid ${LILAC}`,
       "&focused": {
         backgroundColor: LAVENDER_RGBA,
-        color: BLUSH
-      }
-    }
-  }
+        color: BLUSH,
+      },
+    },
+  },
 };
 
 const StyledMentionsInput = styled(MentionsInput)({
@@ -102,46 +102,46 @@ const StyledMentionsInput = styled(MentionsInput)({
     borderRadius: 3,
     lineHeight: "24px !important",
     "&:focus": {
-      border: `1px solid ${POWDER_BLUE} !important`
-    }
-  }
+      border: `1px solid ${POWDER_BLUE} !important`,
+    },
+  },
 });
 
 const SubmitButton = styled(StyledButton)({
   marginTop: 0,
-  height: 36
+  height: 36,
 });
 
 const InputWrapper = styled("div")(
   {
     flexGrow: 1,
-    marginRight: 10
+    marginRight: 10,
   },
   ({ isReply = false }) => ({
-    marginLeft: isReply ? 0 : 10
+    marginLeft: isReply ? 0 : 10,
   })
 );
 
 const Suggestion = styled("div")({
   padding: 10,
   display: "flex",
-  alignItems: "center"
+  alignItems: "center",
 });
 
 const Avatar = styled("img")({
   borderRadius: "50%",
   height: 30,
-  width: 30
+  width: 30,
 });
 
 const Meta = styled("div")({
   ...BASE_TEXT,
   marginLeft: 10,
-  lineHeight: "20px"
+  lineHeight: "20px",
 });
 
 const Name = styled("div")({
-  fontWeight: WEIGHT.BOLD
+  fontWeight: WEIGHT.BOLD,
 });
 
 const Username = styled("div")({});
@@ -151,7 +151,7 @@ const CommentForm = ({
   postId = null,
   parentId = null,
   isReply = false,
-  initialValue = ""
+  initialValue = "",
 }) => {
   const currentUser = useContext(CurrentUserContext);
   const showLogin = useContext(LoginModalContext);
@@ -160,14 +160,14 @@ const CommentForm = ({
       client
         .query({
           query: USER_SEARCH,
-          variables: { keyword }
+          variables: { keyword },
         })
-        .then(result => {
+        .then((result) => {
           if (result.data && result.data.userSearch) {
             callback(
-              result.data.userSearch.map(user => ({
+              result.data.userSearch.map((user) => ({
                 ...user,
-                display: user.username
+                display: user.username,
               }))
             );
           }
@@ -186,39 +186,39 @@ const CommentForm = ({
       const { post } = cache.readQuery({
         query: POST_QUERY,
         variables: {
-          slug: postSlug
-        }
+          slug: postSlug,
+        },
       });
       let updatedComments;
       if (isReply) {
         const comments = post.comments;
-        const parentCommentIndex = comments.findIndex(c => c.id === parentId);
+        const parentCommentIndex = comments.findIndex((c) => c.id === parentId);
         const parentComment = comments[parentCommentIndex];
         const updatedParentComment = {
           ...parentComment,
-          replies: [createComment, ...parentComment.replies]
+          replies: [createComment, ...parentComment.replies],
         };
 
         updatedComments = [
           ...comments.slice(0, parentCommentIndex),
           updatedParentComment,
-          ...comments.slice(parentCommentIndex + 1, comments.length)
+          ...comments.slice(parentCommentIndex + 1, comments.length),
         ];
       } else {
         updatedComments = [createComment, ...post.comments];
       }
       const updatedPost = {
         ...post,
-        comments: updatedComments
+        comments: updatedComments,
       };
       cache.writeQuery({
         query: POST_QUERY,
         variables: {
-          slug: postSlug
+          slug: postSlug,
         },
-        data: { post: updatedPost }
+        data: { post: updatedPost },
       });
-    }
+    },
   });
 
   const handleSubmit = () => {
@@ -238,7 +238,7 @@ const CommentForm = ({
         <StyledMentionsInput
           value={value}
           style={style}
-          onChange={event => {
+          onChange={(event) => {
             setValue(event.target.value);
           }}
         >

@@ -1,4 +1,4 @@
-import gql from "graphql-tag";
+import { gql } from "@apollo/client";
 import { postFields } from "./fragments";
 
 export const ASSOCIATE_WALLET = gql`

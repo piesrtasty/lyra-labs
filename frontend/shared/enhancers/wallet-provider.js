@@ -3,7 +3,7 @@ import React, { useState } from "react";
 import * as fcl from "@onflow/fcl";
 import * as sdk from "@onflow/sdk";
 
-import { useMutation } from "@apollo/react-hooks";
+import { useMutation } from "@apollo/client";
 import { ASSOCIATE_WALLET } from "@data/mutations";
 import { toast } from "react-toastify";
 import { CURRENT_USER_QUERY } from "../../data/queries";

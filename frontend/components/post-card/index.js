@@ -16,7 +16,7 @@ import {
   FOCUS_LAVENDER,
 } from "@style/colors";
 import { toast } from "react-toastify";
-import { useMutation } from "@apollo/react-hooks";
+import { useMutation } from "@apollo/client";
 import { ARCHIVE_POST } from "@data/mutations";
 import { UNARCHIVE_POST } from "@data/mutations";
 import { USER_POSTS } from "@data/queries";

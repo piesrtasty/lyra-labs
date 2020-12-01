@@ -3,13 +3,11 @@ import React, {
   useContext,
   useState,
   useEffect,
-  useRef
+  useRef,
 } from "react";
-import gql from "graphql-tag";
-import { defaultDataIdFromObject } from "apollo-cache-inmemory";
 import Router, { useRouter } from "next/router";
 import PropTypes from "prop-types";
-import { useMutation } from "@apollo/react-hooks";
+import { useMutation, defaultDataIdFromObject, gql } from "@apollo/client";
 import { VOTE } from "../../data/mutations";
 import { CurrentUserContext } from "../../shared/enhancers/current-user";
 import styled from "@emotion/styled";
@@ -27,7 +25,7 @@ import {
   WHITE,
   RUBY,
   BLUSH,
-  ALABASTER
+  ALABASTER,
 } from "../../shared/style/colors";
 import { Tagline } from "../../shared/library/components/typography";
 
@@ -36,40 +34,40 @@ const ACCENT = BLUSH;
 export const Container = styled("li")(
   {
     position: "relative",
-    listStyleType: "none"
+    listStyleType: "none",
   },
   ({ visible }) => ({
-    display: visible ? "block" : "none"
+    display: visible ? "block" : "none",
   })
 );
 
 export const Body = styled("div")({
   "&:hover": {
-    backgroundColor: ALABASTER
+    backgroundColor: ALABASTER,
   },
   padding: 20,
   display: "flex",
   flexDirection: "row",
   borderTop: `1px solid ${LILAC}`,
-  cursor: "pointer"
+  cursor: "pointer",
 });
 
 const Wrapper = styled("div")({});
 
 const Link = styled("a")({
-  textDecoration: "none"
+  textDecoration: "none",
 });
 
 export const Thumbnail = styled("img")({
   width: 80,
   height: 80,
-  marginRight: 10
+  marginRight: 10,
 });
 
 export const Content = styled("div")({
   display: "flex",
   flexDirection: "column",
-  flexGrow: 1
+  flexGrow: 1,
 });
 
 const Name = styled("div")({
@@ -77,11 +75,11 @@ const Name = styled("div")({
   fontSize: 16,
   lineHeight: "24px",
   fontWeight: WEIGHT.BOLD,
-  color: BLACK
+  color: BLACK,
 });
 
 const Footer = styled("div")({
-  display: "flex"
+  display: "flex",
 });
 
 const VotesWrapper = styled("div")(
@@ -92,13 +90,13 @@ const VotesWrapper = styled("div")(
     transform: "translateY(-50%)",
     backgroundColor: WHITE,
     "&:hover": {
-      backgroundColor: ALABASTER
+      backgroundColor: ALABASTER,
     },
     border: `1px solid ${LILAC}`,
-    borderRadius: 3
+    borderRadius: 3,
   },
   ({ upvoted }) => ({
-    borderColor: upvoted ? RUBY : LILAC
+    borderColor: upvoted ? RUBY : LILAC,
   })
 );
 
@@ -115,8 +113,8 @@ const Votes = styled("div")(
     fontWeight: WEIGHT.BOLD,
     [PHONE]: {
       height: 55,
-      width: 48
-    }
+      width: 48,
+    },
   },
   ({ upvoted }) => ({
     color: upvoted ? ACCENT : BLACK,
@@ -125,9 +123,9 @@ const Votes = styled("div")(
       height: 11,
       marginBottom: 3,
       " > path": {
-        fill: upvoted ? ACCENT : BLACK
-      }
-    }
+        fill: upvoted ? ACCENT : BLACK,
+      },
+    },
   })
 );
 
@@ -141,10 +139,10 @@ const PostCard = ({
     thumbnail,
     tags,
     votesCount,
-    upvoted
+    upvoted,
   },
   post,
-  visible
+  visible,
 }) => {
   const currentUser = useContext(CurrentUserContext);
   const showLogin = useContext(LoginModalContext);
@@ -161,10 +159,10 @@ const PostCard = ({
         `,
         data: {
           upvoted: !upvoted,
-          votesCount: upvoted ? votesCount - 1 : votesCount + 1
-        }
+          votesCount: upvoted ? votesCount - 1 : votesCount + 1,
+        },
       });
-    }
+    },
   });
   const isMobile = useContext(MobileContext);
   const [isOpen, setIsOpen] = useState(false);
@@ -185,7 +183,7 @@ const PostCard = ({
     });
   }, [isOpen]);
 
-  const handleClick = e => {
+  const handleClick = (e) => {
     e.preventDefault();
     const containsClick =
       tagListRef.current && tagListRef.current.contains(e.target);
@@ -201,14 +199,14 @@ const PostCard = ({
     setIsOpen(false);
   };
 
-  const handleVoteClick = e => {
+  const handleVoteClick = (e) => {
     if (currentUser) {
       e.preventDefault();
       vote({
         variables: {
           userId: currentUser.id,
-          postId: id
-        }
+          postId: id,
+        },
       });
     } else {
       showLogin();
@@ -263,7 +261,7 @@ PostCard.propTypes = {
   commentsCount: PropTypes.number,
   tags: PropTypes.array,
   visible: PropTypes.bool,
-  upvoted: PropTypes.bool
+  upvoted: PropTypes.bool,
 };
 
 export default PostCard;

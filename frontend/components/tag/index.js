@@ -1,5 +1,5 @@
 import React, { useContext } from "react";
-import { useMutation } from "@apollo/react-hooks";
+import { useMutation } from "@apollo/client";
 import { UPDATE_FOLLOWED_TOPIC } from "../../data/mutations";
 import { CURRENT_USER_QUERY } from "../../data/queries";
 import styled from "@emotion/styled";
@@ -20,8 +20,8 @@ const Action = styled("span")({
   transition: "width .1s ease-out",
   "&:hover": {
     backgroundColor: LILAC,
-    cursor: "pointer"
-  }
+    cursor: "pointer",
+  },
 });
 
 const Container = styled("div")(
@@ -32,7 +32,7 @@ const Container = styled("div")(
     borderRadius: 3,
     display: "inline-flex",
     alignItems: "center",
-    height: HEIGHT
+    height: HEIGHT,
   },
   ({ following }) => ({
     "&:hover": {
@@ -40,10 +40,10 @@ const Container = styled("div")(
         borderLeftWidth: 1,
         width: 24,
         "&::after": {
-          content: following ? `'-'` : `'+'`
-        }
-      }
-    }
+          content: following ? `'-'` : `'+'`,
+        },
+      },
+    },
   })
 );
 
@@ -57,8 +57,8 @@ const Link = styled("div")({
   textDecoration: "none",
   "&:hover": {
     backgroundColor: LILAC,
-    cursor: "pointer"
-  }
+    cursor: "pointer",
+  },
 });
 
 const Tag = ({ id, name, slug }) => {
@@ -70,31 +70,31 @@ const Tag = ({ id, name, slug }) => {
       const { followedTopics } = user.me;
       let updatedTopics;
       if (following) {
-        updatedTopics = followedTopics.filter(topic => topic.id !== id);
+        updatedTopics = followedTopics.filter((topic) => topic.id !== id);
       } else {
         followedTopics.push(updateFollowedTopic);
         updatedTopics = followedTopics;
       }
       user.me.followedTopics = updatedTopics;
       cache.writeQuery({ query: CURRENT_USER_QUERY, data: user });
-    }
+    },
   });
   const following = currentUser
-    ? currentUser.followedTopics.map(topic => topic.id).includes(id)
+    ? currentUser.followedTopics.map((topic) => topic.id).includes(id)
     : false;
   return (
     <Container following={following}>
       <Link href={slug}>{name}</Link>
       <Action
-        onClick={e => {
+        onClick={(e) => {
           if (currentUser) {
             e.preventDefault();
             updateFollowedTopic({
               variables: {
                 userId: currentUser.id,
                 topicId: id,
-                following: true
-              }
+                following: true,
+              },
             });
           } else {
             showLogin();

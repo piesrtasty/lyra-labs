@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, createRef, useState, Fragment } from "react";
 import { useRouter } from "next/router";
-import { useQuery } from "@apollo/react-hooks";
+import { useQuery } from "@apollo/client";
 import { POST_QUERY } from "../../data/queries";
 import {
   Container,
@@ -8,7 +8,7 @@ import {
   Aside,
   Section,
   Panel,
-  Divider
+  Divider,
 } from "../../shared/library/components/layout";
 import styled from "@emotion/styled";
 import { RICE_CAKE, DETROIT, LILAC } from "../../shared/style/colors";
@@ -30,7 +30,7 @@ const CommentFormWrapper = styled("div")(
     marginLeft: -20,
     marginRight: -20,
     paddingLeft: 20,
-    paddingRight: 20
+    paddingRight: 20,
   },
   ({ position = TOP }) => ({
     borderBottom: position === TOP ? `1px solid ${LILAC}` : 0,
@@ -38,7 +38,7 @@ const CommentFormWrapper = styled("div")(
     marginTop: position === TOP ? 0 : 20,
     marginBottom: position === TOP ? 20 : 0,
     paddingTop: position === TOP ? 0 : 20,
-    paddingBottom: position === TOP ? 20 : 0
+    paddingBottom: position === TOP ? 20 : 0,
   })
 );
 
@@ -46,51 +46,51 @@ const StyledContainer = styled(Container)(
   {
     width: "100%",
     flexDirection: "column",
-    borderRadius: 3
+    borderRadius: 3,
   },
   ({ isModal }) => ({
     backgroundColor: isModal && RICE_CAKE,
-    marginBottom: isModal && 100
+    marginBottom: isModal && 100,
   })
 );
 
 const HeaderWrapper = styled("div")({
-  padding: "30px 0px"
+  padding: "30px 0px",
 });
 
 const BodyWrapper = styled(Container)({
   margin: 0,
   padding: 0,
-  paddingBottom: 30
+  paddingBottom: 30,
 });
 
 const Thumbnails = styled("div")({
   display: "flex",
-  marginTop: 10
+  marginTop: 10,
 });
 
 const StyledPanel = styled(Panel)({
-  overflow: "hidden"
+  overflow: "hidden",
 });
 
 const StyledMain = styled(Main)({
   " > div:first-of-type": {
-    marginBottom: 30
-  }
+    marginBottom: 30,
+  },
 });
 
 const GalleryWrapper = styled("div")({
   display: "flex",
-  flexDirection: "column"
+  flexDirection: "column",
 });
 
 const Gallery = styled("div")(
   {
-    overflow: "hidden"
+    overflow: "hidden",
   },
   ({ height = MAX_HEIGHT, width }) => ({
     width,
-    height
+    height,
   })
 );
 
@@ -104,27 +104,27 @@ const List = styled("ol")({
   padding: 0,
   "::-webkit-scrollbar": {
     width: 0,
-    background: "transparent"
+    background: "transparent",
   },
   margin: 0,
   " > li:first-of-type > img": {
-    height: "auto"
+    height: "auto",
   },
   " > li:last-of-type > img": {
-    height: "auto"
-  }
+    height: "auto",
+  },
 });
 
 const Item = styled("li")({}, ({}) => ({
   height: "100%",
-  width: "100%"
+  width: "100%",
 }));
 
 const Image = styled("img")({}, ({ maxWidth }) => ({
   width: "auto",
   height: "100%",
   maxHeight: MAX_HEIGHT,
-  maxWidth
+  maxWidth,
 }));
 
 const Thumbnail = styled("div")({
@@ -132,22 +132,22 @@ const Thumbnail = styled("div")({
   cursor: "pointer",
   "> img ": {
     height: 40,
-    width: 40
-  }
+    width: 40,
+  },
 });
 
 const Description = styled("div")({
   ...BASE_TEXT,
-  marginTop: 20
+  marginTop: 20,
 });
 
 const StyledDivider = styled(Divider)({
   marginTop: 20,
-  marginBottom: 20
+  marginBottom: 20,
 });
 
 const SectionHeader = styled("div")({
-  marginBottom: 10
+  marginBottom: 10,
 });
 
 const SectionLabel = styled("span")({
@@ -155,13 +155,13 @@ const SectionLabel = styled("span")({
   fontWeight: WEIGHT.BOLD,
   fontSize: 11,
   color: DETROIT,
-  textTransform: "uppercase"
+  textTransform: "uppercase",
 });
 
 const BigStyledButton = styled(StyledButton)({
   height: 50,
   width: 200,
-  textTransform: "uppercase"
+  textTransform: "uppercase",
 });
 
 export const PostContext = React.createContext({});
@@ -174,7 +174,7 @@ const Post = ({ isModal, slug, thumbs }) => {
 
   const querySlug = isModal ? slug : router.query.slug;
   const { loading, error, data, fetchMore } = useQuery(POST_QUERY, {
-    variables: { slug: querySlug }
+    variables: { slug: querySlug },
   });
 
   const el = useRef(null);

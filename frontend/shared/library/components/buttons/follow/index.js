@@ -1,6 +1,6 @@
 import React, { useContext } from "react";
 import styled from "@emotion/styled";
-import { useMutation } from "@apollo/react-hooks";
+import { useMutation } from "@apollo/client";
 import { CurrentUserContext } from "@enhancers/current-user";
 import { LoginModalContext } from "@enhancers/login-modal";
 
@@ -19,8 +19,8 @@ const Container = styled("div")({
   borderRadius: 3,
   padding: "2px 8px",
   "&:hover": {
-    backgroundColor: FOCUS_LAVENDER
-  }
+    backgroundColor: FOCUS_LAVENDER,
+  },
 });
 
 const FollowButton = ({ topicId }) => {
@@ -32,29 +32,29 @@ const FollowButton = ({ topicId }) => {
       const { followedTopics } = user.me;
       let updatedTopics;
       if (following) {
-        updatedTopics = followedTopics.filter(topic => topic.id !== topicId);
+        updatedTopics = followedTopics.filter((topic) => topic.id !== topicId);
       } else {
         followedTopics.push(updateFollowedTopic);
         updatedTopics = followedTopics;
       }
       user.me.followedTopics = updatedTopics;
       cache.writeQuery({ query: CURRENT_USER_QUERY, data: user });
-    }
+    },
   });
   const following = currentUser
-    ? currentUser.followedTopics.map(topic => topic.id).includes(topicId)
+    ? currentUser.followedTopics.map((topic) => topic.id).includes(topicId)
     : false;
   const text = following ? "✓ FOLLOWING" : "+ FOLLOW";
 
-  const handleClick = e => {
+  const handleClick = (e) => {
     if (currentUser) {
       e.preventDefault();
       updateFollowedTopic({
         variables: {
           userId: currentUser.id,
           topicId,
-          following: true
-        }
+          following: true,
+        },
       });
     } else {
       showLogin();

@@ -1,6 +1,6 @@
 import React, { Fragment, useState, useEffect, useRef } from "react";
 import styled from "@emotion/styled";
-import { useQuery } from "@apollo/react-hooks";
+import { useQuery } from "@apollo/client";
 import { FEED_POSTS } from "@data/queries";
 import PostCard from "../post-card";
 import SkeletonPostCard from "../post-card/skeleton";

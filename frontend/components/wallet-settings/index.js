@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import * as sdk from "@onflow/sdk";
-import { useMutation } from "@apollo/react-hooks";
+import { useMutation } from "@apollo/client";
 import { ASSOCIATE_WALLET } from "@data/mutations";
 import JSONPretty from "react-json-pretty";
 import { toast } from "react-toastify";

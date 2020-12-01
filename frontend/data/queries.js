@@ -1,44 +1,80 @@
-import gql from "graphql-tag";
-import { topicFields, postFields } from "./fragments";
+import { gql } from "@apollo/client";
+// import { topicFields, postFields } from "./fragments";
 
 export const USER_POSTS = gql`
   query userPosts($username: String, $archived: Boolean, $pinned: Boolean) {
     userPosts(username: $username, archived: $archived, pinned: $pinned) {
-      ...postFields
+      id
+      author
+      date
+      description
+      image
+      logo
+      publisher
+      title
+      url
+      archived
+      pinned
     }
   }
-  ${postFields}
 `;
 
 export const FEED_POSTS = gql`
   query feedPosts {
     feedPosts {
-      ...postFields
+      id
+      author
+      date
+      description
+      image
+      logo
+      publisher
+      title
+      url
+      archived
+      pinned
       submitter {
         walletIsSetup
         walletAddress
       }
     }
   }
-  ${postFields}
 `;
 
 export const USER_POSTS_INBOX = gql`
   query userPostsInbox {
     userPostsInbox {
-      ...postFields
+      id
+      author
+      date
+      description
+      image
+      logo
+      publisher
+      title
+      url
+      archived
+      pinned
     }
   }
-  ${postFields}
 `;
 
 export const USER_POSTS_ARCHIVE = gql`
   query userPostsArchive {
     userPostsArchive {
-      ...postFields
+      id
+      author
+      date
+      description
+      image
+      logo
+      publisher
+      title
+      url
+      archived
+      pinned
     }
   }
-  ${postFields}
 `;
 
 export const USER_SEARCH = gql`
@@ -55,10 +91,11 @@ export const USER_SEARCH = gql`
 export const CURATED_TOPICS_QUERY = gql`
   query curatedTopics {
     curatedTopics {
-      ...topicFields
+      id
+      name
+      slug
     }
   }
-  ${topicFields}
 `;
 
 export const SECTIONS_QUERY = gql`
@@ -80,12 +117,13 @@ export const SECTIONS_QUERY = gql`
         votesCount
         upvoted
         topics {
-          ...topicFields
+          id
+          name
+          slug
         }
       }
     }
   }
-  ${topicFields}
 `;
 
 export const POSTS_QUERY = gql`
@@ -107,11 +145,12 @@ export const CURRENT_USER_QUERY = gql`
       username
       name
       followedTopics {
-        ...topicFields
+        id
+        name
+        slug
       }
     }
   }
-  ${topicFields}
 `;
 
 export const POST_QUERY = gql`
@@ -169,9 +208,10 @@ export const POST_QUERY = gql`
         id
       }
       topics {
-        ...topicFields
+        id
+        name
+        slug
       }
     }
   }
-  ${topicFields}
 `;

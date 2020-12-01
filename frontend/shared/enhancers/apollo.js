@@ -1,12 +1,16 @@
 import React from "react";
 import Head from "next/head";
 import auth0 from "../../config/auth0";
-import { ApolloProvider } from "@apollo/react-hooks";
-import { ApolloClient } from "apollo-client";
-import { InMemoryCache } from "apollo-cache-inmemory";
-import { HttpLink } from "apollo-link-http";
-import { ApolloLink, concat } from "apollo-link";
-import { setContext } from "apollo-link-context";
+import {
+  ApolloProvider,
+  ApolloClient,
+  InMemoryCache,
+  HttpLink,
+  // setContext,
+} from "@apollo/client";
+
+import { setContext } from "@apollo/client/link/context";
+
 import fetch from "isomorphic-unfetch";
 
 let apolloClient = null;
@@ -74,7 +78,9 @@ export function withApollo(PageComponent, { ssr = true } = {}) {
         if (ssr) {
           try {
             // Run all GraphQL queries
-            const { getDataFromTree } = await import("@apollo/react-ssr");
+            const { getDataFromTree } = await import(
+              "@apollo/client/react/ssr"
+            );
             await getDataFromTree(
               <AppTree
                 pageProps={{

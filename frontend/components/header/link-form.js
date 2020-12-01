@@ -2,7 +2,7 @@ import React, { useState, useEffect, useRef } from "react";
 import Router, { useRouter } from "next/router";
 import styled from "@emotion/styled";
 import { toast } from "react-toastify";
-import { useMutation } from "@apollo/react-hooks";
+import { useMutation } from "@apollo/client";
 import { CREATE_POST } from "@data/mutations";
 import { USER_POSTS } from "@data/queries";
 

@@ -1,5 +1,5 @@
 import React, { Fragment } from "react";
-import { useQuery } from "@apollo/react-hooks";
+import { useQuery } from "@apollo/client";
 import { SECTIONS_QUERY } from "../../data/queries";
 import Section from "../section";
 import SkeletonSection from "../../components/skeletons/section";
@@ -7,21 +7,21 @@ import useInfiniteScroll from "../../shared/hooks/infinite-scroll";
 
 const Sections = () => {
   const { loading, error, data, fetchMore } = useQuery(SECTIONS_QUERY, {
-    variables: { first: 8, skip: 0 }
+    variables: { first: 8, skip: 0 },
   });
 
-  const onLoadMore = cb => {
+  const onLoadMore = (cb) => {
     fetchMore({
       variables: {
-        skip: data.sections ? data.sections.length : 0
+        skip: data.sections ? data.sections.length : 0,
       },
       updateQuery: (prev, { fetchMoreResult }) => {
         if (!fetchMoreResult) return prev;
         cb();
         return Object.assign({}, prev, {
-          sections: [...prev.sections, ...fetchMoreResult.sections]
+          sections: [...prev.sections, ...fetchMoreResult.sections],
         });
-      }
+      },
     });
   };
 
