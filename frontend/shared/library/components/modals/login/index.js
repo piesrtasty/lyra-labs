@@ -1,16 +1,53 @@
-import React from "react";
+import React, { useState, useContext } from "react";
 import styled from "@emotion/styled";
 import { Container, Main, Aside } from "../../layout";
 import { WHITE } from "../../../../style/colors";
 import { TITLE_TEXT, BASE_TEXT, WEIGHT } from "../../../../style/typography";
+import { withMagicAuth } from "@enhancers/magic-auth";
 import BaseModal from "../base";
 import { withPortal } from "../base/portal";
 import LogInButton from "../../buttons/log-in";
 import SignUpButton from "../../buttons/sign-up";
 import LyraLogo from "../../../../style/logos/lyra-labs-logo.svg";
+import { MagicAuthContext } from "@components/layout";
+import { LoginModalContext } from "@enhancers/login-modal";
+import {
+  CHARCOAL,
+  FOCUS_LAVENDER,
+  LAVENDER,
+  RICE_CAKE,
+  PURPLE,
+} from "../../../../style/colors";
+
+import {
+  Input,
+  InputWrapper,
+  CharacterCounter,
+  Label,
+  LabelName,
+  LabelQualifier,
+  Field,
+} from "@library/components/inputs";
+
+const StyledInput = styled(Input)({
+  fontSize: "1rem",
+  backgroundColor: RICE_CAKE,
+  height: "auto",
+  marginRight: "1rem",
+});
+
+import SimpleButton from "../../../../library/components/buttons/simple";
+import StyledButton from "../../../../library/components/buttons/styled";
+
+const styles = {
+  fontSize: 11,
+  textTransform: "uppercase",
+  fontWeight: WEIGHT.BOLD,
+  lineHeight: "16px",
+};
 
 const StyledLyraLogo = styled(LyraLogo)({
-  height: 100
+  height: 100,
 });
 
 const StyledContainer = styled(Container)({
@@ -20,21 +57,21 @@ const StyledContainer = styled(Container)({
   display: "flex",
   flexDirection: "column",
   alignItems: "center",
-  padding: 20
+  padding: 20,
 });
 
 const Actions = styled("div")({
   margin: "30px 0 20px",
   " > a:last-of-type": {
-    marginLeft: 10
-  }
+    marginLeft: 10,
+  },
 });
 
 const Title = styled("h1")({
   ...TITLE_TEXT,
   fontSize: 20,
   margin: 0,
-  lineHeight: "32px"
+  lineHeight: "32px",
 });
 
 const Description = styled("p")({
@@ -44,7 +81,27 @@ const Description = styled("p")({
   fontWeight: WEIGHT.LITE,
   lineHeight: "24px",
   textAlign: "center",
-  width: 400
+  width: 400,
+});
+
+const StyledSimpleButton = styled(SimpleButton)({
+  ...styles,
+});
+
+const StyledStyleButton = styled(StyledButton)({
+  ...styles,
+  backgroundColor: PURPLE,
+  borderColor: PURPLE,
+  "&:hover": {
+    color: CHARCOAL,
+    backgroundColor: FOCUS_LAVENDER,
+    borderColor: FOCUS_LAVENDER,
+  },
+});
+
+const Buttons = styled("div")({
+  marginTop: 10,
+  display: "flex",
 });
 
 const TITLE = "Login to Lyra Labs";
@@ -52,17 +109,35 @@ const TITLE = "Login to Lyra Labs";
 const DESCRIPTION =
   "We're not really sure what this is. We're just doing something fun and figuring it out as we go.";
 
-const LoginModal = ({ onDismiss }) => {
+const LoginModal = (items) => {
+  const { isLoggedIn, signOut, signIn } = useContext(MagicAuthContext);
+  const { hideLogin } = useContext(LoginModalContext);
+  const [email, setEmail] = useState(null);
+
+  const handleContinue = () => {
+    // signIn(email);
+    signIn();
+    console.log("handling continue", items);
+  };
+
   return (
-    <BaseModal onDismiss={onDismiss} width={"auto"}>
+    <BaseModal width={"auto"}>
       <StyledContainer>
-        <StyledLyraLogo />
-        <Title>{TITLE}</Title>
-        <Description>{DESCRIPTION}</Description>
-        <Actions>
-          <LogInButton />
-          <SignUpButton />
-        </Actions>
+        <StyledInput
+          onChange={(e) => setEmail(e.target.value)}
+          type="text"
+          valid={true}
+          placeholder={"Email"}
+        />
+        {isLoggedIn ? "A" : "B"}
+        <Buttons>
+          <StyledStyleButton type="button" onClick={handleContinue}>
+            Continue
+          </StyledStyleButton>
+          <StyledSimpleButton type="button" onClick={hideLogin}>
+            Cancel
+          </StyledSimpleButton>
+        </Buttons>
       </StyledContainer>
     </BaseModal>
   );

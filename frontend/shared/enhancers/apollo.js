@@ -41,10 +41,10 @@ export function withApollo(PageComponent, { ssr = true } = {}) {
     WithApollo.displayName = `withApollo(${displayName})`;
   }
 
-  if (ssr || PageComponent.getInitialProps) {
+  if (typeof window === "undefined" || PageComponent.getInitialProps) {
     WithApollo.getInitialProps = async (ctx) => {
       const { AppTree } = ctx;
-      const session = ctx.req ? await auth0.getSession(ctx.req) : null;
+      const cookie = ctx.req.headers.cookie ? ctx.req.headers.cookie : null;
       // const md = ctx.req
       //   ? new MobileDetect(ctx.req.headers["user-agent"])
       //   : null;
@@ -53,8 +53,9 @@ export function withApollo(PageComponent, { ssr = true } = {}) {
       // const isMobile = "Cool";
       // Initialize ApolloClient, add it to the ctx object so
       // we can use it in `PageComponent.getInitialProp`.
-      const apolloClient = (ctx.apolloClient = initApolloClient({ session }));
-      // console.log("apolloClient", apolloClient);
+      const apolloClient = (ctx.apolloClient = initApolloClient({
+        cookie,
+      }));
       // Run wrapped getInitialProps methods
       let pageProps = {};
       if (PageComponent.getInitialProps) {
@@ -132,14 +133,13 @@ function initApolloClient(initialState) {
 const isBrowser = typeof window !== "undefined";
 
 const httpLink = new HttpLink({
-  // uri:
-  //   // isDocker && isBrowser
   uri: process.env.BACKEND_URL,
   // uri: isBrowser
   //   ? "http://localhost:4000/graphql"
   //   : process.env.BACKEND_URL,
   // uri: "http://localhost:4000/graphql",
-  credentials: "same-origin", // Additional fetch() options like `credentials` or `headers`
+  // credentials: "same-origin", // Additional fetch() options like `credentials` or `headers`
+  credentials: "include", // Additional fetch() options like `credentials` or `headers`
   // Use fetch() polyfill on the server
   fetch: !isBrowser && fetch,
   // fetchOptions: {
@@ -159,15 +159,27 @@ const httpLink = new HttpLink({
  * @param  {Object} [initialState={}]
  */
 function createApolloClient(initialState = {}) {
-  const { session } = initialState;
+  // const { session, cookie } = initialState;
+  const { session, cookie } = initialState;
+  console.log("--------- initialState ----------", initialState);
 
   const setAuthLink = setContext((_, { headers }) => {
     const token = session && session.idToken ? session.idToken : null;
     const accessToken =
       session && session.accessToken ? session.accessToken : null;
+    const cookieObj = cookie ? { cookie } : {};
+    console.log(">>>>> cookieObj <<<<<", cookieObj);
+    const dataHeaders = {
+      ...headers,
+      name: "Luke",
+      ...cookieObj,
+      authorization: accessToken ? `Bearer ${accessToken}` : "",
+    };
+    console.log("createApolloClient dataHeaders", dataHeaders);
     return {
       headers: {
         ...headers,
+        ...cookieObj,
         authorization: accessToken ? `Bearer ${accessToken}` : "",
       },
     };

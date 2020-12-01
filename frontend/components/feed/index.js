@@ -27,7 +27,7 @@ const Feed = ({ archived = false, currentUser = null }) => {
             <SkeletonPostCard />
           </>
         )}
-        {!loading && data && (
+        {!loading && data && data.feedPosts && (
           <Fragment>
             {data.feedPosts.map((post, i) =>
               post.id === "optimisticResponse" ? (
@@ -38,7 +38,9 @@ const Feed = ({ archived = false, currentUser = null }) => {
             )}
           </Fragment>
         )}
-        {!loading && data.feedPosts.length === 0 && <EmptyPlaceholder />}
+        {!loading && data && data.feedPosts && data.feedPosts.length === 0 && (
+          <EmptyPlaceholder />
+        )}
       </Container>
     </>
   );

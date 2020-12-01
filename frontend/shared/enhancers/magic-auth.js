@@ -1,8 +1,9 @@
 import React, { useReducer, useMemo, useState, useEffect } from "react";
-import { Alert } from "react-native";
-import AsyncStorage from "@react-native-community/async-storage";
-import * as Keychain from "react-native-keychain";
-import { Magic } from "@magic-sdk/react-native";
+// import { Alert } from "react-native";
+// import AsyncStorage from "@react-native-community/async-storage";
+// import * as Keychain from "react-native-keychain";
+// import { Magic } from "@magic-sdk/react-native";
+import { Magic } from "magic-sdk";
 
 const MAGIC_PUBLISHABLE_KEY = "pk_test_789150F1861195B5";
 const TEAM_ID = "KU5GP44363";
@@ -15,7 +16,7 @@ export const MagicAuthContext = React.createContext();
 
 export const withMagicAuth = (Component) => {
   const WithMagicAuth = () => {
-    const magic = new Magic(MAGIC_PUBLISHABLE_KEY);
+    // const magic = new Magic(MAGIC_PUBLISHABLE_KEY);
 
     const [isLoggedIn, setIsLoggedIn] = useState(false);
     const [isLoading, setIsLoading] = useState(false);
@@ -31,7 +32,9 @@ export const withMagicAuth = (Component) => {
       bootstrapAsync();
     }, []);
 
-    const signIn = async ({ email }) => {
+    const signIn = async (cb) => {
+      const magic = new Magic(MAGIC_PUBLISHABLE_KEY);
+      //   console.log("------ CALLING SIGN IN -----", email);
       magic.auth
         .loginWithMagicLink({
           email: "lukehamiltonmail@gmail.com",
@@ -40,7 +43,8 @@ export const withMagicAuth = (Component) => {
           console.log("email-sent");
         })
         .then(async (DIDToken) => {
-          const resp = await fetch(`${BACKEND_API_URL}/user/login`, {
+          // const resp = await fetch(`${BACKEND_API_URL}/user/login`, {
+          const resp = await fetch(`http://localhost:4000/user/login`, {
             headers: new Headers({
               Authorization: "Bearer " + DIDToken,
             }),
@@ -48,21 +52,8 @@ export const withMagicAuth = (Component) => {
             credentials: "same-origin",
             method: "POST",
           });
+          console.log("RESP", resp);
 
-          const headers = resp.headers.map;
-          const cookieHeader = headers["set-cookie"];
-          if (cookieHeader) {
-            await Keychain.setGenericPassword(
-              MAGIC_AUTH_COOKIE_KEY,
-              cookieHeader,
-              [
-                {
-                  service: KEYCHAIN_GROUP,
-                  accessGroup: ACCESS_GROUP,
-                },
-              ]
-            );
-          }
           setIsLoggedIn(true);
         })
         .once("email-not-deliverable", () => {
@@ -75,20 +66,19 @@ export const withMagicAuth = (Component) => {
     };
 
     const signOut = async () => {
-      console.log("calling signout");
-      // fetch(`${BACKEND_API_URL}/user/logout`, { method: "POST" }).then(
-      //   ({ status }) => {
-      //     setIsLoggedIn(!(status == 200));
-      //     setIsLoading(false);
-      //   }
-      // );
+      console.log("------ CALLING SIGN OUT -----");
+      //   fetch(`${BACKEND_API_URL}/user/logout`, { method: "POST" }).then(
+      //     ({ status }) => {
+      //       setIsLoggedIn(!(status == 200));
+      //       setIsLoading(false);
+      //     }
+      //   );
     };
 
     return (
       <MagicAuthContext.Provider
-        value={{ signIn, signOut, magic, isLoggedIn, isLoading }}
+        value={{ signIn, signOut, isLoggedIn, isLoading }}
       >
-        <magic.Relayer />
         <Component />
       </MagicAuthContext.Provider>
     );

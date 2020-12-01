@@ -1,20 +1,15 @@
 require('dotenv').config()
-
+const { GraphQLServer } = require('graphql-yoga')
 const express = require('express')
-const cookieParser = require('cookie-parser')
-const logger = require('morgan')
-const session = require('express-session')
-// const passport = require('passport')
-
 const { ApolloServer } = require('apollo-server-express')
 const bodyParser = require('body-parser')
-// const session = require('express-session')
+const session = require('express-session')
 const pg = require('pg')
 const cors = require('cors')
 const PgStore = require('connect-pg-simple')(session)
-// const { Magic } = require('@magic-sdk/admin')
-// const passport = require('passport')
-// const MagicStrategy = require('passport-magic').Strategy
+const { Magic } = require('@magic-sdk/admin')
+const passport = require('passport')
+const MagicStrategy = require('passport-magic').Strategy
 const {
   makeSchema,
   objectType,
@@ -402,12 +397,9 @@ const Query = objectType({
       type: 'User',
       nullable: true,
       resolve: async (_, _args, ctx) => {
-        const currentUser = ctx.req.user ? ctx.req.user : null
-        console.log('------------------currentUser--------', currentUser)
         // const user = ctx.request.user
         const user = null
-        // console.log('ZZZZZZZZZ', Object.keys(ctx.req.user))
-        console.log('ZZZZZZZZZ', ctx.req.user)
+        console.log('----------------------------', user)
 
         if (user) {
           const currentUser = await ctx.prisma.user.findOne({
@@ -699,6 +691,27 @@ const saveUrl = async (givenUrl, currentUser) => {
 
 const prisma = new PrismaClient()
 
+// const server = new GraphQLServer({
+//   schema: makeSchema({
+//     types: [
+//       Query,
+//       Mutation,
+//       Post,
+//       User,
+//       Section,
+//       Comment,
+//       CommentVote,
+//       Topic,
+//       Vote,
+//       SignedUpload,
+//       MetaData,
+//     ],
+//     plugins: [nexusPrismaPlugin()],
+//   }),
+//   context: req => ({ ...req, prisma }),
+//   middlewares: [],
+// })
+
 const schema = makeSchema({
   types: [
     Query,
@@ -716,26 +729,58 @@ const schema = makeSchema({
   plugins: [nexusPrisma({ experimentalCRUD: true })],
 })
 
-const Datastore = require('nedb-promise')
-let users = new Datastore({ filename: 'users.db', autoload: true })
+const apollo = new ApolloServer({
+  context: req => ({ ...req, prisma }),
+  schema,
+})
+
+const cookieParser = require('cookie-parser')
 
 const app = express()
-app.enable('trust proxy')
-app.use(logger('dev'))
-app.use(express.json())
-app.use(express.urlencoded({ extended: false }))
+
+app.use(bodyParser.json()) // support json encoded bodies
+app.use(bodyParser.urlencoded({ extended: true })) // support encoded bodies
+
 app.use(cookieParser())
+
+const SESSION_SECRET = 'abcxyz'
+const useSecureCookie = true
+
+const DB_USER = 'prisma'
+const DB_HOST = '0.0.0.0'
+const DB_DATABASE = 'prisma'
+const DB_PASSWORD = 'prisma'
+const DB_PORT = '5432'
+
+const sessionStore = new PgStore({
+  pool: new pg.Pool({
+    user: DB_USER,
+    host: DB_HOST,
+    database: DB_DATABASE,
+    password: DB_PASSWORD,
+    port: DB_PORT,
+  }),
+})
+
+// app.use(
+//   session({
+//     secret: SESSION_SECRET,
+//     store: sessionStore,
+//     resave: false,
+//     saveUninitialized: true,
+//     cookie: {
+//       maxAge: 60 * 60 * 1000 * 24 * 7, // 7 days
+//       // secure: useSecureCookie,
+//       sameSite: false,
+//     },
+//   }),
+// )
 
 app.use(
   session({
-    secret: "not my cat's name",
+    secret: 'somesecret',
     resave: false,
-    saveUninitialized: true,
-    cookie: {
-      maxAge: 60 * 60 * 1000, // 1 hour
-      // secure: true, // Uncomment this line to enforce HTTPS protocol.
-      sameSite: true,
-    },
+    saveUninitialized: false,
   }),
 )
 
@@ -746,15 +791,14 @@ var corsOptions = {
 
 app.use(cors(corsOptions))
 
-const { Magic } = require('@magic-sdk/admin')
-const magic = new Magic('sk_test_1F83C852158CEE86')
-
-const passport = require('passport')
-
 app.use(passport.initialize())
 app.use(passport.session())
 
-const MagicStrategy = require('passport-magic').Strategy
+/* 1️⃣ Setup Magic Admin SDK */
+
+const magic = new Magic('sk_test_1F83C852158CEE86')
+
+/* 2️⃣ Implement Auth Strategy */
 
 const strategy = new MagicStrategy(async function(user, done) {
   const userMetadata = await magic.users.getMetadataByIssuer(user.issuer)
@@ -771,8 +815,6 @@ const strategy = new MagicStrategy(async function(user, done) {
 })
 
 passport.use(strategy)
-
-/* 3️⃣ Implement Auth Behaviors */
 
 /* Implement User Signup */
 const signup = async (user, userMetadata, done) => {
@@ -805,17 +847,6 @@ const login = async (user, done) => {
   return done(null, user)
 }
 
-/* Attach middleware to login endpoint */
-app.post('/login', passport.authenticate('magic'), (req, res) => {
-  if (req.user) {
-    res.status(200).end('User is logged in.')
-  } else {
-    return res.status(401).end('Could not log user in.')
-  }
-})
-
-/* 4️⃣ Implement Session Behavior */
-
 /* Defines what data are stored in the user session */
 passport.serializeUser((user, done) => {
   done(null, user.issuer)
@@ -823,10 +854,16 @@ passport.serializeUser((user, done) => {
 
 /* Populates user data in the req.user object */
 passport.deserializeUser(async (id, done) => {
+  console.log('>>>>>>>>>>>>>>>>>>')
+  console.log('>>>>>>>>>>>>>>>>>>')
+  console.log('>>>>>>>>>>>>>>>>>>')
+  console.log('>>>>>>>>>>>>>>>>>>')
+  console.log('>>>>>>>>>>>>>>>>>>')
   try {
-    const user = await prisma.user.findUnique({
+    const user = await prisma.user.findOne({
       where: { issuer: id },
     })
+    console.log('in deserialize', user)
     done(null, user)
   } catch (err) {
     done(err, null)
@@ -851,16 +888,17 @@ app.get('/healthz', async (req, res, done) => {
   res.json(healthcheck)
 })
 
-app.get(
-  '/check-authentication',
-  requireAuthenticated,
-  async (req, res, done) => {
-    res.status(200).end()
-  },
-)
+app.post('/user/login', passport.authenticate('magic'), (req, res) => {
+  console.log('COOL BRO')
+  if (req.user) {
+    console.log('req.user', req.user)
+    res.status(200).end('User is logged in.')
+  } else {
+    return res.status(401).end('Could not log user in.')
+  }
+})
 
-/* Implement Logout Endpoint */
-app.post('/logout', async (req, res) => {
+app.post('/user/logout', async (req, res) => {
   if (req.isAuthenticated()) {
     await magic.users.logoutByIssuer(req.user.issuer)
     req.logout()
@@ -870,11 +908,13 @@ app.post('/logout', async (req, res) => {
   }
 })
 
-// app.post('/graphql', (err, req, res, next) => {
-//   console.log('---- in the GRAPGHQL ENDPOINT ----- req.user', req.user)
-//   if (err) return res.status(401).send(err.message)
-//   next()
-// })
+app.get(
+  '/check-authentication',
+  requireAuthenticated,
+  async (req, res, done) => {
+    res.status(200).end()
+  },
+)
 
 const savePost = () => {
   console.log('Calling save POST!!!!!')
@@ -910,17 +950,14 @@ app.post('/validate-token', async (req, res, done) => {
   }
 })
 
-app.post('/test-cookie-auth', requireAuthenticated, async (req, res, done) => {
-  console.log('test cookie auth req.user', req.user)
+app.post('/test-cookie-auth', async (req, res, done) => {
+  console.log('--------------------------')
+  console.log('in test cookie handler, req.user', req.user)
+  console.log('req.isAuthenticated()', req.isAuthenticated())
+  console.log('--------------------------')
   res.status(200).end()
+  // done()
 })
-
-// app.post('/graphql', getUser)
-
-// app.use('/', async (req, res, next) => {
-//   console.log('In the middleware handler for getUser ---', req.user)
-//   getUser(req, res, next, prisma)
-// })
 
 app.post('/save', async (req, res, done) => {
   res.sendStatus(200)
@@ -938,15 +975,9 @@ app.post('/save', async (req, res, done) => {
   }
 })
 
-const apollo = new ApolloServer({
-  context: req => {
-    console.log(
-      'Setting the context in the Apollo Server!!!',
-      Object.keys(req.req),
-    )
-    return { ...req, prisma }
-  },
-  schema,
+app.post('/graphql', (err, req, res, next) => {
+  if (err) return res.status(401).send(err.message)
+  next()
 })
 
 apollo.applyMiddleware({
