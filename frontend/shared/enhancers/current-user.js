@@ -7,7 +7,7 @@ export const CurrentUserContext = React.createContext({});
 
 export const withCurrentUser = (Component) => {
   const WithCurrentUser = ({ user }) => {
-    const { loading, error, data } = useQuery(CURRENT_USER_QUERY, {});
+    const { loading, error, data, refetch } = useQuery(CURRENT_USER_QUERY, {});
     if (loading) {
       return <div>{`loading: ${loading}`}</div>;
     }
@@ -16,7 +16,7 @@ export const withCurrentUser = (Component) => {
     }
     if (data) {
       return (
-        <CurrentUserContext.Provider value={data.me}>
+        <CurrentUserContext.Provider value={{ currentUser: data.me, refetch }}>
           <Component />
         </CurrentUserContext.Provider>
       );

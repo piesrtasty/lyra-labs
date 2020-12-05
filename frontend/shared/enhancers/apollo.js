@@ -6,7 +6,6 @@ import {
   ApolloClient,
   InMemoryCache,
   HttpLink,
-  // setContext,
 } from "@apollo/client";
 
 import { setContext } from "@apollo/client/link/context";
@@ -57,9 +56,7 @@ export function withApollo(PageComponent, { ssr = true } = {}) {
       // const isMobile = "Cool";
       // Initialize ApolloClient, add it to the ctx object so
       // we can use it in `PageComponent.getInitialProp`.
-      const apolloClient = (ctx.apolloClient = initApolloClient({
-        cookie,
-      }));
+      const apolloClient = (ctx.apolloClient = initApolloClient({}, cookie));
       // Run wrapped getInitialProps methods
       let pageProps = {};
       if (PageComponent.getInitialProps) {
@@ -121,16 +118,16 @@ export function withApollo(PageComponent, { ssr = true } = {}) {
  * Creates or reuses apollo client in the browser.
  * @param  {Object} initialState
  */
-function initApolloClient(initialState) {
+function initApolloClient(initialState, cookie) {
   // Make sure to create a new client for every server-side request so that data
   // isn't shared between connections (which would be bad)
   if (typeof window === "undefined") {
-    return createApolloClient(initialState);
+    return createApolloClient(initialState, cookie);
   }
 
   // Reuse client on the client-side
   if (!apolloClient) {
-    apolloClient = createApolloClient(initialState);
+    apolloClient = createApolloClient(initialState, cookie);
   }
 
   return apolloClient;
@@ -164,29 +161,13 @@ const httpLink = new HttpLink({
  * Creates and configures the ApolloClient
  * @param  {Object} [initialState={}]
  */
-function createApolloClient(initialState = {}) {
-  // const { session, cookie } = initialState;
-  const { session, cookie } = initialState;
-  console.log("--------- initialState ----------", initialState);
-
+function createApolloClient(initialState = {}, cookie) {
   const setAuthLink = setContext((_, { headers }) => {
-    const token = session && session.idToken ? session.idToken : null;
-    const accessToken =
-      session && session.accessToken ? session.accessToken : null;
     const cookieObj = cookie ? { cookie } : {};
-    console.log(">>>>> cookieObj <<<<<", cookieObj);
-    const dataHeaders = {
-      ...headers,
-      name: "Luke",
-      ...cookieObj,
-      authorization: accessToken ? `Bearer ${accessToken}` : "",
-    };
-    console.log("createApolloClient dataHeaders", dataHeaders);
     return {
       headers: {
         ...headers,
         ...cookieObj,
-        authorization: accessToken ? `Bearer ${accessToken}` : "",
       },
     };
   });

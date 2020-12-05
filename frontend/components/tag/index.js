@@ -63,7 +63,7 @@ const Link = styled("div")({
 
 const Tag = ({ id, name, slug }) => {
   const showLogin = useContext(LoginModalContext);
-  const currentUser = useContext(CurrentUserContext);
+  const { currentUser } = useContext(CurrentUserContext);
   const [updateFollowedTopic, { data }] = useMutation(UPDATE_FOLLOWED_TOPIC, {
     update: (cache, { data: { updateFollowedTopic } }) => {
       const user = cache.readQuery({ query: CURRENT_USER_QUERY });

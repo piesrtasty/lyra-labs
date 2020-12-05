@@ -60,16 +60,9 @@ const AuthButtons = () => {
 
   return (
     <Container>
-      <StyledSimpleButton onClick={testCookieAuth}>
-        TEST Cookie Auth
-      </StyledSimpleButton>
-      {isLoggedIn ? (
-        <StyledSimpleButton onClick={handleLogout}>Log out</StyledSimpleButton>
-      ) : (
-        <StyledStyleButton onClick={handleLogin}>
-          Log in / Sign Up
-        </StyledStyleButton>
-      )}
+      <StyledStyleButton onClick={handleLogin}>
+        Log in / Sign Up
+      </StyledStyleButton>
 
       {/* {isLoggedIn ? "Logged in" : "Logged out"} */}
       {/* <LinkWrapper href={LOGIN_ROUTE}>

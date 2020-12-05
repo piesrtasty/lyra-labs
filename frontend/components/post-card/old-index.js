@@ -144,7 +144,7 @@ const PostCard = ({
   post,
   visible,
 }) => {
-  const currentUser = useContext(CurrentUserContext);
+  const { currentUser } = useContext(CurrentUserContext);
   const showLogin = useContext(LoginModalContext);
   const [vote, { data }] = useMutation(VOTE, {
     update: (cache, { data: { vote } }) => {

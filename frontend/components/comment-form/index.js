@@ -153,7 +153,7 @@ const CommentForm = ({
   isReply = false,
   initialValue = "",
 }) => {
-  const currentUser = useContext(CurrentUserContext);
+  const { currentUser } = useContext(CurrentUserContext);
   const showLogin = useContext(LoginModalContext);
   const fetchUsers = (keyword, callback) => {
     if (keyword && keyword.length > 0) {

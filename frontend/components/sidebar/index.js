@@ -25,7 +25,7 @@ const StyledDivider = styled(Divider)({
 });
 
 const Sidebar = () => {
-  const currentUser = useContext(CurrentUserContext);
+  const { currentUser } = useContext(CurrentUserContext);
   return (
     <Container>
       {currentUser && (
@@ -33,7 +33,7 @@ const Sidebar = () => {
           <UserCard user={currentUser} />
           <Nav />
           <StyledDivider />
-          <WalletDetails currentUser={currentUser} />
+          {/* <WalletDetails currentUser={currentUser} /> */}
           {/* <SponsorList /> */}
         </StickySidebarSection>
       )}

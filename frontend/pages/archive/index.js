@@ -17,10 +17,13 @@ const ArchivePage = () => {
   );
 };
 
-const enhance = compose(
-  withPrivateRoute,
-  withCurrentUser,
-  withLoginModal,
-  withWallet
-);
+// const enhance = compose(
+//   withPrivateRoute,
+//   withCurrentUser,
+//   withLoginModal,
+//   withWallet
+// );
+
+const enhance = compose(withCurrentUser, withLoginModal, withWallet);
+
 export default enhance(ArchivePage);

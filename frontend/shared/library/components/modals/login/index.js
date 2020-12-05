@@ -11,6 +11,7 @@ import SignUpButton from "../../buttons/sign-up";
 import LyraLogo from "../../../../style/logos/lyra-labs-logo.svg";
 import { MagicAuthContext } from "@components/layout";
 import { LoginModalContext } from "@enhancers/login-modal";
+import { CurrentUserContext } from "@enhancers/current-user";
 import {
   CHARCOAL,
   FOCUS_LAVENDER,
@@ -86,6 +87,7 @@ const Description = styled("p")({
 
 const StyledSimpleButton = styled(SimpleButton)({
   ...styles,
+  marginLeft: 10,
 });
 
 const StyledStyleButton = styled(StyledButton)({
@@ -111,27 +113,43 @@ const DESCRIPTION =
 
 const LoginModal = (items) => {
   const { isLoggedIn, signOut, signIn } = useContext(MagicAuthContext);
+  const { refetch } = useContext(CurrentUserContext);
   const { hideLogin } = useContext(LoginModalContext);
   const [email, setEmail] = useState(null);
+  const [emailValid, setEmailValid] = useState(false);
 
   const handleContinue = () => {
-    // signIn(email);
-    signIn();
-    console.log("handling continue", items);
+    signIn(email, () => {
+      hideLogin();
+      refetch();
+    });
+  };
+
+  const validateEmail = (email) => {
+    const re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+    return re.test(String(email).toLowerCase());
+  };
+
+  const handleEmailChange = (value) => {
+    setEmail(value);
+    setEmailValid(validateEmail(value));
   };
 
   return (
     <BaseModal width={"auto"}>
       <StyledContainer>
         <StyledInput
-          onChange={(e) => setEmail(e.target.value)}
+          onChange={(e) => handleEmailChange(e.target.value)}
           type="text"
           valid={true}
           placeholder={"Email"}
         />
-        {isLoggedIn ? "A" : "B"}
         <Buttons>
-          <StyledStyleButton type="button" onClick={handleContinue}>
+          <StyledStyleButton
+            disabled={!emailValid}
+            type="button"
+            onClick={handleContinue}
+          >
             Continue
           </StyledStyleButton>
           <StyledSimpleButton type="button" onClick={hideLogin}>

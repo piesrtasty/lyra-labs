@@ -117,7 +117,7 @@ const Comment = ({
     };
   };
 
-  const currentUser = useContext(CurrentUserContext);
+  const { currentUser } = useContext(CurrentUserContext);
   const showLogin = useContext(LoginModalContext);
 
   const [commentVote, { data }] = useMutation(COMMENT_VOTE, {

@@ -14,7 +14,7 @@ const Avatar = styled("img")({
   height: DEFAULT_AVATAR_DIMENSION,
   width: DEFAULT_AVATAR_DIMENSION,
   borderRadius: "50%",
-  cursor: "pointer",
+  // cursor: "pointer",
   [TABLET]: {
     height: MOBILE_AVATAR_DIMENSION,
     width: MOBILE_AVATAR_DIMENSION,
@@ -38,7 +38,8 @@ const UserAvatar = ({ user }) => {
       <Avatar src={user.avatar} />
     </Container>
   );
-  return <ListPopover items={LINKS} anchor={anchor} position={BOTTOM} />;
+  return <Avatar src={user.avatar} />;
+  // return <ListPopover items={LINKS} anchor={anchor} position={BOTTOM} />;
 };
 
 export default UserAvatar;

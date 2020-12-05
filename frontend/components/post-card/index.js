@@ -361,11 +361,11 @@ const PostCard = ({
       </Body>
       <Footer>
         <Actions>
-          {showGiveAward && (
+          {/* {showGiveAward && (
             <StyledCoralButton onClick={handleGiveAward}>
               🏅 Give Award
             </StyledCoralButton>
-          )}
+          )} */}
           {showActions && (
             <>
               {ACTIONS.map(

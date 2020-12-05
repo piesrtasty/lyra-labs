@@ -39,7 +39,7 @@ const Text = styled("div")({
 });
 
 const Page = ({ children }) => {
-  const currentUser = useContext(CurrentUserContext);
+  const { currentUser } = useContext(CurrentUserContext);
 
   return (
     <Column>

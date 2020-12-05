@@ -1,6 +1,6 @@
 import React, { Fragment, useContext, useState } from "react";
 import styled from "@emotion/styled";
-
+import SimpleButton from "../../shared/library/components/buttons/simple";
 import { withTheme } from "emotion-theming";
 import { Container, Row, SIDEBAR_WIDTH } from "@library/components/layout";
 import { CurrentUserContext } from "@enhancers/current-user";
@@ -15,6 +15,19 @@ import { CHARCOAL, GUNSMOKE, LILAC, WHITE } from "@style/colors";
 import { BASE_TEXT, WEIGHT } from "@style/typography";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPlus, faBell, faBars } from "@fortawesome/pro-light-svg-icons";
+import { MagicAuthContext } from "../layout";
+
+const styles = {
+  fontSize: 11,
+  textTransform: "uppercase",
+  fontWeight: WEIGHT.BOLD,
+  lineHeight: "16px",
+};
+
+const StyledSimpleButton = styled(SimpleButton)({
+  ...styles,
+  marginLeft: 10,
+});
 
 export const HEADER_HEIGHT = 60;
 
@@ -109,7 +122,16 @@ const BetaTag = styled("div")({
 
 const Header = () => {
   const [formVisible, setFormVisible] = useState(false);
-  const currentuser = useContext(CurrentUserContext);
+  const { currentUser, refetch } = useContext(CurrentUserContext);
+
+  const { signOut, isLoggedIn } = useContext(MagicAuthContext);
+
+  const handleLogout = () => {
+    signOut(() => {
+      refetch();
+    });
+  };
+
   return (
     <Wrapper>
       <StyledContainer>
@@ -130,14 +152,19 @@ const Header = () => {
         {formVisible && <LinkForm setFormVisible={setFormVisible} />}
         {!formVisible && (
           <Actions>
-            {currentuser && (
+            {currentUser && isLoggedIn && (
               <CtaLink onClick={() => setFormVisible(true)}>
                 <FontAwesomeIcon icon={faPlus} />
               </CtaLink>
             )}
 
-            {currentuser && <UserAvatar user={currentuser} />}
-            {!currentuser && <AuthButtons />}
+            {currentUser && <UserAvatar user={currentUser} />}
+            {currentUser && (
+              <StyledSimpleButton onClick={handleLogout}>
+                Log out
+              </StyledSimpleButton>
+            )}
+            {!currentUser && <AuthButtons />}
           </Actions>
         )}
       </StyledContainer>

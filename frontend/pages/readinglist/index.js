@@ -17,10 +17,6 @@ const ReadingList = () => {
   );
 };
 
-const enhance = compose(
-  withPrivateRoute,
-  withCurrentUser,
-  withLoginModal,
-  withWallet
-);
+const enhance = compose(withPrivateRoute, withCurrentUser, withLoginModal);
+// const enhance = compose(withCurrentUser, withLoginModal);
 export default enhance(ReadingList);

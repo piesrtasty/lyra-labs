@@ -53,7 +53,10 @@ export const withMagicAuth = (Component) => {
             method: "POST",
           });
           console.log("RESP", resp);
-
+          console.log(">>> cb", cb);
+          if (cb) {
+            cb();
+          }
           setIsLoggedIn(true);
         })
         .once("email-not-deliverable", () => {

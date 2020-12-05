@@ -3,32 +3,23 @@ import Router from "next/router";
 
 const login = "/";
 
-const checkUserAuthentication = async (req) => {
-  const dev = process.env.NODE_ENV !== "production";
-  const server = dev ? "http://localhost:3000" : "https://lyralabs.io";
-  const headers = req && req.headers ? { cookie: req.headers.cookie } : {};
-  try {
-    const response = await fetch(`${server}/api/me`, {
-      headers,
-    });
-    const profile = await response.json();
-    if (profile.error) {
-      return false;
-    } else {
-      return true;
-    }
-  } catch (err) {
-    return false;
-  }
-};
-
 export const withPrivateRoute = (Component, options = {}) => {
   const WithPrivateRoute = (props) => {
     return <Component {...props} />;
   };
   WithPrivateRoute.getInitialProps = async (ctx) => {
     const { req, res } = ctx;
-    const isAuthorized = await checkUserAuthentication(req);
+    const cookie =
+      req && req.headers && req.headers.cookie ? req.headers.cookie : null;
+    const cookieObj = cookie ? { cookie } : {};
+    const resp = await fetch(`http://localhost:4000/check-authentication`, {
+      withCredentials: true,
+      credentials: "include",
+      headers: {
+        ...cookieObj,
+      },
+    });
+    const isAuthorized = resp.status === 200;
     if (!isAuthorized) {
       // Handle server-side and client-side rendering.
       if (res) {
@@ -41,7 +32,9 @@ export const withPrivateRoute = (Component, options = {}) => {
       }
     } else {
       let pageProps = {};
-      pageProps = await Component.getInitialProps(ctx);
+      pageProps = Component.getInitialProps
+        ? await Component.getInitialProps(ctx)
+        : {};
       return { ...pageProps };
     }
   };

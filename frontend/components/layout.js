@@ -40,12 +40,12 @@ const Layout = ({ children }) => {
     bootstrapAsync();
   }, []);
 
-  const signIn = async (cb) => {
+  const signIn = async (email, cb) => {
     const magic = new Magic(MAGIC_PUBLISHABLE_KEY);
     //   console.log("------ CALLING SIGN IN -----", email);
     magic.auth
       .loginWithMagicLink({
-        email: "lukehamiltonmail@gmail.com",
+        email,
       })
       .on("email-sent", () => {
         console.log("email-sent");
@@ -62,7 +62,9 @@ const Layout = ({ children }) => {
           method: "POST",
         });
         console.log("RESP", resp);
-
+        if (cb) {
+          cb();
+        }
         setIsLoggedIn(true);
       })
       .once("email-not-deliverable", () => {
@@ -74,15 +76,19 @@ const Layout = ({ children }) => {
       });
   };
 
-  const signOut = async () => {
+  const signOut = async (cb) => {
     console.log("------ CALLING SIGN OUT -----");
 
-    //   fetch(`${BACKEND_API_URL}/user/logout`, { method: "POST" }).then(
-    //     ({ status }) => {
-    //       setIsLoggedIn(!(status == 200));
-    //       setIsLoading(false);
-    //     }
-    //   );
+    fetch(`${BACKEND_API_URL}/logout`, {
+      method: "POST",
+      credentials: "include",
+    }).then(({ status }) => {
+      setIsLoggedIn(!(status == 200));
+      setIsLoading(false);
+      if (cb) {
+        cb();
+      }
+    });
   };
 
   const testCookieAuth = async () => {

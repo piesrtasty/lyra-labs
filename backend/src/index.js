@@ -106,7 +106,7 @@ const Comment = objectType({
     t.model.votes()
     t.boolean('upvoted', {
       resolve: async (_, _args, ctx) => {
-        const currentUser = ctx.request.user
+        const currentUser = ctx.req.user
         if (currentUser) {
           const votes = await ctx.prisma.commentVote.findMany({
             where: {
@@ -199,7 +199,7 @@ const Post = objectType({
     t.model.votes()
     t.boolean('upvoted', {
       resolve: async (_, _args, ctx) => {
-        const currentUser = ctx.request.user
+        const currentUser = ctx.req.user
         if (currentUser) {
           const votes = await ctx.prisma.vote.findMany({
             where: {
@@ -256,7 +256,7 @@ const Query = objectType({
       type: 'Post',
 
       resolve: async (_, {}, ctx) => {
-        const currentUser = ctx.request.user
+        const currentUser = ctx.req.user
         let queryParams = {}
         if (currentUser) {
           queryParams = { where: { NOT: { submitterId: currentUser.id } } }
@@ -286,7 +286,7 @@ const Query = objectType({
         { username, archived = false, skip = 0, take = 5 },
         ctx,
       ) => {
-        const currentUser = ctx.request.user
+        const currentUser = ctx.req.user
         const user = username
           ? await ctx.prisma.user.findOne({
               where: { username },
@@ -316,7 +316,7 @@ const Query = objectType({
         { username, archived = false, pinned = false },
         ctx,
       ) => {
-        const currentUser = ctx.request.user
+        const currentUser = ctx.req.user
         const user = username
           ? await ctx.prisma.user.findOne({
               where: { username },
@@ -385,7 +385,7 @@ const Query = objectType({
         username: stringArg(),
       },
       resolve: async (_, { username }, ctx) => {
-        const currentUser = ctx.request.user
+        const currentUser = ctx.req.user
         const user = username
           ? await ctx.prisma.user.findOne({
               where: { username },
@@ -403,28 +403,7 @@ const Query = objectType({
       nullable: true,
       resolve: async (_, _args, ctx) => {
         const currentUser = ctx.req.user ? ctx.req.user : null
-        console.log('------------------currentUser--------', currentUser)
-        // const user = ctx.request.user
-        const user = null
-        // console.log('ZZZZZZZZZ', Object.keys(ctx.req.user))
-        console.log('ZZZZZZZZZ', ctx.req.user)
-
-        if (user) {
-          const currentUser = await ctx.prisma.user.findOne({
-            where: { issuer: user.issuer },
-          })
-          return currentUser
-
-          // if (user.token) {
-          //   // const currentUser = await ctx.prisma.user.findOne({
-          //   //   where: { id: user.id },
-          //   // })
-          //   // return currentUser
-          // } else {
-          //   return createUser(ctx)
-          // }
-        }
-        return null
+        return currentUser
       },
     })
     t.list.field('userSearch', {
@@ -481,7 +460,7 @@ const Mutation = objectType({
         address: stringArg(),
       },
       resolve: async (_, { address }, ctx) => {
-        const currentUser = ctx.request.user
+        const currentUser = ctx.req.user
         return await ctx.prisma.user.update({
           where: { id: currentUser.id },
           data: {
@@ -590,7 +569,7 @@ const Mutation = objectType({
         givenUrl: stringArg(),
       },
       resolve: async (_, { givenUrl }, ctx) => {
-        const currentUser = ctx.request.user
+        const currentUser = ctx.req.user
         const { walletIsSetup, walletAddress } = currentUser
         const response = await saveUrl(givenUrl, currentUser)
         // Send 1 token to user that created the post
@@ -611,7 +590,7 @@ const Mutation = objectType({
         parentId: idArg(),
       },
       resolve: async (_, { body, postId, parentId }, ctx) => {
-        const currentUser = ctx.request.user
+        const currentUser = ctx.req.user
         const obj = {
           author: { connect: { id: currentUser.id } },
           text: body,
@@ -776,15 +755,15 @@ passport.use(strategy)
 
 /* Implement User Signup */
 const signup = async (user, userMetadata, done) => {
-  // console.log(">>> user", user)
-  console.log('At THE SIGNUP FUNC')
-  // let newUser = {
-  //   issuer: user.issuer,
-  //   email: userMetadata.email,
-  //   lastLoginAt: user.claim.iat,
-  // }
-  // await users.insert(newUser)
-  // return done(null, newUser)
+  await prisma.user.create({
+    data: {
+      email: userMetadata.email,
+      publicEthAddress: userMetadata.publicAddress,
+      issuer: userMetadata.issuer,
+      lastLoginAt: user.claim.iat,
+    },
+  })
+  return done(null, user)
 }
 
 /* Implement User Login */
@@ -940,10 +919,6 @@ app.post('/save', async (req, res, done) => {
 
 const apollo = new ApolloServer({
   context: req => {
-    console.log(
-      'Setting the context in the Apollo Server!!!',
-      Object.keys(req.req),
-    )
     return { ...req, prisma }
   },
   schema,
