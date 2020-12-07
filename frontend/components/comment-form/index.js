@@ -3,7 +3,7 @@ import styled from "@emotion/styled";
 import { CurrentUserContext } from "../../shared/enhancers/current-user";
 import { LoginModalContext } from "../../shared/enhancers/login-modal";
 import { useMutation } from "@apollo/client";
-import { withApollo } from "react-apollo";
+// import { withApollo } from "react-apollo";
 import UserAvatar from "../../shared/library/components/avatars/user";
 import { USER_SEARCH, POST_QUERY } from "../../data/queries";
 import { CREATE_COMMENT } from "../../data/mutations";
@@ -271,4 +271,5 @@ const CommentForm = ({
   );
 };
 
-export default withApollo(CommentForm);
+// export default withApollo(CommentForm);
+export default CommentForm;
