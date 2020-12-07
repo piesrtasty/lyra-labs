@@ -19,8 +19,6 @@ fcl
 
 import { Magic } from "magic-sdk";
 
-const MAGIC_PUBLISHABLE_KEY = "pk_test_789150F1861195B5";
-const BACKEND_API_URL = "http://localhost:4000";
 class MyApp extends App {
   render(props) {
     const { Component, pageProps } = this.props;

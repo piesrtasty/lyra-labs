@@ -12,13 +12,16 @@ export const withPrivateRoute = (Component, options = {}) => {
     const cookie =
       req && req.headers && req.headers.cookie ? req.headers.cookie : null;
     const cookieObj = cookie ? { cookie } : {};
-    const resp = await fetch(`http://localhost:4000/check-authentication`, {
-      withCredentials: true,
-      credentials: "include",
-      headers: {
-        ...cookieObj,
-      },
-    });
+    const resp = await fetch(
+      `${process.env.BACKEND_URL}/check-authentication`,
+      {
+        withCredentials: true,
+        credentials: "include",
+        headers: {
+          ...cookieObj,
+        },
+      }
+    );
     const isAuthorized = resp.status === 200;
     if (!isAuthorized) {
       // Handle server-side and client-side rendering.

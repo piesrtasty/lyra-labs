@@ -4,10 +4,8 @@ import { withMagicAuth } from "@enhancers/magic-auth";
 import { Global, css } from "@emotion/core";
 import { ThemeProvider } from "emotion-theming";
 import { Magic } from "magic-sdk";
-const BACKEND_API_URL = "http://localhost:4000";
 
 const MAGIC_PUBLISHABLE_KEY = "pk_test_789150F1861195B5";
-const MAGIC_AUTH_COOKIE_KEY = "magicAuthCookie";
 const THEME = {
   COLORS: {
     ALABASTER: "#f9fafa",
@@ -28,7 +26,7 @@ const Layout = ({ children }) => {
   useEffect(() => {
     const bootstrapAsync = async () => {
       setIsLoading(true);
-      fetch(`${BACKEND_API_URL}/check-authentication`, {
+      fetch(`${process.env.BACKEND_URL}/check-authentication`, {
         withCredentials: true,
         credentials: "include",
         // credentials: "same-origin",
@@ -41,7 +39,7 @@ const Layout = ({ children }) => {
   }, []);
 
   const signIn = async (email, cb) => {
-    const magic = new Magic(MAGIC_PUBLISHABLE_KEY);
+    const magic = new Magic(process.env.MAGIC_PUBLISHABLE_KEY);
     //   console.log("------ CALLING SIGN IN -----", email);
     magic.auth
       .loginWithMagicLink({
@@ -51,8 +49,7 @@ const Layout = ({ children }) => {
         console.log("email-sent");
       })
       .then(async (DIDToken) => {
-        // const resp = await fetch(`${BACKEND_API_URL}/user/login`, {
-        const resp = await fetch(`http://localhost:4000/login`, {
+        const resp = await fetch(`${process.env.BACKEND_URL}/login`, {
           headers: new Headers({
             Authorization: "Bearer " + DIDToken,
           }),
@@ -79,7 +76,7 @@ const Layout = ({ children }) => {
   const signOut = async (cb) => {
     console.log("------ CALLING SIGN OUT -----");
 
-    fetch(`${BACKEND_API_URL}/logout`, {
+    fetch(`${process.env.BACKEND_URL}/logout`, {
       method: "POST",
       credentials: "include",
     }).then(({ status }) => {
@@ -93,7 +90,7 @@ const Layout = ({ children }) => {
 
   const testCookieAuth = async () => {
     console.log("TEST IT");
-    const resp = await fetch(`http://localhost:4000/test-cookie-auth`, {
+    const resp = await fetch(`${process.env.BACKEND_URL}/test-cookie-auth`, {
       method: "POST",
       credentials: "include",
     });

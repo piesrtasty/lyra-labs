@@ -726,7 +726,8 @@ var corsOptions = {
 app.use(cors(corsOptions))
 
 const { Magic } = require('@magic-sdk/admin')
-const magic = new Magic('sk_test_1F83C852158CEE86')
+// const magic = new Magic('sk_test_1F83C852158CEE86')
+const magic = new Magic(process.env.MAGIC_SECRET_KEY)
 
 const passport = require('passport')
 

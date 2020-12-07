@@ -9,8 +9,6 @@ const MAGIC_PUBLISHABLE_KEY = "pk_test_789150F1861195B5";
 const TEAM_ID = "KU5GP44363";
 const KEYCHAIN_GROUP = "com.lyralabs.app";
 const ACCESS_GROUP = `${TEAM_ID}.${KEYCHAIN_GROUP}`;
-const MAGIC_AUTH_COOKIE_KEY = "magicAuthCookie";
-const BACKEND_API_URL = "http://localhost:4000";
 
 export const MagicAuthContext = React.createContext();
 
@@ -24,10 +22,12 @@ export const withMagicAuth = (Component) => {
     useEffect(() => {
       const bootstrapAsync = async () => {
         setIsLoading(true);
-        fetch(`${BACKEND_API_URL}/check-authentication`).then(({ status }) => {
-          setIsLoggedIn(status == 200);
-          setIsLoading(false);
-        });
+        fetch(`${process.env.BACKEND_URL}/check-authentication`).then(
+          ({ status }) => {
+            setIsLoggedIn(status == 200);
+            setIsLoading(false);
+          }
+        );
       };
       bootstrapAsync();
     }, []);
@@ -43,8 +43,7 @@ export const withMagicAuth = (Component) => {
           console.log("email-sent");
         })
         .then(async (DIDToken) => {
-          // const resp = await fetch(`${BACKEND_API_URL}/user/login`, {
-          const resp = await fetch(`http://localhost:4000/user/login`, {
+          const resp = await fetch(`${process.env.BACKEND_URL}/user/login`, {
             headers: new Headers({
               Authorization: "Bearer " + DIDToken,
             }),
