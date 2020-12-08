@@ -21,6 +21,19 @@
       "dest": "/backend/src/index.js"
     },
     {
+      "src": "/login",
+      "dest": "/backend/src/index.js"
+    },
+    {
+      "src": "/logout",
+      "dest": "/backend/src/index.js"
+    },
+    {
+      "src": "/check-authentication",
+      "dest": "/backend/src/index.js"
+    },
+
+    {
       "src": "/(.*)",
       "dest": "/frontend/$1",
       "headers": {
