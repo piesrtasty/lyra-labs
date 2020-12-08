@@ -17,6 +17,10 @@
       "dest": "/backend/src/index.js"
     },
     {
+      "src": "/healthz",
+      "dest": "/backend/src/index.js"
+    },
+    {
       "src": "/(.*)",
       "dest": "/frontend/$1",
       "headers": {
