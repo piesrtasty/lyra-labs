@@ -1,7 +1,0 @@
-# Prisma Migrate lockfile v1
-
-20200609231041-init
-20200810233034-add-wallet-to-user
-20201008015258-add-magic-fields-to-user
-20201008021533-add-last-logged-in-at-to-user
-20201205043958-modify-user-fields

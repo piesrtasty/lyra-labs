@@ -11,7 +11,7 @@
     "@onflow/fcl-config": "^0.0.1",
     "@onflow/sdk": "^0.0.31",
     "@onflow/types": "^0.0.4",
-    "@prisma/cli": "^2.12.1",
+    "@prisma/cli": "^2.13.0-dev.93",
     "@prisma/client": "^2.12.1",
     "apollo-server-express": "^2.19.0",
     "axios": "^0.19.2",
