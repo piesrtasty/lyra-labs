@@ -695,9 +695,6 @@ const schema = makeSchema({
   plugins: [nexusPrisma({ experimentalCRUD: true })],
 })
 
-const Datastore = require('nedb-promise')
-let users = new Datastore({ filename: 'users.db', autoload: true })
-
 const app = express()
 app.enable('trust proxy')
 app.use(logger('dev'))
