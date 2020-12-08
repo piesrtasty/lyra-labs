@@ -570,15 +570,15 @@ const Mutation = objectType({
       },
       resolve: async (_, { givenUrl }, ctx) => {
         const currentUser = ctx.req.user
-        const { walletIsSetup, walletAddress } = currentUser
+        // const { walletIsSetup, walletAddress } = currentUser
         const response = await saveUrl(givenUrl, currentUser)
         // Send 1 token to user that created the post
-        if (walletIsSetup && walletAddress && process.env.FLOW_ENABLED) {
-          FlowClient.mintAndSendTokens({
-            quantity: 1,
-            address: walletAddress,
-          })
-        }
+        // if (walletIsSetup && walletAddress && process.env.FLOW_ENABLED) {
+        //   FlowClient.mintAndSendTokens({
+        //     quantity: 1,
+        //     address: walletAddress,
+        //   })
+        // }
         return response
       },
     })
