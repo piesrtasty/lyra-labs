@@ -17,7 +17,7 @@ var styles = StyleSheet.create({
   container: {
     // backgroundColor: PRIMARY_BG_DARK,
     // backgroundColor: "#FFF",
-    // backgroundColor: PRIMARY_BG_DARK,
+    backgroundColor: PRIMARY_BG_DARK,
     flex: 1,
     alignItems: "center",
     display: "flex",
@@ -32,8 +32,8 @@ const AuthSelectScreen = () => {
 
   return (
     <SafeAreaView style={styles.container}>
-      <LogoTitle />
-      <Slider />
+      {/* <LogoTitle /> */}
+      {/* <Slider /> */}
       <SignInUpSelectForm />
     </SafeAreaView>
   );

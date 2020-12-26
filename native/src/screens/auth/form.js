@@ -4,6 +4,7 @@ import {
   Text,
   TouchableOpacity,
   // TextInput,
+  Pressable,
   StyleSheet,
   View,
 } from "react-native";
@@ -48,10 +49,18 @@ const AuthFormScreen = ({ route }) => {
   const { isSignUp } = route.params;
 
   const title = `Sign ${isSignUp ? "up" : "in"} with email.`;
-  console.log("params isSignUp", isSignUp);
+  // console.log("params isSignUp", isSignUp);
 
   const handleOnChange = (text) => {
-    console.log("handleOnChange - text", text);
+    // console.log("handleOnChange - text", text);
+  };
+
+  const buttonText = isSignUp ? "Sign up" : "Sign in";
+
+  const handlePress = () => {
+    // signIn();
+    const email = "lukehamiltonmail@gmail.com";
+    signIn({ email });
   };
 
   return (
@@ -62,6 +71,9 @@ const AuthFormScreen = ({ route }) => {
           <Text style={styles.title}>{title}</Text>
           <TextInput />
         </View>
+        <Pressable onPress={handlePress}>
+          <Text>{buttonText}</Text>
+        </Pressable>
 
         {/* <View style={styles.inputContainer}>
           <TextInput

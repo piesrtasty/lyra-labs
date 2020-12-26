@@ -753,6 +753,9 @@ passport.use(strategy)
 
 /* Implement User Signup */
 const signup = async (user, userMetadata, done) => {
+  console.log('-----------------------------')
+  console.log('----- calling signup -------')
+  console.log('-----------------------------')
   await prisma.user.create({
     data: {
       email: userMetadata.email,
@@ -766,6 +769,9 @@ const signup = async (user, userMetadata, done) => {
 
 /* Implement User Login */
 const login = async (user, done) => {
+  console.log('-----------------------------')
+  console.log('------- calling login -------------')
+  console.log('-----------------------------')
   /* Replay attack protection (https://go.magic.link/replay-attack) */
   if (user.claim.iat <= user.lastLoginAt) {
     return done(null, false, {
@@ -838,6 +844,9 @@ app.get(
 
 /* Implement Logout Endpoint */
 app.post('/logout', async (req, res) => {
+  console.log('--------------------------')
+  console.log('>>>>>> CALLING LOGOUT >>>>>>>')
+  console.log('--------------------------')
   if (req.isAuthenticated()) {
     await magic.users.logoutByIssuer(req.user.issuer)
     req.logout()

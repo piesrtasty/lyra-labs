@@ -22,8 +22,6 @@ import { Magic } from "@magic-sdk/react-native";
 
 const magic = new Magic("pk_test_789150F1861195B5");
 
-import { LinearGradient } from "@shared/enhancers/linear-gradient";
-
 const App = () => {
   const { isLoading } = useContext(MagicAuthContext);
 
@@ -38,22 +36,17 @@ const App = () => {
   };
 
   return (
-    <LinearGradient>
-      <AppearanceProvider>
-        <ThemeManager>
-          <NavigationContainer theme={theme}>
-            <magic.Relayer />
-            <Entry />
-          </NavigationContainer>
-        </ThemeManager>
-      </AppearanceProvider>
-    </LinearGradient>
+    <AppearanceProvider>
+      <ThemeManager>
+        <NavigationContainer theme={theme}>
+          <magic.Relayer />
+          <Entry />
+        </NavigationContainer>
+      </ThemeManager>
+    </AppearanceProvider>
   );
 };
 
 const enhance = compose(withCurrentUser, withMagicAuth, withApollo);
-// const enhance = compose(withAuth, withApollo);
-// const enhance = compose(withAuth);
 
 export default enhance(App);
-// export default App;

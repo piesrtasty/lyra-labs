@@ -13,6 +13,8 @@ const Entry = () => {
   const { theme } = useTheme();
   const { isLoggedIn } = useContext(MagicAuthContext);
 
+  console.log("isLoggedIn", isLoggedIn);
+
   return (
     <Stack.Navigator
       screenOptions={({ route, navigation }) => {

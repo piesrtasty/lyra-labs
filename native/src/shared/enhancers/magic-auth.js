@@ -32,15 +32,16 @@ export const withMagicAuth = (Component) => {
     }, []);
 
     const signIn = async ({ email }) => {
+      console.log("CALLING SIGN IN <<<<");
       magic.auth
         .loginWithMagicLink({
-          email: "lukehamiltonmail@gmail.com",
+          email,
         })
         .on("email-sent", () => {
           console.log("email-sent");
         })
         .then(async (DIDToken) => {
-          const resp = await fetch(`${BACKEND_API_URL}/user/login`, {
+          const resp = await fetch(`${BACKEND_API_URL}/login`, {
             headers: new Headers({
               Authorization: "Bearer " + DIDToken,
             }),
@@ -48,6 +49,7 @@ export const withMagicAuth = (Component) => {
             credentials: "same-origin",
             method: "POST",
           });
+          console.log("resp from /login");
 
           const headers = resp.headers.map;
           const cookieHeader = headers["set-cookie"];
@@ -76,12 +78,13 @@ export const withMagicAuth = (Component) => {
 
     const signOut = async () => {
       console.log("calling signout");
-      // fetch(`${BACKEND_API_URL}/user/logout`, { method: "POST" }).then(
-      //   ({ status }) => {
-      //     setIsLoggedIn(!(status == 200));
-      //     setIsLoading(false);
-      //   }
-      // );
+      fetch(`${BACKEND_API_URL}/logout`, { method: "POST" }).then(
+        ({ status }) => {
+          console.log("status from signOut ----", status);
+          setIsLoggedIn(!(status == 200));
+          setIsLoading(false);
+        }
+      );
     };
 
     return (

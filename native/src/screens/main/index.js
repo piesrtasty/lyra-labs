@@ -1,6 +1,7 @@
 import React, { useContext } from "react";
 import { MagicAuthContext } from "@shared/enhancers/magic-auth";
 import { SlideMenuContext } from "@components/slide-menu";
+import { CurrentUserContext } from "@shared/enhancers/current-user";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { useRoute } from "@react-navigation/native";
 import { getTabBarStyles } from "@shared/utils";
@@ -137,10 +138,13 @@ const MainScreen = () => {
 
   const { signOut } = useContext(MagicAuthContext);
 
+  const data = useContext(CurrentUserContext);
+
   return (
     <View>
       <Text>Main Screen</Text>
       <TouchableOpacity onPress={signOut}>
+        <Text style={{ color: "#000" }}>{JSON.stringify(data)}</Text>
         <Text>Sign Out</Text>
       </TouchableOpacity>
     </View>
