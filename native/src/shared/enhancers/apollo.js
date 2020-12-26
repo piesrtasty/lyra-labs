@@ -1,11 +1,14 @@
 import React, { useEffect, useState } from "react";
 import { View, Text } from "react-native";
 import AsyncStorage from "@react-native-community/async-storage";
-import { ApolloClient } from "apollo-client";
-import { ApolloProvider } from "@apollo/react-hooks";
-import { HttpLink } from "apollo-link-http";
-import { InMemoryCache } from "apollo-cache-inmemory";
-import { setContext } from "apollo-link-context";
+import {
+  ApolloProvider,
+  ApolloClient,
+  InMemoryCache,
+  HttpLink,
+} from "@apollo/client";
+
+// import { setContext } from "@apollo/client/link/context";
 import SplashScreen from "@screens/splash";
 
 export const AuthContext = React.createContext({});

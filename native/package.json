@@ -10,7 +10,7 @@
     "lint": "eslint ."
   },
   "dependencies": {
-    "@apollo/react-hooks": "^3.1.5",
+    "@apollo/client": "^3.3.6",
     "@fortawesome/fontawesome-svg-core": "^1.2.30",
     "@fortawesome/free-solid-svg-icons": "^5.14.0",
     "@fortawesome/pro-light-svg-icons": "^5.14.0",
@@ -25,11 +25,6 @@
     "@react-navigation/bottom-tabs": "^5.8.0",
     "@react-navigation/native": "^5.3.0",
     "@react-navigation/stack": "^5.3.6",
-    "apollo-cache-inmemory": "^1.6.5",
-    "apollo-client": "^2.6.8",
-    "apollo-link-context": "^1.0.20",
-    "apollo-link-error": "^1.1.13",
-    "apollo-link-http": "^1.5.17",
     "babel-plugin-module-resolver": "^4.0.0",
     "graphql": "^15.0.0",
     "graphql-tag": "^2.10.3",

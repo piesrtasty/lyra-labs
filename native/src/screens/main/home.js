@@ -1,10 +1,8 @@
 import React, { useState, useEffect } from "react";
 import Layout from "@components/layout";
-import gql from "graphql-tag";
 import LoadingIndicator from "@components/loading-indicator";
-import { useQuery } from "@apollo/react-hooks";
+import { useQuery, gql } from "@apollo/client";
 import { View, Text, StyleSheet, Button } from "react-native";
-import { withApollo } from "react-apollo";
 import LinearGradient from "react-native-linear-gradient";
 import { useRoute } from "@react-navigation/native";
 import { getRouteName } from "@shared/utils";

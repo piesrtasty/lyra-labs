@@ -1,4 +1,4 @@
-import { useQuery } from "@apollo/react-hooks";
+import { useQuery } from "@apollo/client";
 import React from "react";
 import { View, Text } from "react-native";
 import { withApollo } from "./apollo";

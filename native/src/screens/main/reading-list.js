@@ -1,5 +1,5 @@
 import React, { useState, useContext } from "react";
-import { useQuery } from "@apollo/react-hooks";
+import { useQuery } from "@apollo/client";
 import Layout from "@components/layout";
 import {
   View,
