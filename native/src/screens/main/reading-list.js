@@ -51,10 +51,10 @@ const ReadingList = () => {
     },
     tabBar: {
       flexDirection: "row",
-      backgroundColor: theme.topTabBackgroundColor,
+      // backgroundColor: theme.topTabBackgroundColor,
       borderStyle: "solid",
       borderBottomWidth: 1,
-      borderBottomColor: theme.gridLine,
+      // borderBottomColor: theme.gridLine,
     },
     tabItem: {
       alignItems: "center",
@@ -64,7 +64,7 @@ const ReadingList = () => {
       marginRight: TAB_ITEM_MARGIN,
     },
     label: {
-      color: theme.topTabTextColor,
+      // color: theme.topTabTextColor,
     },
   });
 
@@ -76,7 +76,7 @@ const ReadingList = () => {
   const selectedStyles = {
     borderBottomStyle: "solid",
     borderBottomWidth: 2,
-    borderBottomColor: theme.topTabBorderActive,
+    // borderBottomColor: theme.topTabBorderActive,
   };
 
   const { topTabTextColor, topTabTextColorActive } = theme;

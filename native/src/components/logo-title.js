@@ -56,9 +56,8 @@ export const LogoTitle = () => {
         <Text style={{ ...styles.logoText, ...styles.logoOffsetB }}>
           {TITLE}
         </Text> */}
-        <Text style={{ ...styles.logoText, color: theme.headerTextColor }}>
-          {TITLE}
-        </Text>
+        {/* <Text style={{ ...styles.logoText, color: theme.headerTextColor }}> */}
+        <Text style={{ ...styles.logoText }}>{TITLE}</Text>
       </View>
     </View>
   );
@@ -67,8 +66,7 @@ export const LogoTitle = () => {
 export const LabelTitle = ({ label }) => {
   const { theme } = useTheme();
   return (
-    <Text style={{ ...styles.labelText, color: theme.headerTextColor }}>
-      {label}
-    </Text>
+    // <Text style={{ ...styles.labelText, color: theme.headerTextColor }}>
+    <Text style={{ ...styles.labelText }}>{label}</Text>
   );
 };

@@ -1,32 +1,23 @@
 import React, { useState } from "react";
 import { Appearance } from "react-native-appearance";
-import { getTheme } from "../theme";
+import { ThemeProvider } from "@emotion/react";
 
-const osTheme = Appearance.getColorScheme();
-
-const LIGHT = "light";
-export const DARK = "dark";
-
-export const ManageThemeContext = React.createContext({});
-
-export const ThemeManager = ({ children }) => {
-  const [mode, setMode] = useState(osTheme);
-
-  const toggleTheme = () => {
-    mode === LIGHT ? setMode(DARK) : setMode(LIGHT);
-  };
-
-  return (
-    <ManageThemeContext.Provider
-      value={{
-        mode,
-        theme: getTheme(mode),
-        toggleTheme,
-      }}
-    >
-      {children}
-    </ManageThemeContext.Provider>
-  );
+const themeDark = {
+  background: "#121217",
+  color: "#FFFFFF",
 };
 
-export const useTheme = () => React.useContext(ManageThemeContext);
+const themeLight = {
+  background: "#fffdd0",
+  color: "#000000",
+};
+
+export const ThemeManager = ({ children }) => {
+  const osTheme = Appearance.getColorScheme();
+  const [isDark, setIsDark] = useState(true);
+  return (
+    <ThemeProvider theme={isDark ? themeDark : themeLight}>
+      {children}
+    </ThemeProvider>
+  );
+};

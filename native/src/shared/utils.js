@@ -33,19 +33,23 @@ export const getHeaderStyles = (route, theme) => {
   return GRADIENT_ROUTES.includes(routeName)
     ? { backgroundColor: "transparent" }
     : {
-        backgroundColor: theme.headerBackground,
+        // backgroundColor: theme.headerBackground,
         borderStyle: "solid",
         borderBottomWidth: 1,
-        borderBottomColor: theme.gridLine,
-        shadowColor: theme.gridLine,
+        // borderBottomColor: theme.gridLine,
+        // shadowColor: theme.gridLine,
       };
 };
 
 export const getTabBarStyles = (route, theme) => {
   const routeName = getRouteName(route);
+  // const routeSpecificStyles = GRADIENT_ROUTES.includes(routeName)
+  //   ? { backgroundColor: "transparent", borderTopWidth: 0 }
+  //   : { backgroundColor: theme.tabNavigatorBackground };
+
   const routeSpecificStyles = GRADIENT_ROUTES.includes(routeName)
     ? { backgroundColor: "transparent", borderTopWidth: 0 }
-    : { backgroundColor: theme.tabNavigatorBackground };
+    : { backgroundColor: "#00000" };
   // const padding = 50;
   const padding = 0;
   return {
@@ -59,8 +63,11 @@ export const getLayoutStyles = (transparentBg, theme) => {
   // const routeName = getRouteName(route);
   // const r = getFocusedRouteNameFromRoute(route);
   // console.log("r", r);
+  // const routeSpecificStyles = {
+  //   backgroundColor: transparentBg ? "transparent" : theme.primaryBackground,
+  // };
   const routeSpecificStyles = {
-    backgroundColor: transparentBg ? "transparent" : theme.primaryBackground,
+    backgroundColor: transparentBg ? "transparent" : "#000000",
   };
   return { flex: 1, ...routeSpecificStyles };
 };

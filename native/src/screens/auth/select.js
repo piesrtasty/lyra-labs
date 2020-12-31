@@ -1,4 +1,5 @@
 import React, { useContext } from "react";
+import styled from "@emotion/native";
 import {
   SafeAreaView,
   View,
@@ -9,21 +10,17 @@ import {
 import { MagicAuthContext } from "@shared/enhancers/magic-auth";
 import LogoTitle from "@components/auth/logo-title";
 import Slider from "@components/auth/slider";
+import AuthLayout from "@components/auth/layout";
 import SignInUpSelectForm from "@components/auth/sign-in-up-select-form";
 import { PRIMARY_BG_DARK } from "@shared/theme";
 import { DM_SANS_REGULAR, DM_SANS_MEDIUM, DM_SANS_BOLD } from "@shared/fonts";
+import { SafeAreaContainer, SpaceContainer } from "@components/shared";
 
-var styles = StyleSheet.create({
-  container: {
-    // backgroundColor: PRIMARY_BG_DARK,
-    // backgroundColor: "#FFF",
-    backgroundColor: PRIMARY_BG_DARK,
-    flex: 1,
-    alignItems: "center",
-    display: "flex",
-    justifyContent: "space-between",
-  },
-});
+const Copy = styled.Text`
+  color: #fff;
+  height: 100px;
+  background-color: blue;
+`;
 
 const AuthSelectScreen = () => {
   const { signIn, signOut, isLoggedIn, isLoading } = useContext(
@@ -31,11 +28,16 @@ const AuthSelectScreen = () => {
   );
 
   return (
-    <SafeAreaView style={styles.container}>
+    <SafeAreaContainer>
+      <AuthLayout>
+        <SpaceContainer>
+          {/* <Copy>ABC</Copy> */}
+          <Slider />
+          <SignInUpSelectForm />
+        </SpaceContainer>
+      </AuthLayout>
       {/* <LogoTitle /> */}
-      {/* <Slider /> */}
-      <SignInUpSelectForm />
-    </SafeAreaView>
+    </SafeAreaContainer>
   );
 };
 

@@ -11,6 +11,9 @@
   },
   "dependencies": {
     "@apollo/client": "^3.3.6",
+    "@emotion/native": "^11.0.0",
+    "@emotion/react": "^11.1.4",
+    "@emotion/styled": "^11.0.0",
     "@fortawesome/fontawesome-svg-core": "^1.2.30",
     "@fortawesome/free-solid-svg-icons": "^5.14.0",
     "@fortawesome/pro-light-svg-icons": "^5.14.0",
