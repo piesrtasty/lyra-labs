@@ -12,12 +12,16 @@ const themeLight = {
   color: "#000000",
 };
 
+export const ThemeManagerContext = React.createContext({});
+
 export const ThemeManager = ({ children }) => {
   const osTheme = Appearance.getColorScheme();
   const [isDark, setIsDark] = useState(true);
   return (
     <ThemeProvider theme={isDark ? themeDark : themeLight}>
-      {children}
+      <ThemeManagerContext.Provider value={{ isDark, setIsDark }}>
+        {children}
+      </ThemeManagerContext.Provider>
     </ThemeProvider>
   );
 };

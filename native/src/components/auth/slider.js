@@ -1,8 +1,9 @@
-import React, { useState, useRef } from "react";
+import React, { useState, useRef, useContext } from "react";
 import styled from "@emotion/native";
-import { View, Dimensions, Text, StyleSheet } from "react-native";
+import { View, Dimensions, Text, StyleSheet, Pressable } from "react-native";
 import Carousel, { Pagination } from "react-native-snap-carousel";
 import LottieView from "lottie-react-native";
+import { ThemeManagerContext } from "@shared/enhancers/theme-manager";
 
 const ITEMS = [
   {
@@ -10,18 +11,24 @@ const ITEMS = [
     description:
       "Save articles, videos and stories from any publication, page or app.",
     subTitle: null,
+    animationLight: require("@assets/animations/jar-of-stars-black.json"),
+    animationDark: require("@assets/animations/jar-of-stars-white.json"),
   },
   {
     title: "Discover what you love.",
     description:
       "Find more of what you already like or discover your next favorite.",
     subTitle: null,
+    animationLight: require("@assets/animations/heart-globe-black.json"),
+    animationDark: require("@assets/animations/heart-globe-white.json"),
   },
   {
     title: "Earn LYRA and NFT awards.",
     description:
       "Earn tokens and awards for curating content and participating in the community.",
     subTitle: "(coming soon)",
+    animationLight: require("@assets/animations/wallet-black.json"),
+    animationDark: require("@assets/animations/wallet-white.json"),
   },
 ];
 
@@ -66,6 +73,8 @@ const LottieContainer = styled.View`
 `;
 
 const Slider = () => {
+  const { isDark, setIsDark } = useContext(ThemeManagerContext);
+
   const renderItem = ({ item }) => (
     <Item
       title={item.title}
@@ -78,6 +87,14 @@ const Slider = () => {
 
   return (
     <Container>
+      <Pressable
+        onPress={() => {
+          console.log("clicked it isDark", isDark);
+          setIsDark(!isDark);
+        }}
+      >
+        <Text style={{ color: "#FFF" }}>CLICK ME</Text>
+      </Pressable>
       <Carousel
         ref={carouselRef}
         renderItem={renderItem}
