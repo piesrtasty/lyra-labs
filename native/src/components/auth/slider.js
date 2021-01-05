@@ -4,6 +4,7 @@ import { View, Dimensions, Text, StyleSheet, Pressable } from "react-native";
 import Carousel, { Pagination } from "react-native-snap-carousel";
 import LottieView from "lottie-react-native";
 import { ThemeManagerContext } from "@shared/enhancers/theme-manager";
+import { Heading, Paragraph, CenterContainer } from "@components/shared";
 
 const ITEMS = [
   {
@@ -42,44 +43,53 @@ const wp = (percentage) => {
 const slideWidth = wp(80);
 const itemWidth = slideWidth;
 
-const ILLUSTRATION_HEIGHT = 150;
+const ItemHeading = styled(Heading)`
+  margin-top: 35px;
+  text-align: center;
+`;
 
-const Item = ({ title, subTitle, description }) => (
+const ItemParagraph = styled(Paragraph)`
+  margin-top: 12px;
+  text-align: center;
+`;
+
+const Item = ({ title, subTitle, description, animation }) => (
   <ItemContainer>
     <LottieContainer>
-      <LottieView
-        source={require("@assets/animations/jar-of-stars-white.json")}
-        autoPlay
-        loop
-      />
+      <LottieView source={animation} autoPlay loop />
     </LottieContainer>
-    <Text style={{ color: "#FFF" }}>{title}</Text>
+    <CenterContainer>
+      <ItemHeading>{title}</ItemHeading>
+      <ItemParagraph>{description}</ItemParagraph>
+    </CenterContainer>
   </ItemContainer>
 );
 
 const Container = styled.View`
   margin-top: 100px;
-  border: 1px solid red;
+  ${"" /* border: 1px solid red; */}
 `;
 
 const ItemContainer = styled.View`
-  height: 250px;
-  border: 1px solid blue;
+  height: 300px;
+  ${"" /* border: 1px solid blue; */}
+  display: flex;
 `;
 
 const LottieContainer = styled.View`
-  height: 200px;
-  border: 1px solid green;
+  height: 175px;
+  ${"" /* border: 1px solid green; */}
 `;
 
 const Slider = () => {
   const { isDark, setIsDark } = useContext(ThemeManagerContext);
-
+  const animationKey = `animation${isDark ? "Dark" : "Light"}`;
   const renderItem = ({ item }) => (
     <Item
       title={item.title}
       description={item.description}
       subTitle={item.subTitle}
+      animation={item[animationKey]}
     />
   );
   const carouselRef = useRef();
@@ -87,14 +97,6 @@ const Slider = () => {
 
   return (
     <Container>
-      <Pressable
-        onPress={() => {
-          console.log("clicked it isDark", isDark);
-          setIsDark(!isDark);
-        }}
-      >
-        <Text style={{ color: "#FFF" }}>CLICK ME</Text>
-      </Pressable>
       <Carousel
         ref={carouselRef}
         renderItem={renderItem}

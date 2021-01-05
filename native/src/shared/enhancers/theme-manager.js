@@ -3,13 +3,19 @@ import { Appearance } from "react-native-appearance";
 import { ThemeProvider } from "@emotion/react";
 
 const themeDark = {
-  background: "#121217",
-  color: "#FFFFFF",
+  colors: {
+    background: "#121217",
+    primary: "rgba(255, 255, 255, 1)",
+    secondary: "rgba(255, 255, 255, .8)",
+  },
 };
 
 const themeLight = {
-  background: "#fffdd0",
-  color: "#000000",
+  colors: {
+    background: "#FFFFFF",
+    primary: "rgba(0, 0, 0, 1)",
+    secondary: "rgba(0, 0, 0, .8)",
+  },
 };
 
 export const ThemeManagerContext = React.createContext({});

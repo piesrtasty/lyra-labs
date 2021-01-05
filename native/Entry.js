@@ -11,18 +11,12 @@ import { useTheme } from "@emotion/react";
 
 const Entry = () => {
   const Stack = createStackNavigator();
-
-  // const { theme } = useTheme();
   const { isLoggedIn } = useContext(MagicAuthContext);
-
-  console.log("isLoggedIn", isLoggedIn);
-  const myTheme = useTheme();
-
-  console.log("--- myThemeEntry --- ", myTheme);
+  const theme = useTheme();
 
   const navTheme = {
     colors: {
-      background: myTheme.background,
+      background: theme.colors.background,
     },
   };
 

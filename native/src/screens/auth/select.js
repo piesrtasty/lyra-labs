@@ -8,19 +8,13 @@ import {
   StyleSheet,
 } from "react-native";
 import { MagicAuthContext } from "@shared/enhancers/magic-auth";
-import LogoTitle from "@components/auth/logo-title";
 import Slider from "@components/auth/slider";
 import AuthLayout from "@components/auth/layout";
-import SignInUpSelectForm from "@components/auth/sign-in-up-select-form";
+// import SignInUpSelectForm from "@components/auth/sign-in-up-select-form";
+import Actions from "@components/auth/actions";
 import { PRIMARY_BG_DARK } from "@shared/theme";
 import { DM_SANS_REGULAR, DM_SANS_MEDIUM, DM_SANS_BOLD } from "@shared/fonts";
 import { SafeAreaContainer, SpaceContainer } from "@components/shared";
-
-const Copy = styled.Text`
-  color: #fff;
-  height: 100px;
-  background-color: blue;
-`;
 
 const AuthSelectScreen = () => {
   const { signIn, signOut, isLoggedIn, isLoading } = useContext(
@@ -31,12 +25,10 @@ const AuthSelectScreen = () => {
     <SafeAreaContainer>
       <AuthLayout>
         <SpaceContainer>
-          {/* <Copy>ABC</Copy> */}
           <Slider />
-          <SignInUpSelectForm />
+          <Actions />
         </SpaceContainer>
       </AuthLayout>
-      {/* <LogoTitle /> */}
     </SafeAreaContainer>
   );
 };

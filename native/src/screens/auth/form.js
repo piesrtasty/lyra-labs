@@ -10,7 +10,6 @@ import {
 } from "react-native";
 import { MagicAuthContext } from "@shared/enhancers/magic-auth";
 import { LinearGradient } from "@shared/enhancers/linear-gradient";
-import LogoTitle from "@components/auth/logo-title";
 import TextInput from "@components/shared/text-input";
 import { wp } from "@shared/utils";
 
@@ -26,7 +25,7 @@ var styles = StyleSheet.create({
     marginTop: 40,
     color: "#FFF",
     fontSize: 34,
-    fontFamily: "RobotoSlab-Medium",
+    // fontFamily: "RobotoSlab-Medium",
     marginBottom: 20,
     textAlign: "center",
   },

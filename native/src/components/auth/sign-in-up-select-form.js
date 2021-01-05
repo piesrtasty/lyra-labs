@@ -12,7 +12,7 @@ const styles = StyleSheet.create({
   title: {
     color: "#FFF",
     fontSize: 24,
-    fontFamily: "RobotoSlab-Medium",
+    // fontFamily: "RobotoSlab-Medium",
     marginBottom: 20,
     textAlign: "center",
   },
@@ -33,7 +33,7 @@ const styles = StyleSheet.create({
   buttonText: {
     color: "#FFF",
     fontSize: 16,
-    fontFamily: "OpenSauceSans-Medium",
+    // fontFamily: "OpenSauceSans-Medium",
     // marginLeft: 12,
     flex: 1,
     // back
@@ -47,12 +47,12 @@ const styles = StyleSheet.create({
   },
   description: {
     color: "#FFF",
-    fontFamily: "OpenSauceSans-Regular",
+    // fontFamily: "OpenSauceSans-Regular",
     color: "rgba(245, 246, 247, .9)",
   },
   ctaText: {
     marginLeft: 5,
-    fontFamily: "OpenSauceSans-Medium",
+    // fontFamily: "OpenSauceSans-Medium",
     color: "#FFF",
   },
 });

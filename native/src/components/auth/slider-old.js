@@ -41,14 +41,14 @@ const itemStyles = StyleSheet.create({
     fontSize: 16,
     textAlign: "center",
     color: "rgba(245, 246, 247, .9)",
-    fontFamily: "OpenSauceSans-Bold",
+    // fontFamily: "OpenSauceSans-Bold",
   },
   description: {
     marginTop: 15,
     textAlign: "center",
     fontSize: 13,
     color: "rgba(245, 246, 247, .7)",
-    fontFamily: "OpenSauceSans-Medium",
+    // fontFamily: "OpenSauceSans-Medium",
   },
   subTitle: {
     color: "rgba(245, 246, 247, .9)",
