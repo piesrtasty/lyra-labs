@@ -1,15 +1,20 @@
 import React from "react";
 import LinearGradient from "react-native-linear-gradient";
-import { Pressable, TouchableOpacity } from "react-native";
+import { Pressable } from "react-native";
 
 export const GradientButton = ({
   children,
   height = 43,
   width = 300,
-  handlePress,
-  handlePressIn,
+  handlePress = null,
+  handlePressIn = null,
+  handlePressOut = null,
 }) => (
-  <Pressable onPress={() => console.log("pressed...")}>
+  <Pressable
+    onPressIn={handlePressIn}
+    onPressOut={handlePressOut}
+    onPress={handlePress}
+  >
     <LinearGradient
       start={{ x: 0, y: 0 }}
       end={{ x: 1, y: 0 }}
