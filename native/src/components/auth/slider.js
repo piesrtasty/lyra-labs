@@ -95,6 +95,8 @@ const Slider = () => {
   const carouselRef = useRef();
   const [activeSlide, setActiveSlide] = useState(0);
 
+  const DOT_SIZE = 10;
+
   return (
     <Container>
       <Carousel
@@ -111,8 +113,13 @@ const Slider = () => {
         dotsLength={ITEMS.length}
         activeDotIndex={activeSlide}
         carouselRef={carouselRef}
-        dotColor={"rgba(255, 255, 255, 0.92)"}
-        inactiveDotColor={"#1a1917"}
+        dotColor={"rgba(255, 255, 255, 1)"}
+        inactiveDotColor={"rgba(255, 255, 255, .4)"}
+        dotStyle={{
+          width: DOT_SIZE,
+          height: DOT_SIZE,
+          borderRadius: DOT_SIZE,
+        }}
         inactiveDotOpacity={0.4}
         inactiveDotScale={0.6}
         tappableDots={!!carouselRef}

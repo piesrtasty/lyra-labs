@@ -12,7 +12,6 @@ const AuthLayout = ({ children }) => {
   const WordMarkLogo = isDark ? WordMarkLogoDark : WordMarkLogoLight;
 
   const StyledWordMarkLogo = styled(WordMarkLogo)`
-    ${"" /* border: 1px solid red; */}
     margin-top: 62px;
   `;
 

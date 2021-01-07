@@ -8,6 +8,9 @@ import {
   StyleSheet,
   View,
 } from "react-native";
+import AuthLayout from "@components/auth/layout";
+import Actions from "@components/auth/actions";
+import { SafeAreaContainer, SpaceContainer } from "@components/shared";
 import { MagicAuthContext } from "@shared/enhancers/magic-auth";
 import { LinearGradient } from "@shared/enhancers/linear-gradient";
 import TextInput from "@components/shared/text-input";
@@ -63,9 +66,18 @@ const AuthFormScreen = ({ route }) => {
   };
 
   return (
-    <LinearGradient>
+    <SafeAreaContainer>
+      <AuthLayout>
+        <Text style={{ color: "#FFFFFF" }}>{buttonText}</Text>
+      </AuthLayout>
+    </SafeAreaContainer>
+  );
+};
+
+export default AuthFormScreen;
+
+/* <LinearGradient>
       <SafeAreaView style={styles.container}>
-        <LogoTitle />
         <View style={styles.column}>
           <Text style={styles.title}>{title}</Text>
           <TextInput />
@@ -80,10 +92,6 @@ const AuthFormScreen = ({ route }) => {
             onChangeText={(text) => handleOnChange(text)}
             value={"COOL"}
           />
-        </View> */}
-      </SafeAreaView>
-    </LinearGradient>
-  );
-};
-
-export default AuthFormScreen;
+        </View> */
+// </SafeAreaView>
+// </LinearGradient> */}

@@ -20,6 +20,11 @@ export const Label = styled.Text`
   color: ${(props) => props.theme.colors.primary};
 `;
 
+export const AccentLabel = styled(Label)`
+  font-family: Montserrat-SemiBold;
+  color: ${(props) => props.theme.colors.accent};
+`;
+
 export const ButtonLabel = styled(Label)`
   letter-spacing: 1.4px;
 `;

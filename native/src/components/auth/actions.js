@@ -5,6 +5,7 @@ import { faEnvelope } from "@fortawesome/pro-light-svg-icons";
 import {
   GradientButton,
   Label,
+  AccentLabel,
   ButtonLabel,
   CenterContainer,
 } from "@components/shared";
@@ -12,9 +13,10 @@ import {
 import { useNavigation } from "@react-navigation/native";
 import { ROUTE_AUTH_FORM } from "@shared/routes";
 
-const Container = styled.View`
-  background: red;
+const Container = styled.Pressable`
   margin-top: 28px;
+  display: flex;
+  flex-direction: row;
 `;
 
 const ButtonContainer = styled.View`
@@ -30,12 +32,22 @@ const Actions = () => {
   const description = isSignUp
     ? "Already have an account?"
     : "Don't have an account?";
-  const ctaText = isSignUp ? "Sign in." : "Sign up.";
+  const ctaText = isSignUp ? " Sign in." : " Sign up.";
   const iconOpacity = isPressed ? 0.4 : 0.9;
+
+  const navigation = useNavigation();
+
+  const handlePress = () => {
+    navigation.navigate({
+      name: ROUTE_AUTH_FORM,
+      params: { isSignUp },
+    });
+  };
+
   return (
     <CenterContainer>
       <GradientButton
-        handlePress={() => console.log("handlePress")}
+        handlePress={handlePress}
         handlePressIn={() => setIsPressed(true)}
         handlePressOut={() => setIsPressed(false)}
       >
@@ -49,8 +61,9 @@ const Actions = () => {
           <ButtonLabel>{buttonText}</ButtonLabel>
         </ButtonContainer>
       </GradientButton>
-      <Container>
-        <Label>Sign in with Facebook XXX</Label>
+      <Container onPress={() => setIsSignUp(!isSignUp)}>
+        <Label>{description}</Label>
+        <AccentLabel>{ctaText}</AccentLabel>
       </Container>
     </CenterContainer>
   );
