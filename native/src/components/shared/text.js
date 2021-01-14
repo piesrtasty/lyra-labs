@@ -1,10 +1,17 @@
 import styled from "@emotion/native";
 
-export const Heading = styled.Text`
+const Heading = styled.Text`
   font-family: Montserrat-SemiBold;
-  font-size: 20px;
   letter-spacing: -0.15px;
   color: ${(props) => props.theme.colors.primary};
+`;
+
+export const MediumHeading = styled(Heading)`
+  font-size: 20px;
+`;
+
+export const LargeHeading = styled(Heading)`
+  font-size: 24px;
 `;
 
 export const Paragraph = styled.Text`
@@ -18,6 +25,10 @@ export const Label = styled.Text`
   font-family: Montserrat-Medium;
   font-size: 13px;
   color: ${(props) => props.theme.colors.primary};
+`;
+
+export const LargeLabel = styled(Label)`
+  font-size: 15px;
 `;
 
 export const AccentLabel = styled(Label)`

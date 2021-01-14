@@ -5,6 +5,7 @@ export const SafeAreaContainer = styled.SafeAreaView`
   flex: 1;
   justify-content: center;
   align-items: center;
+  ${"" /* background-color: red; */}
 `;
 
 export const CenterContainer = styled.View`

@@ -10,7 +10,12 @@ const AuthStack = createStackNavigator();
 const AuthScreen = () => (
   <AuthStack.Navigator
     screenOptions={{
-      headerShown: false,
+      headerBackTitleVisible: false,
+      headerTitle: null,
+      headerTintColor: "rgba(255, 255, 255, .4)",
+      headerLeftContainerStyle: {
+        paddingLeft: 15,
+      },
     }}
   >
     <AuthStack.Screen name={ROUTE_AUTH_SELECT} component={AuthSelectScreen} />

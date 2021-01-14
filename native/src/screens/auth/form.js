@@ -1,4 +1,5 @@
 import React, { useContext } from "react";
+import styled from "@emotion/native";
 import {
   SafeAreaView,
   Text,
@@ -9,39 +10,17 @@ import {
   View,
 } from "react-native";
 import AuthLayout from "@components/auth/layout";
-import Actions from "@components/auth/actions";
+import { LargeHeading } from "@components/shared";
 import { SafeAreaContainer, SpaceContainer } from "@components/shared";
 import { MagicAuthContext } from "@shared/enhancers/magic-auth";
-import { LinearGradient } from "@shared/enhancers/linear-gradient";
+import Form from "@components/auth/form";
 import TextInput from "@components/shared/text-input";
 import { wp } from "@shared/utils";
 
-var styles = StyleSheet.create({
-  container: {
-    // backgroundColor: "green",
-    flex: 1,
-    alignItems: "center",
-    display: "flex",
-    // justifyContent: "space-between",
-  },
-  title: {
-    marginTop: 40,
-    color: "#FFF",
-    fontSize: 34,
-    // fontFamily: "RobotoSlab-Medium",
-    marginBottom: 20,
-    textAlign: "center",
-  },
-  column: {
-    width: wp(70),
-  },
-  inputContainer: {
-    width: "100%",
-  },
-  input: {
-    // width: ,
-  },
-});
+const Heading = styled(LargeHeading)`
+  margin-top: 90px;
+  text-align: center;
+`;
 
 const AuthFormScreen = ({ route }) => {
   const { signIn, signOut, isLoggedIn, isLoading } = useContext(
@@ -50,13 +29,11 @@ const AuthFormScreen = ({ route }) => {
 
   const { isSignUp } = route.params;
 
-  const title = `Sign ${isSignUp ? "up" : "in"} with email.`;
-  // console.log("params isSignUp", isSignUp);
-
   const handleOnChange = (text) => {
     // console.log("handleOnChange - text", text);
   };
 
+  const title = `Sign ${isSignUp ? "Up" : "In"} with Email.`;
   const buttonText = isSignUp ? "Sign up" : "Sign in";
 
   const handlePress = () => {
@@ -68,30 +45,11 @@ const AuthFormScreen = ({ route }) => {
   return (
     <SafeAreaContainer>
       <AuthLayout>
-        <Text style={{ color: "#FFFFFF" }}>{buttonText}</Text>
+        <Heading>{title}</Heading>
+        <Form isSignUp={isSignUp} />
       </AuthLayout>
     </SafeAreaContainer>
   );
 };
 
 export default AuthFormScreen;
-
-/* <LinearGradient>
-      <SafeAreaView style={styles.container}>
-        <View style={styles.column}>
-          <Text style={styles.title}>{title}</Text>
-          <TextInput />
-        </View>
-        <Pressable onPress={handlePress}>
-          <Text>{buttonText}</Text>
-        </Pressable>
-
-        {/* <View style={styles.inputContainer}>
-          <TextInput
-            style={{ height: 40, borderColor: "gray", borderWidth: 1 }}
-            onChangeText={(text) => handleOnChange(text)}
-            value={"COOL"}
-          />
-        </View> */
-// </SafeAreaView>
-// </LinearGradient> */}

@@ -4,7 +4,7 @@ import { View, Dimensions, Text, StyleSheet, Pressable } from "react-native";
 import Carousel, { Pagination } from "react-native-snap-carousel";
 import LottieView from "lottie-react-native";
 import { ThemeManagerContext } from "@shared/enhancers/theme-manager";
-import { Heading, Paragraph, CenterContainer } from "@components/shared";
+import { MediumHeading, Paragraph, CenterContainer } from "@components/shared";
 
 const ITEMS = [
   {
@@ -43,7 +43,7 @@ const wp = (percentage) => {
 const slideWidth = wp(80);
 const itemWidth = slideWidth;
 
-const ItemHeading = styled(Heading)`
+const ItemHeading = styled(MediumHeading)`
   margin-top: 35px;
   text-align: center;
 `;
