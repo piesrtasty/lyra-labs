@@ -31,8 +31,8 @@ export const withMagicAuth = (Component) => {
       bootstrapAsync();
     }, []);
 
-    const signIn = async ({ email }) => {
-      console.log("CALLING SIGN IN <<<<");
+    const signIn = async ({ email, name, cb }) => {
+      console.log("Calling sign In for - ", email);
       magic.auth
         .loginWithMagicLink({
           email,
@@ -66,6 +66,9 @@ export const withMagicAuth = (Component) => {
             );
           }
           setIsLoggedIn(true);
+          if (cb) {
+            cb();
+          }
         })
         .once("email-not-deliverable", () => {
           console.log("email-not-deliverable");

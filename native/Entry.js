@@ -28,7 +28,7 @@ const Entry = () => {
 
           return {
             // headerStyle: { ...headerStyles },
-            headerTitle: () => getHeaderTitle(route),
+            // headerTitle: () => getHeaderTitle(route),
           };
         }}
       >

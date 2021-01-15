@@ -1,7 +1,8 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import styled from "@emotion/native";
 import { validateEmail } from "@shared/utils";
 import { GradientButton, Label } from "@components/shared";
+import { MagicAuthContext } from "@shared/enhancers/magic-auth";
 
 import { TextInput } from "@components/shared";
 
@@ -18,6 +19,10 @@ const Form = ({ isSignUp }) => {
 
   const [formSubmitted, setFormSubmitted] = useState(false);
 
+  const { signIn, signOut, isLoggedIn, isLoading } = useContext(
+    MagicAuthContext
+  );
+
   const handleNameChange = (text) => {
     setName(text);
     setNameValid(text.length > 0);
@@ -25,13 +30,29 @@ const Form = ({ isSignUp }) => {
 
   const handleEmailChange = (text) => {
     setEmail(text);
+    setEmailValid(validateEmail(text));
   };
 
   const handleSubmit = () => {
     console.log("handle submit");
     setFormSubmitted(true);
-    console.log("name is ", name);
-    console.log("email is ", email);
+    if (isSignUp && nameValid && emailValid) {
+      console.log("We signup here");
+      signIn({
+        email,
+        name,
+        cb: () => {
+          console.log("sign up Callback");
+        },
+      });
+    } else if (!isSignUp && emailValid) {
+      signIn({
+        email,
+        cb: () => {
+          console.log("sign in Callback");
+        },
+      });
+    }
   };
 
   return (

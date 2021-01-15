@@ -10,7 +10,7 @@ const FormLabel = styled(LargeLabel)`
 
 export const Input = styled.TextInput`
   color: ${(props) => props.theme.colors.primary};
-  width: 150px;
+  width: 250px;
   height: 30px;
   border-bottom-width: 1px;
   font-size: 15px;
