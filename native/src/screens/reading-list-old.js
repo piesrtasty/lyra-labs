@@ -111,8 +111,9 @@ const ReadingList = () => {
   };
 
   return (
-    <Layout>
-      {!loading && data && (
+    <View>
+      <Text style={{ color: "#fff" }}>Reading List Goes Here</Text>
+      {/* {!loading && data && (
         <TabView
           navigationState={{ index, routes }}
           renderScene={renderScene}
@@ -121,8 +122,8 @@ const ReadingList = () => {
           initialLayout={initialLayout}
           swipeEnabled={false}
         />
-      )}
-    </Layout>
+      )} */}
+    </View>
   );
 };
 

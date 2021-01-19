@@ -43,7 +43,6 @@ const Entry = () => {
   return (
     <NavigationContainer theme={navTheme}>
       <Stack.Navigator
-        mode="modal"
         screenOptions={({ route, navigation }) => {
           return {
             headerStyle: {

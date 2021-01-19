@@ -1,5 +1,5 @@
 import HomeScreen from "@screens/main/home";
-import ReadingListScreen from "@screens/main/reading-list";
+import ReadingListScreen from "@screens/reading-list";
 import CreatePostScreen from "@screens/main/create-post";
 import ActivityScreen from "@screens/main/activity";
 import ProfileScreen from "@screens/main/profile";
@@ -21,7 +21,7 @@ import {
 } from "@fortawesome/pro-solid-svg-icons";
 
 export const ROUTE_HOME = "home";
-const ROUTE_READING_LIST = "reading-list";
+export const ROUTE_READING_LIST = "reading-list";
 const ROUTE_CREATE_POST = "create-post";
 export const ROUTE_ACTIVITY = "activity";
 export const ROUTE_PROFILE = "profile";
@@ -80,4 +80,4 @@ export const ROUTES = {
   [ROUTE_PROFILE]: PROFILE,
 };
 
-export const MAIN_TABS = [HOME, READING_LIST, CREATE_POST, ACTIVITY, PROFILE];
+export const MAIN_TABS = [HOME, PROFILE];

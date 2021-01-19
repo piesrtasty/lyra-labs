@@ -1,15 +1,16 @@
-import React, { useContext } from "react";
-import styled from "@emotion/native";
+import React from "react";
+import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
+import { MAIN_TABS } from "@shared/routes";
 
-const Container = styled.View``;
-
-const Copy = styled.Text``;
+const Tab = createBottomTabNavigator();
 
 const MainScreen = () => {
   return (
-    <Container>
-      <Copy style={{ color: "#FFF" }}>COOL</Copy>
-    </Container>
+    <Tab.Navigator>
+      {MAIN_TABS.map(({ route, component, icon }) => (
+        <Tab.Screen name={route} component={component} />
+      ))}
+    </Tab.Navigator>
   );
 };
 

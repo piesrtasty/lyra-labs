@@ -1,15 +1,16 @@
 import React, { useContext } from "react";
 import Layout from "@components/layout";
-import { Text } from "react-native";
+import { Text, View } from "react-native";
 
 import { CurrentUserContext } from "@shared/enhancers/current-user";
 
 const Profile = () => {
   const data = useContext(CurrentUserContext);
   return (
-    <Layout transparentBg={true}>
-      <Text style={{ color: "#fff" }}>{JSON.stringify(data)}</Text>
-    </Layout>
+    <View>
+      <Text style={{ color: "#FFF" }}>Profile</Text>
+      {/* <Text style={{ color: "#fff" }}>{JSON.stringify(data)}</Text> */}
+    </View>
   );
 };
 

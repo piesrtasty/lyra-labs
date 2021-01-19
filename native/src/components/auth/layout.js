@@ -1,23 +1,11 @@
-import React, { useContext } from "react";
-import styled from "@emotion/native";
+import React from "react";
 import { SafeAreaContainer, FullContainer } from "@components/shared";
-import { ThemeManagerContext } from "@shared/enhancers/theme-manager";
-
-import WordMarkLogoDark from "@assets/images/wordmark-logo-dark.svg";
-import WordMarkLogoLight from "@assets/images/wordmark-logo-light.svg";
+import WordMarkLogo from "@components/word-mark-logo";
 
 const AuthLayout = ({ children }) => {
-  const { isDark } = useContext(ThemeManagerContext);
-
-  const WordMarkLogo = isDark ? WordMarkLogoDark : WordMarkLogoLight;
-
-  const StyledWordMarkLogo = styled(WordMarkLogo)`
-    margin-top: 62px;
-  `;
-
   return (
     <SafeAreaContainer>
-      <StyledWordMarkLogo width={310} height={100} />
+      {/* <WordMarkLogo width={310} height={100} style={{ marginTop: 62 }} /> */}
       <FullContainer>{children}</FullContainer>
     </SafeAreaContainer>
   );

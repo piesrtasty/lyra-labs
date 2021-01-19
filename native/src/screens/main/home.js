@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from "react";
 import Layout from "@components/layout";
-import LoadingIndicator from "@components/loading-indicator";
 import { useQuery, gql } from "@apollo/client";
 import { View, Text, StyleSheet, Button } from "react-native";
 import LinearGradient from "react-native-linear-gradient";
@@ -54,21 +53,11 @@ var styles = StyleSheet.create({
 });
 
 const HomeScreen = () => {
-  const { data, error, loading } = useQuery(POSTS_QUERY);
-  const [seconds, setSeconds] = useState(0);
-  const handleBtnPress = () => {
-    setClicked(!clicked);
-  };
-
-  useEffect(() => {
-    const interval = setInterval(() => {
-      setSeconds((seconds) => seconds + 1);
-    }, 10000);
-    return () => clearInterval(interval);
-  }, []);
+  // const { data, error, loading } = useQuery(POSTS_QUERY);
 
   return (
-    <Layout>
+    <View>
+      <Text style={{ color: "#FFF" }}>HOME</Text>
       {/* <LinearGradient
         start={{ x: START, y: START }}
         end={{ x: END, y: END }}
@@ -87,7 +76,7 @@ const HomeScreen = () => {
           ))}
         </View>
       )} */}
-    </Layout>
+    </View>
   );
 };
 
