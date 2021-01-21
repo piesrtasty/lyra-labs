@@ -810,7 +810,9 @@ passport.deserializeUser(async (id, done) => {
     const user = await prisma.user.findUnique({
       where: { issuer: id },
     })
-    done(null, user)
+    const userData = { ...user, avatar: 'COOL GUY' }
+    // console.log('<<<<< user >>>>>', user)
+    done(null, userData)
   } catch (err) {
     done(err, null)
   }
