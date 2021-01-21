@@ -8,7 +8,11 @@ import ReadingListScreen from "@screens/reading-list";
 import { useNavigation } from "@react-navigation/native";
 import { ROUTE_AUTH, ROUTE_MAIN, ROUTE_READING_LIST } from "@shared/routes";
 // import { useTheme } from "@shared/enhancers/theme-manager";
-import { getHeaderTitle, getHeaderStyles } from "@shared/utils";
+import {
+  getHeaderTitle,
+  getHeaderStyles,
+  horizontalModalInterpolator,
+} from "@shared/utils";
 import { NavigationContainer } from "@react-navigation/native";
 import { createStackNavigator } from "@react-navigation/stack";
 import { useTheme } from "@emotion/react";
@@ -80,6 +84,8 @@ const Entry = () => {
             />
             <Stack.Screen
               options={{
+                gestureDirection: "horizontal",
+                cardStyleInterpolator: horizontalModalInterpolator,
                 headerShown: true,
               }}
               name={ROUTE_READING_LIST}

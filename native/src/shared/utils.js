@@ -1,5 +1,5 @@
 import React from "react";
-import { Dimensions } from "react-native";
+import { Dimensions, Animated } from "react-native";
 import { getFocusedRouteNameFromRoute } from "@react-navigation/native";
 import { ROUTES, ROUTE_HOME, GRADIENT_ROUTES } from "@shared/routes";
 
@@ -84,4 +84,45 @@ export const validateEmail = (email) => {
   // eslint-disable-next-line max-len
   const re = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
   return re.test(String(email).toLowerCase());
+};
+
+export const horizontalModalInterpolator = ({
+  current,
+  next,
+  inverted,
+  layouts: { screen },
+}) => {
+  const translateFocused = Animated.multiply(
+    current.progress.interpolate({
+      inputRange: [0, 1],
+      outputRange: [screen.width, 0],
+      extrapolate: "clamp",
+    }),
+    inverted
+  );
+
+  const overlayOpacity = current.progress.interpolate({
+    inputRange: [0, 1],
+    outputRange: [0, 0.07],
+    extrapolate: "clamp",
+  });
+
+  const shadowOpacity = current.progress.interpolate({
+    inputRange: [0, 1],
+    outputRange: [0, 0.3],
+    extrapolate: "clamp",
+  });
+
+  return {
+    cardStyle: {
+      transform: [
+        // Translation for the animation of the current card
+        { translateX: translateFocused },
+        // Translation for the animation of the card in back
+        { translateX: 0 },
+      ],
+    },
+    overlayStyle: { opacity: overlayOpacity },
+    shadowStyle: { shadowOpacity },
+  };
 };
