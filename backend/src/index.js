@@ -4,6 +4,7 @@ const express = require('express')
 const cookieParser = require('cookie-parser')
 const logger = require('morgan')
 const session = require('express-session')
+const md5 = require('md5')
 // const passport = require('passport')
 
 const { ApolloServer } = require('apollo-server-express')
@@ -753,12 +754,14 @@ passport.use(strategy)
 
 /* Implement User Signup */
 const signup = async (user, userMetadata, done) => {
-  console.log('-----------------------------')
-  console.log('----- calling signup -------')
-  console.log('-----------------------------')
+  const email = userMetadata.email
+  const avatar = `https://gravatar.com/avatar/${md5(
+    email.toLowerCzse(),
+  )}?d=retro`
   await prisma.user.create({
     data: {
-      email: userMetadata.email,
+      avatar,
+      email,
       publicEthAddress: userMetadata.publicAddress,
       issuer: userMetadata.issuer,
       lastLoginAt: user.claim.iat,
@@ -810,9 +813,7 @@ passport.deserializeUser(async (id, done) => {
     const user = await prisma.user.findUnique({
       where: { issuer: id },
     })
-    const userData = { ...user, avatar: 'COOL GUY' }
-    // console.log('<<<<< user >>>>>', user)
-    done(null, userData)
+    done(null, user)
   } catch (err) {
     done(err, null)
   }

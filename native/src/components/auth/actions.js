@@ -15,6 +15,7 @@ import { ROUTE_AUTH_FORM } from "@shared/routes";
 
 const Container = styled.Pressable`
   margin-top: 28px;
+  margin-bottom: ${(props) => (props.theme.hasNotch ? "0px" : "28px")};
   display: flex;
   flex-direction: row;
 `;

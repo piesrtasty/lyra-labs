@@ -1,3 +1,4 @@
+import DeviceInfo from "react-native-device-info";
 import React, { useState } from "react";
 import { Appearance } from "react-native-appearance";
 import { ThemeProvider } from "@emotion/react";
@@ -33,8 +34,11 @@ export const ThemeManagerContext = React.createContext({});
 export const ThemeManager = ({ children }) => {
   const osTheme = Appearance.getColorScheme();
   const [isDark, setIsDark] = useState(true);
+  const baseTheme = isDark ? themeDark : themeLight;
+  const hasNotch = DeviceInfo.hasNotch();
+  const theme = { ...baseTheme, hasNotch };
   return (
-    <ThemeProvider theme={isDark ? themeDark : themeLight}>
+    <ThemeProvider theme={theme}>
       <ThemeManagerContext.Provider value={{ isDark, setIsDark }}>
         {children}
       </ThemeManagerContext.Provider>

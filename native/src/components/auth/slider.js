@@ -1,6 +1,6 @@
 import React, { useState, useRef, useContext } from "react";
 import styled from "@emotion/native";
-import { View, Dimensions, Text, StyleSheet, Pressable } from "react-native";
+import { Dimensions } from "react-native";
 import Carousel, { Pagination } from "react-native-snap-carousel";
 import LottieView from "lottie-react-native";
 import { ThemeManagerContext } from "@shared/enhancers/theme-manager";
@@ -66,19 +66,16 @@ const Item = ({ title, subTitle, description, animation }) => (
 );
 
 const Container = styled.View`
-  margin-top: 100px;
-  ${"" /* border: 1px solid red; */}
+  margin-top: ${(props) => (props.theme.hasNotch ? "100px" : "25px")};
 `;
 
 const ItemContainer = styled.View`
-  height: 300px;
-  ${"" /* border: 1px solid blue; */}
+  height: ${(props) => (props.theme.hasNotch ? "300px" : "250px")};
   display: flex;
 `;
 
 const LottieContainer = styled.View`
-  height: 175px;
-  ${"" /* border: 1px solid green; */}
+  height: ${(props) => (props.theme.hasNotch ? "175px" : "125px")};
 `;
 
 const Slider = () => {

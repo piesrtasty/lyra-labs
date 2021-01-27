@@ -8,19 +8,13 @@ import { MAIN_TABS, ROUTES, ROUTE_PROFILE } from "@shared/routes";
 const Container = styled.View``;
 
 const TabBar = styled.SafeAreaView`
-  height: 75px;
-  background-color: blue;
+  height: ${(props) => (props.theme.hasNotch ? "75px" : "50px")};
   display: flex;
   flex-direction: row;
   justify-content: space-between;
 `;
 
-const Copy = styled.Text`
-  color: #fff;
-`;
-
 const ItemContainer = styled.View`
-  background-color: green;
   flex: 1;
   display: flex;
   flex-direction: row;
@@ -28,13 +22,33 @@ const ItemContainer = styled.View`
 `;
 
 const Item = styled.Pressable`
-  background-color: red;
-  margin-top: 15px;
+  margin-top: ${(props) => (props.theme.hasNotch ? "15px" : "0px")};
+  justify-content: center;
+`;
+
+const AvatarContainer = styled.View`
+  background-color: ${(props) =>
+    props.isFocused ? "white" : props.theme.colors.background};
+  width: 27px;
+  height: 27px;
+  border-radius: 50px;
+  align-items: center;
+  justify-content: center;
+`;
+
+const Avatar = styled.Image`
+  width: 24px;
+  height: 24px;
+  border-color: ${(props) => props.theme.colors.background};
+  border-width: 2px;
+  border-radius: 50px;
 `;
 
 const Tab = createBottomTabNavigator();
 
 const CustomTabBar = ({ state, descriptors, navigation }) => {
+  const data = useContext(CurrentUserContext);
+  // console.log("data", data.avatar);
   return (
     <Container>
       <TabBar>
@@ -53,13 +67,15 @@ const CustomTabBar = ({ state, descriptors, navigation }) => {
           return (
             <ItemContainer>
               <Item onPress={handlePress}>
-                {isProfileRoute ? (
-                  <Copy key={index}>Profile</Copy>
+                {isProfileRoute && data && data.avatar ? (
+                  <AvatarContainer isFocused={isFocused}>
+                    <Avatar source={{ uri: data.avatar }} />
+                  </AvatarContainer>
                 ) : (
                   <FontAwesomeIcon
                     style={{
                       color: "white",
-                      // opacity: isFocused ? 1 : 0.6,
+                      opacity: isFocused ? 1 : 0.6,
                     }}
                     size={24}
                     icon={isFocused ? iconSolid : icon}
@@ -75,8 +91,6 @@ const CustomTabBar = ({ state, descriptors, navigation }) => {
 };
 
 const MainScreen = () => {
-  const data = useContext(CurrentUserContext);
-  console.log("data", data);
   return (
     <Tab.Navigator tabBar={(props) => <CustomTabBar {...props} />}>
       {MAIN_TABS.map(({ route, component, icon }) => (

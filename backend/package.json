@@ -27,6 +27,7 @@
     "graphql": "^15.4.0",
     "graphql-yoga": "^1.16.1",
     "jwks-rsa": "^1.6.0",
+    "md5": "^2.3.0",
     "metascraper": "^5.11.6",
     "metascraper-amazon": "^5.11.7",
     "metascraper-author": "^5.11.6",
