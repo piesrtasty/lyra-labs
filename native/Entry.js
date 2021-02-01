@@ -17,6 +17,7 @@ import { NavigationContainer } from "@react-navigation/native";
 import { createStackNavigator } from "@react-navigation/stack";
 import { useTheme } from "@emotion/react";
 import styled from "@emotion/native";
+import { CurrentUserContext } from "@shared/enhancers/current-user";
 
 const Container = styled.View`
   height: 52px;
@@ -31,11 +32,11 @@ import WordMarkLogo from "@components/word-mark-logo";
 import BookmarkIcon from "@components/bookmark-icon";
 
 const Entry = () => {
-  // console.log("StatusBar.currentHeight", StatusBar.currentHeight)
   const hasNotch = DeviceInfo.hasNotch();
   const headerHeight = hasNotch ? 100 : 72;
   const Stack = createStackNavigator();
   const { isLoggedIn } = useContext(MagicAuthContext);
+  // const { currentUser } = useContext(CurrentUserContext);
   const theme = useTheme();
 
   const navTheme = {

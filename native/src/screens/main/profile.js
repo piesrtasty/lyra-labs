@@ -1,15 +1,31 @@
-import React, { useContext } from "react";
-import Layout from "@components/layout";
-import { Text, View } from "react-native";
-
-import { CurrentUserContext } from "@shared/enhancers/current-user";
+import React, { useContext, useState } from "react";
+import { View } from "react-native";
+import { GradientButton, Label } from "@components/shared";
+import { MagicAuthContext } from "@shared/enhancers/magic-auth";
 
 const Profile = () => {
-  const data = useContext(CurrentUserContext);
+  const [isLoading, setIsLoading] = useState(false);
+
+  const { signOut } = useContext(MagicAuthContext);
+
+  const handlePress = () => {
+    setIsLoading(true);
+    signOut({
+      cb: () => {
+        setIsLoading(false);
+      },
+    });
+  };
+
   return (
     <View>
-      <Text style={{ color: "#FFF" }}>Profile</Text>
-      {/* <Text style={{ color: "#fff" }}>{JSON.stringify(data)}</Text> */}
+      <GradientButton
+        width={175}
+        isLoading={isLoading}
+        handlePress={handlePress}
+      >
+        <Label>Logout</Label>
+      </GradientButton>
     </View>
   );
 };

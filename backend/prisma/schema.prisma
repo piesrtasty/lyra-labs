@@ -18,6 +18,7 @@ model User {
   lastLoginAt      Int?
   role             Role          @default(USER)
   walletAddress    String?       @unique
+  showOnboarding   Boolean?      @default(true)
   walletIsSetup    Boolean?      @default(false)
   firstName        String?
   lastName         String?

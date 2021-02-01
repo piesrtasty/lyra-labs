@@ -3,6 +3,7 @@ import ReadingListScreen from "@screens/reading-list";
 import CreatePostScreen from "@screens/main/create-post";
 import ActivityScreen from "@screens/main/activity";
 import ProfileScreen from "@screens/main/profile";
+import OnboardingScreen from "@screens/onboarding";
 
 import {
   faHomeAlt,
@@ -22,6 +23,7 @@ import {
 
 export const ROUTE_HOME = "home";
 export const ROUTE_READING_LIST = "reading-list";
+export const ROUTE_ONBOARDING = "onboarding";
 const ROUTE_CREATE_POST = "create-post";
 export const ROUTE_ACTIVITY = "activity";
 export const ROUTE_PROFILE = "profile";
@@ -43,6 +45,14 @@ const HOME = {
 const READING_LIST = {
   route: ROUTE_READING_LIST,
   component: ReadingListScreen,
+  icon: faBookmark,
+  iconSolid: faBookmarkSolid,
+  label: "Reading List",
+};
+
+const ONBOARDING = {
+  route: ROUTE_ONBOARDING,
+  component: ONBOARDING,
   icon: faBookmark,
   iconSolid: faBookmarkSolid,
   label: "Reading List",
@@ -78,6 +88,7 @@ export const ROUTES = {
   [ROUTE_CREATE_POST]: CREATE_POST,
   [ROUTE_ACTIVITY]: ACTIVITY,
   [ROUTE_PROFILE]: PROFILE,
+  [ROUTE_ONBOARDING]: ONBOARDING,
 };
 
 export const MAIN_TABS = [HOME, PROFILE];

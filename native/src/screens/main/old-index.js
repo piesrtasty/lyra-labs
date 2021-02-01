@@ -138,13 +138,13 @@ const MainScreen = () => {
 
   const { signOut } = useContext(MagicAuthContext);
 
-  const data = useContext(CurrentUserContext);
+  const { currentUser } = useContext(CurrentUserContext);
 
   return (
     <View>
       <Text style={{ color: "#FFF" }}>Main Screen</Text>
       <TouchableOpacity onPress={signOut}>
-        <Text style={{ color: "#FFF" }}>{JSON.stringify(data)}</Text>
+        <Text style={{ color: "#FFF" }}>{JSON.stringify(currentUser)}</Text>
         <Text style={{ color: "#FFF" }}>Sign Out</Text>
       </TouchableOpacity>
     </View>

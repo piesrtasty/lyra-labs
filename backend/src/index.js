@@ -89,6 +89,7 @@ const User = objectType({
     t.model.headline()
     t.model.walletAddress()
     t.model.walletIsSetup()
+    t.model.showOnboarding()
     t.model.name()
     t.model.followedTopics()
   },
@@ -754,9 +755,12 @@ passport.use(strategy)
 
 /* Implement User Signup */
 const signup = async (user, userMetadata, done) => {
+  console.log('-----------------------------')
+  console.log('------- calling signup -------------')
+  console.log('-----------------------------')
   const email = userMetadata.email
   const avatar = `https://gravatar.com/avatar/${md5(
-    email.toLowerCzse(),
+    email.toLowerCase(),
   )}?d=retro`
   await prisma.user.create({
     data: {
@@ -793,8 +797,20 @@ const login = async (user, done) => {
 
 /* Attach middleware to login endpoint */
 app.post('/login', passport.authenticate('magic'), (req, res) => {
+  console.log('<<<<<<<<<<< ---------- >>>>>>>>>>>>>')
+  console.log('<<<<<<<<<<< ---------- >>>>>>>>>>>>>')
+  console.log('<<<<<<<<<<< ---------- >>>>>>>>>>>>>')
+  console.log('<<<<<<<<<<< ---------- >>>>>>>>>>>>>')
   if (req.user) {
-    res.status(200).end('User is logged in.')
+    // res.status(200).end('User is logged in.')
+    const data = {
+      showOnboarding: req.user.showOnboarding,
+      name: 'Coolhand Luke',
+    }
+    console.log('cool data', req.user)
+    // res.setHeader('Content-Type', 'application/json')
+    // res.json(data)
+    res.json({ username: 'Flavio' })
   } else {
     return res.status(401).end('Could not log user in.')
   }
@@ -813,6 +829,9 @@ passport.deserializeUser(async (id, done) => {
     const user = await prisma.user.findUnique({
       where: { issuer: id },
     })
+    console.log('---------------------')
+    console.log('-----> found user <------', user)
+    console.log('---------------------')
     done(null, user)
   } catch (err) {
     done(err, null)

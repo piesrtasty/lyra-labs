@@ -1,4 +1,10 @@
-import React, { useReducer, useMemo, useState, useEffect } from "react";
+import React, {
+  useReducer,
+  useMemo,
+  useState,
+  useEffect,
+  useContext,
+} from "react";
 import { Alert } from "react-native";
 import AsyncStorage from "@react-native-community/async-storage";
 import * as Keychain from "react-native-keychain";
@@ -10,6 +16,7 @@ const KEYCHAIN_GROUP = "com.lyralabs.app";
 const ACCESS_GROUP = `${TEAM_ID}.${KEYCHAIN_GROUP}`;
 const MAGIC_AUTH_COOKIE_KEY = "magicAuthCookie";
 const BACKEND_API_URL = "http://localhost:4000";
+import { CurrentUserContext } from "@shared/enhancers/current-user";
 
 export const MagicAuthContext = React.createContext();
 
@@ -19,6 +26,10 @@ export const withMagicAuth = (Component) => {
 
     const [isLoggedIn, setIsLoggedIn] = useState(false);
     const [isLoading, setIsLoading] = useState(false);
+    const [showOnboarding, setShowOnboarding] = useState(false);
+
+    // const { currentUser } = useContext(CurrentUserContext);
+    // console.log("------ withMagicAuth ---- currentUser", currentUser);
 
     useEffect(() => {
       const bootstrapAsync = async () => {
@@ -44,12 +55,17 @@ export const withMagicAuth = (Component) => {
           const resp = await fetch(`${BACKEND_API_URL}/login`, {
             headers: new Headers({
               Authorization: "Bearer " + DIDToken,
+              Accept: "application/json",
+              "Content-Type": "application/json",
             }),
             withCredentials: true,
             credentials: "same-origin",
             method: "POST",
           });
-          console.log("resp from /login");
+
+          const myData = await resp.json();
+
+          console.log("----- resp from /login -----myData", myData);
 
           const headers = resp.headers.map;
           const cookieHeader = headers["set-cookie"];
@@ -66,6 +82,7 @@ export const withMagicAuth = (Component) => {
             );
           }
           setIsLoggedIn(true);
+          console.log("<><><>< resp.json() -<><><><", resp.json());
           if (cb) {
             cb();
           }

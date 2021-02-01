@@ -3,6 +3,7 @@ import styled from "@emotion/native";
 import { validateEmail } from "@shared/utils";
 import { GradientButton, Label } from "@components/shared";
 import { MagicAuthContext } from "@shared/enhancers/magic-auth";
+import { CurrentUserContext } from "@shared/enhancers/current-user";
 
 import { TextInput } from "@components/shared";
 
@@ -16,12 +17,12 @@ const Form = ({ isSignUp }) => {
   const [email, setEmail] = useState(null);
   const [nameValid, setNameValid] = useState(false);
   const [emailValid, setEmailValid] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
 
   const [formSubmitted, setFormSubmitted] = useState(false);
 
-  const { signIn, signOut, isLoggedIn, isLoading } = useContext(
-    MagicAuthContext
-  );
+  const { signIn, signOut, isLoggedIn } = useContext(MagicAuthContext);
+  const { refetchCurrentUser } = useContext(CurrentUserContext);
 
   const handleNameChange = (text) => {
     setName(text);
@@ -37,19 +38,23 @@ const Form = ({ isSignUp }) => {
     console.log("handle submit");
     setFormSubmitted(true);
     if (isSignUp && nameValid && emailValid) {
+      setIsLoading(true);
       console.log("We signup here");
       signIn({
         email,
         name,
         cb: () => {
-          console.log("sign up Callback");
+          setIsLoading(false);
+          refetchCurrentUser();
         },
       });
     } else if (!isSignUp && emailValid) {
+      setIsLoading(true);
       signIn({
         email,
         cb: () => {
-          console.log("sign in Callback");
+          setIsLoading(false);
+          refetchCurrentUser();
         },
       });
     }
@@ -74,7 +79,11 @@ const Form = ({ isSignUp }) => {
         onChangeText={handleEmailChange}
         style={{ marginTop: isSignUp ? 35 : 0, marginBottom: 40 }}
       />
-      <GradientButton width={250} handlePress={handleSubmit}>
+      <GradientButton
+        isLoading={isLoading}
+        width={250}
+        handlePress={handleSubmit}
+      >
         <Label>Continue</Label>
       </GradientButton>
     </Container>

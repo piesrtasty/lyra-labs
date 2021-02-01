@@ -47,8 +47,8 @@ const Avatar = styled.Image`
 const Tab = createBottomTabNavigator();
 
 const CustomTabBar = ({ state, descriptors, navigation }) => {
-  const data = useContext(CurrentUserContext);
-  // console.log("data", data.avatar);
+  const { currentUser } = useContext(CurrentUserContext);
+  // console.log("currentUser", currentUser.avatar);
   return (
     <Container>
       <TabBar>
@@ -67,9 +67,9 @@ const CustomTabBar = ({ state, descriptors, navigation }) => {
           return (
             <ItemContainer>
               <Item onPress={handlePress}>
-                {isProfileRoute && data && data.avatar ? (
+                {isProfileRoute && currentUser && currentUser.avatar ? (
                   <AvatarContainer isFocused={isFocused}>
-                    <Avatar source={{ uri: data.avatar }} />
+                    <Avatar source={{ uri: currentUser.avatar }} />
                   </AvatarContainer>
                 ) : (
                   <FontAwesomeIcon

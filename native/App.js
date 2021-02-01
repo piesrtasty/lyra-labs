@@ -6,10 +6,8 @@ if (__DEV__) {
 import Entry from "./Entry";
 import "react-native-gesture-handler";
 import React, { useContext } from "react";
-// import { NavigationContainer } from "@react-navigation/native";
 import { flowRight as compose } from "lodash";
 import SplashScreen from "@screens/splash";
-import { useTheme } from "@emotion/react";
 
 import {
   withMagicAuth,
@@ -28,16 +26,6 @@ const App = () => {
   if (isLoading) {
     return <SplashScreen />;
   }
-
-  // const myTheme = useTheme();
-
-  // console.log("--- myTheme --- ", myTheme);
-
-  const theme = {
-    colors: {
-      // background: "#EF937F",
-    },
-  };
 
   return (
     <AppearanceProvider>
