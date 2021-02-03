@@ -22,4 +22,5 @@ export const SpaceContainer = styled.View`
 
 export const FullContainer = styled.View`
   flex: 1;
+  width: 100%;
 `;

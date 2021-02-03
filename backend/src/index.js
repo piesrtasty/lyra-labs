@@ -796,21 +796,12 @@ const login = async (user, done) => {
 }
 
 /* Attach middleware to login endpoint */
-app.post('/login', passport.authenticate('magic'), (req, res) => {
-  console.log('<<<<<<<<<<< ---------- >>>>>>>>>>>>>')
-  console.log('<<<<<<<<<<< ---------- >>>>>>>>>>>>>')
-  console.log('<<<<<<<<<<< ---------- >>>>>>>>>>>>>')
-  console.log('<<<<<<<<<<< ---------- >>>>>>>>>>>>>')
+app.post('/login', passport.authenticate('magic'), async (req, res) => {
   if (req.user) {
-    // res.status(200).end('User is logged in.')
-    const data = {
-      showOnboarding: req.user.showOnboarding,
-      name: 'Coolhand Luke',
-    }
-    console.log('cool data', req.user)
-    // res.setHeader('Content-Type', 'application/json')
-    // res.json(data)
-    res.json({ username: 'Flavio' })
+    const user = await prisma.user.findUnique({
+      where: { issuer: req.user.issuer },
+    })
+    res.json({ showOnboarding: user.showOnboarding })
   } else {
     return res.status(401).end('Could not log user in.')
   }

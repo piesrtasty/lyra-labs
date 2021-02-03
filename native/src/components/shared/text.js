@@ -18,6 +18,7 @@ export const Paragraph = styled.Text`
   font-family: Montserrat-Regular;
   font-size: 14px;
   letter-spacing: -0.15px;
+  line-height: 22px;
   color: ${(props) => props.theme.colors.secondary};
 `;
 

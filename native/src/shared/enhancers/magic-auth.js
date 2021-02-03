@@ -63,9 +63,9 @@ export const withMagicAuth = (Component) => {
             method: "POST",
           });
 
-          const myData = await resp.json();
+          const json = await resp.json();
 
-          console.log("----- resp from /login -----myData", myData);
+          setShowOnboarding(json.showOnboarding);
 
           const headers = resp.headers.map;
           const cookieHeader = headers["set-cookie"];
@@ -82,7 +82,7 @@ export const withMagicAuth = (Component) => {
             );
           }
           setIsLoggedIn(true);
-          console.log("<><><>< resp.json() -<><><><", resp.json());
+          // console.log("<><><>< resp.json() -<><><><", resp.json());
           if (cb) {
             cb();
           }
@@ -90,17 +90,17 @@ export const withMagicAuth = (Component) => {
         .once("email-not-deliverable", () => {
           console.log("email-not-deliverable");
         })
+        .catch((error) => {
+          console.log("caught the error ---->", error);
+        })
         .on("error", () => {
           setIsLoggedIn(false);
-          console.log("Error");
         });
     };
 
     const signOut = async () => {
-      console.log("calling signout");
       fetch(`${BACKEND_API_URL}/logout`, { method: "POST" }).then(
         ({ status }) => {
-          console.log("status from signOut ----", status);
           setIsLoggedIn(!(status == 200));
           setIsLoading(false);
         }
@@ -109,7 +109,15 @@ export const withMagicAuth = (Component) => {
 
     return (
       <MagicAuthContext.Provider
-        value={{ signIn, signOut, magic, isLoggedIn, isLoading }}
+        value={{
+          signIn,
+          signOut,
+          magic,
+          isLoggedIn,
+          isLoading,
+          showOnboarding,
+          setShowOnboarding,
+        }}
       >
         <magic.Relayer />
         <Component />

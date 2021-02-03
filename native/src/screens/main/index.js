@@ -4,6 +4,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { CurrentUserContext } from "@shared/enhancers/current-user";
 import { MAIN_TABS, ROUTES, ROUTE_PROFILE } from "@shared/routes";
+import { useTheme } from "@emotion/react";
 
 const Container = styled.View``;
 
@@ -39,7 +40,6 @@ const AvatarContainer = styled.View`
 const Avatar = styled.Image`
   width: 24px;
   height: 24px;
-  border-color: ${(props) => props.theme.colors.background};
   border-width: 2px;
   border-radius: 50px;
 `;
@@ -48,6 +48,7 @@ const Tab = createBottomTabNavigator();
 
 const CustomTabBar = ({ state, descriptors, navigation }) => {
   const { currentUser } = useContext(CurrentUserContext);
+  const { colors } = useTheme();
   // console.log("currentUser", currentUser.avatar);
   return (
     <Container>
@@ -65,11 +66,14 @@ const CustomTabBar = ({ state, descriptors, navigation }) => {
           };
 
           return (
-            <ItemContainer>
+            <ItemContainer key={index}>
               <Item onPress={handlePress}>
                 {isProfileRoute && currentUser && currentUser.avatar ? (
                   <AvatarContainer isFocused={isFocused}>
-                    <Avatar source={{ uri: currentUser.avatar }} />
+                    <Avatar
+                      source={{ uri: currentUser.avatar }}
+                      style={{ borderColor: colors.background }}
+                    />
                   </AvatarContainer>
                 ) : (
                   <FontAwesomeIcon
@@ -94,7 +98,7 @@ const MainScreen = () => {
   return (
     <Tab.Navigator tabBar={(props) => <CustomTabBar {...props} />}>
       {MAIN_TABS.map(({ route, component, icon }) => (
-        <Tab.Screen name={route} component={component} />
+        <Tab.Screen name={route} component={component} key={route} />
       ))}
     </Tab.Navigator>
   );
