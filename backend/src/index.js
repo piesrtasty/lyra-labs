@@ -456,6 +456,12 @@ const Mutation = objectType({
   name: 'Mutation',
   definition(t) {
     t.crud.createOneUser({ alias: 'signupUser' })
+    t.field('updateUserUnboarding', {
+      type: 'User',
+      args: {
+        showOnboarding: booleanArg(),
+      },
+    })
     t.field('associateWallet', {
       type: 'User',
       args: {

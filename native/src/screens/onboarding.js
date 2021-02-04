@@ -1,20 +1,24 @@
-import React from "react";
+import React, { useContext } from "react";
 import styled from "@emotion/native";
+import { useMutation } from "@apollo/client";
+import { MagicAuthContext } from "@shared/enhancers/magic-auth";
 import {
   SafeAreaContainer,
   FullContainer,
   MediumHeading,
   Paragraph,
   GradientButton,
-  Label,
+  Footer,
   LargeLabel,
 } from "@components/shared";
 
+import { UPDATE_USER_ONBOARDING } from "@data/mutations";
+
 const Container = styled(FullContainer)`
-  ${"" /* background-color: yellow; */}
   width: 300px;
   display: flex;
   align-items: center;
+  justify-content: center;
 `;
 
 const Mock = styled.Image`
@@ -33,10 +37,23 @@ const SubTitle = styled(Paragraph)`
   text-align: center;
 `;
 
+const RemindMe = styled.Pressable`
+  margin-top: 14px;
+`;
+
 const OnboardingScreen = () => {
+  const { setShowOnboarding } = useContext(MagicAuthContext);
+
   const handlePress = () => {
-    console.log("PRESSED");
+    // TODO: Send request to setShowonboarding to false
+    hideOnboarding();
   };
+
+  const handleRemindMe = () => {
+    hideOnboarding();
+  };
+
+  const hideOnboarding = () => setShowOnboarding(false);
 
   return (
     <SafeAreaContainer>
@@ -47,13 +64,12 @@ const OnboardingScreen = () => {
           Save articles, videos and stories from any publication, page or app
           with the share extension.
         </SubTitle>
-        <GradientButton
-          width={250}
-          // isLoading={isLoading}
-          handlePress={handlePress}
-        >
+        <GradientButton width={250} handlePress={handlePress}>
           <LargeLabel>Continue</LargeLabel>
         </GradientButton>
+        <RemindMe onPress={handleRemindMe}>
+          <Footer>Remind me later</Footer>
+        </RemindMe>
       </Container>
     </SafeAreaContainer>
   );

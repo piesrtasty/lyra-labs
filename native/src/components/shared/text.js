@@ -22,6 +22,13 @@ export const Paragraph = styled.Text`
   color: ${(props) => props.theme.colors.secondary};
 `;
 
+export const Footer = styled.Text`
+  font-family: Montserrat-Light;
+  font-size: 13px;
+  line-height: 22px;
+  color: ${(props) => props.theme.colors.secondary};
+`;
+
 export const Label = styled.Text`
   font-family: Montserrat-Medium;
   font-size: 13px;
