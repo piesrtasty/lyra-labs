@@ -456,10 +456,20 @@ const Mutation = objectType({
   name: 'Mutation',
   definition(t) {
     t.crud.createOneUser({ alias: 'signupUser' })
-    t.field('updateUserUnboarding', {
+    t.field('updateUserOnboarding', {
       type: 'User',
       args: {
         showOnboarding: booleanArg(),
+      },
+      resolve: async (_, { showOnboarding }, ctx) => {
+        console.log('showOnboarding', showOnboarding)
+        const currentUser = ctx.req.user
+        return await ctx.prisma.user.update({
+          where: { id: currentUser.id },
+          data: {
+            showOnboarding,
+          },
+        })
       },
     })
     t.field('associateWallet', {
@@ -942,6 +952,27 @@ app.post('/save', async (req, res, done) => {
     res.status(401).send('Missing auth header')
   }
 })
+
+// const myPlugin = {
+//   // Fires whenever a GraphQL request is received from a client.
+//   requestDidStart(requestContext) {
+//     console.log('Request started! Query:\n' + requestContext.request.query)
+
+//     return {
+//       // Fires whenever Apollo Server will parse a GraphQL
+//       // request to create its associated document AST.
+//       parsingDidStart(requestContext) {
+//         console.log('Parsing started!', requestContext)
+//       },
+
+//       // Fires whenever Apollo Server will validate a
+//       // request's document AST against your GraphQL schema.
+//       validationDidStart(requestContext) {
+//         console.log('Validation started!', requestContext)
+//       },
+//     }
+//   },
+// }
 
 const apollo = new ApolloServer({
   context: req => {

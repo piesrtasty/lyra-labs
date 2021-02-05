@@ -43,9 +43,21 @@ const RemindMe = styled.Pressable`
 
 const OnboardingScreen = () => {
   const { setShowOnboarding } = useContext(MagicAuthContext);
+  const [updateUserOnboarding] = useMutation(UPDATE_USER_ONBOARDING);
 
   const handlePress = () => {
     // TODO: Send request to setShowonboarding to false
+    // updateUserOnboarding()
+    console.log("calling Continue");
+    updateUserOnboarding({ variables: { showOnboarding: false } })
+      .then(({ data }) => {
+        // you can do something with the response here
+        console.log("data", d);
+      })
+      .catch((e) => {
+        console.log("E", e);
+        // you can do something with the error here
+      });
     hideOnboarding();
   };
 
