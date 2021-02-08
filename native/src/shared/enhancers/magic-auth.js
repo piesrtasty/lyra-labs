@@ -1,12 +1,4 @@
-import React, {
-  useReducer,
-  useMemo,
-  useState,
-  useEffect,
-  useContext,
-} from "react";
-import { Alert } from "react-native";
-import AsyncStorage from "@react-native-community/async-storage";
+import React, { useState, useEffect } from "react";
 import * as Keychain from "react-native-keychain";
 import { Magic } from "@magic-sdk/react-native";
 
@@ -16,7 +8,6 @@ const KEYCHAIN_GROUP = "com.lyralabs.app";
 const ACCESS_GROUP = `${TEAM_ID}.${KEYCHAIN_GROUP}`;
 const MAGIC_AUTH_COOKIE_KEY = "magicAuthCookie";
 const BACKEND_API_URL = "http://localhost:4000";
-import { CurrentUserContext } from "@shared/enhancers/current-user";
 
 export const MagicAuthContext = React.createContext();
 
@@ -27,9 +18,6 @@ export const withMagicAuth = (Component) => {
     const [isLoggedIn, setIsLoggedIn] = useState(false);
     const [isLoading, setIsLoading] = useState(false);
     const [showOnboarding, setShowOnboarding] = useState(false);
-
-    // const { currentUser } = useContext(CurrentUserContext);
-    // console.log("------ withMagicAuth ---- currentUser", currentUser);
 
     useEffect(() => {
       const bootstrapAsync = async () => {
@@ -42,15 +30,12 @@ export const withMagicAuth = (Component) => {
       bootstrapAsync();
     }, []);
 
-    const signIn = async ({ email, name, cb }) => {
-      console.log("Calling sign In for - ", email);
+    const signIn = async ({ email, name, onSuccess, onError }) => {
       magic.auth
         .loginWithMagicLink({
           email,
         })
-        .on("email-sent", () => {
-          console.log("email-sent");
-        })
+        .on("email-sent", () => {})
         .then(async (DIDToken) => {
           const resp = await fetch(`${BACKEND_API_URL}/login`, {
             headers: new Headers({
@@ -82,19 +67,16 @@ export const withMagicAuth = (Component) => {
             );
           }
           setIsLoggedIn(true);
-          // console.log("<><><>< resp.json() -<><><><", resp.json());
-          if (cb) {
-            cb();
+          if (onSuccess) {
+            onSuccess();
           }
         })
-        .once("email-not-deliverable", () => {
-          console.log("email-not-deliverable");
-        })
-        .catch((error) => {
-          console.log("caught the error ---->", error);
-        })
+        .once("email-not-deliverable", () => {})
+        .catch((error) => {})
         .on("error", () => {
-          setIsLoggedIn(false);
+          if (onError) {
+            onError();
+          }
         });
     };
 

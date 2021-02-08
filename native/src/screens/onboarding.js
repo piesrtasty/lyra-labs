@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React, { useContext, useState } from "react";
 import styled from "@emotion/native";
 import { useMutation } from "@apollo/client";
 import { MagicAuthContext } from "@shared/enhancers/magic-auth";
@@ -44,21 +44,17 @@ const RemindMe = styled.Pressable`
 const OnboardingScreen = () => {
   const { setShowOnboarding } = useContext(MagicAuthContext);
   const [updateUserOnboarding] = useMutation(UPDATE_USER_ONBOARDING);
+  const [isLoading, setIsLoading] = useState(false);
 
   const handlePress = () => {
-    // TODO: Send request to setShowonboarding to false
-    // updateUserOnboarding()
     console.log("calling Continue");
+    setIsLoading(true);
     updateUserOnboarding({ variables: { showOnboarding: false } })
-      .then(({ data }) => {
-        // you can do something with the response here
-        console.log("data", d);
+      .then(() => {
+        setIsLoading(false);
+        hideOnboarding();
       })
-      .catch((e) => {
-        console.log("E", e);
-        // you can do something with the error here
-      });
-    hideOnboarding();
+      .catch((e) => console.log("e", e));
   };
 
   const handleRemindMe = () => {
@@ -76,7 +72,11 @@ const OnboardingScreen = () => {
           Save articles, videos and stories from any publication, page or app
           with the share extension.
         </SubTitle>
-        <GradientButton width={250} handlePress={handlePress}>
+        <GradientButton
+          isLoading={isLoading}
+          width={250}
+          handlePress={handlePress}
+        >
           <LargeLabel>Continue</LargeLabel>
         </GradientButton>
         <RemindMe onPress={handleRemindMe}>

@@ -290,7 +290,7 @@ const Query = objectType({
       ) => {
         const currentUser = ctx.req.user
         const user = username
-          ? await ctx.prisma.user.findOne({
+          ? await ctx.prisma.user.findUnique({
               where: { username },
             })
           : currentUser
@@ -320,7 +320,7 @@ const Query = objectType({
       ) => {
         const currentUser = ctx.req.user
         const user = username
-          ? await ctx.prisma.user.findOne({
+          ? await ctx.prisma.user.findUnique({
               where: { username },
             })
           : currentUser
@@ -362,7 +362,7 @@ const Query = objectType({
         slug: stringArg(),
       },
       resolve: async (_, { slug }, ctx) => {
-        const post = await ctx.prisma.post.findOne({
+        const post = await ctx.prisma.post.findUnique({
           where: { slug },
         })
         return post
@@ -375,7 +375,7 @@ const Query = objectType({
         id: idArg(),
       },
       resolve: async (_, { id }, ctx) => {
-        const comment = await ctx.prisma.comment.findOne({
+        const comment = await ctx.prisma.comment.findUnique({
           where: { id },
         })
         return comment
@@ -389,7 +389,7 @@ const Query = objectType({
       resolve: async (_, { username }, ctx) => {
         const currentUser = ctx.req.user
         const user = username
-          ? await ctx.prisma.user.findOne({
+          ? await ctx.prisma.user.findUnique({
               where: { username },
             })
           : currentUser
@@ -643,7 +643,7 @@ const Mutation = objectType({
             },
           },
         })
-        return ctx.prisma.topic.findOne({ where: { id: topicId } })
+        return ctx.prisma.topic.findUnique({ where: { id: topicId } })
       },
     })
     t.field('createDraft', {
@@ -753,7 +753,7 @@ const MagicStrategy = require('passport-magic').Strategy
 
 const strategy = new MagicStrategy(async function(user, done) {
   const userMetadata = await magic.users.getMetadataByIssuer(user.issuer)
-  const existingUser = await prisma.user.findOne({
+  const existingUser = await prisma.user.findUnique({
     where: { issuer: user.issuer },
   })
   if (!existingUser) {

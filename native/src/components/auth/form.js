@@ -37,25 +37,33 @@ const Form = ({ isSignUp }) => {
   const handleSubmit = () => {
     console.log("handle submit");
     setFormSubmitted(true);
+
+    const onSuccess = () => {
+      setIsLoading(false);
+      refetchCurrentUser();
+    };
+
+    const onError = () => {
+      console.log("executing the on error callback");
+      setIsLoading(false);
+      setFormSubmitted(false);
+    };
+
     if (isSignUp && nameValid && emailValid) {
       setIsLoading(true);
       console.log("We signup here");
       signIn({
         email,
         name,
-        cb: () => {
-          setIsLoading(false);
-          refetchCurrentUser();
-        },
+        onSuccess,
+        onError,
       });
     } else if (!isSignUp && emailValid) {
       setIsLoading(true);
       signIn({
         email,
-        cb: () => {
-          setIsLoading(false);
-          refetchCurrentUser();
-        },
+        onSuccess,
+        onError,
       });
     }
   };
