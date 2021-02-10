@@ -51,7 +51,6 @@ const Form = ({ isSignUp }) => {
 
     if (isSignUp && nameValid && emailValid) {
       setIsLoading(true);
-      console.log("We signup here");
       signIn({
         email,
         name,
@@ -72,7 +71,7 @@ const Form = ({ isSignUp }) => {
     <Container>
       {isSignUp && (
         <TextInput
-          label={"Your full name"}
+          label={"Your name"}
           errorLabel={"Please enter your name"}
           showValidation={formSubmitted}
           isValid={nameValid}

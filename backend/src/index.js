@@ -5,7 +5,6 @@ const cookieParser = require('cookie-parser')
 const logger = require('morgan')
 const session = require('express-session')
 const md5 = require('md5')
-// const passport = require('passport')
 
 const { ApolloServer } = require('apollo-server-express')
 const bodyParser = require('body-parser')
@@ -13,9 +12,7 @@ const bodyParser = require('body-parser')
 const pg = require('pg')
 const cors = require('cors')
 const PgStore = require('connect-pg-simple')(session)
-// const { Magic } = require('@magic-sdk/admin')
-// const passport = require('passport')
-// const MagicStrategy = require('passport-magic').Strategy
+
 const {
   makeSchema,
   objectType,
@@ -27,10 +24,6 @@ const {
 
 const { PrismaClient } = require('@prisma/client')
 const { nexusPrisma } = require('nexus-plugin-prisma')
-const { checkJwt } = require('../middleware/checkJwt')
-const { getUser } = require('../middleware/getUser')
-const { createUser } = require('../utils/create-user')
-const FlowClient = require('../flow/client')
 
 const metascraper = require('metascraper')([
   require('metascraper-author')(),
@@ -741,7 +734,7 @@ var corsOptions = {
 app.use(cors(corsOptions))
 
 const { Magic } = require('@magic-sdk/admin')
-// const magic = new Magic('sk_test_1F83C852158CEE86')
+
 const magic = new Magic(process.env.MAGIC_SECRET_KEY)
 
 const passport = require('passport')
@@ -751,7 +744,7 @@ app.use(passport.session())
 
 const MagicStrategy = require('passport-magic').Strategy
 
-const strategy = new MagicStrategy(async function(user, done) {
+const strategy = new MagicStrategy(async (user, done) => {
   const userMetadata = await magic.users.getMetadataByIssuer(user.issuer)
   const existingUser = await prisma.user.findUnique({
     where: { issuer: user.issuer },
@@ -771,9 +764,6 @@ passport.use(strategy)
 
 /* Implement User Signup */
 const signup = async (user, userMetadata, done) => {
-  console.log('-----------------------------')
-  console.log('------- calling signup -------------')
-  console.log('-----------------------------')
   const email = userMetadata.email
   const avatar = `https://gravatar.com/avatar/${md5(
     email.toLowerCase(),
@@ -792,9 +782,6 @@ const signup = async (user, userMetadata, done) => {
 
 /* Implement User Login */
 const login = async (user, done) => {
-  console.log('-----------------------------')
-  console.log('------- calling login -------------')
-  console.log('-----------------------------')
   /* Replay attack protection (https://go.magic.link/replay-attack) */
   if (user.claim.iat <= user.lastLoginAt) {
     return done(null, false, {
@@ -817,6 +804,16 @@ app.post('/login', passport.authenticate('magic'), async (req, res) => {
     const user = await prisma.user.findUnique({
       where: { issuer: req.user.issuer },
     })
+    const name = req.body && req.body.name ? req.body.name : null
+    // If a name is passed in and user doesn't have one set assume it's a signup
+    if (name && !user.name) {
+      await prisma.user.update({
+        where: { issuer: req.user.issuer },
+        data: {
+          name,
+        },
+      })
+    }
     res.json({ showOnboarding: user.showOnboarding })
   } else {
     return res.status(401).end('Could not log user in.')
@@ -836,9 +833,6 @@ passport.deserializeUser(async (id, done) => {
     const user = await prisma.user.findUnique({
       where: { issuer: id },
     })
-    console.log('---------------------')
-    console.log('-----> found user <------', user)
-    console.log('---------------------')
     done(null, user)
   } catch (err) {
     done(err, null)
@@ -846,7 +840,6 @@ passport.deserializeUser(async (id, done) => {
 })
 
 const requireAuthenticated = (req, res, next) => {
-  console.log('req.isAuthenticated()', req.isAuthenticated())
   if (req.isAuthenticated()) {
     next()
   } else {
@@ -873,9 +866,6 @@ app.get(
 
 /* Implement Logout Endpoint */
 app.post('/logout', async (req, res) => {
-  console.log('--------------------------')
-  console.log('>>>>>> CALLING LOGOUT >>>>>>>')
-  console.log('--------------------------')
   if (req.isAuthenticated()) {
     await magic.users.logoutByIssuer(req.user.issuer)
     req.logout()

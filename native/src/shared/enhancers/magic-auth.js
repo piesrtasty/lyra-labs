@@ -1,13 +1,16 @@
 import React, { useState, useEffect } from "react";
 import * as Keychain from "react-native-keychain";
 import { Magic } from "@magic-sdk/react-native";
+import Config from "react-native-config";
 
-const MAGIC_PUBLISHABLE_KEY = "pk_test_789150F1861195B5";
-const TEAM_ID = "KU5GP44363";
-const KEYCHAIN_GROUP = "com.lyralabs.app";
+const {
+  MAGIC_PUBLISHABLE_KEY,
+  TEAM_ID,
+  KEYCHAIN_GROUP,
+  MAGIC_AUTH_COOKIE_KEY,
+  BACKEND_API_URL,
+} = Config;
 const ACCESS_GROUP = `${TEAM_ID}.${KEYCHAIN_GROUP}`;
-const MAGIC_AUTH_COOKIE_KEY = "magicAuthCookie";
-const BACKEND_API_URL = "http://localhost:4000";
 
 export const MagicAuthContext = React.createContext();
 
@@ -30,13 +33,14 @@ export const withMagicAuth = (Component) => {
       bootstrapAsync();
     }, []);
 
-    const signIn = async ({ email, name, onSuccess, onError }) => {
+    const signIn = async ({ email, name = null, onSuccess, onError }) => {
       magic.auth
         .loginWithMagicLink({
           email,
         })
         .on("email-sent", () => {})
         .then(async (DIDToken) => {
+          const data = name ? { name } : {};
           const resp = await fetch(`${BACKEND_API_URL}/login`, {
             headers: new Headers({
               Authorization: "Bearer " + DIDToken,
@@ -46,6 +50,7 @@ export const withMagicAuth = (Component) => {
             withCredentials: true,
             credentials: "same-origin",
             method: "POST",
+            body: JSON.stringify(data),
           });
 
           const json = await resp.json();

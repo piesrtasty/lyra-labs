@@ -247,6 +247,10 @@ PODS:
   - React-jsinspector (0.63.2)
   - react-native-appearance (0.3.4):
     - React
+  - react-native-config (1.4.2):
+    - react-native-config/App (= 1.4.2)
+  - react-native-config/App (1.4.2):
+    - React-Core
   - react-native-cookies (5.0.1):
     - React-Core
   - react-native-safe-area-context (1.0.2):
@@ -376,6 +380,7 @@ DEPENDENCIES:
   - React-jsiexecutor (from `../node_modules/react-native/ReactCommon/jsiexecutor`)
   - React-jsinspector (from `../node_modules/react-native/ReactCommon/jsinspector`)
   - react-native-appearance (from `../node_modules/react-native-appearance`)
+  - react-native-config (from `../node_modules/react-native-config`)
   - "react-native-cookies (from `../node_modules/@react-native-community/cookies`)"
   - react-native-safe-area-context (from `../node_modules/react-native-safe-area-context`)
   - react-native-webview (from `../node_modules/react-native-webview`)
@@ -456,6 +461,8 @@ EXTERNAL SOURCES:
     :path: "../node_modules/react-native/ReactCommon/jsinspector"
   react-native-appearance:
     :path: "../node_modules/react-native-appearance"
+  react-native-config:
+    :path: "../node_modules/react-native-config"
   react-native-cookies:
     :path: "../node_modules/@react-native-community/cookies"
   react-native-safe-area-context:
@@ -534,6 +541,7 @@ SPEC CHECKSUMS:
   React-jsiexecutor: 8ca588cc921e70590820ce72b8789b02c67cce38
   React-jsinspector: b14e62ebe7a66e9231e9581279909f2fc3db6606
   react-native-appearance: 0f0e5fc2fcef70e03d48c8fe6b00b9158c2ba8aa
+  react-native-config: c98128a72bc2c3a1ca72caec0b021f0fa944aa29
   react-native-cookies: ce50e42ace7cf0dd47769260ca5bbe8eee607e4e
   react-native-safe-area-context: 9d9640a9085014864052e38496fc1dfde0b93974
   react-native-webview: 160ac8d6bb974e2933f2de6bb7464a8e934ff31d
