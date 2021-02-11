@@ -1,19 +1,28 @@
 import React, { useContext, useState } from "react";
-import { View } from "react-native";
-import { useMutation } from "@apollo/client";
-import { UPDATE_USER_ONBOARDING } from "@data/mutations";
+import styled from "@emotion/native";
 import { GradientButton, Label } from "@components/shared";
+import { CurrentUserContext } from "@shared/enhancers/current-user";
 import { MagicAuthContext } from "@shared/enhancers/magic-auth";
+import {
+  Avatar,
+  AVATAR_SIZE_LARGE,
+  CenterContainer,
+  MediumHeading,
+} from "@components/shared";
+
+const Container = styled(CenterContainer)`
+  margin-top: 40px;
+`;
+
+const Name = styled(MediumHeading)`
+  margin-top: 12px;
+  margin-bottom: 40px;
+`;
 
 const Profile = () => {
   const [isLoading, setIsLoading] = useState(false);
-
   const { signOut } = useContext(MagicAuthContext);
-
-  const [
-    updateUserOnboarding,
-    { loading: mutationLoading, error: mutationError },
-  ] = useMutation(UPDATE_USER_ONBOARDING);
+  const { currentUser } = useContext(CurrentUserContext);
 
   const handlePress = () => {
     setIsLoading(true);
@@ -24,21 +33,10 @@ const Profile = () => {
     });
   };
 
-  const handleOnboarding = () => {
-    console.log("handling onboarding", updateUserOnboarding);
-    updateUserOnboarding({ variables: { showOnboarding: false } });
-    // .then(({ data }) => {
-    //   // you can do something with the response here
-    //   console.log("data", d);
-    // })
-    // .catch((e) => {
-    //   console.log("E", e);
-    //   // you can do something with the error here
-    // });
-  };
-
   return (
-    <View>
+    <Container>
+      <Avatar size={AVATAR_SIZE_LARGE} source={{ uri: currentUser.avatar }} />
+      <Name>{currentUser.name}</Name>
       <GradientButton
         width={175}
         isLoading={isLoading}
@@ -46,10 +44,7 @@ const Profile = () => {
       >
         <Label>Logout</Label>
       </GradientButton>
-      <GradientButton width={175} handlePress={handleOnboarding}>
-        <Label>Set onboarding</Label>
-      </GradientButton>
-    </View>
+    </Container>
   );
 };
 

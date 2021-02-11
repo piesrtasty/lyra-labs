@@ -6,6 +6,8 @@ import { CurrentUserContext } from "@shared/enhancers/current-user";
 import { MAIN_TABS, ROUTES, ROUTE_PROFILE } from "@shared/routes";
 import { useTheme } from "@emotion/react";
 
+import { Avatar, AVATAR_SIZE_SMALL } from "@components/shared";
+
 const Container = styled.View``;
 
 const TabBar = styled.SafeAreaView`
@@ -37,11 +39,8 @@ const AvatarContainer = styled.View`
   justify-content: center;
 `;
 
-const Avatar = styled.Image`
-  width: 24px;
-  height: 24px;
+const StyledAvatar = styled(Avatar)`
   border-width: 2px;
-  border-radius: 50px;
 `;
 
 const Tab = createBottomTabNavigator();
@@ -70,7 +69,8 @@ const CustomTabBar = ({ state, descriptors, navigation }) => {
               <Item onPress={handlePress}>
                 {isProfileRoute && currentUser && currentUser.avatar ? (
                   <AvatarContainer isFocused={isFocused}>
-                    <Avatar
+                    <StyledAvatar
+                      size={AVATAR_SIZE_SMALL}
                       source={{ uri: currentUser.avatar }}
                       style={{ borderColor: colors.background }}
                     />

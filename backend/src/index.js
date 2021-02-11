@@ -247,6 +247,30 @@ const Query = objectType({
   definition(t) {
     t.crud.sections()
     t.crud.posts({ pagination: true, ordering: true, filtering: true })
+    t.list.field('newFeedPosts', {
+      type: 'Post',
+      args: {
+        take: intArg(),
+        cursor: idArg(),
+      },
+      resolve: async (_, {}, ctx) => {
+        // const currentUser = ctx.req.user
+        // let queryParams = {}
+        // if (currentUser) {
+        //   queryParams = { where: { NOT: { submitterId: currentUser.id } } }
+        // }
+
+        // const queryParams = currentUser
+
+        // const posts = await ctx.prisma.post.findMany({
+        //   ...queryParams,
+        //   orderBy: {
+        //     createdAt: 'desc',
+        //   },
+        // })
+        return posts
+      },
+    })
     t.list.field('feedPosts', {
       type: 'Post',
 
@@ -415,14 +439,6 @@ const Query = objectType({
               { name_lower: { contains: keyword } },
             ],
           },
-        })
-      },
-    })
-    t.list.field('feed', {
-      type: 'Post',
-      resolve: (_, _args, ctx) => {
-        return ctx.prisma.post.findMany({
-          where: { published: true },
         })
       },
     })
