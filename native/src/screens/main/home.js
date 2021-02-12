@@ -1,81 +1,32 @@
 import React, { useState, useEffect } from "react";
 import Layout from "@components/layout";
-import { useQuery, gql } from "@apollo/client";
-import { View, Text, StyleSheet, Button } from "react-native";
-import LinearGradient from "react-native-linear-gradient";
+import { useQuery } from "@apollo/client";
+import { View, Text, StyleSheet, TouchableOpacity } from "react-native";
 import { useRoute } from "@react-navigation/native";
 import { getRouteName } from "@shared/utils";
-
-// const styles = StyleSheet.create({
-//   container: {
-//     flex: 1,
-//     justifyContent: "center",
-//     alignItems: "center",
-//     backgroundColor: "#F5FCFF",
-//   },
-//   title: {
-//     fontSize: 20,
-//     textAlign: "center",
-//   },
-//   gradient: {
-//     flex: 1,
-//     // width: 200,
-//     // height: 200,
-//     // margin: 20,
-//   },
-// });
-
-// Within your render function
-
-const POSTS_QUERY = gql`
-  query post {
-    posts {
-      id
-    }
-  }
-`;
-
-var styles = StyleSheet.create({
-  linearGradient: {
-    flex: 1,
-    paddingLeft: 15,
-    paddingRight: 15,
-    borderRadius: 5,
-  },
-  buttonText: {
-    fontSize: 18,
-    fontFamily: "Gill Sans",
-    textAlign: "center",
-    margin: 10,
-    color: "#ffffff",
-    backgroundColor: "transparent",
-  },
-});
+import { NEW_FEED_POSTS } from "@data/queries";
 
 const HomeScreen = () => {
-  // const { data, error, loading } = useQuery(POSTS_QUERY);
+  const { data, error, loading, fetchMore } = useQuery(NEW_FEED_POSTS);
+
+  const handlePress = () => {
+    console.log("pressed");
+  };
 
   return (
     <View>
-      <Text style={{ color: "#FFF" }}>HOME</Text>
-      {/* <LinearGradient
-        start={{ x: START, y: START }}
-        end={{ x: END, y: END }}
-        colors={colors}
-        style={styles.linearGradient}
-      >
-        <Text style={styles.buttonText}>Sign in with Facebook</Text>
-      </LinearGradient> */}
-      {/* <Text>The test component</Text>
-      {error && <Text>{JSON.stringify(error)}</Text>}
-      {loading && <LoadingIndicator />}
+      <TouchableOpacity onPress={handlePress}>
+        <Text style={{ color: "#FFF", margin: 20 }}>Press</Text>
+      </TouchableOpacity>
+      {error && <Text style={{ color: "white" }}>{JSON.stringify(error)}</Text>}
+      {/* {loading && <LoadingIndicator />} */}
       {!loading && data && (
         <View>
-          {data.posts.map((p) => (
-            <Text style={{ color: "white" }}>{p.id}</Text>
+          {data.newFeedPosts.map((p) => (
+            <Text style={{ color: "white" }}>{p.title}</Text>
           ))}
         </View>
-      )} */}
+      )}
     </View>
   );
 };

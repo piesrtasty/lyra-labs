@@ -13,6 +13,15 @@ export const CURRENT_USER_QUERY = gql`
   }
 `;
 
+export const NEW_FEED_POSTS = gql`
+  query newFeedPosts($take: Int, $cursor: ID) {
+    newFeedPosts(take: $take, cursor: $cursor) {
+      id
+      title
+    }
+  }
+`;
+
 export const USER_POSTS_PAGINATION = gql`
   query userPostsPagination(
     $username: String

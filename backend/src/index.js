@@ -253,15 +253,18 @@ const Query = objectType({
         take: intArg(),
         cursor: idArg(),
       },
-      resolve: async (_, {}, ctx) => {
+      resolve: async (_, { take = 5, cursor = null }, ctx) => {
+        const baseArgs = { take }
+        const args = cursor
+          ? { ...baseArgs, skip: 1, cursor: { id: cursor } }
+          : baseArgs
+        const posts = await ctx.prisma.post.findMany(args)
         // const currentUser = ctx.req.user
         // let queryParams = {}
         // if (currentUser) {
         //   queryParams = { where: { NOT: { submitterId: currentUser.id } } }
         // }
-
         // const queryParams = currentUser
-
         // const posts = await ctx.prisma.post.findMany({
         //   ...queryParams,
         //   orderBy: {
