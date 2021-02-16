@@ -7,6 +7,11 @@ import {
   InMemoryCache,
   HttpLink,
 } from "@apollo/client";
+import {
+  offsetLimitPagination,
+  relayStylePagination,
+} from "@apollo/client/utilities";
+
 import { onError } from "@apollo/client/link/error";
 
 // import { setContext } from "@apollo/client/link/context";
@@ -53,7 +58,36 @@ const createApolloClient = () => {
     //   : {},
   });
   // console.log("link in createApolloClient", link);
-  const cache = new InMemoryCache();
+  // const cache = new InMemoryCache();
+  // const cache = new InMemoryCache({
+  //   typePolicies: {
+  //     Query: {
+  //       fields: {
+  //         newFeedPosts: relayStylePagination(),
+  //       },
+  //     },
+  //   },
+  // });
+
+  const cache = new InMemoryCache({
+    typePolicies: {
+      Query: {
+        fields: {
+          newFeedPosts: {
+            // Don't cache separate results based on
+            // any of this field's arguments.
+            keyArgs: false,
+            // Concatenate the incoming list items with
+            // the existing list items.
+            merge(existing = [], incoming) {
+              return [...existing, ...incoming];
+            },
+          },
+        },
+      },
+    },
+  });
+
   const client = new ApolloClient({
     link: errorLink.concat(link),
     // link,

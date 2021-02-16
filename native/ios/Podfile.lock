@@ -327,8 +327,8 @@ PODS:
     - React
   - RNKeychain (6.1.1):
     - React
-  - RNReanimated (1.13.0):
-    - React
+  - RNReanimated (1.13.2):
+    - React-Core
   - RNScreens (2.10.1):
     - React
   - RNSVG (12.1.0):
@@ -560,7 +560,7 @@ SPEC CHECKSUMS:
   RNDeviceInfo: 87d2d175c760f6bcf58acd036f887e8b2392802c
   RNGestureHandler: b6b359bb800ae399a9c8b27032bdbf7c18f08a08
   RNKeychain: db956c02a018f7dd3a0ea8a6cf3087bc1894bf2b
-  RNReanimated: 89f5e0a04d1dd52fbf27e7e7030d8f80a646a3fc
+  RNReanimated: e03f7425cb7a38dcf1b644d680d1bfc91c3337ad
   RNScreens: b748efec66e095134c7166ca333b628cd7e6f3e2
   RNSVG: ce9d996113475209013317e48b05c21ee988d42e
   Yoga: 7740b94929bbacbddda59bf115b5317e9a161598

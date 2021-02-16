@@ -258,6 +258,7 @@ const Query = objectType({
         const args = cursor
           ? { ...baseArgs, skip: 1, cursor: { id: cursor } }
           : baseArgs
+        console.log('Total args', args)
         const posts = await ctx.prisma.post.findMany(args)
         // const currentUser = ctx.req.user
         // let queryParams = {}
