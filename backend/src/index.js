@@ -253,7 +253,7 @@ const Query = objectType({
         take: intArg(),
         cursor: idArg(),
       },
-      resolve: async (_, { take = 5, cursor = null }, ctx) => {
+      resolve: async (_, { take = 10, cursor = null }, ctx) => {
         const baseArgs = { take }
         const args = cursor
           ? { ...baseArgs, skip: 1, cursor: { id: cursor } }

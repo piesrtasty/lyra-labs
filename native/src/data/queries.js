@@ -18,9 +18,16 @@ export const NEW_FEED_POSTS = gql`
     newFeedPosts(take: $take, cursor: $cursor) {
       id
       title
+      publisher
+      logo
+      url
+      image
+      date
     }
   }
 `;
+
+// s
 
 export const USER_POSTS_PAGINATION = gql`
   query userPostsPagination(

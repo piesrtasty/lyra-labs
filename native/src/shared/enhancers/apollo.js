@@ -69,10 +69,30 @@ const createApolloClient = () => {
   //   },
   // });
 
+  // const cache = new InMemoryCache({
+  //   typePolicies: {
+  //     Query: {
+  //       fields: {
+  //         newFeedPosts: {
+  //           // Don't cache separate results based on
+  //           // any of this field's arguments.
+  //           keyArgs: false,
+  //           // Concatenate the incoming list items with
+  //           // the existing list items.
+  //           merge(existing = [], incoming) {
+  //             return [...existing, ...incoming];
+  //           },
+  //         },
+  //       },
+  //     },
+  //   },
+  // });
+
   const cache = new InMemoryCache({
     typePolicies: {
       Query: {
         fields: {
+          posts: relayStylePagination(),
           newFeedPosts: {
             // Don't cache separate results based on
             // any of this field's arguments.
@@ -80,6 +100,7 @@ const createApolloClient = () => {
             // Concatenate the incoming list items with
             // the existing list items.
             merge(existing = [], incoming) {
+              console.log("incoming", incoming);
               return [...existing, ...incoming];
             },
           },

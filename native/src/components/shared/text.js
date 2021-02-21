@@ -1,9 +1,21 @@
 import styled from "@emotion/native";
 
-const Heading = styled.Text`
-  font-family: Montserrat-SemiBold;
-  letter-spacing: -0.15px;
+const BaseText = styled.Text`
+  font-size: 13px;
   color: ${(props) => props.theme.colors.primary};
+  line-height: 22px;
+`;
+
+export const MediumText = styled(BaseText)`
+  font-family: Montserrat-Medium;
+`;
+
+export const RegularText = styled(BaseText)`
+  font-family: Montserrat-Regular;
+`;
+
+export const Heading = styled(BaseText)`
+  font-family: Montserrat-SemiBold;
 `;
 
 export const MediumHeading = styled(Heading)`
