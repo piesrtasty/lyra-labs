@@ -18,7 +18,6 @@ export const Divider = styled.View`
 const Container = styled.View`
   display: flex;
   flex-direction: column;
-  flex: 1;
 `;
 
 const TopRow = styled.View`
@@ -82,43 +81,46 @@ const Action = styled.View`
 
 const ActionName = styled(MediumText)``;
 
+const Wrapper = styled.View`
+  ${"" /* flex: 1; */}
+  ${"" /* flex: 0; */}
+`;
+
 const Post = ({ post, hasDivider = true }) => {
   const formattedDate = dayjs(post.date).format("MMMM Do");
   return (
-    <>
-      <Container>
-        <TopRow>
-          <LeftCol>
-            <SourceMeta>
-              <SourceLogo resizeMode={"contain"} source={{ uri: post.logo }} />
-              <SourceName>{post.publisher}</SourceName>
-            </SourceMeta>
-            <Title>{post.title}</Title>
-          </LeftCol>
-          <RightCol>
-            <Thumbnail source={{ uri: post.image }} />
-          </RightCol>
-        </TopRow>
-        <BottomRow>
-          <Meta>
-            <MetaDate>{formattedDate}</MetaDate>
-          </Meta>
-          <Actions>
-            <Action>
-              <FontAwesomeIcon
-                style={{ marginRight: 5 }}
-                size={15}
-                color={`rgba(255, 255, 255, ${1})`}
-                icon={faBookmark}
-              />
-              <ActionName>Save</ActionName>
-            </Action>
-          </Actions>
-        </BottomRow>
-      </Container>
-      {hasDivider && <Divider />}
-    </>
+    <Container>
+      <TopRow>
+        <LeftCol>
+          <SourceMeta>
+            <SourceLogo resizeMode={"contain"} source={{ uri: post.logo }} />
+            <SourceName>{post.publisher}</SourceName>
+          </SourceMeta>
+          <Title>{post.title}</Title>
+        </LeftCol>
+        <RightCol>
+          <Thumbnail source={{ uri: post.image }} />
+        </RightCol>
+      </TopRow>
+      <BottomRow>
+        <Meta>
+          <MetaDate>{formattedDate}</MetaDate>
+        </Meta>
+        <Actions>
+          <Action>
+            <FontAwesomeIcon
+              style={{ marginRight: 5 }}
+              size={15}
+              color={`rgba(255, 255, 255, ${1})`}
+              icon={faBookmark}
+            />
+            <ActionName>Save</ActionName>
+          </Action>
+        </Actions>
+      </BottomRow>
+    </Container>
+    // {hasDivider && <Divider />}
   );
 };
 
-export default Post;
+export default React.memo(Post);
