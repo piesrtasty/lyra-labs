@@ -1,11 +1,28 @@
 import React, { useState } from "react";
 import styled from "@emotion/native";
-import { View, FlatList, ActivityIndicator } from "react-native";
+import {
+  View,
+  FlatList,
+  ActivityIndicator,
+  Text,
+  RefreshControl,
+} from "react-native";
+import { useTheme } from "@emotion/react";
 import { NEW_FEED_POSTS } from "@data/queries";
 import { useQuery } from "@apollo/client";
 import PostSkeleton from "@components/post/skeleton";
 import Post from "@components/post";
-import { CenterContainer, FullContainer } from "@components/shared";
+import {
+  CenterContainer,
+  ImageMessageBlock,
+  IMG_MSG_NO_POSTS_FOUND,
+  IMG_MSG_NO_MORE_POSTS_FOUND,
+  IMG_MSG_ERROR_POSTS,
+  IMG_MSG_NO_POSTS_SAVED,
+  IMG_MSG_NO_POSTS_ARCHIVED,
+  IMG_MSG_ERROR_SAVED_POSTS,
+  IMG_MSG_ERROR_ARCHIVED_POSTS,
+} from "@components/shared";
 
 import MagnifyingGlass from "@assets/images/magnifying-glass.svg";
 
@@ -62,16 +79,27 @@ const getCursor = (data, key) => {
 const PostList = () => {
   const [cursor, setCursor] = useState(null);
   const [isLoadingMore, setIsLoadingMore] = useState(false);
-  const { data, error, loading, fetchMore } = useQuery(NEW_FEED_POSTS);
+  const [isRefreshing, setIsRefreshing] = useState(false);
+  const { data, error, loading, fetchMore, refetch } = useQuery(NEW_FEED_POSTS);
   const [hasMoreData, setHasMoreData] = useState(true);
+
+  if (error) {
+    return (
+      <EmptyContainer>
+        <ImageMessageBlock type={IMG_MSG_ERROR_POSTS} />
+      </EmptyContainer>
+    );
+  }
+
+  const { colors } = useTheme();
 
   let posts = [];
 
   const renderItem = ({ item }) => <Post post={item} />;
 
-  //   if (data && data.newFeedPosts) {
-  //     posts = data.newFeedPosts;
-  //   }
+  if (data && data.newFeedPosts) {
+    posts = data.newFeedPosts;
+  }
 
   if (loading && posts.length === 0) {
     return (
@@ -94,6 +122,7 @@ const PostList = () => {
         },
       }).then(({ data }) => {
         setIsLoadingMore(false);
+        console.log("posts", posts);
         if (data.newFeedPosts.length === 0) {
           setHasMoreData(false);
         }
@@ -101,22 +130,42 @@ const PostList = () => {
     }
   };
 
+  const handleRefresh = () => {
+    setIsRefreshing(true);
+    refetch().then(({ data }) => {
+      if (data && data.newFeedPosts) {
+        posts = data.newFeedPosts;
+      }
+      setIsRefreshing(false);
+    });
+  };
+
   const renderFooter = () => {
+    if (!hasMoreData && !loading && posts.length > 0) {
+      return (
+        <>
+          <Divider />
+          <ImageMessageBlock type={IMG_MSG_NO_MORE_POSTS_FOUND} />
+        </>
+      );
+    }
+
     if (!isLoadingMore) return null;
+
     return (
-      <View>
+      <>
         <Divider />
         <PostSkeleton />
         <PostSkeleton />
         <PostSkeleton />
-      </View>
+      </>
     );
   };
 
   const renderEmpty = () => {
     return (
       <EmptyContainer>
-        <MagnifyingGlass width={105} height={75} />
+        <ImageMessageBlock type={IMG_MSG_NO_POSTS_FOUND} />
       </EmptyContainer>
     );
   };
@@ -127,6 +176,13 @@ const PostList = () => {
       ListFooterComponent={renderFooter}
       ItemSeparatorComponent={Divider}
       data={posts}
+      refreshControl={
+        <RefreshControl
+          refreshing={isRefreshing}
+          onRefresh={handleRefresh}
+          tintColor={colors.secondary}
+        />
+      }
       renderItem={renderItem}
       keyExtractor={(item) => item.id}
       contentContainerStyle={{ flexGrow: 1, padding: 25 }}

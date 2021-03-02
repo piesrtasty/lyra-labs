@@ -7,3 +7,11 @@ export const UPDATE_USER_ONBOARDING = gql`
     }
   }
 `;
+
+export const SAVE_EXISTING_POST = gql`
+  mutation($postId: ID!) {
+    saveExistingPost(postId: $postId) {
+      id
+    }
+  }
+`;

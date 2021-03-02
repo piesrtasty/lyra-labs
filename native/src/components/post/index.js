@@ -1,11 +1,14 @@
 import React, { useState, useContext } from "react";
 import styled from "@emotion/native";
+import { useMutation } from "@apollo/client";
 import dayjs from "dayjs";
 import advancedFormat from "dayjs/plugin/advancedFormat";
 import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
 import { faBookmark } from "@fortawesome/pro-light-svg-icons";
 dayjs.extend(advancedFormat);
 import { Heading, RegularText, MediumText } from "@components/shared";
+
+import { SAVE_EXISTING_POST } from "@data/mutations";
 
 export const Divider = styled.View`
   border-bottom-width: 1px;
@@ -86,8 +89,24 @@ const Wrapper = styled.View`
   ${"" /* flex: 0; */}
 `;
 
+const PressableAction = styled.Pressable``;
+
 const Post = ({ post, hasDivider = true }) => {
   const formattedDate = dayjs(post.date).format("MMMM Do");
+
+  const [saveExistingPost] = useMutation(SAVE_EXISTING_POST);
+
+  const handleSavePress = () => {
+    console.log("pressing handleSavePress");
+    saveExistingPost({ variables: { postId: post.id } })
+      .then((data) => {
+        console.log("here is the data", data);
+        // setIsLoading(false);
+        // hideOnboarding();
+      })
+      .catch((e) => console.log("e", e));
+  };
+
   return (
     <Container>
       <TopRow>
@@ -107,15 +126,17 @@ const Post = ({ post, hasDivider = true }) => {
           <MetaDate>{formattedDate}</MetaDate>
         </Meta>
         <Actions>
-          <Action>
-            <FontAwesomeIcon
-              style={{ marginRight: 5 }}
-              size={15}
-              color={`rgba(255, 255, 255, ${1})`}
-              icon={faBookmark}
-            />
-            <ActionName>Save</ActionName>
-          </Action>
+          <PressableAction onPress={handleSavePress}>
+            <Action>
+              <FontAwesomeIcon
+                style={{ marginRight: 5 }}
+                size={15}
+                color={`rgba(255, 255, 255, ${1})`}
+                icon={faBookmark}
+              />
+              <ActionName>Save</ActionName>
+            </Action>
+          </PressableAction>
         </Actions>
       </BottomRow>
     </Container>
