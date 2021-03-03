@@ -5,10 +5,11 @@ import dayjs from "dayjs";
 import advancedFormat from "dayjs/plugin/advancedFormat";
 import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
 import { faBookmark } from "@fortawesome/pro-light-svg-icons";
+import { faBookmark as faBookmarkSolid } from "@fortawesome/pro-solid-svg-icons";
 dayjs.extend(advancedFormat);
 import { Heading, RegularText, MediumText } from "@components/shared";
 
-import { SAVE_EXISTING_POST } from "@data/mutations";
+import { SAVE_EXISTING_POST, REMOVE_EXISTING_POST } from "@data/mutations";
 
 export const Divider = styled.View`
   border-bottom-width: 1px;
@@ -93,18 +94,37 @@ const PressableAction = styled.Pressable``;
 
 const Post = ({ post, hasDivider = true }) => {
   const formattedDate = dayjs(post.date).format("MMMM Do");
+  const [isSaved, setIsSaved] = useState(false);
+  const [savedId, setSavedId] = useState(null);
 
   const [saveExistingPost] = useMutation(SAVE_EXISTING_POST);
+  const [removeExistingPost] = useMutation(REMOVE_EXISTING_POST);
 
   const handleSavePress = () => {
     console.log("pressing handleSavePress");
-    saveExistingPost({ variables: { postId: post.id } })
-      .then((data) => {
-        console.log("here is the data", data);
-        // setIsLoading(false);
-        // hideOnboarding();
-      })
-      .catch((e) => console.log("e", e));
+    if (isSaved) {
+      removeExistingPost({ variables: { postId: savedId } })
+        .then(({ data }) => {
+          setIsSaved(false);
+          setSavedId(null);
+          console.log("returned data from remove", data);
+          // setIsLoading(false);
+          // hideOnboarding();
+        })
+        .catch((e) => console.log("e", e));
+    } else {
+      saveExistingPost({ variables: { postId: post.id } })
+        .then(({ data }) => {
+          setIsSaved(true);
+          const newSavedPostId = data.saveExistingPost.id;
+          setSavedId(newSavedPostId);
+          console.log("returned data", data);
+          console.log("newSavedPostId", newSavedPostId);
+          // setIsLoading(false);
+          // hideOnboarding();
+        })
+        .catch((e) => console.log("e", e));
+    }
   };
 
   return (
@@ -132,15 +152,14 @@ const Post = ({ post, hasDivider = true }) => {
                 style={{ marginRight: 5 }}
                 size={15}
                 color={`rgba(255, 255, 255, ${1})`}
-                icon={faBookmark}
+                icon={isSaved ? faBookmarkSolid : faBookmark}
               />
-              <ActionName>Save</ActionName>
+              <ActionName>{isSaved ? "Saved" : "Save"}</ActionName>
             </Action>
           </PressableAction>
         </Actions>
       </BottomRow>
     </Container>
-    // {hasDivider && <Divider />}
   );
 };
 

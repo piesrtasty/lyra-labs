@@ -15,3 +15,11 @@ export const SAVE_EXISTING_POST = gql`
     }
   }
 `;
+
+export const REMOVE_EXISTING_POST = gql`
+  mutation($postId: ID!) {
+    removeExistingPost(postId: $postId) {
+      id
+    }
+  }
+`;
