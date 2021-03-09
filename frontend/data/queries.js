@@ -88,16 +88,6 @@ export const USER_SEARCH = gql`
   }
 `;
 
-export const CURATED_TOPICS_QUERY = gql`
-  query curatedTopics {
-    curatedTopics {
-      id
-      name
-      slug
-    }
-  }
-`;
-
 export const SECTIONS_QUERY = gql`
   query sections($first: Int!, $skip: Int!) {
     sections(first: $first, skip: $skip) {

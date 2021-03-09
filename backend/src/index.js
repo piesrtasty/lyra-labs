@@ -247,6 +247,23 @@ const Query = objectType({
   definition(t) {
     t.crud.sections()
     t.crud.posts({ pagination: true, ordering: true, filtering: true })
+    t.list.field('readingList', {
+      type: 'Post',
+      args: {
+        take: intArg(),
+        cursor: idArg(),
+      },
+      resolve: async (_, { take = 10, cursor = null }, ctx) => {
+        const currentUser = ctx.req.user
+        const where = { where: { submitterId: currentUser.id } }
+        const baseArgs = { take, ...where }
+        const args = cursor
+          ? { ...baseArgs, skip: 1, cursor: { id: cursor } }
+          : baseArgs
+        const posts = await ctx.prisma.post.findMany(args)
+        return posts
+      },
+    })
     t.list.field('newFeedPosts', {
       type: 'Post',
       args: {
@@ -254,72 +271,29 @@ const Query = objectType({
         cursor: idArg(),
       },
       resolve: async (_, { take = 10, cursor = null }, ctx) => {
-        const baseArgs = { take }
+        const currentUser = ctx.req.user
+        const where = currentUser
+          ? { where: { NOT: { submitterId: currentUser.id } } }
+          : {}
+        const baseArgs = { take, ...where }
         const args = cursor
           ? { ...baseArgs, skip: 1, cursor: { id: cursor } }
           : baseArgs
-        console.log('Total args', args)
         const posts = await ctx.prisma.post.findMany(args)
-        // const currentUser = ctx.req.user
-        // let queryParams = {}
-        // if (currentUser) {
-        //   queryParams = { where: { NOT: { submitterId: currentUser.id } } }
-        // }
-        // const queryParams = currentUser
-        // const posts = await ctx.prisma.post.findMany({
-        //   ...queryParams,
-        //   orderBy: {
-        //     createdAt: 'desc',
-        //   },
-        // })
         return posts
       },
     })
+    // This is the query currently used on the website
     t.list.field('feedPosts', {
       type: 'Post',
-
       resolve: async (_, {}, ctx) => {
         const currentUser = ctx.req.user
         let queryParams = {}
         if (currentUser) {
           queryParams = { where: { NOT: { submitterId: currentUser.id } } }
         }
-
-        // const queryParams = currentUser
-
         const posts = await ctx.prisma.post.findMany({
           ...queryParams,
-          orderBy: {
-            createdAt: 'desc',
-          },
-        })
-        return posts
-      },
-    })
-    t.list.field('userPostsPagination', {
-      type: 'Post',
-      args: {
-        username: stringArg(),
-        archived: booleanArg(),
-        skip: intArg(),
-        take: intArg(),
-      },
-      resolve: async (
-        _,
-        { username, archived = false, skip = 0, take = 5 },
-        ctx,
-      ) => {
-        const currentUser = ctx.req.user
-        const user = username
-          ? await ctx.prisma.user.findUnique({
-              where: { username },
-            })
-          : currentUser
-
-        const posts = await ctx.prisma.post.findMany({
-          skip,
-          take,
-          where: { submitterId: user.id, archived, pinned },
           orderBy: {
             createdAt: 'desc',
           },
@@ -345,7 +319,6 @@ const Query = objectType({
               where: { username },
             })
           : currentUser
-
         const posts = await ctx.prisma.post.findMany({
           where: { submitterId: user.id, archived, pinned },
           orderBy: {
@@ -365,15 +338,6 @@ const Query = objectType({
           where: { username },
         })
         return posts
-      },
-    })
-    t.list.field('curatedTopics', {
-      type: 'Topic',
-      resolve: async (_, { slug }, ctx) => {
-        const topics = await ctx.prisma.topic.findMany({
-          where: { slug: { in: CURATED_TOPICS } },
-        })
-        return topics
       },
     })
     t.field('post', {
@@ -446,22 +410,6 @@ const Query = objectType({
         })
       },
     })
-    t.list.field('filterPosts', {
-      type: 'Post',
-      args: {
-        searchString: stringArg({ nullable: true }),
-      },
-      resolve: (_, { searchString }, ctx) => {
-        return ctx.prisma.post.findMany({
-          where: {
-            OR: [
-              { title: { contains: searchString } },
-              { content: { contains: searchString } },
-            ],
-          },
-        })
-      },
-    })
   },
 })
 
@@ -469,6 +417,54 @@ const Mutation = objectType({
   name: 'Mutation',
   definition(t) {
     t.crud.createOneUser({ alias: 'signupUser' })
+    t.field('removeExistingPost', {
+      type: 'Post',
+      args: {
+        postId: idArg(),
+      },
+      resolve: async (_, { postId }, ctx) => {
+        return ctx.prisma.post.delete({
+          where: {
+            id: postId,
+          },
+        })
+      },
+    })
+    t.field('saveExistingPost', {
+      type: 'Post',
+      args: {
+        postId: idArg(),
+      },
+      resolve: async (_, { postId }, ctx) => {
+        const currentUser = ctx.req.user
+        const post = await ctx.prisma.post.findUnique({
+          where: { id: postId },
+        })
+        const {
+          author,
+          date,
+          description,
+          image,
+          logo,
+          publisher,
+          title,
+          url,
+        } = post
+        return await prisma.post.create({
+          data: {
+            submitter: { connect: { id: currentUser.id } },
+            author,
+            date,
+            description,
+            image,
+            logo,
+            publisher,
+            title,
+            url,
+          },
+        })
+      },
+    })
     t.field('updateUserOnboarding', {
       type: 'User',
       args: {

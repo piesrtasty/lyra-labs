@@ -5,10 +5,12 @@ import { ThemeProvider } from "@emotion/react";
 
 const ACCENT_COLOR = "#645aff";
 const ERROR_COLOR = "#ff464b";
+const DIVIDER_COLOR = "rgba(255, 255, 255, .05)";
 
 const sharedColors = {
   accent: ACCENT_COLOR,
   error: ERROR_COLOR,
+  divider: DIVIDER_COLOR,
 };
 
 const themeDark = {

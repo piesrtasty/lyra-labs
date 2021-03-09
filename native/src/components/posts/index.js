@@ -1,61 +1,14 @@
 import React, { useState } from "react";
 import styled from "@emotion/native";
-import {
-  View,
-  FlatList,
-  ActivityIndicator,
-  Text,
-  RefreshControl,
-} from "react-native";
+import { FlatList, RefreshControl } from "react-native";
 import { useTheme } from "@emotion/react";
-import { NEW_FEED_POSTS } from "@data/queries";
 import { useQuery } from "@apollo/client";
 import PostSkeleton from "@components/post/skeleton";
 import Post from "@components/post";
-import {
-  CenterContainer,
-  ImageMessageBlock,
-  IMG_MSG_NO_POSTS_FOUND,
-  IMG_MSG_NO_MORE_POSTS_FOUND,
-  IMG_MSG_ERROR_POSTS,
-  IMG_MSG_NO_POSTS_SAVED,
-  IMG_MSG_NO_POSTS_ARCHIVED,
-  IMG_MSG_ERROR_SAVED_POSTS,
-  IMG_MSG_ERROR_ARCHIVED_POSTS,
-} from "@components/shared";
-
-import MagnifyingGlass from "@assets/images/magnifying-glass.svg";
-
-const Container = styled.View`
-  padding: 25px;
-  flex: 1;
-`;
-
-const QUERY_KEY = "newFeedPosts";
-
-const Item = styled.View`
-  height: 40px;
-  background-color: blue;
-  width: 100%;
-`;
+import { CenterContainer, ImageMessageBlock } from "@components/shared";
 
 const SkeletonContainer = styled.View`
   padding: 25px;
-`;
-
-// const getData = (data, key) => {
-
-// }
-
-const Row = styled.View`
-  height: 100px;
-  background-color: pink;
-  margin: 10px;
-`;
-
-const Title = styled.Text`
-  color: white;
-  font-size: 24px;
 `;
 
 export const Divider = styled.View`
@@ -67,26 +20,30 @@ export const Divider = styled.View`
 `;
 
 const EmptyContainer = styled(CenterContainer)`
-  ${"" /* background-color: pink; */}
   margin-top: 172px;
 `;
 
-const getCursor = (data, key) => {
+const getCursor = (data = {}, key) => {
   const arr = data[key];
-  return arr[arr.length - 1].id;
+  return arr && arr.length > 0 ? arr[arr.length - 1].id : null;
 };
 
-const PostList = () => {
-  const [cursor, setCursor] = useState(null);
+const PostList = ({
+  query,
+  queryKey,
+  msgNoPosts,
+  msgNoMorePosts,
+  msgError,
+}) => {
   const [isLoadingMore, setIsLoadingMore] = useState(false);
   const [isRefreshing, setIsRefreshing] = useState(false);
-  const { data, error, loading, fetchMore, refetch } = useQuery(NEW_FEED_POSTS);
+  const { data, error, loading, fetchMore, refetch } = useQuery(query);
   const [hasMoreData, setHasMoreData] = useState(true);
 
   if (error) {
     return (
       <EmptyContainer>
-        <ImageMessageBlock type={IMG_MSG_ERROR_POSTS} />
+        <ImageMessageBlock type={msgError} />
       </EmptyContainer>
     );
   }
@@ -97,8 +54,8 @@ const PostList = () => {
 
   const renderItem = ({ item }) => <Post post={item} />;
 
-  if (data && data.newFeedPosts) {
-    posts = data.newFeedPosts;
+  if (data && data[queryKey]) {
+    posts = data[queryKey];
   }
 
   if (loading && posts.length === 0) {
@@ -114,16 +71,16 @@ const PostList = () => {
   }
 
   const handleOnEndReached = () => {
-    if (hasMoreData) {
+    if (hasMoreData && !isLoadingMore) {
       setIsLoadingMore(true);
       fetchMore({
         variables: {
-          cursor: cursor ? cursor : getCursor(data, QUERY_KEY),
+          cursor: getCursor(data, queryKey),
         },
       }).then(({ data }) => {
         setIsLoadingMore(false);
         console.log("posts", posts);
-        if (data.newFeedPosts.length === 0) {
+        if (data[queryKey].length === 0) {
           setHasMoreData(false);
         }
       });
@@ -133,8 +90,8 @@ const PostList = () => {
   const handleRefresh = () => {
     setIsRefreshing(true);
     refetch().then(({ data }) => {
-      if (data && data.newFeedPosts) {
-        posts = data.newFeedPosts;
+      if (data && data[queryKey]) {
+        posts = data[queryKey];
       }
       setIsRefreshing(false);
     });
@@ -145,7 +102,7 @@ const PostList = () => {
       return (
         <>
           <Divider />
-          <ImageMessageBlock type={IMG_MSG_NO_MORE_POSTS_FOUND} />
+          <ImageMessageBlock type={msgNoMorePosts} />
         </>
       );
     }
@@ -165,7 +122,7 @@ const PostList = () => {
   const renderEmpty = () => {
     return (
       <EmptyContainer>
-        <ImageMessageBlock type={IMG_MSG_NO_POSTS_FOUND} />
+        <ImageMessageBlock type={msgNoPosts} />
       </EmptyContainer>
     );
   };

@@ -107,9 +107,6 @@ const Post = ({ post, hasDivider = true }) => {
         .then(({ data }) => {
           setIsSaved(false);
           setSavedId(null);
-          console.log("returned data from remove", data);
-          // setIsLoading(false);
-          // hideOnboarding();
         })
         .catch((e) => console.log("e", e));
     } else {
@@ -118,10 +115,6 @@ const Post = ({ post, hasDivider = true }) => {
           setIsSaved(true);
           const newSavedPostId = data.saveExistingPost.id;
           setSavedId(newSavedPostId);
-          console.log("returned data", data);
-          console.log("newSavedPostId", newSavedPostId);
-          // setIsLoading(false);
-          // hideOnboarding();
         })
         .catch((e) => console.log("e", e));
     }
