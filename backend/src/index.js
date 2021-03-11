@@ -8,7 +8,6 @@ const md5 = require('md5')
 
 const { ApolloServer } = require('apollo-server-express')
 const bodyParser = require('body-parser')
-// const session = require('express-session')
 const pg = require('pg')
 const cors = require('cors')
 const PgStore = require('connect-pg-simple')(session)
@@ -729,18 +728,32 @@ app.use(express.json())
 app.use(express.urlencoded({ extended: false }))
 app.use(cookieParser())
 
-app.use(
-  session({
-    secret: "not my cat's name",
-    resave: false,
-    saveUninitialized: true,
-    cookie: {
-      maxAge: 60 * 60 * 1000, // 1 hour
-      // secure: true, // Uncomment this line to enforce HTTPS protocol.
-      sameSite: true,
-    },
+const SESSION_SECRET = process.env.SESSION_SECRET
+
+const sessionStore = new PgStore({
+  pool: new pg.Pool({
+    user: process.env.DB_USER,
+    host: process.env.DB_HOST,
+    database: process.env.DB_NAME,
+    password: process.env.DB_PASSWORD,
+    port: process.env.DB_PORT,
   }),
-)
+  ttl: 30 * 24 * 60 * 60, // 30 days, in sec. Gets reset on each user visit
+  disableTouch: false,
+  // errorLog: log.error
+})
+
+const sessionMiddleware = session({
+  secret: SESSION_SECRET,
+  store: sessionStore,
+  resave: false,
+  saveUninitialized: false, // setting this to true results in 2 session objects, known issue with passport
+  cookie: {
+    maxAge: 7 * 24 * 60 * 60 * 1000, // 7 days, in ms
+    // secure: false,
+    sameSite: true,
+  },
+})
 
 var corsOptions = {
   origin: process.env.FRONTEND_URL,
@@ -754,6 +767,8 @@ const { Magic } = require('@magic-sdk/admin')
 const magic = new Magic(process.env.MAGIC_SECRET_KEY)
 
 const passport = require('passport')
+
+app.use(sessionMiddleware)
 
 app.use(passport.initialize())
 app.use(passport.session())

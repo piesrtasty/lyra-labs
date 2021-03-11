@@ -18,6 +18,7 @@ const themeDark = {
     background: "#121217",
     primary: "rgba(255, 255, 255, 1)",
     secondary: "rgba(255, 255, 255, .8)",
+    tertiary: "rgba(255, 255, 255, .35)",
     ...sharedColors,
   },
 };
@@ -27,6 +28,7 @@ const themeLight = {
     background: "#FFFFFF",
     primary: "rgba(0, 0, 0, 1)",
     secondary: "rgba(0, 0, 0, .8)",
+    tertiary: "rgba(0, 0, 0, .35)",
     ...sharedColors,
   },
 };

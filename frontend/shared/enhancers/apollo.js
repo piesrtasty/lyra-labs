@@ -1,6 +1,5 @@
 import React from "react";
 import Head from "next/head";
-import auth0 from "../../config/auth0";
 import {
   ApolloProvider,
   ApolloClient,

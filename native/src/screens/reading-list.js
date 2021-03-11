@@ -32,6 +32,8 @@ const TabItem = styled.Pressable`
 
 const TabLabel = styled(RegularText)`
   font-size: 14px;
+  color: ${(props) =>
+    props.active ? props.theme.colors.primary : props.theme.colors.tertiary};
 `;
 
 const SavedPosts = () => (
