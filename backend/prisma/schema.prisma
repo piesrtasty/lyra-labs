@@ -9,7 +9,7 @@ datasource db {
 }
 
 model User {
-  id               String        @default(cuid()) @id
+  id               String        @id @default(cuid())
   createdAt        DateTime      @default(now())
   updatedAt        DateTime      @updatedAt
   email            String        @unique
@@ -39,10 +39,10 @@ model User {
   commentVotes     CommentVote[]
   votes            Vote[]
   posts            Post[]
-}  
+}
 
 model Topic {
-  id             String   @default(cuid()) @id
+  id             String   @id @default(cuid())
   createdAt      DateTime @default(now())
   updatedAt      DateTime @updatedAt
   name           String
@@ -57,7 +57,7 @@ model Topic {
 }
 
 model Post {
-  id          String    @default(cuid()) @id
+  id          String    @id @default(cuid())
   createdAt   DateTime  @default(now())
   updatedAt   DateTime  @updatedAt
   author      String?
@@ -72,18 +72,22 @@ model Post {
   pinned      Boolean   @default(false)
   comments    Comment[]
   votes       Vote[]
-  submitter   User      @relation(fields: [submitterId],references: [id])
-  submitterId String    
+  submitter   User      @relation(fields: [submitterId], references: [id])
+  submitterId String
+  Topic       Topic?    @relation(fields: [topicId], references: [id])
+  topicId     String?
+  Section     Section?  @relation(fields: [sectionId], references: [id])
+  sectionId   String?
 }
 
 model Comment {
-  id        String        @default(cuid()) @id
+  id        String        @id @default(cuid())
   createdAt DateTime      @default(now())
   updatedAt DateTime      @updatedAt
   text      String
   post      Post?         @relation(references: [id], fields: [postId])
   postId    String?
-  author    User          @relation(references: [id], fields:[authorId])
+  author    User          @relation(references: [id], fields: [authorId])
   authorId  String
   parent    Comment?      @relation("commentReplies", fields: [parentId], references: [id])
   parentId  String?
@@ -92,27 +96,27 @@ model Comment {
 }
 
 model CommentVote {
-  id        String   @default(cuid()) @id
+  id        String   @id @default(cuid())
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
-  user      User     @relation(references: [id], fields:[userId])
+  user      User     @relation(references: [id], fields: [userId])
   userId    String
-  comment   Comment  @relation(references: [id], fields:[commentId])
+  comment   Comment  @relation(references: [id], fields: [commentId])
   commentId String
 }
 
 model Vote {
-  id        String   @default(cuid()) @id
+  id        String   @id @default(cuid())
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
   user      User     @relation(references: [id], fields: [userId])
   userId    String
   post      Post     @relation(references: [id], fields: [postId])
-  postId    String   
+  postId    String
 }
 
 model Section {
-  id        String   @default(cuid()) @id
+  id        String   @id @default(cuid())
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
   date      String   @unique
@@ -120,7 +124,7 @@ model Section {
 }
 
 model SignedUpload {
-  id            String   @default(cuid()) @id
+  id            String   @id @default(cuid())
   createdAt     DateTime @default(now())
   updatedAt     DateTime @updatedAt
   signedRequest String
