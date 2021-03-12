@@ -1,86 +1,35 @@
-import React, { useState, useRef } from "react";
-import { View, Dimensions, Text, StyleSheet } from "react-native";
+import React, { useState, useRef, useContext } from "react";
+import styled from "@emotion/native";
+import { Dimensions } from "react-native";
 import Carousel, { Pagination } from "react-native-snap-carousel";
-
-import { DM_SANS_MEDIUM } from "@shared/fonts";
-
-import SaveIllustration from "../../../assets/images/save-illustration.svg";
-import DiscoverIllustration from "../../../assets/images/discover-illustration.svg";
-import RewardsIllustration from "../../../assets/images/rewards-illustration.svg";
-
-var styles = StyleSheet.create({
-  container: {
-    height: 380,
-    // backgroundColor: "red",
-  },
-
-  title: {
-    fontSize: 32,
-  },
-  illustration: {
-    height: 150,
-    width: "100%",
-  },
-});
-
-const itemStyles = StyleSheet.create({
-  container: {
-    paddingLeft: 40,
-    paddingRight: 40,
-    marginTop: 50,
-  },
-
-  content: {
-    display: "flex",
-    flexDirection: "column",
-    alignItems: "center",
-    marginTop: 20,
-  },
-  title: {
-    fontSize: 16,
-    textAlign: "center",
-    color: "rgba(245, 246, 247, .9)",
-    fontFamily: "OpenSauceSans-Bold",
-  },
-  description: {
-    marginTop: 15,
-    textAlign: "center",
-    fontSize: 13,
-    color: "rgba(245, 246, 247, .7)",
-    fontFamily: "OpenSauceSans-Medium",
-  },
-  subTitle: {
-    color: "rgba(245, 246, 247, .9)",
-    fontSize: 11,
-    marginTop: 3,
-  },
-  titleContainer: {
-    display: "flex",
-    flexDirection: "row",
-  },
-});
+import LottieView from "lottie-react-native";
+import { ThemeManagerContext } from "@shared/enhancers/theme-manager";
+import { MediumHeading, Paragraph, CenterContainer } from "@components/shared";
 
 const ITEMS = [
   {
     title: "Save content from everywhere.",
     description:
       "Save articles, videos and stories from any publication, page or app.",
-    illustration: SaveIllustration,
     subTitle: null,
+    animationLight: require("@assets/animations/jar-of-stars-black.json"),
+    animationDark: require("@assets/animations/jar-of-stars-white.json"),
   },
   {
     title: "Discover what you love.",
     description:
       "Find more of what you already like or discover your next favorite.",
-    illustration: DiscoverIllustration,
     subTitle: null,
+    animationLight: require("@assets/animations/heart-globe-black.json"),
+    animationDark: require("@assets/animations/heart-globe-white.json"),
   },
   {
     title: "Earn LYRA and NFT awards.",
     description:
       "Earn tokens and awards for curating content and participating in the community.",
-    illustration: RewardsIllustration,
     subTitle: "(coming soon)",
+    animationLight: require("@assets/animations/wallet-black.json"),
+    animationDark: require("@assets/animations/wallet-white.json"),
   },
 ];
 
@@ -91,45 +40,62 @@ const wp = (percentage) => {
   return Math.round(value);
 };
 
-const slideWidth = wp(100);
+const slideWidth = wp(80);
 const itemWidth = slideWidth;
 
-const ILLUSTRATION_HEIGHT = 150;
+const ItemHeading = styled(MediumHeading)`
+  margin-top: 35px;
+  text-align: center;
+`;
 
-const Item = ({
-  title,
-  subTitle,
-  description,
-  illustration: IllustrationComponent,
-}) => (
-  <View style={itemStyles.container}>
-    <IllustrationComponent height={ILLUSTRATION_HEIGHT} width={"100%"} />
-    <View style={itemStyles.content}>
-      <Text style={{ ...itemStyles.text, ...itemStyles.title }}>{title}</Text>
-      {subTitle && <Text style={itemStyles.subTitle}>{subTitle}</Text>}
-      <Text style={{ ...itemStyles.text, ...itemStyles.description }}>
-        {description}
-      </Text>
-    </View>
-  </View>
+const ItemParagraph = styled(Paragraph)`
+  margin-top: 12px;
+  text-align: center;
+`;
+
+const Item = ({ title, subTitle, description, animation }) => (
+  <ItemContainer>
+    <LottieContainer>
+      <LottieView source={animation} autoPlay loop />
+    </LottieContainer>
+    <CenterContainer>
+      <ItemHeading>{title}</ItemHeading>
+      <ItemParagraph>{description}</ItemParagraph>
+    </CenterContainer>
+  </ItemContainer>
 );
 
-const SIZE = 90;
+const Container = styled.View`
+  margin-top: ${(props) => (props.theme.hasNotch ? "100px" : "25px")};
+`;
+
+const ItemContainer = styled.View`
+  height: ${(props) => (props.theme.hasNotch ? "300px" : "250px")};
+  display: flex;
+`;
+
+const LottieContainer = styled.View`
+  height: ${(props) => (props.theme.hasNotch ? "175px" : "125px")};
+`;
 
 const Slider = () => {
+  const { isDark, setIsDark } = useContext(ThemeManagerContext);
+  const animationKey = `animation${isDark ? "Dark" : "Light"}`;
   const renderItem = ({ item }) => (
     <Item
       title={item.title}
-      illustration={item.illustration}
       description={item.description}
       subTitle={item.subTitle}
+      animation={item[animationKey]}
     />
   );
   const carouselRef = useRef();
   const [activeSlide, setActiveSlide] = useState(0);
 
+  const DOT_SIZE = 10;
+
   return (
-    <View style={styles.container}>
+    <Container>
       <Carousel
         ref={carouselRef}
         renderItem={renderItem}
@@ -144,13 +110,18 @@ const Slider = () => {
         dotsLength={ITEMS.length}
         activeDotIndex={activeSlide}
         carouselRef={carouselRef}
-        dotColor={"rgba(255, 255, 255, 0.92)"}
-        inactiveDotColor={"#1a1917"}
+        dotColor={"rgba(255, 255, 255, 1)"}
+        inactiveDotColor={"rgba(255, 255, 255, .4)"}
+        dotStyle={{
+          width: DOT_SIZE,
+          height: DOT_SIZE,
+          borderRadius: DOT_SIZE,
+        }}
         inactiveDotOpacity={0.4}
         inactiveDotScale={0.6}
         tappableDots={!!carouselRef}
       />
-    </View>
+    </Container>
   );
 };
 

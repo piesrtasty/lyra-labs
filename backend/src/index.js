@@ -4,17 +4,14 @@ const express = require('express')
 const cookieParser = require('cookie-parser')
 const logger = require('morgan')
 const session = require('express-session')
-// const passport = require('passport')
+const md5 = require('md5')
 
 const { ApolloServer } = require('apollo-server-express')
 const bodyParser = require('body-parser')
-// const session = require('express-session')
 const pg = require('pg')
 const cors = require('cors')
 const PgStore = require('connect-pg-simple')(session)
-// const { Magic } = require('@magic-sdk/admin')
-// const passport = require('passport')
-// const MagicStrategy = require('passport-magic').Strategy
+
 const {
   makeSchema,
   objectType,
@@ -26,10 +23,6 @@ const {
 
 const { PrismaClient } = require('@prisma/client')
 const { nexusPrisma } = require('nexus-plugin-prisma')
-const { checkJwt } = require('../middleware/checkJwt')
-const { getUser } = require('../middleware/getUser')
-const { createUser } = require('../utils/create-user')
-const FlowClient = require('../flow/client')
 
 const metascraper = require('metascraper')([
   require('metascraper-author')(),
@@ -88,6 +81,7 @@ const User = objectType({
     t.model.headline()
     t.model.walletAddress()
     t.model.walletIsSetup()
+    t.model.showOnboarding()
     t.model.name()
     t.model.followedTopics()
   },
@@ -252,51 +246,53 @@ const Query = objectType({
   definition(t) {
     t.crud.sections()
     t.crud.posts({ pagination: true, ordering: true, filtering: true })
+    t.list.field('readingList', {
+      type: 'Post',
+      args: {
+        take: intArg(),
+        cursor: idArg(),
+      },
+      resolve: async (_, { take = 10, cursor = null }, ctx) => {
+        const currentUser = ctx.req.user
+        const where = { where: { submitterId: currentUser.id } }
+        const baseArgs = { take, ...where }
+        const args = cursor
+          ? { ...baseArgs, skip: 1, cursor: { id: cursor } }
+          : baseArgs
+        const posts = await ctx.prisma.post.findMany(args)
+        return posts
+      },
+    })
+    t.list.field('newFeedPosts', {
+      type: 'Post',
+      args: {
+        take: intArg(),
+        cursor: idArg(),
+      },
+      resolve: async (_, { take = 10, cursor = null }, ctx) => {
+        const currentUser = ctx.req.user
+        const where = currentUser
+          ? { where: { NOT: { submitterId: currentUser.id } } }
+          : {}
+        const baseArgs = { take, ...where }
+        const args = cursor
+          ? { ...baseArgs, skip: 1, cursor: { id: cursor } }
+          : baseArgs
+        const posts = await ctx.prisma.post.findMany(args)
+        return posts
+      },
+    })
+    // This is the query currently used on the website
     t.list.field('feedPosts', {
       type: 'Post',
-
       resolve: async (_, {}, ctx) => {
         const currentUser = ctx.req.user
         let queryParams = {}
         if (currentUser) {
           queryParams = { where: { NOT: { submitterId: currentUser.id } } }
         }
-
-        // const queryParams = currentUser
-
         const posts = await ctx.prisma.post.findMany({
           ...queryParams,
-          orderBy: {
-            createdAt: 'desc',
-          },
-        })
-        return posts
-      },
-    })
-    t.list.field('userPostsPagination', {
-      type: 'Post',
-      args: {
-        username: stringArg(),
-        archived: booleanArg(),
-        skip: intArg(),
-        take: intArg(),
-      },
-      resolve: async (
-        _,
-        { username, archived = false, skip = 0, take = 5 },
-        ctx,
-      ) => {
-        const currentUser = ctx.req.user
-        const user = username
-          ? await ctx.prisma.user.findOne({
-              where: { username },
-            })
-          : currentUser
-
-        const posts = await ctx.prisma.post.findMany({
-          skip,
-          take,
-          where: { submitterId: user.id, archived, pinned },
           orderBy: {
             createdAt: 'desc',
           },
@@ -318,11 +314,10 @@ const Query = objectType({
       ) => {
         const currentUser = ctx.req.user
         const user = username
-          ? await ctx.prisma.user.findOne({
+          ? await ctx.prisma.user.findUnique({
               where: { username },
             })
           : currentUser
-
         const posts = await ctx.prisma.post.findMany({
           where: { submitterId: user.id, archived, pinned },
           orderBy: {
@@ -344,15 +339,6 @@ const Query = objectType({
         return posts
       },
     })
-    t.list.field('curatedTopics', {
-      type: 'Topic',
-      resolve: async (_, { slug }, ctx) => {
-        const topics = await ctx.prisma.topic.findMany({
-          where: { slug: { in: CURATED_TOPICS } },
-        })
-        return topics
-      },
-    })
     t.field('post', {
       type: 'Post',
       nullable: true,
@@ -360,7 +346,7 @@ const Query = objectType({
         slug: stringArg(),
       },
       resolve: async (_, { slug }, ctx) => {
-        const post = await ctx.prisma.post.findOne({
+        const post = await ctx.prisma.post.findUnique({
           where: { slug },
         })
         return post
@@ -373,7 +359,7 @@ const Query = objectType({
         id: idArg(),
       },
       resolve: async (_, { id }, ctx) => {
-        const comment = await ctx.prisma.comment.findOne({
+        const comment = await ctx.prisma.comment.findUnique({
           where: { id },
         })
         return comment
@@ -387,7 +373,7 @@ const Query = objectType({
       resolve: async (_, { username }, ctx) => {
         const currentUser = ctx.req.user
         const user = username
-          ? await ctx.prisma.user.findOne({
+          ? await ctx.prisma.user.findUnique({
               where: { username },
             })
           : currentUser
@@ -423,30 +409,6 @@ const Query = objectType({
         })
       },
     })
-    t.list.field('feed', {
-      type: 'Post',
-      resolve: (_, _args, ctx) => {
-        return ctx.prisma.post.findMany({
-          where: { published: true },
-        })
-      },
-    })
-    t.list.field('filterPosts', {
-      type: 'Post',
-      args: {
-        searchString: stringArg({ nullable: true }),
-      },
-      resolve: (_, { searchString }, ctx) => {
-        return ctx.prisma.post.findMany({
-          where: {
-            OR: [
-              { title: { contains: searchString } },
-              { content: { contains: searchString } },
-            ],
-          },
-        })
-      },
-    })
   },
 })
 
@@ -454,6 +416,70 @@ const Mutation = objectType({
   name: 'Mutation',
   definition(t) {
     t.crud.createOneUser({ alias: 'signupUser' })
+    t.field('removeExistingPost', {
+      type: 'Post',
+      args: {
+        postId: idArg(),
+      },
+      resolve: async (_, { postId }, ctx) => {
+        return ctx.prisma.post.delete({
+          where: {
+            id: postId,
+          },
+        })
+      },
+    })
+    t.field('saveExistingPost', {
+      type: 'Post',
+      args: {
+        postId: idArg(),
+      },
+      resolve: async (_, { postId }, ctx) => {
+        const currentUser = ctx.req.user
+        const post = await ctx.prisma.post.findUnique({
+          where: { id: postId },
+        })
+        const {
+          author,
+          date,
+          description,
+          image,
+          logo,
+          publisher,
+          title,
+          url,
+        } = post
+        return await prisma.post.create({
+          data: {
+            submitter: { connect: { id: currentUser.id } },
+            author,
+            date,
+            description,
+            image,
+            logo,
+            publisher,
+            title,
+            url,
+          },
+        })
+      },
+    })
+    t.field('updateUserOnboarding', {
+      type: 'User',
+      args: {
+        showOnboarding: booleanArg(),
+      },
+      resolve: async (_, { showOnboarding }, ctx) => {
+        console.log('showOnboarding', showOnboarding)
+        const currentUser = ctx.req.user
+        return await ctx.prisma.user.update({
+          where: { id: currentUser.id },
+          data: {
+            showOnboarding,
+          },
+        })
+      },
+    })
     t.field('associateWallet', {
       type: 'User',
       args: {
@@ -625,7 +651,7 @@ const Mutation = objectType({
             },
           },
         })
-        return ctx.prisma.topic.findOne({ where: { id: topicId } })
+        return ctx.prisma.topic.findUnique({ where: { id: topicId } })
       },
     })
     t.field('createDraft', {
@@ -702,18 +728,32 @@ app.use(express.json())
 app.use(express.urlencoded({ extended: false }))
 app.use(cookieParser())
 
-app.use(
-  session({
-    secret: "not my cat's name",
-    resave: false,
-    saveUninitialized: true,
-    cookie: {
-      maxAge: 60 * 60 * 1000, // 1 hour
-      // secure: true, // Uncomment this line to enforce HTTPS protocol.
-      sameSite: true,
-    },
+const SESSION_SECRET = process.env.SESSION_SECRET
+
+const sessionStore = new PgStore({
+  pool: new pg.Pool({
+    user: process.env.DB_USER,
+    host: process.env.DB_HOST,
+    database: process.env.DB_NAME,
+    password: process.env.DB_PASSWORD,
+    port: process.env.DB_PORT,
   }),
-)
+  ttl: 30 * 24 * 60 * 60, // 30 days, in sec. Gets reset on each user visit
+  disableTouch: false,
+  // errorLog: log.error
+})
+
+const sessionMiddleware = session({
+  secret: SESSION_SECRET,
+  store: sessionStore,
+  resave: false,
+  saveUninitialized: false, // setting this to true results in 2 session objects, known issue with passport
+  cookie: {
+    maxAge: 7 * 24 * 60 * 60 * 1000, // 7 days, in ms
+    // secure: false,
+    sameSite: true,
+  },
+})
 
 var corsOptions = {
   origin: process.env.FRONTEND_URL,
@@ -723,19 +763,21 @@ var corsOptions = {
 app.use(cors(corsOptions))
 
 const { Magic } = require('@magic-sdk/admin')
-// const magic = new Magic('sk_test_1F83C852158CEE86')
+
 const magic = new Magic(process.env.MAGIC_SECRET_KEY)
 
 const passport = require('passport')
+
+app.use(sessionMiddleware)
 
 app.use(passport.initialize())
 app.use(passport.session())
 
 const MagicStrategy = require('passport-magic').Strategy
 
-const strategy = new MagicStrategy(async function(user, done) {
+const strategy = new MagicStrategy(async (user, done) => {
   const userMetadata = await magic.users.getMetadataByIssuer(user.issuer)
-  const existingUser = await prisma.user.findOne({
+  const existingUser = await prisma.user.findUnique({
     where: { issuer: user.issuer },
   })
   if (!existingUser) {
@@ -753,12 +795,14 @@ passport.use(strategy)
 
 /* Implement User Signup */
 const signup = async (user, userMetadata, done) => {
-  console.log('-----------------------------')
-  console.log('----- calling signup -------')
-  console.log('-----------------------------')
+  const email = userMetadata.email
+  const avatar = `https://gravatar.com/avatar/${md5(
+    email.toLowerCase(),
+  )}?d=retro`
   await prisma.user.create({
     data: {
-      email: userMetadata.email,
+      avatar,
+      email,
       publicEthAddress: userMetadata.publicAddress,
       issuer: userMetadata.issuer,
       lastLoginAt: user.claim.iat,
@@ -769,9 +813,6 @@ const signup = async (user, userMetadata, done) => {
 
 /* Implement User Login */
 const login = async (user, done) => {
-  console.log('-----------------------------')
-  console.log('------- calling login -------------')
-  console.log('-----------------------------')
   /* Replay attack protection (https://go.magic.link/replay-attack) */
   if (user.claim.iat <= user.lastLoginAt) {
     return done(null, false, {
@@ -789,9 +830,22 @@ const login = async (user, done) => {
 }
 
 /* Attach middleware to login endpoint */
-app.post('/login', passport.authenticate('magic'), (req, res) => {
+app.post('/login', passport.authenticate('magic'), async (req, res) => {
   if (req.user) {
-    res.status(200).end('User is logged in.')
+    const user = await prisma.user.findUnique({
+      where: { issuer: req.user.issuer },
+    })
+    const name = req.body && req.body.name ? req.body.name : null
+    // If a name is passed in and user doesn't have one set assume it's a signup
+    if (name && !user.name) {
+      await prisma.user.update({
+        where: { issuer: req.user.issuer },
+        data: {
+          name,
+        },
+      })
+    }
+    res.json({ showOnboarding: user.showOnboarding })
   } else {
     return res.status(401).end('Could not log user in.')
   }
@@ -817,7 +871,6 @@ passport.deserializeUser(async (id, done) => {
 })
 
 const requireAuthenticated = (req, res, next) => {
-  console.log('req.isAuthenticated()', req.isAuthenticated())
   if (req.isAuthenticated()) {
     next()
   } else {
@@ -844,9 +897,6 @@ app.get(
 
 /* Implement Logout Endpoint */
 app.post('/logout', async (req, res) => {
-  console.log('--------------------------')
-  console.log('>>>>>> CALLING LOGOUT >>>>>>>')
-  console.log('--------------------------')
   if (req.isAuthenticated()) {
     await magic.users.logoutByIssuer(req.user.issuer)
     req.logout()
@@ -923,6 +973,27 @@ app.post('/save', async (req, res, done) => {
     res.status(401).send('Missing auth header')
   }
 })
+
+// const myPlugin = {
+//   // Fires whenever a GraphQL request is received from a client.
+//   requestDidStart(requestContext) {
+//     console.log('Request started! Query:\n' + requestContext.request.query)
+
+//     return {
+//       // Fires whenever Apollo Server will parse a GraphQL
+//       // request to create its associated document AST.
+//       parsingDidStart(requestContext) {
+//         console.log('Parsing started!', requestContext)
+//       },
+
+//       // Fires whenever Apollo Server will validate a
+//       // request's document AST against your GraphQL schema.
+//       validationDidStart(requestContext) {
+//         console.log('Validation started!', requestContext)
+//       },
+//     }
+//   },
+// }
 
 const apollo = new ApolloServer({
   context: req => {

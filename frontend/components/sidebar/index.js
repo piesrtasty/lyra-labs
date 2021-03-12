@@ -37,14 +37,6 @@ const Sidebar = () => {
           {/* <SponsorList /> */}
         </StickySidebarSection>
       )}
-      {/* <TopicList query={CURATED_TOPICS_QUERY} dataKey={"curatedTopics"} /> */}
-      {/* <SidebarSection>
-            <CTALink path={"/tags"} text={"View all-time top tags"} />
-          </SidebarSection>
-          <SidebarSection>
-            <StyledDivider />
-          </SidebarSection>
-          <SponsorList /> */}
     </Container>
   );
 };

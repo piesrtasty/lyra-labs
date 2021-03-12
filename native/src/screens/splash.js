@@ -1,7 +1,8 @@
 import React from "react";
-import { SafeAreaView, StyleSheet, Text } from "react-native";
+import { SafeAreaView, StyleSheet } from "react-native";
 import { PRIMARY_BG_DARK } from "@shared/theme";
-import LyraLabsLogo from "../../assets/images/lyra-labs-logo.svg";
+
+import Logo from "@assets/images/logo.svg";
 
 const styles = StyleSheet.create({
   container: {
@@ -16,7 +17,7 @@ const SIZE = 150;
 
 const SplashScreen = () => (
   <SafeAreaView style={styles.container}>
-    <LyraLabsLogo height={SIZE} width={SIZE} />
+    <Logo height={SIZE} width={SIZE} />
   </SafeAreaView>
 );
 

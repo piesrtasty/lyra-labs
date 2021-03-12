@@ -1,4 +1,4 @@
-import gql from "graphql-tag";
+import { gql } from "@apollo/client";
 
 export const CURRENT_USER_QUERY = gql`
   query {
@@ -8,24 +8,21 @@ export const CURRENT_USER_QUERY = gql`
       avatar
       username
       name
+      showOnboarding
     }
   }
 `;
 
-export const USER_POSTS_PAGINATION = gql`
-  query userPostsPagination(
-    $username: String
-    $archived: Boolean
-    $skip: Int
-    $take: Int
-  ) {
-    userPostsPagination(
-      username: $username
-      archived: $archived
-      skip: $skip
-      take: $take
-    ) {
+export const NEW_FEED_POSTS = gql`
+  query newFeedPosts($take: Int, $cursor: ID) {
+    newFeedPosts(take: $take, cursor: $cursor) {
       id
+      title
+      publisher
+      logo
+      url
+      image
+      date
     }
   }
 `;

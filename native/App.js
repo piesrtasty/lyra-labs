@@ -6,7 +6,6 @@ if (__DEV__) {
 import Entry from "./Entry";
 import "react-native-gesture-handler";
 import React, { useContext } from "react";
-import { NavigationContainer } from "@react-navigation/native";
 import { flowRight as compose } from "lodash";
 import SplashScreen from "@screens/splash";
 
@@ -24,24 +23,15 @@ const magic = new Magic("pk_test_789150F1861195B5");
 
 const App = () => {
   const { isLoading } = useContext(MagicAuthContext);
-
   if (isLoading) {
     return <SplashScreen />;
   }
 
-  const theme = {
-    colors: {
-      background: "transparent",
-    },
-  };
-
   return (
     <AppearanceProvider>
       <ThemeManager>
-        <NavigationContainer theme={theme}>
-          <magic.Relayer />
-          <Entry />
-        </NavigationContainer>
+        <magic.Relayer />
+        <Entry />
       </ThemeManager>
     </AppearanceProvider>
   );

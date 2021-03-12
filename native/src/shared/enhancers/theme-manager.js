@@ -1,32 +1,51 @@
+import DeviceInfo from "react-native-device-info";
 import React, { useState } from "react";
 import { Appearance } from "react-native-appearance";
-import { getTheme } from "../theme";
+import { ThemeProvider } from "@emotion/react";
 
-const osTheme = Appearance.getColorScheme();
+const ACCENT_COLOR = "#645aff";
+const ERROR_COLOR = "#ff464b";
+const DIVIDER_COLOR = "rgba(255, 255, 255, .05)";
 
-const LIGHT = "light";
-export const DARK = "dark";
-
-export const ManageThemeContext = React.createContext({});
-
-export const ThemeManager = ({ children }) => {
-  const [mode, setMode] = useState(osTheme);
-
-  const toggleTheme = () => {
-    mode === LIGHT ? setMode(DARK) : setMode(LIGHT);
-  };
-
-  return (
-    <ManageThemeContext.Provider
-      value={{
-        mode,
-        theme: getTheme(mode),
-        toggleTheme,
-      }}
-    >
-      {children}
-    </ManageThemeContext.Provider>
-  );
+const sharedColors = {
+  accent: ACCENT_COLOR,
+  error: ERROR_COLOR,
+  divider: DIVIDER_COLOR,
 };
 
-export const useTheme = () => React.useContext(ManageThemeContext);
+const themeDark = {
+  colors: {
+    background: "#121217",
+    primary: "rgba(255, 255, 255, 1)",
+    secondary: "rgba(255, 255, 255, .8)",
+    tertiary: "rgba(255, 255, 255, .35)",
+    ...sharedColors,
+  },
+};
+
+const themeLight = {
+  colors: {
+    background: "#FFFFFF",
+    primary: "rgba(0, 0, 0, 1)",
+    secondary: "rgba(0, 0, 0, .8)",
+    tertiary: "rgba(0, 0, 0, .35)",
+    ...sharedColors,
+  },
+};
+
+export const ThemeManagerContext = React.createContext({});
+
+export const ThemeManager = ({ children }) => {
+  const osTheme = Appearance.getColorScheme();
+  const [isDark, setIsDark] = useState(true);
+  const baseTheme = isDark ? themeDark : themeLight;
+  const hasNotch = DeviceInfo.hasNotch();
+  const theme = { ...baseTheme, hasNotch };
+  return (
+    <ThemeProvider theme={theme}>
+      <ThemeManagerContext.Provider value={{ isDark, setIsDark }}>
+        {children}
+      </ThemeManagerContext.Provider>
+    </ThemeProvider>
+  );
+};
