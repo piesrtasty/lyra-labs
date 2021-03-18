@@ -34,6 +34,8 @@ const PostList = ({
   msgNoPosts,
   msgNoMorePosts,
   msgError,
+  containerStyle = {},
+  Component = Post,
 }) => {
   const [isLoadingMore, setIsLoadingMore] = useState(false);
   const [isRefreshing, setIsRefreshing] = useState(false);
@@ -52,7 +54,7 @@ const PostList = ({
 
   let posts = [];
 
-  const renderItem = ({ item }) => <Post post={item} />;
+  const renderItem = ({ item }) => <Component post={item} />;
 
   if (data && data[queryKey]) {
     posts = data[queryKey];
@@ -142,7 +144,7 @@ const PostList = ({
       }
       renderItem={renderItem}
       keyExtractor={(item) => item.id}
-      contentContainerStyle={{ flexGrow: 1, padding: 25 }}
+      contentContainerStyle={{ flexGrow: 1, padding: 25, ...containerStyle }}
       onEndReachedThreshold={0.5}
       onEndReached={handleOnEndReached}
     />

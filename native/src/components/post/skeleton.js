@@ -1,7 +1,7 @@
 import React from "react";
 import styled from "@emotion/native";
 import SkeletonContent from "react-native-skeleton-content-nonexpo";
-import { Divider } from "./";
+import { Divider } from "./shared";
 
 const Container = styled.View`
   display: flex;

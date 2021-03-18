@@ -1,4 +1,5 @@
 import { gql } from "@apollo/client";
+import { postFields } from "./fragments";
 
 export const UPDATE_USER_ONBOARDING = gql`
   mutation($showOnboarding: Boolean!) {
@@ -22,4 +23,13 @@ export const REMOVE_EXISTING_POST = gql`
       id
     }
   }
+`;
+
+export const NEW_ARCHIVE_POST = gql`
+  mutation newArchivePost($postId: ID!) {
+    newArchivePost(postId: $postId) {
+      ...postFields
+    }
+  }
+  ${postFields}
 `;

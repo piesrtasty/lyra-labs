@@ -263,7 +263,7 @@ const Query = objectType({
         return posts
       },
     })
-    t.list.field('newFeedPosts', {
+    t.list.field('newSavedPosts', {
       type: 'Post',
       args: {
         take: intArg(),
@@ -272,7 +272,57 @@ const Query = objectType({
       resolve: async (_, { take = 10, cursor = null }, ctx) => {
         const currentUser = ctx.req.user
         const where = currentUser
-          ? { where: { NOT: { submitterId: currentUser.id } } }
+          ? { where: { submitterId: currentUser.id, archived: false } }
+          : {}
+        const baseArgs = { take, ...where }
+        const args = cursor
+          ? { ...baseArgs, skip: 1, cursor: { id: cursor } }
+          : baseArgs
+        const posts = await ctx.prisma.post.findMany(args)
+        return posts
+      },
+    })
+    t.list.field('newArchivedPosts', {
+      type: 'Post',
+      args: {
+        take: intArg(),
+        cursor: idArg(),
+      },
+      resolve: async (_, { take = 10, cursor = null }, ctx) => {
+        const currentUser = ctx.req.user
+        const where = currentUser
+          ? { where: { submitterId: currentUser.id, archived: true } }
+          : {}
+        const baseArgs = { take, ...where }
+        const args = cursor
+          ? { ...baseArgs, skip: 1, cursor: { id: cursor } }
+          : baseArgs
+        const posts = await ctx.prisma.post.findMany(args)
+        return posts
+      },
+    })
+    t.list.field('newFeedPosts', {
+      type: 'Post',
+      args: {
+        take: intArg(),
+        cursor: idArg(),
+      },
+      resolve: async (_, { take = 10, cursor = null }, ctx) => {
+        const currentUser = ctx.req.user
+        const userSavedPosts = await ctx.prisma.post.findMany({
+          where: { submitterId: currentUser.id },
+          select: {
+            url: true,
+          },
+        })
+        const excludedUrls = userSavedPosts.map(p => p.url)
+        const where = currentUser
+          ? {
+              where: {
+                submitterId: { not: currentUser.id },
+                url: { notIn: excludedUrls },
+              },
+            }
           : {}
         const baseArgs = { take, ...where }
         const args = cursor
@@ -425,6 +475,20 @@ const Mutation = objectType({
         return ctx.prisma.post.delete({
           where: {
             id: postId,
+          },
+        })
+      },
+    })
+    t.field('newArchivePost', {
+      type: 'Post',
+      args: {
+        postId: idArg(),
+      },
+      resolve: async (_, { postId }, ctx) => {
+        return await ctx.prisma.post.update({
+          where: { id: postId },
+          data: {
+            archived: true,
           },
         })
       },

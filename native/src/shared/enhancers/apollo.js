@@ -93,6 +93,30 @@ const createApolloClient = () => {
       Query: {
         fields: {
           posts: relayStylePagination(),
+          newArchivedPosts: {
+            // Don't cache separate results based on
+            // any of this field's arguments.
+            keyArgs: false,
+            // Concatenate the incoming list items with
+            // the existing list items.
+            merge(existing = [], incoming) {
+              console.log("existing", existing);
+              console.log("incoming", incoming);
+              return [...existing, ...incoming];
+            },
+          },
+          newSavedPosts: {
+            // Don't cache separate results based on
+            // any of this field's arguments.
+            keyArgs: false,
+            // Concatenate the incoming list items with
+            // the existing list items.
+            merge(existing = [], incoming) {
+              console.log("existing", existing);
+              console.log("incoming", incoming);
+              return [...existing, ...incoming];
+            },
+          },
           newFeedPosts: {
             // Don't cache separate results based on
             // any of this field's arguments.

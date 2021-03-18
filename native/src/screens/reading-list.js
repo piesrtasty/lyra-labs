@@ -3,10 +3,8 @@ import styled from "@emotion/native";
 import { Dimensions, Text, Pressable, View } from "react-native";
 import { TabView, SceneMap } from "react-native-tab-view";
 import { RegularText } from "@components/shared";
-
-const TabContainer = styled.View`
-  flex: 1;
-`;
+import SavedPosts from "@components/reading-list/saved";
+import ArchivedPosts from "@components/reading-list/archived";
 
 const TabBar = styled.View`
   flex-direction: row;
@@ -14,7 +12,6 @@ const TabBar = styled.View`
   border-bottom-width: 1px;
   border-top-width: 1px;
   border-color: ${(props) => props.theme.colors.divider};
-  ${"" /* background-color: green; */}
 `;
 
 const TabItemContainer = styled.View`
@@ -35,18 +32,6 @@ const TabLabel = styled(RegularText)`
   color: ${(props) =>
     props.active ? props.theme.colors.primary : props.theme.colors.tertiary};
 `;
-
-const SavedPosts = () => (
-  <TabContainer>
-    <RegularText>Saved Posts</RegularText>
-  </TabContainer>
-);
-
-const ArchivedPosts = () => (
-  <TabContainer>
-    <RegularText>Archived Posts</RegularText>
-  </TabContainer>
-);
 
 const initialLayout = { width: Dimensions.get("window").width };
 

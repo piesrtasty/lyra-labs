@@ -2,6 +2,9 @@ import React from "react";
 import { Dimensions, Animated } from "react-native";
 import { getFocusedRouteNameFromRoute } from "@react-navigation/native";
 import { ROUTES, ROUTE_HOME, GRADIENT_ROUTES } from "@shared/routes";
+import dayjs from "dayjs";
+import advancedFormat from "dayjs/plugin/advancedFormat";
+dayjs.extend(advancedFormat);
 
 // import { LogoTitle, LabelTitle } from "@components/logo-title";
 
@@ -126,3 +129,5 @@ export const horizontalModalInterpolator = ({
     shadowStyle: { shadowOpacity },
   };
 };
+
+export const formatDate = (date) => dayjs(date).format("MMMM Do");

@@ -9,10 +9,16 @@ import Telescope from "@assets/images/telescope.svg";
 
 export const IMG_MSG_NO_POSTS_FOUND = "IMG_MSG_NO_POSTS_FOUND";
 export const IMG_MSG_NO_MORE_POSTS_FOUND = "IMG_MSG_NO_MORE_POSTS_FOUND";
-export const IMG_MSG_NO_POSTS_SAVED = "IMG_MSG_NO_POSTS_SAVED";
-export const IMG_MSG_NO_POSTS_ARCHIVED = "IMG_MSG_NO_POSTS_ARCHIVED";
 export const IMG_MSG_ERROR_POSTS = "IMG_MSG_ERROR_POSTS";
+
+export const IMG_MSG_NO_POSTS_SAVED = "IMG_MSG_NO_POSTS_SAVED";
+export const IMG_MSG_NO_MORE_SAVED_POSTS_FOUND =
+  "IMG_MSG_NO_MORE_SAVED_POSTS_FOUND";
 export const IMG_MSG_ERROR_SAVED_POSTS = "IMG_MSG_ERROR_SAVED_POSTS";
+
+export const IMG_MSG_NO_POSTS_ARCHIVED = "IMG_MSG_NO_POSTS_ARCHIVED";
+export const IMG_MSG_NO_MORE_ARCHIVED_POSTS_FOUND =
+  "IMG_MSG_NO_MORE_ARCHIVED_POSTS_FOUND";
 export const IMG_MSG_ERROR_ARCHIVED_POSTS = "IMG_MSG_ERROR_ARCHIVED_POSTS";
 
 const IMAGE_MESSAGES = {
@@ -26,6 +32,16 @@ const IMAGE_MESSAGES = {
     title: "That's everything!",
     description:
       "Please come back later and hopefully we will have some more posts.",
+    Image: MagnifyingGlass,
+  },
+  [IMG_MSG_NO_MORE_SAVED_POSTS_FOUND]: {
+    title: "That's everything!",
+    description: "You don't have any more saved posts.",
+    Image: MagnifyingGlass,
+  },
+  [IMG_MSG_NO_MORE_ARCHIVED_POSTS_FOUND]: {
+    title: "That's everything!",
+    description: "You don't have any more archived posts.",
     Image: MagnifyingGlass,
   },
   [IMG_MSG_NO_POSTS_SAVED]: {
