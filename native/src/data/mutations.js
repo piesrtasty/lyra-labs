@@ -17,9 +17,9 @@ export const SAVE_EXISTING_POST = gql`
   }
 `;
 
-export const REMOVE_EXISTING_POST = gql`
+export const REMOVE_POST = gql`
   mutation($postId: ID!) {
-    removeExistingPost(postId: $postId) {
+    removePost(postId: $postId) {
       id
     }
   }
@@ -28,6 +28,15 @@ export const REMOVE_EXISTING_POST = gql`
 export const NEW_ARCHIVE_POST = gql`
   mutation newArchivePost($postId: ID!) {
     newArchivePost(postId: $postId) {
+      ...postFields
+    }
+  }
+  ${postFields}
+`;
+
+export const NEW_RESTORE_POST = gql`
+  mutation newRestorePost($postId: ID!) {
+    newRestorePost(postId: $postId) {
       ...postFields
     }
   }

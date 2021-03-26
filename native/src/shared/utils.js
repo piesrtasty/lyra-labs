@@ -1,7 +1,7 @@
 import React from "react";
 import { Dimensions, Animated } from "react-native";
 import { getFocusedRouteNameFromRoute } from "@react-navigation/native";
-import { ROUTES, ROUTE_HOME, GRADIENT_ROUTES } from "@shared/routes";
+import { ROUTES, ROUTE_HOME } from "@shared/routes";
 import dayjs from "dayjs";
 import advancedFormat from "dayjs/plugin/advancedFormat";
 dayjs.extend(advancedFormat);
@@ -33,26 +33,17 @@ export const getRouteName = (route) =>
 
 export const getHeaderStyles = (route, theme) => {
   const routeName = getRouteName(route);
-  return GRADIENT_ROUTES.includes(routeName)
-    ? { backgroundColor: "transparent" }
-    : {
-        // backgroundColor: theme.headerBackground,
-        borderStyle: "solid",
-        borderBottomWidth: 1,
-        // borderBottomColor: theme.gridLine,
-        // shadowColor: theme.gridLine,
-      };
+  return {
+    // backgroundColor: theme.headerBackground,
+    borderStyle: "solid",
+    borderBottomWidth: 1,
+    // borderBottomColor: theme.gridLine,
+    // shadowColor: theme.gridLine,
+  };
 };
 
 export const getTabBarStyles = (route, theme) => {
-  const routeName = getRouteName(route);
-  // const routeSpecificStyles = GRADIENT_ROUTES.includes(routeName)
-  //   ? { backgroundColor: "transparent", borderTopWidth: 0 }
-  //   : { backgroundColor: theme.tabNavigatorBackground };
-
-  const routeSpecificStyles = GRADIENT_ROUTES.includes(routeName)
-    ? { backgroundColor: "transparent", borderTopWidth: 0 }
-    : { backgroundColor: "#00000" };
+  const routeSpecificStyles = { backgroundColor: "#00000" };
   // const padding = 50;
   const padding = 0;
   return {

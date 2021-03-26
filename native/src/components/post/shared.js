@@ -10,7 +10,7 @@ export const Divider = styled.View`
   margin-bottom: 30px;
 `;
 
-export const Container = styled.View`
+export const Container = styled.Pressable`
   display: flex;
   flex-direction: column;
 `;

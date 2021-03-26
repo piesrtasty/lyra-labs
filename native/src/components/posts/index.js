@@ -4,7 +4,7 @@ import { FlatList, RefreshControl } from "react-native";
 import { useTheme } from "@emotion/react";
 import { useQuery } from "@apollo/client";
 import PostSkeleton from "@components/post/skeleton";
-import Post from "@components/post";
+import Post, { POST_TYPE_DEFAULT } from "@components/post";
 import { CenterContainer, ImageMessageBlock } from "@components/shared";
 
 const SkeletonContainer = styled.View`
@@ -35,7 +35,7 @@ const PostList = ({
   msgNoMorePosts,
   msgError,
   containerStyle = {},
-  Component = Post,
+  postType = POST_TYPE_DEFAULT,
 }) => {
   const [isLoadingMore, setIsLoadingMore] = useState(false);
   const [isRefreshing, setIsRefreshing] = useState(false);
@@ -54,7 +54,7 @@ const PostList = ({
 
   let posts = [];
 
-  const renderItem = ({ item }) => <Component post={item} />;
+  const renderItem = ({ item }) => <Post post={item} postType={postType} />;
 
   if (data && data[queryKey]) {
     posts = data[queryKey];

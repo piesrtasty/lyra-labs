@@ -34,10 +34,11 @@ export const withMagicAuth = (Component) => {
     }, []);
 
     const signIn = async ({ email, name = null, onSuccess, onError }) => {
+      const loginOptions = {
+        email,
+      };
       magic.auth
-        .loginWithMagicLink({
-          email,
-        })
+        .loginWithMagicLink(loginOptions)
         .on("email-sent", () => {})
         .then(async (DIDToken) => {
           const data = name ? { name } : {};

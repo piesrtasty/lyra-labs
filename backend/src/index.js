@@ -38,39 +38,6 @@ const metascraper = require('metascraper')([
 
 const got = require('got')
 
-const CURATED_TOPICS = [
-  'growth-hacks',
-  'startup-lessons',
-  'money',
-  'work-in-progress',
-  'side-projects',
-  'maker-tools',
-  'blockstack',
-  'medtech',
-  'cannabis',
-  'quantified-self',
-  'arkit',
-  'apple',
-  'google',
-  'wallpaper',
-  'google-home',
-  'alexa-skills',
-  'touch-bar-apps',
-  'airbnb',
-  'books',
-  'games',
-  'tech',
-  'imessage-apps',
-  'green-tech',
-  'pokemon',
-  'facebook-messenger',
-  'outdoors',
-  'linkedin',
-  'bots',
-  'medium',
-  'maps',
-]
-
 const User = objectType({
   name: 'User',
   definition(t) {
@@ -466,7 +433,7 @@ const Mutation = objectType({
   name: 'Mutation',
   definition(t) {
     t.crud.createOneUser({ alias: 'signupUser' })
-    t.field('removeExistingPost', {
+    t.field('removePost', {
       type: 'Post',
       args: {
         postId: idArg(),
@@ -479,7 +446,7 @@ const Mutation = objectType({
         })
       },
     })
-    t.field('newArchivePost', {
+    t.field('newRestorePost', {
       type: 'Post',
       args: {
         postId: idArg(),
@@ -488,11 +455,25 @@ const Mutation = objectType({
         return await ctx.prisma.post.update({
           where: { id: postId },
           data: {
-            archived: true,
+            archived: false,
           },
         })
       },
-    })
+    }),
+      t.field('newArchivePost', {
+        type: 'Post',
+        args: {
+          postId: idArg(),
+        },
+        resolve: async (_, { postId }, ctx) => {
+          return await ctx.prisma.post.update({
+            where: { id: postId },
+            data: {
+              archived: true,
+            },
+          })
+        },
+      })
     t.field('saveExistingPost', {
       type: 'Post',
       args: {

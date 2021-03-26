@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import styled from "@emotion/native";
 import { Dimensions, Text, Pressable, View } from "react-native";
 import { TabView, SceneMap } from "react-native-tab-view";
-import { RegularText } from "@components/shared";
+import { RegularText, Heading } from "@components/shared";
 import SavedPosts from "@components/reading-list/saved";
 import ArchivedPosts from "@components/reading-list/archived";
 
@@ -27,7 +27,7 @@ const TabItem = styled.Pressable`
   justify-content: center;
 `;
 
-const TabLabel = styled(RegularText)`
+const TabLabel = styled(Heading)`
   font-size: 14px;
   color: ${(props) =>
     props.active ? props.theme.colors.primary : props.theme.colors.tertiary};
