@@ -1,7 +1,8 @@
 import React, { useState } from "react";
-import { Share, Linking, Pressable } from "react-native";
+import { Linking, Pressable } from "react-native";
 import { useMutation } from "@apollo/client";
 import { useTheme } from "@emotion/react";
+import Share from "react-native-share";
 import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
 import {
   faBookmark,
@@ -160,26 +161,19 @@ const Post = ({ post, postType = POST_TYPE_DEFAULT }) => {
       .catch((e) => console.log("e", e));
   };
 
-  const handleSharePress = () => {
-    console.log("pressed share post", post);
-    // try {
-    //   const result = await Share.share({
-    //     // url:
-    //     message:
-    //       "React Native | A framework for building native apps using React",
-    //   });
-    //   if (result.action === Share.sharedAction) {
-    //     if (result.activityType) {
-    //       // shared with activity type of result.activityType
-    //     } else {
-    //       // shared
-    //     }
-    //   } else if (result.action === Share.dismissedAction) {
-    //     // dismissed
-    //   }
-    // } catch (error) {
-    //   alert(error.message);
-    // }
+  const handleSharePress = async () => {
+    const { url, title } = post;
+    const options = {
+      url,
+      title,
+    };
+    Share.open(options)
+      .then((res) => {
+        console.log(res);
+      })
+      .catch((err) => {
+        err && console.log(err);
+      });
   };
 
   const handleRemovePress = () => {
@@ -242,7 +236,11 @@ const Post = ({ post, postType = POST_TYPE_DEFAULT }) => {
             const marginRight =
               POST_ACTIONS.length > 1 && i < POST_ACTIONS.length - 1 ? 10 : 0;
             return (
-              <PressableAction onPress={onPress} style={{ marginRight }}>
+              <PressableAction
+                key={i}
+                onPress={onPress}
+                style={{ marginRight }}
+              >
                 {({ pressed }) => (
                   <Action opacity={pressed ? 0.4 : 1}>
                     <FontAwesomeIcon

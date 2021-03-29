@@ -100,8 +100,6 @@ const createApolloClient = () => {
             // Concatenate the incoming list items with
             // the existing list items.
             merge(existing = [], incoming) {
-              console.log("existing", existing);
-              console.log("incoming", incoming);
               return [...existing, ...incoming];
             },
           },
@@ -112,8 +110,6 @@ const createApolloClient = () => {
             // Concatenate the incoming list items with
             // the existing list items.
             merge(existing = [], incoming) {
-              console.log("existing", existing);
-              console.log("incoming", incoming);
               return [...existing, ...incoming];
             },
           },
@@ -124,8 +120,6 @@ const createApolloClient = () => {
             // Concatenate the incoming list items with
             // the existing list items.
             merge(existing = [], incoming) {
-              console.log("existing", existing);
-              console.log("incoming", incoming);
               return [...existing, ...incoming];
             },
           },

@@ -7,6 +7,8 @@ import MainScreen from "@screens/main";
 import OnboardingScreen from "@screens/onboarding";
 import ReadingListScreen from "@screens/reading-list";
 import { useNavigation } from "@react-navigation/native";
+import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
+import { faChevronLeft } from "@fortawesome/pro-light-svg-icons";
 import {
   ROUTE_AUTH,
   ROUTE_MAIN,
@@ -24,6 +26,8 @@ import { createStackNavigator } from "@react-navigation/stack";
 import { useTheme } from "@emotion/react";
 import styled from "@emotion/native";
 import { CurrentUserContext } from "@shared/enhancers/current-user";
+
+import { SmallHeading } from "@components/shared";
 
 const Container = styled.View`
   height: 52px;
@@ -100,6 +104,21 @@ const Entry = () => {
                     gestureDirection: "horizontal",
                     cardStyleInterpolator: horizontalModalInterpolator,
                     headerShown: true,
+                    title: "Reading List",
+                    headerTitle: () => (
+                      <SmallHeading>Reading List</SmallHeading>
+                    ),
+                    headerBackTitleVisible: false,
+                    headerBackImage: () => (
+                      <FontAwesomeIcon
+                        style={{
+                          color: theme.colors.tertiary,
+                          marginLeft: 20,
+                        }}
+                        size={24}
+                        icon={faChevronLeft}
+                      />
+                    ),
                   }}
                   name={ROUTE_READING_LIST}
                   component={ReadingListScreen}

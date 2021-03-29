@@ -18,6 +18,10 @@ export const Heading = styled(BaseText)`
   font-family: Montserrat-SemiBold;
 `;
 
+export const SmallHeading = styled(Heading)`
+  font-size: 16px;
+`;
+
 export const MediumHeading = styled(Heading)`
   font-size: 20px;
 `;
