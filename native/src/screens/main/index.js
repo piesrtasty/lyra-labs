@@ -48,7 +48,6 @@ const Tab = createBottomTabNavigator();
 const CustomTabBar = ({ state, descriptors, navigation }) => {
   const { currentUser } = useContext(CurrentUserContext);
   const { colors } = useTheme();
-  // console.log("currentUser", currentUser.avatar);
   return (
     <Container>
       <TabBar>

@@ -6558,6 +6558,11 @@ react-native-screens@^2.7.0:
   resolved "https://registry.yarnpkg.com/react-native-screens/-/react-native-screens-2.18.1.tgz#47b9991c6f762d00d0ed3233e5283d523e859885"
   integrity sha512-r5WZLpmx2hHjC1RgMdPq5YpSU9tEhBpUaZ5M1SUtNIONyiLqQVxabhRCINdebIk4depJiIl7yw2Q85zJyeX6fw==
 
+react-native-share@^5.1.7:
+  version "5.1.7"
+  resolved "https://registry.yarnpkg.com/react-native-share/-/react-native-share-5.1.7.tgz#081ba94f8d31e0843e4c51aee449939ed26d5921"
+  integrity sha512-BSBh9OpzCoBozc6MfU0erq8KqnAlyrQdAGzGqoS1ugdHbBrhG4UoRiiTPN8AWNpw0gozKV7hLVw0UKEOlsCqwg==
+
 react-native-skeleton-content-nonexpo@^1.0.11:
   version "1.0.11"
   resolved "https://registry.yarnpkg.com/react-native-skeleton-content-nonexpo/-/react-native-skeleton-content-nonexpo-1.0.11.tgz#a4d4778be5afd38a1c6d8bffa6a450e8dab96145"

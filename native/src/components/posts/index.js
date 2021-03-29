@@ -54,7 +54,9 @@ const PostList = ({
 
   let posts = [];
 
-  const renderItem = ({ item }) => <Post post={item} postType={postType} />;
+  const renderItem = ({ item }) => (
+    <Post key={item.id} post={item} postType={postType} />
+  );
 
   if (data && data[queryKey]) {
     posts = data[queryKey];
@@ -81,7 +83,6 @@ const PostList = ({
         },
       }).then(({ data }) => {
         setIsLoadingMore(false);
-        console.log("posts", posts);
         if (data[queryKey].length === 0) {
           setHasMoreData(false);
         }
