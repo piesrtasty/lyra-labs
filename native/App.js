@@ -23,6 +23,7 @@ const magic = new Magic("pk_test_789150F1861195B5");
 
 const App = () => {
   const { isLoading } = useContext(MagicAuthContext);
+
   if (isLoading) {
     return <SplashScreen />;
   }
