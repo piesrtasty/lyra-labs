@@ -14,18 +14,18 @@ export const CURRENT_USER_QUERY = gql`
   }
 `;
 
-export const NEW_FEED_POSTS = gql`
-  query newFeedPosts($take: Int, $cursor: ID) {
-    newFeedPosts(take: $take, cursor: $cursor) {
+export const FEED_POSTS = gql`
+  query feedPosts($take: Int, $cursor: ID) {
+    feedPosts(take: $take, cursor: $cursor) {
       ...postFields
     }
   }
   ${postFields}
 `;
 
-export const NEW_SAVED_POSTS = gql`
-  query newSavedPosts($take: Int, $cursor: ID) {
-    newSavedPosts(take: $take, cursor: $cursor) {
+export const SAVED_POSTS = gql`
+  query savedPosts($take: Int, $cursor: ID) {
+    savedPosts(take: $take, cursor: $cursor) {
       ...postFields
     }
   }

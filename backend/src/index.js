@@ -230,7 +230,7 @@ const Query = objectType({
         return posts
       },
     })
-    t.list.field('newSavedPosts', {
+    t.list.field('savedPosts', {
       type: 'Post',
       args: {
         take: intArg(),
@@ -268,7 +268,7 @@ const Query = objectType({
         return posts
       },
     })
-    t.list.field('newFeedPosts', {
+    t.list.field('feedPosts', {
       type: 'Post',
       args: {
         take: intArg(),
@@ -276,45 +276,35 @@ const Query = objectType({
       },
       resolve: async (_, { take = 10, cursor = null }, ctx) => {
         const currentUser = ctx.req.user
-        const userSavedPosts = await ctx.prisma.post.findMany({
-          where: { submitterId: currentUser.id },
-          select: {
-            url: true,
-          },
-        })
-        const excludedUrls = userSavedPosts.map(p => p.url)
-        const where = currentUser
-          ? {
-              where: {
-                submitterId: { not: currentUser.id },
-                url: { notIn: excludedUrls },
-              },
-            }
-          : {}
-        const baseArgs = { take, ...where }
-        const args = cursor
-          ? { ...baseArgs, skip: 1, cursor: { id: cursor } }
-          : baseArgs
-        const posts = await ctx.prisma.post.findMany(args)
-        return posts
-      },
-    })
-    // This is the query currently used on the website
-    t.list.field('feedPosts', {
-      type: 'Post',
-      resolve: async (_, {}, ctx) => {
-        const currentUser = ctx.req.user
-        let queryParams = {}
         if (currentUser) {
-          queryParams = { where: { NOT: { submitterId: currentUser.id } } }
+          const userSavedPosts = await ctx.prisma.post.findMany({
+            where: { submitterId: currentUser.id },
+            select: {
+              url: true,
+            },
+          })
+          const excludedUrls = userSavedPosts.map(p => p.url)
+          const where = currentUser
+            ? {
+                where: {
+                  submitterId: { not: currentUser.id },
+                  url: { notIn: excludedUrls },
+                },
+              }
+            : {}
+          const baseArgs = { take, ...where }
+          const args = cursor
+            ? { ...baseArgs, skip: 1, cursor: { id: cursor } }
+            : baseArgs
+          const posts = await ctx.prisma.post.findMany(args)
+          return posts
+        } else {
+          return await ctx.prisma.post.findMany({
+            orderBy: {
+              createdAt: 'desc',
+            },
+          })
         }
-        const posts = await ctx.prisma.post.findMany({
-          ...queryParams,
-          orderBy: {
-            createdAt: 'desc',
-          },
-        })
-        return posts
       },
     })
     t.list.field('userPosts', {
@@ -340,18 +330,6 @@ const Query = objectType({
           orderBy: {
             createdAt: 'desc',
           },
-        })
-        return posts
-      },
-    })
-    t.list.field('userPostsInbox', {
-      type: 'Post',
-      args: {
-        username: stringArg(),
-      },
-      resolve: async (_, { username }, ctx) => {
-        const posts = await ctx.prisma.post.findMany({
-          where: { username },
         })
         return posts
       },

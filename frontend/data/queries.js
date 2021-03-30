@@ -1,62 +1,26 @@
 import { gql } from "@apollo/client";
-// import { topicFields, postFields } from "./fragments";
+import { topicFields, postFields } from "./fragments";
 
-export const USER_POSTS = gql`
-  query userPosts($username: String, $archived: Boolean, $pinned: Boolean) {
-    userPosts(username: $username, archived: $archived, pinned: $pinned) {
-      id
-      author
-      date
-      description
-      image
-      logo
-      publisher
-      title
-      url
-      archived
-      pinned
+export const SAVED_POSTS = gql`
+  query savedPosts($take: Int, $cursor: ID) {
+    savedPosts(take: $take, cursor: $cursor) {
+      ...postFields
     }
   }
+  ${postFields}
 `;
 
 export const FEED_POSTS = gql`
   query feedPosts {
     feedPosts {
-      id
-      author
-      date
-      description
-      image
-      logo
-      publisher
-      title
-      url
-      archived
-      pinned
+      ...postFields
       submitter {
         walletIsSetup
         walletAddress
       }
     }
   }
-`;
-
-export const USER_POSTS_INBOX = gql`
-  query userPostsInbox {
-    userPostsInbox {
-      id
-      author
-      date
-      description
-      image
-      logo
-      publisher
-      title
-      url
-      archived
-      pinned
-    }
-  }
+  ${postFields}
 `;
 
 export const USER_POSTS_ARCHIVE = gql`

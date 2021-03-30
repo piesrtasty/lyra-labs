@@ -222,39 +222,39 @@ const PostCard = ({
 
   const [archivePost] = useMutation(ARCHIVE_POST, {
     update: (cache, { data: { archivePost: post } }) => {
-      console.log("DONE", cache);
-      // Remove post from reading list query
-      const { userPosts: posts } = cache.readQuery({
-        query: USER_POSTS,
-        variables: { archived: false },
-      });
-      const index = posts.findIndex((post) => post.id === id);
-      cache.writeQuery({
-        query: USER_POSTS,
-        variables: { archived: false },
-        data: {
-          userPosts: [
-            ...posts.slice(0, index),
-            ...posts.slice(index + 1, posts.length),
-          ],
-        },
-      });
+      // console.log("DONE", cache);
+      // // Remove post from reading list query
+      // const { userPosts: posts } = cache.readQuery({
+      //   query: USER_POSTS,
+      //   variables: { archived: false },
+      // });
+      // const index = posts.findIndex((post) => post.id === id);
+      // cache.writeQuery({
+      //   query: USER_POSTS,
+      //   variables: { archived: false },
+      //   data: {
+      //     userPosts: [
+      //       ...posts.slice(0, index),
+      //       ...posts.slice(index + 1, posts.length),
+      //     ],
+      //   },
+      // });
       // Add post to archive
-      const queryInCache =
-        cache.data.data.ROOT_QUERY['userPosts({"archived":true})'];
-      if (queryInCache) {
-        const { userPosts: archivedPosts } = cache.readQuery({
-          query: USER_POSTS,
-          variables: { archived: true },
-        });
-        cache.writeQuery({
-          query: USER_POSTS,
-          variables: { archived: true },
-          data: {
-            userPosts: [post, ...archivedPosts],
-          },
-        });
-      }
+      // const queryInCache =
+      //   cache.data.data.ROOT_QUERY['userPosts({"archived":true})'];
+      // if (queryInCache) {
+      //   const { userPosts: archivedPosts } = cache.readQuery({
+      //     query: USER_POSTS,
+      //     variables: { archived: true },
+      //   });
+      //   cache.writeQuery({
+      //     query: USER_POSTS,
+      //     variables: { archived: true },
+      //     data: {
+      //       userPosts: [post, ...archivedPosts],
+      //     },
+      //   });
+      // }
     },
 
     onError: () => {
@@ -267,39 +267,39 @@ const PostCard = ({
   const [unarchivePost] = useMutation(UNARCHIVE_POST, {
     update: (cache, { data: { unarchivePost: post } }) => {
       // Remove post from archive query
-      const { userPosts: archivedPosts } = cache.readQuery({
-        query: USER_POSTS,
-        variables: { archived: true },
-      });
-      const index = archivedPosts.findIndex(
-        (archivedPost) => archivedPost.id === id
-      );
-      cache.writeQuery({
-        query: USER_POSTS,
-        variables: { archived: true },
-        data: {
-          userPosts: [
-            ...archivedPosts.slice(0, index),
-            ...archivedPosts.slice(index + 1, archivedPosts.length),
-          ],
-        },
-      });
+      // const { userPosts: archivedPosts } = cache.readQuery({
+      //   query: USER_POSTS,
+      //   variables: { archived: true },
+      // });
+      // const index = archivedPosts.findIndex(
+      //   (archivedPost) => archivedPost.id === id
+      // );
+      // cache.writeQuery({
+      //   query: USER_POSTS,
+      //   variables: { archived: true },
+      //   data: {
+      //     userPosts: [
+      //       ...archivedPosts.slice(0, index),
+      //       ...archivedPosts.slice(index + 1, archivedPosts.length),
+      //     ],
+      //   },
+      // });
       // Add post to archive
-      const queryInCache =
-        cache.data.data.ROOT_QUERY['userPosts({"archived":false})'];
-      if (queryInCache) {
-        const { userPosts: posts } = cache.readQuery({
-          query: USER_POSTS,
-          variables: { archived: false },
-        });
-        cache.writeQuery({
-          query: USER_POSTS,
-          variables: { archived: false },
-          data: {
-            userPosts: [post, ...posts],
-          },
-        });
-      }
+      // const queryInCache =
+      //   cache.data.data.ROOT_QUERY['userPosts({"archived":false})'];
+      // if (queryInCache) {
+      //   const { userPosts: posts } = cache.readQuery({
+      //     query: USER_POSTS,
+      //     variables: { archived: false },
+      //   });
+      //   cache.writeQuery({
+      //     query: USER_POSTS,
+      //     variables: { archived: false },
+      //     data: {
+      //       userPosts: [post, ...posts],
+      //     },
+      //   });
+      // }
     },
 
     onError: () => {

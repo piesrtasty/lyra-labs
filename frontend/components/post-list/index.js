@@ -1,7 +1,7 @@
 import React, { Fragment, useState, useEffect, useRef } from "react";
 import styled from "@emotion/styled";
 import { useQuery } from "@apollo/client";
-import { USER_POSTS } from "@data/queries";
+import { SAVED_POSTS } from "@data/queries";
 import PostCard from "../post-card";
 import SkeletonPostCard from "../post-card/skeleton";
 import EmptyPlaceholder from "./empty-placeholder";
@@ -15,9 +15,7 @@ const Container = styled("div")({
 });
 
 const PostList = ({ archived = false }) => {
-  const { loading, error, data, fetchMore } = useQuery(USER_POSTS, {
-    variables: { archived },
-  });
+  const { loading, error, data, fetchMore } = useQuery(SAVED_POSTS);
   return (
     <Container>
       {loading && (
@@ -29,7 +27,7 @@ const PostList = ({ archived = false }) => {
       )}
       {!loading && data && (
         <Fragment>
-          {data.userPosts.map((post, i) =>
+          {data.savedPosts.map((post, i) =>
             post.id === "optimisticResponse" ? (
               <SkeletonPostCard key={i} />
             ) : (
@@ -38,7 +36,7 @@ const PostList = ({ archived = false }) => {
           )}
         </Fragment>
       )}
-      {!loading && data.userPosts.length === 0 && <EmptyPlaceholder />}
+      {!loading && data.savedPosts.length === 0 && <EmptyPlaceholder />}
     </Container>
   );
 };
