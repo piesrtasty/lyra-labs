@@ -32,9 +32,9 @@ export const SAVED_POSTS = gql`
   ${postFields}
 `;
 
-export const NEW_ARCHIVED_POSTS = gql`
-  query newArchivedPosts($take: Int, $cursor: ID) {
-    newArchivedPosts(take: $take, cursor: $cursor) {
+export const ARCHIVED_POSTS = gql`
+  query archivedPosts($take: Int, $cursor: ID) {
+    archivedPosts(take: $take, cursor: $cursor) {
       ...postFields
     }
   }

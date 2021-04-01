@@ -17,9 +17,7 @@ import {
 } from "@style/colors";
 import { toast } from "react-toastify";
 import { useMutation } from "@apollo/client";
-import { ARCHIVE_POST } from "@data/mutations";
-import { UNARCHIVE_POST } from "@data/mutations";
-import { USER_POSTS } from "@data/queries";
+import { ARCHIVE_POST, RESTORE_POST } from "@data/mutations";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faArchive, faThumbtack } from "@fortawesome/pro-light-svg-icons";
 
@@ -264,7 +262,7 @@ const PostCard = ({
     },
   });
 
-  const [unarchivePost] = useMutation(UNARCHIVE_POST, {
+  const [restorePost] = useMutation(RESTORE_POST, {
     update: (cache, { data: { unarchivePost: post } }) => {
       // Remove post from archive query
       // const { userPosts: archivedPosts } = cache.readQuery({

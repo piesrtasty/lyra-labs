@@ -25,18 +25,18 @@ export const REMOVE_POST = gql`
   }
 `;
 
-export const NEW_ARCHIVE_POST = gql`
-  mutation newArchivePost($postId: ID!) {
-    newArchivePost(postId: $postId) {
+export const ARCHIVE_POST = gql`
+  mutation archivePost($postId: ID!) {
+    archivePost(postId: $postId) {
       ...postFields
     }
   }
   ${postFields}
 `;
 
-export const NEW_RESTORE_POST = gql`
-  mutation newRestorePost($postId: ID!) {
-    newRestorePost(postId: $postId) {
+export const RESTORE_POST = gql`
+  mutation restorePost($postId: ID!) {
+    restorePost(postId: $postId) {
       ...postFields
     }
   }

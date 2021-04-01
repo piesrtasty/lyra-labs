@@ -134,16 +134,6 @@ function initApolloClient(initialState, cookie) {
 
 const isBrowser = typeof window !== "undefined";
 
-console.log("---------------");
-console.log("---------------");
-console.log("---------------");
-console.log("---------------");
-console.log("process.env", process.env);
-console.log("----------------------------");
-console.log("---------------");
-console.log("---------------");
-console.log("---------------");
-
 const httpLink = new HttpLink({
   uri: `${process.env.BACKEND_URL}/graphql`,
   // uri: isBrowser
@@ -190,6 +180,32 @@ function createApolloClient(initialState = {}, cookie) {
     // link: concat(authMiddleware, httpLink),
     link: setAuthLink.concat(httpLink),
     // link: httpLink,
-    cache: new InMemoryCache().restore(initialState),
+    cache: new InMemoryCache({
+      typePolicies: {
+        Query: {
+          fields: {
+            posts: relayStylePagination(),
+            archivedPosts: {
+              keyArgs: false,
+              merge(existing = [], incoming) {
+                return [...existing, ...incoming];
+              },
+            },
+            savedPosts: {
+              keyArgs: false,
+              merge(existing = [], incoming) {
+                return [...existing, ...incoming];
+              },
+            },
+            feedPosts: {
+              keyArgs: false,
+              merge(existing = [], incoming) {
+                return [...existing, ...incoming];
+              },
+            },
+          },
+        },
+      },
+    }).restore(initialState),
   });
 }
