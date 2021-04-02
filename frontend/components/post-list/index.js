@@ -17,9 +17,10 @@ const Container = styled("div")({
 const PostList = ({ archived = false }) => {
   const query = archived ? ARCHIVED_POSTS : SAVED_POSTS;
   const dataKey = archived ? "archivedPosts" : "savedPosts";
-  console.log("POSTS LIST -> archived", archived);
 
-  const { loading, error, data, fetchMore } = useQuery(query);
+  const { loading, error, data, fetchMore } = useQuery(query, {
+    variables: { take: 100 },
+  });
   return (
     <Container>
       {loading && (

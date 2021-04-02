@@ -1,4 +1,4 @@
-import React, { useState, useContext } from "react";
+import React, { useContext } from "react";
 import { useRouter } from "next/router";
 import { WalletContext } from "@enhancers/wallet-provider";
 import styled from "@emotion/styled";
@@ -8,8 +8,6 @@ import {
   BLACK,
   GUNSMOKE,
   WHITE,
-  BLUSH,
-  FOCUS_BLUSH,
   SCOPRION,
   PURPLE,
   ALABASTER,
@@ -18,8 +16,7 @@ import {
 import { toast } from "react-toastify";
 import { useMutation } from "@apollo/client";
 import { ARCHIVE_POST, RESTORE_POST } from "@data/mutations";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faArchive, faThumbtack } from "@fortawesome/pro-light-svg-icons";
+import { postFields } from "@data/fragments";
 
 export const THUMBNAIL_DIMENSION = 60;
 
@@ -219,43 +216,27 @@ const PostCard = ({
   const showActions = route !== "/";
 
   const [archivePost] = useMutation(ARCHIVE_POST, {
-    update: (cache, { data: { archivePost: post } }) => {
-      // console.log("DONE", cache);
-      // // Remove post from reading list query
-      // const { userPosts: posts } = cache.readQuery({
-      //   query: USER_POSTS,
-      //   variables: { archived: false },
-      // });
-      // const index = posts.findIndex((post) => post.id === id);
-      // cache.writeQuery({
-      //   query: USER_POSTS,
-      //   variables: { archived: false },
-      //   data: {
-      //     userPosts: [
-      //       ...posts.slice(0, index),
-      //       ...posts.slice(index + 1, posts.length),
-      //     ],
-      //   },
-      // });
-      // Add post to archive
-      // const queryInCache =
-      //   cache.data.data.ROOT_QUERY['userPosts({"archived":true})'];
-      // if (queryInCache) {
-      //   const { userPosts: archivedPosts } = cache.readQuery({
-      //     query: USER_POSTS,
-      //     variables: { archived: true },
-      //   });
-      //   cache.writeQuery({
-      //     query: USER_POSTS,
-      //     variables: { archived: true },
-      //     data: {
-      //       userPosts: [post, ...archivedPosts],
-      //     },
-      //   });
-      // }
+    update: (cache, { data: { archivePost: archivedPost } }) => {
+      cache.modify({
+        fields: {
+          savedPosts(savedPostRefs = [], { readField }) {
+            return savedPostRefs.filter(
+              (savedPostRef) =>
+                archivedPost.id !== readField("id", savedPostRef)
+            );
+          },
+          archivedPosts(existingArchivedPosts = []) {
+            const archivedPostRef = cache.writeFragment({
+              data: archivedPost,
+              fragment: postFields,
+            });
+            return [archivedPostRef, ...existingArchivedPosts];
+          },
+        },
+      });
     },
 
-    onError: () => {
+    onError: (eProps) => {
       toast.error("😳Unable to archive post at this time.", {
         position: "bottom-left",
       });
@@ -263,44 +244,27 @@ const PostCard = ({
   });
 
   const [restorePost] = useMutation(RESTORE_POST, {
-    update: (cache, { data: { unarchivePost: post } }) => {
-      // Remove post from archive query
-      // const { userPosts: archivedPosts } = cache.readQuery({
-      //   query: USER_POSTS,
-      //   variables: { archived: true },
-      // });
-      // const index = archivedPosts.findIndex(
-      //   (archivedPost) => archivedPost.id === id
-      // );
-      // cache.writeQuery({
-      //   query: USER_POSTS,
-      //   variables: { archived: true },
-      //   data: {
-      //     userPosts: [
-      //       ...archivedPosts.slice(0, index),
-      //       ...archivedPosts.slice(index + 1, archivedPosts.length),
-      //     ],
-      //   },
-      // });
-      // Add post to archive
-      // const queryInCache =
-      //   cache.data.data.ROOT_QUERY['userPosts({"archived":false})'];
-      // if (queryInCache) {
-      //   const { userPosts: posts } = cache.readQuery({
-      //     query: USER_POSTS,
-      //     variables: { archived: false },
-      //   });
-      //   cache.writeQuery({
-      //     query: USER_POSTS,
-      //     variables: { archived: false },
-      //     data: {
-      //       userPosts: [post, ...posts],
-      //     },
-      //   });
-      // }
+    update: (cache, { data: { restorePost: restoredPost } }) => {
+      cache.modify({
+        fields: {
+          archivedPosts(archivedPostRefs = [], { readField }) {
+            return archivedPostRefs.filter(
+              (archivedPostRef) =>
+                restoredPost.id !== readField("id", archivedPostRef)
+            );
+          },
+          savedPosts(existingSavedPosts = []) {
+            const savedPostRef = cache.writeFragment({
+              data: restoredPost,
+              fragment: postFields,
+            });
+            return [savedPostRef, ...existingSavedPosts];
+          },
+        },
+      });
     },
 
-    onError: () => {
+    onError: (eProps) => {
       toast.error("😳Unable to unarchive post at this time.", {
         position: "bottom-left",
       });
@@ -327,10 +291,10 @@ const PostCard = ({
       activeKey: "archived",
       name: "Archive",
       onClick: () => {
-        const func = archived ? unarchivePost : archivePost;
+        const func = archived ? restorePost : archivePost;
         func({
           variables: {
-            postId: id,
+            postId: post.id,
           },
         });
       },

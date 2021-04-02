@@ -20,7 +20,7 @@ export const CREATE_POST = gql`
 `;
 
 export const ARCHIVE_POST = gql`
-  mutation archivePost($postId: String) {
+  mutation archivePost($postId: ID!) {
     archivePost(postId: $postId) {
       ...postFields
     }
@@ -29,7 +29,7 @@ export const ARCHIVE_POST = gql`
 `;
 
 export const RESTORE_POST = gql`
-  mutation restorePost($postId: String) {
+  mutation restorePost($postId: ID!) {
     restorePost(postId: $postId) {
       ...postFields
     }

@@ -11,8 +11,6 @@ import WalletDetails from "@components/wallet-details";
 import UserCard from "@components/user-card";
 import Nav from "./nav";
 import { CurrentUserContext } from "@enhancers/current-user";
-import TopicList from "@components/topic-list";
-import SponsorList from "@components/sponsor-list";
 
 const StickySidebarSection = styled(SidebarSection)({
   position: "sticky",

@@ -184,7 +184,6 @@ function createApolloClient(initialState = {}, cookie) {
       typePolicies: {
         Query: {
           fields: {
-            posts: relayStylePagination(),
             archivedPosts: {
               keyArgs: false,
               merge(existing = [], incoming) {
