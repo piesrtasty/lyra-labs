@@ -3,11 +3,19 @@ import { gql } from "@apollo/client";
 export const postFields = gql`
   fragment postFields on Post {
     id
-    title
-    publisher
-    logo
-    url
-    image
+    author
     date
+    description
+    image
+    logo
+    publisher
+    title
+    url
+    archived
+    pinned
+    submitter {
+      walletIsSetup
+      walletAddress
+    }
   }
 `;
