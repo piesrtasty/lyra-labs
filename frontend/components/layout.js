@@ -24,6 +24,7 @@ const Layout = ({ children }) => {
 
   console.log("--------------------->");
   console.log("process.env.BACKEND_URL", process.env.BACKEND_URL);
+  console.log("process.env.VERCEL_ENV", process.env.VERCEL_ENV);
   console.log("--------------------->");
   console.log("--------------------->");
   console.log("--------------------->");
