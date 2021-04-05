@@ -6,7 +6,9 @@ const withCSS = require("@zeit/next-css");
 module.exports = withCSS({
   target: "serverless",
   env: {
-    BACKEND_URL: process.env.BACKEND_URL,
+    BACKEND_URL: `${
+      process.env.VERCEL_ENV === "development" ? "" : "https://"
+    }${process.env.BACKEND_URL}`,
     VERCEL_ENV: process.env.VERCEL_ENV,
     NPM_TOKEN: process.env.NPM_TOKEN,
     MAGIC_PUBLISHABLE_KEY: process.env.MAGIC_PUBLISHABLE_KEY,

@@ -25,6 +25,7 @@ const Layout = ({ children }) => {
   console.log("--------------------->");
   console.log("process.env.BACKEND_URL", process.env.BACKEND_URL);
   console.log("process.env.VERCEL_ENV", process.env.VERCEL_ENV);
+  console.log("process.env.NODE_ENV", process.env.NODE_ENV);
   console.log("--------------------->");
   console.log("--------------------->");
   console.log("--------------------->");
@@ -36,7 +37,7 @@ const Layout = ({ children }) => {
   useEffect(() => {
     const bootstrapAsync = async () => {
       setIsLoading(true);
-      fetch(`https://${process.env.BACKEND_URL}/check-authentication`, {
+      fetch(`${process.env.BACKEND_URL}/check-authentication`, {
         withCredentials: true,
         credentials: "include",
         // credentials: "same-origin",
