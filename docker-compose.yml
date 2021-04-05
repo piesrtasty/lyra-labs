@@ -16,12 +16,12 @@ services:
     container_name: postgres
     ports:
       - "5432:5432"
-    image: postgres:10.10
+    image: postgres:12.6-alpine
     restart: always
     environment:
-      POSTGRES_DATABASE: prisma
-      POSTGRES_USER: prisma
-      POSTGRES_PASSWORD: prisma
+      POSTGRES_DATABASE: dev
+      POSTGRES_USER: dev
+      POSTGRES_PASSWORD: dev
     volumes:
       - postgres:/var/lib/postgress
   # prisma:

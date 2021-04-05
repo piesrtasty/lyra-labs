@@ -7,7 +7,6 @@ import {
 
 import { Divider } from "@library/components/layout";
 
-import WalletDetails from "@components/wallet-details";
 import UserCard from "@components/user-card";
 import Nav from "./nav";
 import { CurrentUserContext } from "@enhancers/current-user";
@@ -31,8 +30,6 @@ const Sidebar = () => {
           <UserCard user={currentUser} />
           <Nav />
           <StyledDivider />
-          {/* <WalletDetails currentUser={currentUser} /> */}
-          {/* <SponsorList /> */}
         </StickySidebarSection>
       )}
     </Container>

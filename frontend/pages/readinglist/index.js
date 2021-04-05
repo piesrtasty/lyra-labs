@@ -2,7 +2,6 @@ import React, { useContext } from "react";
 import { withPrivateRoute } from "@enhancers/private-route";
 import Page from "@components/page";
 import PostList from "@components/post-list";
-import { withWallet } from "@enhancers/wallet-provider";
 import { withCurrentUser } from "@enhancers/current-user";
 import { withLoginModal } from "@enhancers/login-modal";
 import { flowRight as compose } from "lodash";

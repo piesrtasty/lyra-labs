@@ -50,7 +50,6 @@ const User = objectType({
     t.model.walletIsSetup()
     t.model.showOnboarding()
     t.model.name()
-    t.model.followedTopics()
   },
 })
 
@@ -156,7 +155,6 @@ const Query = objectType({
     })
     t.field('post', {
       type: 'Post',
-      nullable: true,
       args: {
         slug: stringArg(),
       },
@@ -169,7 +167,6 @@ const Query = objectType({
     })
     t.field('me', {
       type: 'User',
-      nullable: true,
       resolve: async (_, _args, ctx) => {
         const currentUser = ctx.req.user ? ctx.req.user : null
         return currentUser
