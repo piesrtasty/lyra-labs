@@ -4,7 +4,7 @@ import styled from "@emotion/styled";
 import { toast } from "react-toastify";
 import { useMutation } from "@apollo/client";
 import { CREATE_POST } from "@data/mutations";
-import { USER_POSTS } from "@data/queries";
+import { postFields } from "@data/fragments";
 
 import {
   Input,
@@ -106,23 +106,21 @@ const MobileCancel = styled(FontAwesomeIcon)({
 const LinkForm = ({ setFormVisible }) => {
   const router = useRouter();
   const [createPost, { data, loading, error }] = useMutation(CREATE_POST, {
-    update: (cache, { data: { createPost: post } }) => {
+    update: (cache, { data: { createPost: createdPost } }) => {
       if (router.route !== "/readinglist") {
         router.push("/readinglist", "/readinglist", { shallow: true });
       }
-      try {
-        const { userPosts: posts } = cache.readQuery({
-          query: USER_POSTS,
-          variables: { archived: false },
-        });
-        if (posts) {
-          cache.writeQuery({
-            query: USER_POSTS,
-            variables: { archived: false },
-            data: { userPosts: [post, ...posts] },
-          });
-        }
-      } catch {}
+      cache.modify({
+        fields: {
+          savedPosts(existingSavedPosts = []) {
+            const savedPostRef = cache.writeFragment({
+              data: createdPost,
+              fragment: postFields,
+            });
+            return [savedPostRef, ...existingSavedPosts];
+          },
+        },
+      });
     },
     optimisticResponse: {
       createPost: {
@@ -155,6 +153,7 @@ const LinkForm = ({ setFormVisible }) => {
   const handleSubmit = (e) => {
     e.preventDefault();
     if (givenUrl) {
+      console.log("PRESSSED SUBMIT", givenUrl);
       createPost({
         variables: {
           givenUrl,

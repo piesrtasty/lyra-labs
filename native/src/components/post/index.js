@@ -16,8 +16,8 @@ import { formatDate } from "@shared/utils";
 import {
   SAVE_EXISTING_POST,
   REMOVE_POST,
-  NEW_ARCHIVE_POST,
-  NEW_RESTORE_POST,
+  ARCHIVE_POST,
+  RESTORE_POST,
 } from "@data/mutations";
 
 import { postFields } from "@data/fragments";
@@ -66,44 +66,44 @@ const Post = ({ post, postType = POST_TYPE_DEFAULT }) => {
 
   const [saveExistingPost] = useMutation(SAVE_EXISTING_POST);
 
-  const [newArchivePost] = useMutation(NEW_ARCHIVE_POST, {
-    update(cache, { data: { newArchivePost: archivedPost } }) {
+  const [archivePost] = useMutation(ARCHIVE_POST, {
+    update(cache, { data: { archivePost: archivedPost } }) {
       cache.modify({
         fields: {
-          newSavedPosts(savedPostRefs = [], { readField }) {
+          savedPosts(savedPostRefs = [], { readField }) {
             return savedPostRefs.filter(
               (savedPostRef) =>
                 archivedPost.id !== readField("id", savedPostRef)
             );
           },
-          newArchivedPosts(existingArchivedPosts = []) {
-            const newArchivedPostRef = cache.writeFragment({
+          archivedPosts(existingArchivedPosts = []) {
+            const archivedPostRef = cache.writeFragment({
               data: archivedPost,
               fragment: postFields,
             });
-            return [newArchivedPostRef, ...existingArchivedPosts];
+            return [archivedPostRef, ...existingArchivedPosts];
           },
         },
       });
     },
   });
 
-  const [newRestorePost] = useMutation(NEW_RESTORE_POST, {
-    update(cache, { data: { newRestorePost: restoredPost } }) {
+  const [restorePost] = useMutation(RESTORE_POST, {
+    update(cache, { data: { restorePost: restoredPost } }) {
       cache.modify({
         fields: {
-          newArchivedPosts(archivedPostRefs = [], { readField }) {
+          archivedPosts(archivedPostRefs = [], { readField }) {
             return archivedPostRefs.filter(
               (archivedPostRef) =>
                 restoredPost.id !== readField("id", archivedPostRef)
             );
           },
-          newSavedPosts(existingSavedPosts = []) {
-            const newSavedPostRef = cache.writeFragment({
+          savedPosts(existingSavedPosts = []) {
+            const savedPostRef = cache.writeFragment({
               data: restoredPost,
               fragment: postFields,
             });
-            return [newSavedPostRef, ...existingSavedPosts];
+            return [savedPostRef, ...existingSavedPosts];
           },
         },
       });
@@ -114,12 +114,12 @@ const Post = ({ post, postType = POST_TYPE_DEFAULT }) => {
     update(cache, { data: { removePost: removedPost } }) {
       cache.modify({
         fields: {
-          newSavedPosts(savedPostRefs = [], { readField }) {
+          savedPosts(savedPostRefs = [], { readField }) {
             return savedPostRefs.filter(
               (savedPostRef) => removedPost.id !== readField("id", savedPostRef)
             );
           },
-          newArchivedPosts(archivedPostRefs = [], { readField }) {
+          archivedPosts(archivedPostRefs = [], { readField }) {
             return archivedPostRefs.filter(
               (archivedPostRef) =>
                 removedPost.id !== readField("id", archivedPostRef)
@@ -150,13 +150,13 @@ const Post = ({ post, postType = POST_TYPE_DEFAULT }) => {
   };
 
   const handleArchivePress = () => {
-    newArchivePost({ variables: { postId: post.id } })
+    archivePost({ variables: { postId: post.id } })
       .then(({ data }) => {})
       .catch((e) => console.log("e", e));
   };
 
   const handleRestorePress = () => {
-    newRestorePost({ variables: { postId: post.id } })
+    restorePost({ variables: { postId: post.id } })
       .then(({ data }) => {})
       .catch((e) => console.log("e", e));
   };

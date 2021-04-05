@@ -50,93 +50,6 @@ const User = objectType({
     t.model.walletIsSetup()
     t.model.showOnboarding()
     t.model.name()
-    t.model.followedTopics()
-  },
-})
-
-const Comment = objectType({
-  name: 'Comment',
-  definition(t) {
-    t.model.id()
-    t.model.createdAt()
-    t.model.updatedAt()
-    t.model.text()
-    t.model.post()
-    t.model.author()
-    t.model.replies()
-    t.model.votes()
-    t.boolean('upvoted', {
-      resolve: async (_, _args, ctx) => {
-        const currentUser = ctx.req.user
-        if (currentUser) {
-          const votes = await ctx.prisma.commentVote.findMany({
-            where: {
-              comment: { id: _.id },
-              user: { id: currentUser.id },
-            },
-          })
-          if (votes.length > 0) {
-            return true
-          }
-        }
-        return false
-      },
-    })
-    t.int('votesCount', {
-      resolve: async (_, _args, ctx) => {
-        const votes = await ctx.prisma.commentVote.findMany({
-          where: { comment: { id: _.id } },
-        })
-        return votes.length
-      },
-    })
-  },
-})
-
-const CommentVote = objectType({
-  name: 'CommentVote',
-  definition(t) {
-    t.model.id()
-    t.model.createdAt()
-    t.model.updatedAt()
-    t.model.user()
-    t.model.comment()
-  },
-})
-
-const Topic = objectType({
-  name: 'Topic',
-  definition(t) {
-    t.model.id()
-    t.model.createdAt()
-    t.model.updatedAt()
-    t.model.name()
-    t.model.slug()
-    t.model.description()
-    t.model.image()
-    t.model.followersCount()
-    t.model.postsCount()
-    t.model.trending()
-    t.model.posts()
-    t.model.followedBy()
-  },
-})
-
-const Vote = objectType({
-  name: 'Vote',
-  definition(t) {
-    t.model.id()
-    t.model.createdAt()
-    t.model.updatedAt()
-    t.model.user()
-    t.model.post()
-  },
-})
-
-const MetaData = objectType({
-  name: 'MetaData',
-  definition(t) {
-    t.int('count')
   },
 })
 
@@ -156,81 +69,14 @@ const Post = objectType({
     t.model.pinned()
     t.model.submitterId()
     t.model.submitter()
-    t.model.comments({ ordering: true })
-    t.model.votes()
-    t.boolean('upvoted', {
-      resolve: async (_, _args, ctx) => {
-        const currentUser = ctx.req.user
-        if (currentUser) {
-          const votes = await ctx.prisma.vote.findMany({
-            where: {
-              post: { id: _.id },
-              user: { id: currentUser.id },
-            },
-          })
-          if (votes.length > 0) {
-            return true
-          }
-        }
-        return false
-      },
-    })
-    t.int('votesCount', {
-      resolve: async (_, _args, ctx) => {
-        const votes = await ctx.prisma.vote.findMany({
-          where: { post: { id: _.id } },
-        })
-        return votes.length
-      },
-    })
-  },
-})
-
-const Section = objectType({
-  name: 'Section',
-  definition(t) {
-    t.model.id()
-    t.model.createdAt()
-    t.model.updatedAt()
-    t.model.date()
-    t.model.posts()
-  },
-})
-
-const SignedUpload = objectType({
-  name: 'SignedUpload',
-  definition(t) {
-    t.model.id()
-    t.model.createdAt()
-    t.model.updatedAt()
-    t.model.signedRequest()
-    t.model.url()
   },
 })
 
 const Query = objectType({
   name: 'Query',
   definition(t) {
-    t.crud.sections()
     t.crud.posts({ pagination: true, ordering: true, filtering: true })
-    t.list.field('readingList', {
-      type: 'Post',
-      args: {
-        take: intArg(),
-        cursor: idArg(),
-      },
-      resolve: async (_, { take = 10, cursor = null }, ctx) => {
-        const currentUser = ctx.req.user
-        const where = { where: { submitterId: currentUser.id } }
-        const baseArgs = { take, ...where }
-        const args = cursor
-          ? { ...baseArgs, skip: 1, cursor: { id: cursor } }
-          : baseArgs
-        const posts = await ctx.prisma.post.findMany(args)
-        return posts
-      },
-    })
-    t.list.field('newSavedPosts', {
+    t.list.field('savedPosts', {
       type: 'Post',
       args: {
         take: intArg(),
@@ -249,7 +95,7 @@ const Query = objectType({
         return posts
       },
     })
-    t.list.field('newArchivedPosts', {
+    t.list.field('archivedPosts', {
       type: 'Post',
       args: {
         take: intArg(),
@@ -268,7 +114,7 @@ const Query = objectType({
         return posts
       },
     })
-    t.list.field('newFeedPosts', {
+    t.list.field('feedPosts', {
       type: 'Post',
       args: {
         take: intArg(),
@@ -276,89 +122,39 @@ const Query = objectType({
       },
       resolve: async (_, { take = 10, cursor = null }, ctx) => {
         const currentUser = ctx.req.user
-        const userSavedPosts = await ctx.prisma.post.findMany({
-          where: { submitterId: currentUser.id },
-          select: {
-            url: true,
-          },
-        })
-        const excludedUrls = userSavedPosts.map(p => p.url)
-        const where = currentUser
-          ? {
-              where: {
-                submitterId: { not: currentUser.id },
-                url: { notIn: excludedUrls },
-              },
-            }
-          : {}
-        const baseArgs = { take, ...where }
-        const args = cursor
-          ? { ...baseArgs, skip: 1, cursor: { id: cursor } }
-          : baseArgs
-        const posts = await ctx.prisma.post.findMany(args)
-        return posts
-      },
-    })
-    // This is the query currently used on the website
-    t.list.field('feedPosts', {
-      type: 'Post',
-      resolve: async (_, {}, ctx) => {
-        const currentUser = ctx.req.user
-        let queryParams = {}
         if (currentUser) {
-          queryParams = { where: { NOT: { submitterId: currentUser.id } } }
+          const userSavedPosts = await ctx.prisma.post.findMany({
+            where: { submitterId: currentUser.id },
+            select: {
+              url: true,
+            },
+          })
+          const excludedUrls = userSavedPosts.map(p => p.url)
+          const where = currentUser
+            ? {
+                where: {
+                  submitterId: { not: currentUser.id },
+                  url: { notIn: excludedUrls },
+                },
+              }
+            : {}
+          const baseArgs = { take, ...where }
+          const args = cursor
+            ? { ...baseArgs, skip: 1, cursor: { id: cursor } }
+            : baseArgs
+          const posts = await ctx.prisma.post.findMany(args)
+          return posts
+        } else {
+          return await ctx.prisma.post.findMany({
+            orderBy: {
+              createdAt: 'desc',
+            },
+          })
         }
-        const posts = await ctx.prisma.post.findMany({
-          ...queryParams,
-          orderBy: {
-            createdAt: 'desc',
-          },
-        })
-        return posts
-      },
-    })
-    t.list.field('userPosts', {
-      type: 'Post',
-      args: {
-        username: stringArg(),
-        archived: booleanArg(),
-        pinned: booleanArg(),
-      },
-      resolve: async (
-        _,
-        { username, archived = false, pinned = false },
-        ctx,
-      ) => {
-        const currentUser = ctx.req.user
-        const user = username
-          ? await ctx.prisma.user.findUnique({
-              where: { username },
-            })
-          : currentUser
-        const posts = await ctx.prisma.post.findMany({
-          where: { submitterId: user.id, archived, pinned },
-          orderBy: {
-            createdAt: 'desc',
-          },
-        })
-        return posts
-      },
-    })
-    t.list.field('userPostsInbox', {
-      type: 'Post',
-      args: {
-        username: stringArg(),
-      },
-      resolve: async (_, { username }, ctx) => {
-        const posts = await ctx.prisma.post.findMany({
-          where: { username },
-        })
-        return posts
       },
     })
     t.field('post', {
       type: 'Post',
-      nullable: true,
       args: {
         slug: stringArg(),
       },
@@ -369,61 +165,11 @@ const Query = objectType({
         return post
       },
     })
-    t.field('comment', {
-      type: 'Comment',
-      nullable: true,
-      args: {
-        id: idArg(),
-      },
-      resolve: async (_, { id }, ctx) => {
-        const comment = await ctx.prisma.comment.findUnique({
-          where: { id },
-        })
-        return comment
-      },
-    })
-    t.field('savedPostsDetails', {
-      type: 'MetaData',
-      args: {
-        username: stringArg(),
-      },
-      resolve: async (_, { username }, ctx) => {
-        const currentUser = ctx.req.user
-        const user = username
-          ? await ctx.prisma.user.findUnique({
-              where: { username },
-            })
-          : currentUser
-
-        const count = await ctx.prisma.post.count({
-          where: { submitterId: user.id, archived: false, pinned: false },
-        })
-        return { count }
-      },
-    })
     t.field('me', {
       type: 'User',
-      nullable: true,
       resolve: async (_, _args, ctx) => {
         const currentUser = ctx.req.user ? ctx.req.user : null
         return currentUser
-      },
-    })
-    t.list.field('userSearch', {
-      type: 'User',
-      args: {
-        keyword: stringArg(),
-      },
-      resolve: (_, { keyword }, ctx) => {
-        return ctx.prisma.user.findMany({
-          first: 3,
-          where: {
-            OR: [
-              { username_lower: { contains: keyword } },
-              { name_lower: { contains: keyword } },
-            ],
-          },
-        })
       },
     })
   },
@@ -446,7 +192,7 @@ const Mutation = objectType({
         })
       },
     })
-    t.field('newRestorePost', {
+    t.field('restorePost', {
       type: 'Post',
       args: {
         postId: idArg(),
@@ -459,21 +205,22 @@ const Mutation = objectType({
           },
         })
       },
-    }),
-      t.field('newArchivePost', {
-        type: 'Post',
-        args: {
-          postId: idArg(),
-        },
-        resolve: async (_, { postId }, ctx) => {
-          return await ctx.prisma.post.update({
-            where: { id: postId },
-            data: {
-              archived: true,
-            },
-          })
-        },
-      })
+    })
+    t.field('archivePost', {
+      type: 'Post',
+      args: {
+        postId: idArg(),
+      },
+      resolve: async (_, { postId }, ctx) => {
+        return await ctx.prisma.post.update({
+          where: { id: postId },
+          data: {
+            archived: true,
+          },
+        })
+      },
+    })
+
     t.field('saveExistingPost', {
       type: 'Post',
       args: {
@@ -541,99 +288,7 @@ const Mutation = objectType({
         })
       },
     })
-    t.field('archivePost', {
-      type: 'Post',
-      args: {
-        postId: stringArg(),
-      },
-      resolve: async (_, { postId }, ctx) => {
-        return await ctx.prisma.post.update({
-          where: { id: postId },
-          data: {
-            archived: true,
-          },
-        })
-      },
-    })
-    t.field('unarchivePost', {
-      type: 'Post',
-      args: {
-        postId: stringArg(),
-      },
-      resolve: async (_, { postId }, ctx) => {
-        return await ctx.prisma.post.update({
-          where: { id: postId },
-          data: {
-            archived: false,
-          },
-        })
-      },
-    }),
-      t.crud.deleteOnePost()
-    t.field('commentVote', {
-      type: 'CommentVote',
-      args: {
-        commentId: idArg(),
-        userId: idArg(),
-      },
-      resolve: async (_, { userId, commentId }, ctx) => {
-        const votes = await ctx.prisma.commentVote.findMany({
-          where: {
-            user: {
-              id: userId,
-            },
-            comment: {
-              id: commentId,
-            },
-          },
-        })
-        if (votes.length > 0) {
-          return ctx.prisma.commentVote.delete({
-            where: {
-              id: votes[0].id,
-            },
-          })
-        }
-        return ctx.prisma.commentVote.create({
-          data: {
-            user: { connect: { id: userId } },
-            comment: { connect: { id: commentId } },
-          },
-        })
-      },
-    })
-    t.field('vote', {
-      type: 'Vote',
-      args: {
-        postId: idArg(),
-        userId: idArg(),
-      },
-      resolve: async (_, { userId, postId }, ctx) => {
-        const votes = await ctx.prisma.vote.findMany({
-          where: {
-            user: {
-              id: userId,
-            },
-            post: {
-              id: postId,
-            },
-          },
-        })
-        if (votes.length > 0) {
-          return ctx.prisma.vote.delete({
-            where: {
-              id: votes[0].id,
-            },
-          })
-        }
-        return ctx.prisma.vote.create({
-          data: {
-            user: { connect: { id: userId } },
-            post: { connect: { id: postId } },
-          },
-        })
-      },
-    })
+
     t.field('createPost', {
       type: 'Post',
       args: {
@@ -653,86 +308,6 @@ const Mutation = objectType({
         return response
       },
     })
-    t.field('createComment', {
-      type: 'Comment',
-      args: {
-        body: stringArg(),
-        postId: idArg(),
-        parentId: idArg(),
-      },
-      resolve: async (_, { body, postId, parentId }, ctx) => {
-        const currentUser = ctx.req.user
-        const obj = {
-          author: { connect: { id: currentUser.id } },
-          text: body,
-        }
-        if (parentId) {
-          obj.parent = { connect: { id: parentId } }
-        } else {
-          obj.post = { connect: { id: postId } }
-        }
-        const comment = await prisma.comment.create({
-          data: {
-            ...obj,
-          },
-        })
-        return comment
-      },
-    })
-    t.field('updateFollowedTopic', {
-      type: 'Topic',
-      args: {
-        userId: idArg(),
-        topicId: idArg(),
-        following: booleanArg(),
-      },
-      resolve: async (_, { userId, topicId, following }, ctx) => {
-        const action = following ? 'connect' : 'disconnect'
-        await ctx.prisma.user.update({
-          where: { id: userId },
-          data: {
-            followedTopics: {
-              [action]: { id: topicId },
-            },
-          },
-        })
-        return ctx.prisma.topic.findUnique({ where: { id: topicId } })
-      },
-    })
-    t.field('createDraft', {
-      type: 'Post',
-      args: {
-        title: stringArg(),
-        content: stringArg({ nullable: true }),
-        authorEmail: stringArg(),
-      },
-      resolve: (_, { title, content, authorEmail }, ctx) => {
-        return ctx.prisma.post.create({
-          data: {
-            title,
-            content,
-            published: false,
-            author: {
-              connect: { email: authorEmail },
-            },
-          },
-        })
-      },
-    })
-
-    t.field('publish', {
-      type: 'Post',
-      nullable: true,
-      args: {
-        id: idArg(),
-      },
-      resolve: (_, { id }, ctx) => {
-        return ctx.prisma.post.update({
-          where: { id },
-          data: { published: true },
-        })
-      },
-    })
   },
 })
 
@@ -750,19 +325,7 @@ const saveUrl = async (givenUrl, currentUser) => {
 const prisma = new PrismaClient()
 
 const schema = makeSchema({
-  types: [
-    Query,
-    Mutation,
-    Post,
-    User,
-    Section,
-    Comment,
-    CommentVote,
-    Topic,
-    Vote,
-    SignedUpload,
-    MetaData,
-  ],
+  types: [Query, Mutation, Post, User],
   plugins: [nexusPrisma({ experimentalCRUD: true })],
 })
 
