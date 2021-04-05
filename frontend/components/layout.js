@@ -19,6 +19,14 @@ const THEME = {
 export const MagicAuthContext = React.createContext();
 
 const Layout = ({ children }) => {
+  console.log("--------------------->");
+  console.log("--------------------->");
+  console.log("--------------------->");
+  console.log("process.env.BACKEND_URL", process.env.BACKEND_URL);
+  console.log("--------------------->");
+  console.log("--------------------->");
+  console.log("--------------------->");
+
   const isProduction = process.env.NODE_ENV === "production";
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
