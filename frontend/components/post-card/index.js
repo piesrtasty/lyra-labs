@@ -1,6 +1,5 @@
 import React, { useContext } from "react";
 import { useRouter } from "next/router";
-import { WalletContext } from "@enhancers/wallet-provider";
 import styled from "@emotion/styled";
 import { BASE_TEXT, WEIGHT } from "@style/typography";
 import CoralButton from "@library/components/buttons/coral";
@@ -210,7 +209,6 @@ const PostCard = ({
   },
   post,
 }) => {
-  const { giveAward } = useContext(WalletContext);
   const router = useRouter();
   const route = router.route;
   const showActions = route !== "/";
@@ -301,12 +299,6 @@ const PostCard = ({
     },
   ];
 
-  const showGiveAward = currentUser && post.submitter.walletIsSetup;
-
-  const handleGiveAward = () => {
-    giveAward({ recipientAddress: post.submitter.walletAddress });
-  };
-
   return (
     <Container>
       <Body>
@@ -323,11 +315,6 @@ const PostCard = ({
       </Body>
       <Footer>
         <Actions>
-          {/* {showGiveAward && (
-            <StyledCoralButton onClick={handleGiveAward}>
-              🏅 Give Award
-            </StyledCoralButton>
-          )} */}
           {showActions && (
             <>
               {ACTIONS.map(
