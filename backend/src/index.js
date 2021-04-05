@@ -363,6 +363,15 @@ const sessionMiddleware = session({
   },
 })
 
+console.log('-----------------------')
+console.log('-----------------------')
+console.log('-----------------------')
+console.log('process.env.FRONTEND_URL', process.env.FRONTEND_URL)
+console.log('process.env.VERCEL_ENV', process.env.VERCEL_ENV)
+console.log('-----------------------')
+console.log('-----------------------')
+console.log('-----------------------')
+
 var corsOptions = {
   origin: process.env.FRONTEND_URL,
   credentials: true, // <-- REQUIRED backend setting
