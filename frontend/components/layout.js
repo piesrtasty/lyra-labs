@@ -20,7 +20,8 @@ export const MagicAuthContext = React.createContext();
 
 const Layout = ({ children }) => {
   console.log("--------------------->");
-  console.log("--------------------->");
+  console.log("---------x------------>");
+
   console.log("--------------------->");
   console.log("process.env.BACKEND_URL", process.env.BACKEND_URL);
   console.log("--------------------->");
