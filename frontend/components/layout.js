@@ -35,7 +35,7 @@ const Layout = ({ children }) => {
   useEffect(() => {
     const bootstrapAsync = async () => {
       setIsLoading(true);
-      fetch(`${process.env.BACKEND_URL}/check-authentication`, {
+      fetch(`https://${process.env.BACKEND_URL}/check-authentication`, {
         withCredentials: true,
         credentials: "include",
         // credentials: "same-origin",
