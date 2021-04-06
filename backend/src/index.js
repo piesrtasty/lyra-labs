@@ -345,6 +345,7 @@ const sessionStore = new PgStore({
     database: process.env.DB_NAME,
     password: process.env.DB_PASSWORD,
     port: process.env.DB_PORT,
+    ssl: true,
   }),
   ttl: 30 * 24 * 60 * 60, // 30 days, in sec. Gets reset on each user visit
   disableTouch: false,
@@ -373,7 +374,7 @@ console.log('-----------------------')
 console.log('-----------------------')
 
 var corsOptions = {
-  origin: process.env.FRONTEND_URL,
+  origin: [process.env.FRONTEND_URL, 'https://lyralabs.io'],
   credentials: true, // <-- REQUIRED backend setting
 }
 
