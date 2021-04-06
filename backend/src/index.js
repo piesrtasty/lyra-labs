@@ -345,7 +345,9 @@ const sessionStore = new PgStore({
     database: process.env.DB_NAME,
     password: process.env.DB_PASSWORD,
     port: process.env.DB_PORT,
-    ssl: true,
+    ssl: {
+      rejectUnauthorized: false,
+    },
   }),
   ttl: 30 * 24 * 60 * 60, // 30 days, in sec. Gets reset on each user visit
   disableTouch: false,
