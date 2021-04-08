@@ -31,13 +31,6 @@
     {
       "source": "/check-authentsication",
       "destination": "/backend/src/index.js"
-    },
-    {
-      "source": "/(.*)",
-      "destinaton": "/frontend/$1",
-      "headers": {
-        "x-request-path": "$1"
-      }
     }
   ]
 }
