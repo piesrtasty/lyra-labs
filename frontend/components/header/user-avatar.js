@@ -2,7 +2,6 @@ import React from "react";
 import styled from "@emotion/styled";
 import { BASE_TEXT, WEIGHT } from "@style/typography";
 import { DETROIT } from "@style/colors";
-import { BOTTOM } from "@library/components/popovers/base";
 import { DESKTOP, TABLET } from "@style/breakpoints";
 import { HEADER_HEIGHT } from "./";
 
