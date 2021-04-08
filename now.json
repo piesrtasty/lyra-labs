@@ -3,7 +3,7 @@
   "builds": [
     {
       "src": "frontend/next.config.js",
-      "use": "@now/next"
+      "use": "@vercel/next"
     },
     {
       "src": "backend/src/index.js",
