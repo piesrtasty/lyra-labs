@@ -11,30 +11,34 @@
       "config": { "maxLambdaSize": "20mb" }
     }
   ],
-  "rewrites": [
+  "routes": [
     {
-      "source": "/graphql",
-      "destination": "/backend/src/index.js"
+      "src": "/graphql",
+      "dest": "/backend/src/index.js"
     },
     {
-      "source": "/healthz",
-      "destination": "/backend/src/index.js"
+      "src": "/healthz",
+      "dest": "/backend/src/index.js"
     },
     {
-      "source": "/login",
-      "destination": "/backend/src/index.js"
+      "src": "/login",
+      "dest": "/backend/src/index.js"
     },
     {
-      "source": "/logout",
-      "destination": "/backend/src/index.js"
+      "src": "/logout",
+      "dest": "/backend/src/index.js"
     },
     {
-      "source": "/check-authentication",
-      "destination": "/backend/src/index.js"
+      "src": "/check-authentication",
+      "dest": "/backend/src/index.js"
     },
+
     {
-      "source": "/:path",
-      "destination": "/frontend/:path"
+      "src": "/(.*)",
+      "dest": "/frontend/$1",
+      "headers": {
+        "x-request-path": "$1"
+      }
     }
   ]
 }
