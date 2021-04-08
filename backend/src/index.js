@@ -338,6 +338,8 @@ app.use(cookieParser())
 
 const SESSION_SECRET = process.env.SESSION_SECRET
 
+const isDevelopment = process.env.NODE_ENV === 'development'
+
 const sessionStore = new PgStore({
   pool: new pg.Pool({
     user: process.env.DB_USER,
@@ -345,13 +347,14 @@ const sessionStore = new PgStore({
     database: process.env.DB_NAME,
     password: process.env.DB_PASSWORD,
     port: process.env.DB_PORT,
-    ssl: {
-      rejectUnauthorized: false,
-    },
+    ssl: isDevelopment
+      ? false
+      : {
+          rejectUnauthorized: false,
+        },
   }),
   ttl: 30 * 24 * 60 * 60, // 30 days, in sec. Gets reset on each user visit
   disableTouch: false,
-  // errorLog: log.error
 })
 
 const sessionMiddleware = session({
@@ -365,15 +368,6 @@ const sessionMiddleware = session({
     sameSite: true,
   },
 })
-
-console.log('-----------------------')
-console.log('-----------------------')
-console.log('-----------------------')
-console.log('process.env.FRONTEND_URL', process.env.FRONTEND_URL)
-console.log('process.env.VERCEL_ENV', process.env.VERCEL_ENV)
-console.log('-----------------------')
-console.log('-----------------------')
-console.log('-----------------------')
 
 var corsOptions = {
   origin: [process.env.FRONTEND_URL, 'https://lyralabs.io'],
@@ -571,13 +565,6 @@ app.post('/test-cookie-auth', requireAuthenticated, async (req, res, done) => {
   res.status(200).end()
 })
 
-// app.post('/graphql', getUser)
-
-// app.use('/', async (req, res, next) => {
-//   console.log('In the middleware handler for getUser ---', req.user)
-//   getUser(req, res, next, prisma)
-// })
-
 app.post('/save', async (req, res, done) => {
   res.sendStatus(200)
   const authHeader = req.headers.authorization
@@ -593,27 +580,6 @@ app.post('/save', async (req, res, done) => {
     res.status(401).send('Missing auth header')
   }
 })
-
-// const myPlugin = {
-//   // Fires whenever a GraphQL request is received from a client.
-//   requestDidStart(requestContext) {
-//     console.log('Request started! Query:\n' + requestContext.request.query)
-
-//     return {
-//       // Fires whenever Apollo Server will parse a GraphQL
-//       // request to create its associated document AST.
-//       parsingDidStart(requestContext) {
-//         console.log('Parsing started!', requestContext)
-//       },
-
-//       // Fires whenever Apollo Server will validate a
-//       // request's document AST against your GraphQL schema.
-//       validationDidStart(requestContext) {
-//         console.log('Validation started!', requestContext)
-//       },
-//     }
-//   },
-// }
 
 const apollo = new ApolloServer({
   context: req => {

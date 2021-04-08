@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from "react";
-import * as fcl from "@onflow/fcl";
 import App from "next/app";
 import Layout from "../components/layout";
 import { withMagicAuth } from "@enhancers/magic-auth";
