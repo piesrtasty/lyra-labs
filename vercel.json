@@ -33,8 +33,7 @@
       "destination": "/backend/src/index.js"
     },
     {
-      "source": "/(.*)",
-      "destinaton": "/frontend"
+      "source": "/(.*)"
     }
   ]
 }
