@@ -53,8 +53,5 @@
     "singleQuote": true,
     "semi": false,
     "trailingComma": "all"
-  },
-  "engines": {
-    "node": "12"
   }
 }
