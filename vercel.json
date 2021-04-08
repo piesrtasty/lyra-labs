@@ -1,0 +1,43 @@
+{
+  "version": 2,
+  "builds": [
+    {
+      "src": "frontend/next.config.js",
+      "use": "@vercel/next"
+    },
+    {
+      "src": "backend/src/index.js",
+      "use": "@now/node@canary",
+      "config": { "maxLambdaSize": "20mb" }
+    }
+  ],
+  "rewrites": [
+    {
+      "source": "/graphql",
+      "destination": "/backend/src/index.js"
+    },
+    {
+      "source": "/healthz",
+      "destination": "/backend/src/index.js"
+    },
+    {
+      "source": "/login",
+      "destination": "/backend/src/index.js"
+    },
+    {
+      "source": "/logout",
+      "destination": "/backend/src/index.js"
+    },
+    {
+      "source": "/check-authentsication",
+      "destination": "/backend/src/index.js"
+    },
+    {
+      "source": "/(.*)",
+      "destinaton": "/frontend/$1",
+      "headers": {
+        "x-request-path": "$1"
+      }
+    }
+  ]
+}
