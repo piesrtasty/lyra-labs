@@ -3,7 +3,6 @@ import styled from "@emotion/styled";
 import { BASE_TEXT, WEIGHT } from "@style/typography";
 import { DETROIT } from "@style/colors";
 import { BOTTOM } from "@library/components/popovers/base";
-import ListPopover from "@library/components/popovers/list";
 import { DESKTOP, TABLET } from "@style/breakpoints";
 import { HEADER_HEIGHT } from "./";
 
@@ -39,7 +38,6 @@ const UserAvatar = ({ user }) => {
     </Container>
   );
   return <Avatar src={user.avatar} />;
-  // return <ListPopover items={LINKS} anchor={anchor} position={BOTTOM} />;
 };
 
 export default UserAvatar;
