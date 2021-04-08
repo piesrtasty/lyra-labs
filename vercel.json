@@ -29,12 +29,12 @@
       "destination": "/backend/src/index.js"
     },
     {
-      "source": "/check-authentsication",
+      "source": "/check-authentication",
       "destination": "/backend/src/index.js"
     },
     {
-      "source": "/",
-      "destinaton": "/"
+      "source": "/:path",
+      "destination": "/frontend/:path"
     }
   ]
 }
