@@ -23,5 +23,5 @@ export const withCurrentUser = (Component) => {
     }
   };
 
-  return withApollo(WithCurrentUser);
+  return WithCurrentUser;
 };

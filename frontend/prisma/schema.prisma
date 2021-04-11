@@ -1,0 +1,53 @@
+generator client {
+  provider      = "prisma-client-js"
+  binaryTargets = ["native", "debian-openssl-1.0.x"]
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("POSTGRES_URL")
+}
+
+model User {
+  id               String        @id @default(cuid())
+  createdAt        DateTime      @default(now())
+  updatedAt        DateTime      @updatedAt
+  email            String        @unique
+  issuer           String        @unique
+  publicEthAddress String?
+  lastLoginAt      Int?
+  walletAddress    String?       @unique
+  showOnboarding   Boolean?      @default(true)
+  walletIsSetup    Boolean?      @default(false)
+  firstName        String?
+  lastName         String?
+  name             String?
+  name_lower       String?
+  username         String?       @unique
+  username_lower   String?       @unique
+  headline         String?
+  avatar           String?
+  auth0id          String?       @unique
+  identity         String?
+  privateKey       String?
+  address          String?
+  posts            Post[]
+}
+
+model Post {
+  id          String    @id @default(cuid())
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+  author      String?
+  date        String?
+  description String?
+  image       String?
+  logo        String?
+  publisher   String?
+  title       String?
+  url         String
+  archived    Boolean   @default(false)
+  pinned      Boolean   @default(false)
+  submitter   User      @relation(fields: [submitterId], references: [id])
+  submitterId String
+}

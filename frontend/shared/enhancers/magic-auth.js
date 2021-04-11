@@ -22,12 +22,11 @@ export const withMagicAuth = (Component) => {
     useEffect(() => {
       const bootstrapAsync = async () => {
         setIsLoading(true);
-        fetch(`${process.env.BACKEND_URL}/check-authentication`).then(
-          ({ status }) => {
-            setIsLoggedIn(status == 200);
-            setIsLoading(false);
-          }
-        );
+        // fetch(`${process.env.BACKEND_URL}/check-authentication`).then(
+        fetch(`/check-authentication`).then(({ status }) => {
+          setIsLoggedIn(status == 200);
+          setIsLoading(false);
+        });
       };
       bootstrapAsync();
     }, []);
