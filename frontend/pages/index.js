@@ -3,7 +3,7 @@ import Page from "@components/page";
 import Feed from "@components/feed";
 import { CurrentUserContext } from "@enhancers/current-user";
 import { withCurrentUser } from "@enhancers/current-user";
-import { withLoginModal } from "@enhancers/login-modal";
+
 import { flowRight as compose } from "lodash";
 import { AuxiliaryPanelHeaderLarge } from "@library/components/typography/headers/auxiliary-panel";
 import { initializeApollo, addApolloState } from "../lib/apollo-client";

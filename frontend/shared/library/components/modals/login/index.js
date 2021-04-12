@@ -9,8 +9,7 @@ import { withPortal } from "../base/portal";
 import LogInButton from "../../buttons/log-in";
 import SignUpButton from "../../buttons/sign-up";
 import LyraLogo from "../../../../style/logos/lyra-labs-logo.svg";
-import { MagicAuthContext } from "@components/layout";
-import { LoginModalContext } from "@enhancers/login-modal";
+import { MagicAuthContext, LoginModalContext } from "@components/layout";
 import { CurrentUserContext } from "@enhancers/current-user";
 import {
   CHARCOAL,

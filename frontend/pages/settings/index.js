@@ -1,7 +1,6 @@
 import React from "react";
 import Page from "@components/page";
 import { withCurrentUser } from "@enhancers/current-user";
-import { withLoginModal } from "@enhancers/login-modal";
 import { withPrivateRoute } from "@enhancers/private-route";
 import { flowRight as compose } from "lodash";
 
@@ -13,10 +12,5 @@ const SettingsPage = ({ user }) => {
   );
 };
 
-const enhance = compose(
-  withPrivateRoute,
-  withCurrentUser,
-  withLoginModal,
-  withPrivateRoute
-);
+const enhance = compose(withPrivateRoute, withCurrentUser, withPrivateRoute);
 export default enhance(SettingsPage);

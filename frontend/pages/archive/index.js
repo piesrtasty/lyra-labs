@@ -3,7 +3,6 @@ import { withPrivateRoute } from "@enhancers/private-route";
 import Page from "@components/page";
 import PostList from "@components/post-list";
 import { withCurrentUser } from "@enhancers/current-user";
-import { withLoginModal } from "@enhancers/login-modal";
 import { flowRight as compose } from "lodash";
 import { AuxiliaryPanelHeaderLarge } from "@library/components/typography/headers/auxiliary-panel";
 
@@ -16,6 +15,6 @@ const ArchivePage = () => {
   );
 };
 
-const enhance = compose(withCurrentUser, withLoginModal);
+const enhance = compose(withCurrentUser);
 
 export default enhance(ArchivePage);

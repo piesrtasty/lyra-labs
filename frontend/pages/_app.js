@@ -12,7 +12,7 @@ toast.configure();
 
 import { Magic } from "magic-sdk";
 
-export default function App({ Component, pageProps }) {
+const App = ({ Component, pageProps }) => {
   const apolloClient = useApollo(pageProps);
 
   return (
@@ -22,35 +22,6 @@ export default function App({ Component, pageProps }) {
       </Layout>
     </ApolloProvider>
   );
-}
+};
 
-// class MyApp extends App {
-//   render(props) {
-//     const { Component, pageProps } = this.props;
-
-//     // const [isLoggedIn, setIsLoggedIn] = useState(false);
-//     // const [isLoading, setIsLoading] = useState(false);
-
-//     // useEffect(() => {
-//     //   const bootstrapAsync = async () => {
-//     //     setIsLoading(true);
-//     //     fetch(`${BACKEND_API_URL}/check-authentication`).then(({ status }) => {
-//     //       setIsLoggedIn(status == 200);
-//     //       setIsLoading(false);
-//     //     });
-//     //   };
-//     //   bootstrapAsync();
-//     // }, []);
-
-//     return (
-//       <Layout>
-//         <div>
-//           <h3>COOL</h3>
-//         </div>
-//         <Component {...pageProps} />
-//       </Layout>
-//     );
-//   }
-// }
-
-// export default MyApp;
+export default App;
