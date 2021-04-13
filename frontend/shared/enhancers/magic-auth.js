@@ -42,7 +42,8 @@ export const withMagicAuth = (Component) => {
           console.log("email-sent");
         })
         .then(async (DIDToken) => {
-          const resp = await fetch(`${process.env.BACKEND_URL}/user/login`, {
+          // const resp = await fetch(`${process.env.BACKEND_URL}/user/login`, {
+          const resp = await fetch(`/login`, {
             headers: new Headers({
               Authorization: "Bearer " + DIDToken,
             }),

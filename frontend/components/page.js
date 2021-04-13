@@ -3,10 +3,12 @@ import styled from "@emotion/styled";
 import { BASE_TEXT } from "@style/typography";
 import { Container, Column, Main } from "@library/components/layout";
 import { LAPTOP } from "../shared/style/breakpoints";
-import { CurrentUserContext } from "@enhancers/current-user";
+// import { CurrentUserContext } from "@enhancers/current-user";
+import { CurrentUserContext } from "@components/layout";
 import Header from "@components/header";
 import Sidebar from "@components/sidebar";
 import WalletPanel from "@components/wallet/panel";
+import { withCurrentUser } from "@enhancers/current-user";
 
 const StyledContainer = styled(Container)({
   width: "100%",

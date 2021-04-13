@@ -1,10 +1,12 @@
 import Head from "next/head";
+import { useQuery } from "@apollo/client";
 import React, { useState, useEffect } from "react";
 import { withMagicAuth } from "@enhancers/magic-auth";
 import { Global, css } from "@emotion/core";
 import { ThemeProvider } from "emotion-theming";
 import { Magic } from "magic-sdk";
 import LoginModal from "@library/components/modals/login";
+import { CURRENT_USER_QUERY } from "@data/queries";
 
 const MAGIC_PUBLISHABLE_KEY = "pk_test_789150F1861195B5";
 const THEME = {
@@ -19,23 +21,15 @@ const THEME = {
 
 export const LoginModalContext = React.createContext({});
 export const MagicAuthContext = React.createContext();
+export const CurrentUserContext = React.createContext({});
 
 const Layout = ({ children }) => {
-  console.log("--------------------->");
-  console.log("---------x------------>");
-
-  console.log("--------------------->");
-  console.log("process.env.BACKEND_URL", process.env.BACKEND_URL);
-  console.log("process.env.VERCEL_ENV", process.env.VERCEL_ENV);
-  console.log("process.env.NODE_ENV", process.env.NODE_ENV);
-  console.log("--------------------->");
-  console.log("--------------------->");
-  console.log("--------------------->");
-
   const isProduction = process.env.NODE_ENV === "production";
   const [showLoginModal, setShowLoginModal] = useState(false);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
+
+  const { loading, error, data, refetch } = useQuery(CURRENT_USER_QUERY, {});
 
   useEffect(() => {
     const bootstrapAsync = async () => {
@@ -64,7 +58,8 @@ const Layout = ({ children }) => {
         console.log("email-sent");
       })
       .then(async (DIDToken) => {
-        const resp = await fetch(`${process.env.BACKEND_URL}/login`, {
+        // const resp = await fetch(`${process.env.BACKEND_URL}/login`, {
+        const resp = await fetch(`/login`, {
           headers: new Headers({
             Authorization: "Bearer " + DIDToken,
           }),
@@ -116,52 +111,57 @@ const Layout = ({ children }) => {
 
   return (
     <LoginModalContext.Provider value={{ showLogin, hideLogin }}>
-      <MagicAuthContext.Provider
-        value={{ signIn, signOut, isLoggedIn, isLoading, testCookieAuth }}
+      {/* <CurrentUserContext.Provider value={{ currentUser: data.me, refetch }}> */}
+      <CurrentUserContext.Provider
+        value={{ currentUser: data ? data.me : null, refetch }}
       >
-        <ThemeProvider theme={THEME}>
-          <Head>
-            <title>Lyra Labs 🥰</title>
-            {isProduction && (
-              <>
-                <script
-                  async
-                  src="https://www.googletagmanager.com/gtag/js?id=G-EW50ZSVFBP"
-                ></script>
+        <MagicAuthContext.Provider
+          value={{ signIn, signOut, isLoggedIn, isLoading, testCookieAuth }}
+        >
+          <ThemeProvider theme={THEME}>
+            <Head>
+              <title>Lyra Labs 🥰</title>
+              {isProduction && (
+                <>
+                  <script
+                    async
+                    src="https://www.googletagmanager.com/gtag/js?id=G-EW50ZSVFBP"
+                  ></script>
 
-                <script
-                  dangerouslySetInnerHTML={{
-                    __html: `
+                  <script
+                    dangerouslySetInnerHTML={{
+                      __html: `
             window.dataLayer = window.dataLayer || [];
   function gtag(){dataLayer.push(arguments);}
   gtag('js', new Date());
 
   gtag('config', 'G-EW50ZSVFBP');
               `,
-                  }}
-                />
-              </>
+                    }}
+                  />
+                </>
+              )}
+            </Head>
+            <Global
+              styles={css`
+                body {
+                  font-size: 18px;
+                  background-color: ${THEME.COLORS.ALABASTER};
+                  margin: 0;
+                }
+                iframe {
+                  z-index: 2;
+                }
+              `}
+            />
+            <main>{children}</main>
+            <link rel="shortcut icon" href="/static/favicon.ico" />
+            {showLoginModal && (
+              <LoginModal onDismiss={() => setShowLoginModal(false)} />
             )}
-          </Head>
-          <Global
-            styles={css`
-              body {
-                font-size: 18px;
-                background-color: ${THEME.COLORS.ALABASTER};
-                margin: 0;
-              }
-              iframe {
-                z-index: 2;
-              }
-            `}
-          />
-          <main>{children}</main>
-          <link rel="shortcut icon" href="/static/favicon.ico" />
-          {showLoginModal && (
-            <LoginModal onDismiss={() => setShowLoginModal(false)} />
-          )}
-        </ThemeProvider>
-      </MagicAuthContext.Provider>
+          </ThemeProvider>
+        </MagicAuthContext.Provider>
+      </CurrentUserContext.Provider>
     </LoginModalContext.Provider>
   );
 };

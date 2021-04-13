@@ -14,7 +14,8 @@ function createApolloClient() {
     link: new HttpLink({
       //   uri: 'https://nextjs-graphql-with-prisma-simple.vercel.app/api', // Server URL (must be absolute)
       uri: "http://localhost:3000/api/graphql", // Server URL (must be absolute)
-      credentials: "same-origin", // Additional fetch() options like `credentials` or `headers`
+      // credentials: "same-origin", // Additional fetch() options like `credentials` or `headers`
+      credentials: "include", // Additional fetch() options like `credentials` or `headers`
     }),
     cache: new InMemoryCache({
       typePolicies: {
@@ -64,7 +65,8 @@ export function initializeApollo(initialState = null) {
   return _apolloClient;
 }
 
-export function addApolloState(client, pageProps) {
+export function addApolloState(client, pageProps, name) {
+  console.log("NAME", name);
   if (pageProps?.props) {
     pageProps.props[APOLLO_STATE_PROP_NAME] = client.cache.extract();
   }

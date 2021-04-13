@@ -28,6 +28,7 @@
     "@nexus/schema": "^0.20.1",
     "@prisma/client": "^2.20.1",
     "@zeit/next-css": "^1.0.1",
+    "apollo-server-express": "^2.22.2",
     "apollo-server-micro": "^2.22.2",
     "axios": "^0.19.0",
     "babel-plugin-inline-react-svg": "^1.1.0",
