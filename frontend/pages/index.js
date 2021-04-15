@@ -29,9 +29,12 @@ const IndexPage = () => {
   );
 };
 
-export async function getServerSideProps(context) {
-  console.log("SSR Context --->", context);
-  const apolloClient = initializeApollo();
+export async function getServerSideProps(ctx) {
+  console.log("SSR Csontext --->", ctx.req.headers);
+  const cookie = ctx.req.headers.cookie ? ctx.req.headers.cookie : null;
+  console.log("--- COOKIE ---", cookie);
+
+  const apolloClient = initializeApollo(null, cookie);
 
   await apolloClient.query({
     query: FEED_POSTS,
@@ -42,7 +45,7 @@ export async function getServerSideProps(context) {
   });
 
   return addApolloState(apolloClient, {
-    props: {},
+    props: { __AUTH_COOKIE__: cookie },
     // revalidate: 1,
   });
 }

@@ -138,7 +138,8 @@ export const Query = objectType({
     t.field("me", {
       type: "User",
       resolve: async (_, _args, ctx) => {
-        console.log("--- This is the me resolver ---", ctx.req.user);
+        console.log("--- calling the me resolver ---", ctx.req.user);
+        // console.log("--- This is the me resolver ---", ctx.req.user);
 
         const currentUser = ctx.req.user ? ctx.req.user : null;
         return currentUser;

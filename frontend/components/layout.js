@@ -59,7 +59,7 @@ const Layout = ({ children }) => {
       })
       .then(async (DIDToken) => {
         // const resp = await fetch(`${process.env.BACKEND_URL}/login`, {
-        const resp = await fetch(`/login`, {
+        const resp = await fetch(`/api/login`, {
           headers: new Headers({
             Authorization: "Bearer " + DIDToken,
           }),

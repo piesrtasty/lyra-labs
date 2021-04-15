@@ -27,7 +27,7 @@ const graphqlHandler = apolloServer.createHandler({ path: "/api/graphql" });
 handler
   .use(auth)
   .use((req, res, next) => {
-    console.log("if this works stop here", req.headers);
+    console.log("req.headers in graphql endpoint ->s", req.headers);
     next();
   })
   .use(graphqlHandler);

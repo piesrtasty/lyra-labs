@@ -13,7 +13,10 @@ toast.configure();
 import { Magic } from "magic-sdk";
 
 const App = ({ Component, pageProps }) => {
+  console.log("pageProps", pageProps);
   const apolloClient = useApollo(pageProps);
+
+  // console.log("--- apolloClient", apolloClient);
 
   return (
     <ApolloProvider client={apolloClient}>

@@ -1,22 +1,40 @@
 import { useMemo } from "react";
 import { ApolloClient, HttpLink, InMemoryCache } from "@apollo/client";
+import { setContext } from "@apollo/client/link/context";
 import { concatPagination } from "@apollo/client/utilities";
 import merge from "deepmerge";
 import isEqual from "lodash/isEqual";
 
 export const APOLLO_STATE_PROP_NAME = "__APOLLO_STATE__";
+const AUTH_COOKIE_PROP_NAME = "__AUTH_COOKIE__";
 
 let apolloClient;
 
-function createApolloClient() {
+function createApolloClient(cookie = null) {
+  console.log("-----inside of createApolloClient ---", cookie);
+  console.log("typeof window === undefined", typeof window === "undefined");
+
+  const setAuthLink = setContext((_, { headers }) => {
+    // console.log("calling setAuthLink _ headers ->", headers);
+    const cookieObj = cookie ? { cookie } : {};
+    return {
+      headers: {
+        ...headers,
+        ...cookieObj,
+      },
+    };
+  });
+
+  const httpLink = new HttpLink({
+    //   uri: 'https://nextjs-graphql-with-prisma-simple.vercel.app/api', // Server URL (must be absolute)
+    uri: "http://localhost:3000/api/graphql", // Server URL (must be absolute)
+    // credentials: "same-origin", // Additional fetch() options like `credentials` or `headers`
+    credentials: "include", // Additional fetch() options like `credentials` or `headers`
+  });
+
   return new ApolloClient({
     ssrMode: typeof window === "undefined",
-    link: new HttpLink({
-      //   uri: 'https://nextjs-graphql-with-prisma-simple.vercel.app/api', // Server URL (must be absolute)
-      uri: "http://localhost:3000/api/graphql", // Server URL (must be absolute)
-      // credentials: "same-origin", // Additional fetch() options like `credentials` or `headers`
-      credentials: "include", // Additional fetch() options like `credentials` or `headers`
-    }),
+    link: setAuthLink.concat(httpLink),
     cache: new InMemoryCache({
       typePolicies: {
         Query: {
@@ -34,8 +52,8 @@ function createApolloClient() {
   });
 }
 
-export function initializeApollo(initialState = null) {
-  const _apolloClient = apolloClient ?? createApolloClient();
+export function initializeApollo(initialState = null, cookie = null) {
+  const _apolloClient = apolloClient ?? createApolloClient(cookie);
 
   // If your page has Next.js data fetching methods that use Apollo Client, the initial state
   // gets hydrated here
@@ -66,16 +84,23 @@ export function initializeApollo(initialState = null) {
 }
 
 export function addApolloState(client, pageProps, name) {
-  console.log("NAME", name);
+  // console.log("NAME", name);
   if (pageProps?.props) {
     pageProps.props[APOLLO_STATE_PROP_NAME] = client.cache.extract();
+    pageProps.props.animal = "Doglet";
   }
 
   return pageProps;
 }
 
 export function useApollo(pageProps) {
+  console.log(
+    "------------ calling use Apollo --------- with pageProps",
+    pageProps
+  );
   const state = pageProps[APOLLO_STATE_PROP_NAME];
-  const store = useMemo(() => initializeApollo(state), [state]);
+  const cookie = pageProps[AUTH_COOKIE_PROP_NAME];
+  // console.log("pageProps in useApollo", pageProps);
+  const store = useMemo(() => initializeApollo(state, cookie), [state]);
   return store;
 }
