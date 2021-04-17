@@ -1,5 +1,4 @@
 import { ApolloServer } from "apollo-server-micro";
-// import { ApolloServer } from "apollo-server-express";
 import nextConnect from "next-connect";
 import { schema } from "../../lib/schema";
 import auth from "../../middleware/auth";
@@ -20,21 +19,8 @@ export const config = {
   },
 };
 
-// console.log("apolloServer", apolloServer.applyMiddleware);
-
 const graphqlHandler = apolloServer.createHandler({ path: "/api/graphql" });
 
-handler
-  .use(auth)
-  .use((req, res, next) => {
-    console.log("req.headers in graphql endpoint ->s", req.headers);
-    next();
-  })
-  .use(graphqlHandler);
-
-// graphqlHandler.arguments(auth);
-// console.log("graphqlHandler", graphqlHandler);
+handler.use(auth).use(graphqlHandler);
 
 export default handler;
-
-// export default apolloServer.createHandler({ path: "/api/graphql" });

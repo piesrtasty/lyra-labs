@@ -14,7 +14,6 @@ import {
   LoginModalContext,
   CurrentUserContext,
 } from "@components/layout";
-// import { CurrentUserContext } from "@enhancers/current-user";
 import {
   CHARCOAL,
   FOCUS_LAVENDER,

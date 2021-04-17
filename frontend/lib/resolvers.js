@@ -89,8 +89,6 @@ export const Query = objectType({
         cursor: idArg(),
       },
       resolve: async (_, { take = 10, cursor = null }, ctx) => {
-        // console.log("--->>>>>> FEED POSTTS", ctx.req);
-
         const currentUser = ctx.req.user;
         if (currentUser) {
           const userSavedPosts = await ctx.prisma.post.findMany({
@@ -138,9 +136,6 @@ export const Query = objectType({
     t.field("me", {
       type: "User",
       resolve: async (_, _args, ctx) => {
-        console.log("--- calling the me resolver ---", ctx.req.user);
-        // console.log("--- This is the me resolver ---", ctx.req.user);
-
         const currentUser = ctx.req.user ? ctx.req.user : null;
         return currentUser;
       },
@@ -235,7 +230,6 @@ export const Mutation = objectType({
         showOnboarding: booleanArg(),
       },
       resolve: async (_, { showOnboarding }, ctx) => {
-        console.log("showOnboarding", showOnboarding);
         const currentUser = ctx.req.user;
         return await ctx.prisma.user.update({
           where: { id: currentUser.id },

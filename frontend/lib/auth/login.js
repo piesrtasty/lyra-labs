@@ -1,7 +1,6 @@
 import prisma from "../prisma";
 
 export const login = async (user, done) => {
-  console.log("in the login handler ----");
   /* Replay attack protection (https://go.magic.link/replay-attack) */
   if (user.claim.iat <= user.lastLoginAt) {
     return done(null, false, {

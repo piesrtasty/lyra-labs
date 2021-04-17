@@ -1,14 +1,12 @@
 import Head from "next/head";
 import { useQuery } from "@apollo/client";
 import React, { useState, useEffect } from "react";
-import { withMagicAuth } from "@enhancers/magic-auth";
 import { Global, css } from "@emotion/core";
 import { ThemeProvider } from "emotion-theming";
 import { Magic } from "magic-sdk";
 import LoginModal from "@library/components/modals/login";
 import { CURRENT_USER_QUERY } from "@data/queries";
 
-const MAGIC_PUBLISHABLE_KEY = "pk_test_789150F1861195B5";
 const THEME = {
   COLORS: {
     ALABASTER: "#f9fafa",
@@ -84,9 +82,7 @@ const Layout = ({ children }) => {
   };
 
   const signOut = async (cb) => {
-    console.log("------ CALLING SIGN OUT -----");
-
-    fetch(`${process.env.BACKEND_URL}/logout`, {
+    fetch(`/api/logout`, {
       method: "POST",
       credentials: "include",
     }).then(({ status }) => {
@@ -101,22 +97,13 @@ const Layout = ({ children }) => {
   const showLogin = () => setShowLoginModal(true);
   const hideLogin = () => setShowLoginModal(false);
 
-  const testCookieAuth = async () => {
-    console.log("TEST IT");
-    const resp = await fetch(`${process.env.BACKEND_URL}/test-cookie-auth`, {
-      method: "POST",
-      credentials: "include",
-    });
-  };
-
   return (
     <LoginModalContext.Provider value={{ showLogin, hideLogin }}>
-      {/* <CurrentUserContext.Provider value={{ currentUser: data.me, refetch }}> */}
       <CurrentUserContext.Provider
         value={{ currentUser: data ? data.me : null, refetch }}
       >
         <MagicAuthContext.Provider
-          value={{ signIn, signOut, isLoggedIn, isLoading, testCookieAuth }}
+          value={{ signIn, signOut, isLoggedIn, isLoading }}
         >
           <ThemeProvider theme={THEME}>
             <Head>
