@@ -20,6 +20,11 @@ function createApolloClient(cookie = null) {
     };
   });
 
+  console.log("----------CAC-------------");
+  console.log("process.env.VERCEL_URL", process.env.VERCEL_URL);
+  console.log("NEXT_PUBLIC_VERCEL_URL", process.env.NEXT_PUBLIC_VERCEL_URL);
+  console.log("-----------------------");
+
   const httpLink = new HttpLink({
     // uri: `${process.env.FRONTEND_URL}/api/graphql`, // Server URL (must be absolute)
     uri: `${process.env.VERCEL_URL}/api/graphql`, // Server URL (must be absolute)

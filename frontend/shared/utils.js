@@ -37,6 +37,10 @@ export const isValidUrl = (url) => {
 };
 
 export const checkIfAuthenticated = async (cookie = null) => {
+  console.log("----------CIA-------------");
+  console.log("process.env.VERCEL_URL", process.env.VERCEL_URL);
+  console.log("NEXT_PUBLIC_VERCEL_URL", process.env.NEXT_PUBLIC_VERCEL_URL);
+  console.log("-----------------------");
   const cookieObj = cookie ? { cookie } : {};
   const resp = await fetch(
     // `${process.env.FRONTEND_URL}/api/check-authentication`,
