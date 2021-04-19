@@ -39,7 +39,8 @@ export const isValidUrl = (url) => {
 export const checkIfAuthenticated = async (cookie = null) => {
   const cookieObj = cookie ? { cookie } : {};
   const resp = await fetch(
-    `${process.env.FRONTEND_URL}/api/check-authentication`,
+    // `${process.env.FRONTEND_URL}/api/check-authentication`,
+    `${process.env.VERCEL_URL}/api/check-authentication`,
     {
       withCredentials: true,
       credentials: "include",
