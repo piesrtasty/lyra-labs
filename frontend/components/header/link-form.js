@@ -139,7 +139,8 @@ const LinkForm = ({ setFormVisible }) => {
         __typename: "Post",
       },
     },
-    onError: () => {
+    onError: (err) => {
+      console.log("___", err);
       toast.error("😳Please enter a valid URL", {
         position: "bottom-left",
       });

@@ -21,7 +21,7 @@ function createApolloClient(cookie = null) {
   });
 
   const httpLink = new HttpLink({
-    uri: "http://localhost:3000/api/graphql", // Server URL (must be absolute)
+    uri: `${process.env.FRONTEND_URL}/api/graphql`, // Server URL (must be absolute)
     // credentials: "same-origin", // Additional fetch() options like `credentials` or `headers`
     credentials: "include", // Additional fetch() options like `credentials` or `headers`
   });

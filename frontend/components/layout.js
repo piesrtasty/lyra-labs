@@ -33,7 +33,7 @@ const Layout = ({ children }) => {
     const bootstrapAsync = async () => {
       setIsLoading(true);
       // fetch(`${process.env.BACKEND_URL}/check-authentication`, {
-      fetch(`/check-authentication`, {
+      fetch(`/api/check-authentication`, {
         withCredentials: true,
         credentials: "include",
         // credentials: "same-origin",
@@ -153,5 +153,4 @@ const Layout = ({ children }) => {
   );
 };
 
-// export default withMagicAuth(Layout);
 export default Layout;

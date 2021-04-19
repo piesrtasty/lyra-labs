@@ -3,7 +3,6 @@ import styled from "@emotion/styled";
 import { Container, Main, Aside } from "../../layout";
 import { WHITE } from "../../../../style/colors";
 import { TITLE_TEXT, BASE_TEXT, WEIGHT } from "../../../../style/typography";
-import { withMagicAuth } from "@enhancers/magic-auth";
 import BaseModal from "../base";
 import { withPortal } from "../base/portal";
 import LogInButton from "../../buttons/log-in";
