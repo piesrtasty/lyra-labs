@@ -36,3 +36,13 @@ export const saveUrl = async (givenUrl, currentUser) => {
     },
   });
 };
+
+export const hostBaseUri = () => {
+  const url =
+    process.env.NODE_ENV === "production"
+      ? process.env.NEXT_PUBLIC_VERCEL_ENV === "preview"
+        ? process.env.NEXT_PUBLIC_VERCEL_ENV
+        : process.env.FRONTEND_URL
+      : process.env.FRONTEND_URL;
+  return `http${process.NODE_ENV === "production" ? "s" : ""}://${url}`;
+};

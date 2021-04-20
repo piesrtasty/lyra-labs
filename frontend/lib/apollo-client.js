@@ -3,6 +3,7 @@ import { ApolloClient, HttpLink, InMemoryCache } from "@apollo/client";
 import { setContext } from "@apollo/client/link/context";
 import merge from "deepmerge";
 import isEqual from "lodash/isEqual";
+import { hostBaseUri } from "./utils";
 
 export const APOLLO_STATE_PROP_NAME = "__APOLLO_STATE__";
 const AUTH_COOKIE_PROP_NAME = "__AUTH_COOKIE__";
@@ -20,17 +21,8 @@ function createApolloClient(cookie = null) {
     };
   });
 
-  console.log("----------CAC-------------");
-  console.log("VERCEL_URL", process.env.VERCEL_URL);
-  console.log("NEXT_PUBLIC_VERCEL_URL", process.env.NEXT_PUBLIC_VERCEL_URL);
-  console.log("VERCEL_ENV", process.env.VERCEL_ENV);
-  console.log("NEXT_PUBLIC_VERCEL_ENV", process.env.NEXT_PUBLIC_VERCEL_ENV);
-  console.log("NODE_ENV", process.env.NODE_ENV);
-  console.log("-----------------------");
-
   const httpLink = new HttpLink({
-    // uri: `${process.env.FRONTEND_URL}/api/graphql`, // Server URL (must be absolute)
-    uri: `http://${process.env.NEXT_PUBLIC_VERCEL_URL}/api/graphql`, // Server URL (must be absolute)
+    uri: `${hostBaseUri()}/api/graphql`, // Server URL (must be absolute)
     // credentials: "same-origin", // Additional fetch() options like `credentials` or `headers`
     credentials: "include", // Additional fetch() options like `credentials` or `headers`
   });
