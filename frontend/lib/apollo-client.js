@@ -30,6 +30,8 @@ function createApolloClient(cookie = null) {
     process.env.NODE_ENV === "production" ? "s" : ""
   }://${url}`;
 
+  console.log("baseUrl", baseUrl);
+
   const httpLink = new HttpLink({
     uri: `${baseUrl}/api/graphql`, // Server URL (must be absolute)
     // credentials: "same-origin", // Additional fetch() options like `credentials` or `headers`
