@@ -7,7 +7,7 @@ import StyledButton from "../../shared/library/components/buttons/styled";
 import { LinkWrapper } from "../../shared/library/components/buttons/shared";
 import { Magic } from "magic-sdk";
 import { MagicAuthContext } from "../layout";
-import { LoginModalContext } from "@enhancers/login-modal";
+import { LoginModalContext } from "@components/layout";
 
 import { WEIGHT } from "../../shared/style/typography";
 import {

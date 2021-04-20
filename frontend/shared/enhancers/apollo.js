@@ -135,7 +135,8 @@ function initApolloClient(initialState, cookie) {
 const isBrowser = typeof window !== "undefined";
 
 const httpLink = new HttpLink({
-  uri: `${process.env.BACKEND_URL}/graphql`,
+  // uri: `${process.env.BACKEND_URL}/graphql`,
+  uri: `/api/graphql`,
   // uri: isBrowser
   //   ? "http://localhost:4000/graphql"
   //   : process.env.BACKEND_URL,

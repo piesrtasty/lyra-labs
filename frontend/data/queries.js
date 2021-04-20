@@ -33,7 +33,7 @@ export const FEED_POSTS = gql`
 `;
 
 export const CURRENT_USER_QUERY = gql`
-  query {
+  query me {
     me {
       id
       email

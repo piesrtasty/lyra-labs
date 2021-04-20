@@ -1,39 +1,22 @@
-import React, { useState, useEffect } from "react";
-import App from "next/app";
+import React from "react";
+import { ApolloProvider } from "@apollo/client";
 import Layout from "../components/layout";
-import { withMagicAuth } from "@enhancers/magic-auth";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import { withMobile } from "../shared/enhancers/mobile-enhancer";
+import { useApollo } from "../lib/apollo-client";
 
 toast.configure();
 
-import { Magic } from "magic-sdk";
+const App = ({ Component, pageProps }) => {
+  const apolloClient = useApollo(pageProps);
 
-class MyApp extends App {
-  render(props) {
-    const { Component, pageProps } = this.props;
-
-    // const [isLoggedIn, setIsLoggedIn] = useState(false);
-    // const [isLoading, setIsLoading] = useState(false);
-
-    // useEffect(() => {
-    //   const bootstrapAsync = async () => {
-    //     setIsLoading(true);
-    //     fetch(`${BACKEND_API_URL}/check-authentication`).then(({ status }) => {
-    //       setIsLoggedIn(status == 200);
-    //       setIsLoading(false);
-    //     });
-    //   };
-    //   bootstrapAsync();
-    // }, []);
-
-    return (
+  return (
+    <ApolloProvider client={apolloClient}>
       <Layout>
         <Component {...pageProps} />
       </Layout>
-    );
-  }
-}
+    </ApolloProvider>
+  );
+};
 
-export default withMobile(MyApp);
+export default App;

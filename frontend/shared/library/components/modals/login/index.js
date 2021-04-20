@@ -3,15 +3,16 @@ import styled from "@emotion/styled";
 import { Container, Main, Aside } from "../../layout";
 import { WHITE } from "../../../../style/colors";
 import { TITLE_TEXT, BASE_TEXT, WEIGHT } from "../../../../style/typography";
-import { withMagicAuth } from "@enhancers/magic-auth";
 import BaseModal from "../base";
 import { withPortal } from "../base/portal";
 import LogInButton from "../../buttons/log-in";
 import SignUpButton from "../../buttons/sign-up";
 import LyraLogo from "../../../../style/logos/lyra-labs-logo.svg";
-import { MagicAuthContext } from "@components/layout";
-import { LoginModalContext } from "@enhancers/login-modal";
-import { CurrentUserContext } from "@enhancers/current-user";
+import {
+  MagicAuthContext,
+  LoginModalContext,
+  CurrentUserContext,
+} from "@components/layout";
 import {
   CHARCOAL,
   FOCUS_LAVENDER,

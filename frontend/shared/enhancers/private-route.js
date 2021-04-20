@@ -13,7 +13,8 @@ export const withPrivateRoute = (Component, options = {}) => {
       req && req.headers && req.headers.cookie ? req.headers.cookie : null;
     const cookieObj = cookie ? { cookie } : {};
     const resp = await fetch(
-      `${process.env.BACKEND_URL}/check-authentication`,
+      // `${process.env.BACKEND_URL}/check-authentication`,
+      `/check-authentication`,
       {
         withCredentials: true,
         credentials: "include",
