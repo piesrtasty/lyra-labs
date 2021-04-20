@@ -1,5 +1,8 @@
 import moment from "moment";
-import { hostBaseUri } from "../lib/utils";
+import uuidv4 from "uuid/v4";
+import axios from "axios";
+import { SIGN_UPLOAD } from "../data/mutations";
+import get from "lodash/get";
 
 const TODAY = "Today";
 const YESTERDAY = "Yesterday";
@@ -34,8 +37,18 @@ export const isValidUrl = (url) => {
 };
 
 export const checkIfAuthenticated = async (cookie = null) => {
+  const url =
+    process.env.NODE_ENV === "production"
+      ? process.env.NEXT_PUBLIC_VERCEL_ENV === "preview"
+        ? process.env.NEXT_PUBLIC_VERCEL_ENV
+        : process.env.FRONTEND_URL
+      : process.env.FRONTEND_URL;
+  const baseUrl = `http${
+    process.NODE_ENV === "production" ? "s" : ""
+  }://${url}`;
+
   const cookieObj = cookie ? { cookie } : {};
-  const resp = await fetch(`${hostBaseUri()}/api/check-authentication`, {
+  const resp = await fetch(`${baseUrl}/api/check-authentication`, {
     withCredentials: true,
     credentials: "include",
     headers: {
