@@ -23,11 +23,11 @@ function createApolloClient(cookie = null) {
   const url =
     process.env.NODE_ENV === "production"
       ? process.env.NEXT_PUBLIC_VERCEL_ENV === "preview"
-        ? process.env.NEXT_PUBLIC_VERCEL_ENV
+        ? process.env.NEXT_PUBLIC_VERCEL_URL
         : process.env.FRONTEND_URL
       : process.env.FRONTEND_URL;
   const baseUrl = `http${
-    process.NODE_ENV === "production" ? "s" : ""
+    process.env.NODE_ENV === "production" ? "s" : ""
   }://${url}`;
 
   const httpLink = new HttpLink({
