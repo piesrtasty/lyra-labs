@@ -30,20 +30,6 @@ function createApolloClient(cookie = null) {
     process.env.NODE_ENV === "production" ? "s" : ""
   }://${url}`;
 
-  console.log("-------------------------");
-  console.log("baseUrl", baseUrl);
-  console.log("process.env.NODE_ENV", process.env.NODE_ENV);
-  console.log(
-    "process.env.NEXT_PUBLIC_VERCEL_ENV",
-    process.env.NEXT_PUBLIC_VERCEL_ENV
-  );
-  console.log(
-    "process.env.NEXT_PUBLIC_VERCEL_URL",
-    process.env.NEXT_PUBLIC_VERCEL_URL
-  );
-  console.log("process.env.FRONTEND_URL", process.env.FRONTEND_URL);
-  console.log("-------------------------");
-
   const httpLink = new HttpLink({
     uri: `${baseUrl}/api/graphql`, // Server URL (must be absolute)
     // credentials: "same-origin", // Additional fetch() options like `credentials` or `headers`

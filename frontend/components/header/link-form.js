@@ -140,7 +140,6 @@ const LinkForm = ({ setFormVisible }) => {
       },
     },
     onError: (err) => {
-      console.log("___", err);
       toast.error("😳Please enter a valid URL", {
         position: "bottom-left",
       });
@@ -154,7 +153,6 @@ const LinkForm = ({ setFormVisible }) => {
   const handleSubmit = (e) => {
     e.preventDefault();
     if (givenUrl) {
-      console.log("PRESSSED SUBMIT", givenUrl);
       createPost({
         variables: {
           givenUrl,

@@ -47,14 +47,11 @@ const Layout = ({ children }) => {
 
   const signIn = async (email, cb) => {
     const magic = new Magic(process.env.MAGIC_PUBLISHABLE_KEY);
-    //   console.log("------ CALLING SIGN IN -----", email);
     magic.auth
       .loginWithMagicLink({
         email,
       })
-      .on("email-sent", () => {
-        console.log("email-sent");
-      })
+      .on("email-sent", () => {})
       .then(async (DIDToken) => {
         // const resp = await fetch(`${process.env.BACKEND_URL}/login`, {
         const resp = await fetch(`/api/login`, {
@@ -66,18 +63,14 @@ const Layout = ({ children }) => {
           credentials: "include",
           method: "POST",
         });
-        console.log("RESP", resp);
         if (cb) {
           cb();
         }
         setIsLoggedIn(true);
       })
-      .once("email-not-deliverable", () => {
-        console.log("email-not-deliverable");
-      })
+      .once("email-not-deliverable", () => {})
       .on("error", () => {
         setIsLoggedIn(false);
-        console.log("Error");
       });
   };
 
