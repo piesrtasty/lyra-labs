@@ -7,6 +7,7 @@ module.exports = withCSS({
   target: "serverless",
   env: {
     BACKEND_URL: process.env.BACKEND_URL,
+    FRONTEND_URL: process.env.FRONTEND_URL,
     VERCEL_ENV: process.env.VERCEL_ENV,
     NPM_TOKEN: process.env.NPM_TOKEN,
     MAGIC_PUBLISHABLE_KEY: process.env.MAGIC_PUBLISHABLE_KEY,

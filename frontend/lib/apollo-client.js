@@ -38,8 +38,8 @@ function createApolloClient(cookie = null) {
     process.env.NEXT_PUBLIC_VERCEL_ENV
   );
   console.log(
-    "process.env.NEXT_PUBLIC_VERCEL_ENV",
-    process.env.NEXT_PUBLIC_VERCEL_ENV
+    "process.env.NEXT_PUBLIC_VERCEL_URL",
+    process.env.NEXT_PUBLIC_VERCEL_URL
   );
   console.log("process.env.FRONTEND_URL", process.env.FRONTEND_URL);
   console.log("-------------------------");
