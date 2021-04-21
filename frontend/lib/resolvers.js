@@ -91,11 +91,6 @@ export const Query = objectType({
         cursor: idArg(),
       },
       resolve: async (_, { take = 10, cursor = null }, ctx) => {
-        return await ctx.prisma.post.findMany({
-          orderBy: {
-            createdAt: "desc",
-          },
-        });
         const currentUser = ctx.req.user;
         if (currentUser) {
           const userSavedPosts = await ctx.prisma.post.findMany({
