@@ -27,8 +27,12 @@ const ms = metascraper([
 import prisma from "./prisma";
 
 export const saveUrl = async (givenUrl, currentUser) => {
+  console.log("inside of saveUrl");
   const { body: html, url } = await got(givenUrl);
+  console.log("html", html);
+  console.log("url", url);
   const metadata = await ms({ html, url });
+  console.log("metadata", metadata);
   return await prisma.post.create({
     data: {
       submitter: { connect: { id: currentUser.id } },

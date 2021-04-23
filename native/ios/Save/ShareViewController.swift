@@ -54,8 +54,8 @@ class ShareViewController: SLComposeServiceViewController {
                   itemProvider.loadItem(forTypeIdentifier: "public.url", options: nil, completionHandler: { (url, error) -> Void in
                       if let shareURL = url as? NSURL {
                         // Prepare URL
-//                        let url = URL(string: "http://localhost:4000/save")
-                        let url = URL(string: "http://localhost:4000/test-cookie-auth")
+                        let url = URL(string: "http://localhost:3000/api/save")
+//                        let url = URL(string: "http://localhost:4000/test-cookie-auth")
                         guard let requestUrl = url else { fatalError() }
                         // Prepare URL Request Object
                         var request = URLRequest(url: requestUrl)
