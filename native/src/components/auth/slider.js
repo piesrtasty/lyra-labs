@@ -61,6 +61,7 @@ const Item = ({ title, subTitle, description, animation }) => (
     <CenterContainer>
       <ItemHeading>{title}</ItemHeading>
       <ItemParagraph>{description}</ItemParagraph>
+      {subTitle && <ItemParagraph>{subTitle}</ItemParagraph>}
     </CenterContainer>
   </ItemContainer>
 );
