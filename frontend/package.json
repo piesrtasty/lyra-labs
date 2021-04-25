@@ -30,7 +30,7 @@
     "@zeit/next-css": "^1.0.1",
     "apollo-server-express": "^2.22.2",
     "apollo-server-micro": "^2.22.2",
-    "axios": "^0.19.0",
+    "axios": "^0.21.1",
     "babel-plugin-inline-react-svg": "^1.1.0",
     "body-parser": "^1.19.0",
     "body-scroll-lock": "^2.6.4",
