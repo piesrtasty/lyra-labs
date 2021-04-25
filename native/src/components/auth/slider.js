@@ -66,7 +66,7 @@ const Item = ({ title, subTitle, description, animation }) => (
 );
 
 const Container = styled.View`
-  margin-top: ${(props) => (props.theme.hasNotch ? "100px" : "25px")};
+  margin-top: ${(props) => (props.theme.hasNotch ? "50px" : "25px")};
 `;
 
 const ItemContainer = styled.View`
@@ -75,7 +75,7 @@ const ItemContainer = styled.View`
 `;
 
 const LottieContainer = styled.View`
-  height: ${(props) => (props.theme.hasNotch ? "175px" : "125px")};
+  height: ${(props) => (props.theme.hasNotch ? "125px" : "125px")};
 `;
 
 const Slider = () => {

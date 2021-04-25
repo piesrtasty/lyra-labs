@@ -25,10 +25,12 @@ export const withMagicAuth = (Component) => {
     useEffect(() => {
       const bootstrapAsync = async () => {
         setIsLoading(true);
-        fetch(`${BACKEND_API_URL}/check-authentication`).then(({ status }) => {
-          setIsLoggedIn(status == 200);
-          setIsLoading(false);
-        });
+        fetch(`${BACKEND_API_URL}/api/check-authentication`).then(
+          ({ status }) => {
+            setIsLoggedIn(status == 200);
+            setIsLoading(false);
+          }
+        );
       };
       bootstrapAsync();
     }, []);
@@ -42,7 +44,7 @@ export const withMagicAuth = (Component) => {
         .on("email-sent", () => {})
         .then(async (DIDToken) => {
           const data = name ? { name } : {};
-          const resp = await fetch(`${BACKEND_API_URL}/login`, {
+          const resp = await fetch(`${BACKEND_API_URL}/api/login`, {
             headers: new Headers({
               Authorization: "Bearer " + DIDToken,
               Accept: "application/json",
@@ -60,6 +62,7 @@ export const withMagicAuth = (Component) => {
 
           const headers = resp.headers.map;
           const cookieHeader = headers["set-cookie"];
+          debugger;
           if (cookieHeader) {
             await Keychain.setGenericPassword(
               MAGIC_AUTH_COOKIE_KEY,
@@ -87,7 +90,7 @@ export const withMagicAuth = (Component) => {
     };
 
     const signOut = async () => {
-      fetch(`${BACKEND_API_URL}/logout`, { method: "POST" }).then(
+      fetch(`${BACKEND_API_URL}/api/logout`, { method: "POST" }).then(
         ({ status }) => {
           setIsLoggedIn(!(status == 200));
           setIsLoading(false);
