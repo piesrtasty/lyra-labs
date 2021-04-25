@@ -54,8 +54,7 @@ class ShareViewController: SLComposeServiceViewController {
                   itemProvider.loadItem(forTypeIdentifier: "public.url", options: nil, completionHandler: { (url, error) -> Void in
                       if let shareURL = url as? NSURL {
                         // Prepare URL
-                        let url = URL(string: "http://localhost:3000/api/save")
-//                        let url = URL(string: "http://localhost:4000/test-cookie-auth")
+                        let url = URL(string: "http://192.168.1.195:3000/api/save")
                         guard let requestUrl = url else { fatalError() }
                         // Prepare URL Request Object
                         var request = URLRequest(url: requestUrl)
@@ -64,10 +63,17 @@ class ShareViewController: SLComposeServiceViewController {
                         let postString = "givenUrl=\(shareURL)&title=\(self.textView.text as String)";
                         // Set HTTP Request Body
                         request.httpBody = postString.data(using: String.Encoding.utf8);
-//                        request.setValue("Bearer \(self.DIDToken as String)", forHTTPHeaderField: "Authorization")
                         request.setValue(self.magicAuthCookie as String, forHTTPHeaderField: "Cookie")
                         request.httpShouldHandleCookies = true
                         let task = URLSession.shared.dataTask(with: request) { (data, response, error) in
+                          //  Check for Error
+                          if let error = error {
+                            print("Error took place \(error)")
+                            DispatchQueue.main.async {
+                              self.displayUIAlertController(title: "Failed to save 😔", message: "Please try again later.")
+                            }
+                            return
+                          }
                           if let httpResponse = response as? HTTPURLResponse {
                             if httpResponse.statusCode == 401 {
                               DispatchQueue.main.async {
@@ -83,21 +89,6 @@ class ShareViewController: SLComposeServiceViewController {
                               }
                             }
                           }
-                          // Check for Error
-//                          if let error = error {
-//                            print("Error took place \(error)")
-//                            DispatchQueue.main.async {
-//                              self.displayUIAlertController(title: "Failed to save 😔", message: "Please try again later.")
-//                            }
-//                            return
-//                          }
-//                          // Convert HTTP Response Data to a String
-//                          if let data = data, let dataString = String(data: data, encoding: .utf8) {
-//                            print("Response data string:\n \(dataString)")
-//                            DispatchQueue.main.async {
-//                              self.displayUIAlertController(title: "Saved to Lyra Labs! 🥳")
-//                            }
-//                          }
                         }
                         task.resume()
                       }
@@ -106,17 +97,4 @@ class ShareViewController: SLComposeServiceViewController {
           }
       }
     }
-  
-//  override func configurationItems() -> [Any]! {
-//      if let deck = SLComposeSheetConfigurationItem() {
-//          deck.title = "Selected Deck"
-//          deck.value = "Deck Title"
-//          deck.tapHandler = {
-//              // on tap
-//          }
-//          return [deck]
-//      }
-//      return nil
-//  }
-  
 }
