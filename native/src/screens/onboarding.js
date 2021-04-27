@@ -21,10 +21,24 @@ const Container = styled(FullContainer)`
   justify-content: center;
 `;
 
-const Mock = styled.Image`
+const MockContainer = styled.View`
   margin-top: 42px;
-  height: 423px;
   width: 210px;
+  height: 423px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+`;
+
+const Mock = styled.Image`
+  width: 190px;
+  height: 400px;
+`;
+
+const MockShell = styled.Image`
+  position: absolute;
+  width: 210px;
+  height: 423px;
 `;
 
 const Title = styled(MediumHeading)`
@@ -66,7 +80,18 @@ const OnboardingScreen = () => {
   return (
     <SafeAreaContainer>
       <Container>
-        <Mock source={require("@assets/images/onboarding-mock.png")} />
+        <MockContainer>
+          <Mock
+            // resizeMode={"contain"}
+            source={require("@assets/videos/lyra-labs-onboarding.gif")}
+          />
+          <MockShell
+            // resizeMode={"stretch"}
+            source={require("@assets/images/white-phone-template.png")}
+          />
+        </MockContainer>
+        {/* <Mock source={require("@assets/images/onboarding-mock.png")} /> */}
+
         <Title>Enable share extension</Title>
         <SubTitle>
           Save articles, videos and stories from any publication, page or app
