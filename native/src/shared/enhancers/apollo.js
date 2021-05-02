@@ -7,6 +7,9 @@ import {
   InMemoryCache,
   HttpLink,
 } from "@apollo/client";
+import Config from "react-native-config";
+
+const { BACKEND_API_URL } = Config;
 
 import { onError } from "@apollo/client/link/error";
 

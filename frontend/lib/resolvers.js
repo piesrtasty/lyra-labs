@@ -57,7 +57,13 @@ export const Query = objectType({
         const where = currentUser
           ? { where: { submitterId: currentUser.id, archived: false } }
           : {};
-        const baseArgs = { take, ...where };
+        const baseArgs = {
+          take,
+          ...where,
+          orderBy: {
+            createdAt: "desc",
+          },
+        };
         const args = cursor
           ? { ...baseArgs, skip: 1, cursor: { id: cursor } }
           : baseArgs;
@@ -76,7 +82,13 @@ export const Query = objectType({
         const where = currentUser
           ? { where: { submitterId: currentUser.id, archived: true } }
           : {};
-        const baseArgs = { take, ...where };
+        const baseArgs = {
+          take,
+          ...where,
+          orderBy: {
+            createdAt: "desc",
+          },
+        };
         const args = cursor
           ? { ...baseArgs, skip: 1, cursor: { id: cursor } }
           : baseArgs;
@@ -108,9 +120,19 @@ export const Query = objectType({
                 },
               }
             : {};
-          const baseArgs = { take, ...where };
+          const baseArgs = {
+            take,
+            ...where,
+            orderBy: {
+              createdAt: "desc",
+            },
+          };
           const args = cursor
-            ? { ...baseArgs, skip: 1, cursor: { id: cursor } }
+            ? {
+                ...baseArgs,
+                skip: 1,
+                cursor: { id: cursor },
+              }
             : baseArgs;
           const posts = await ctx.prisma.post.findMany(args);
           return posts;

@@ -12,12 +12,16 @@ target "lyralabs" do
     :hermes_enabled => true,
   )
 
-  pod "KeychainAccess"
+  # pod "KeychainAccess"
 
   target "lyralabsTests" do
     inherit! :complete
     # Pods for testing
   end
+
+  # target "Save" do
+  #   pod "KeychainAccess"
+  # end
 
   # Enables Flipper.
   #

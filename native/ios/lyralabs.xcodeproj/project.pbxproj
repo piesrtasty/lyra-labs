@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 46;
+	objectVersion = 52;
 	objects = {
 
 /* Begin PBXBuildFile section */
@@ -14,11 +14,10 @@
 		13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 13B07FB51A68108700A75B9A /* Images.xcassets */; };
 		13B07FC11A68108700A75B9A /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB71A68108700A75B9A /* main.m */; };
 		27DBC9C3AD0F400884049D30 /* Montserrat-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = DCFD5CCD38464D79AAFFCB5B /* Montserrat-Regular.ttf */; };
+		47E41CF2263E4BD9008AEE36 /* BuildFile in Frameworks */ = {isa = PBXBuildFile; productRef = 47E41CF1263E4BD9008AEE36 /* SwiftPackageProductDependency */; };
 		47F9578224B7FCB900D2BBEC /* ShareViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47F9578124B7FCB900D2BBEC /* ShareViewController.swift */; };
 		47F9578524B7FCB900D2BBEC /* MainInterface.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 47F9578324B7FCB900D2BBEC /* MainInterface.storyboard */; };
 		47F9578924B7FCB900D2BBEC /* Save.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = 47F9577F24B7FCB900D2BBEC /* Save.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
-		47F9578D24B80C5C00D2BBEC /* KeychainAccess.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 47673C6D24A9A3B9004826F7 /* KeychainAccess.framework */; };
-		47F9578E24B80C5C00D2BBEC /* KeychainAccess.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 47673C6D24A9A3B9004826F7 /* KeychainAccess.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		7C8B43587E114192961920D2 /* Montserrat-SemiBold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 105DBCFE7EE54194BEC01535 /* Montserrat-SemiBold.ttf */; };
 		93104329370F8DD65F85220A /* libPods-lyralabs.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 9FA4D73352E04A1612253370 /* libPods-lyralabs.a */; };
 		C7134AB6D0DFD8B6F46CAE89 /* libPods-lyralabs-lyralabsTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = D9D9BFA365E59D7FE414380D /* libPods-lyralabs-lyralabsTests.a */; };
@@ -33,27 +32,6 @@
 			proxyType = 1;
 			remoteGlobalIDString = 13B07F861A680F5B00A75B9A;
 			remoteInfo = lyralabs;
-		};
-		47673C6C24A9A3B9004826F7 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 47673C6624A9A3B9004826F7 /* KeychainAccess.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = 140F195C1A49D79400B0016A;
-			remoteInfo = KeychainAccess;
-		};
-		47673C6E24A9A3B9004826F7 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 47673C6624A9A3B9004826F7 /* KeychainAccess.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = 140F19671A49D79500B0016A;
-			remoteInfo = KeychainAccessTests;
-		};
-		47673C7024A9A3B9004826F7 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 47673C6624A9A3B9004826F7 /* KeychainAccess.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = 14A630151D3293C700809B3F;
-			remoteInfo = TestHost;
 		};
 		47F9578724B7FCB900D2BBEC /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -82,7 +60,6 @@
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
-				47F9578E24B80C5C00D2BBEC /* KeychainAccess.framework in Embed Frameworks */,
 			);
 			name = "Embed Frameworks";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -104,7 +81,6 @@
 		13B07FB71A68108700A75B9A /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = main.m; path = lyralabs/main.m; sourceTree = "<group>"; };
 		199DB80BDF8E4014EECB00AE /* Pods-lyralabs.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-lyralabs.debug.xcconfig"; path = "Target Support Files/Pods-lyralabs/Pods-lyralabs.debug.xcconfig"; sourceTree = "<group>"; };
 		408D3221D0722ACD27998203 /* Pods-lyralabs-lyralabsTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-lyralabs-lyralabsTests.debug.xcconfig"; path = "Target Support Files/Pods-lyralabs-lyralabsTests/Pods-lyralabs-lyralabsTests.debug.xcconfig"; sourceTree = "<group>"; };
-		47673C6624A9A3B9004826F7 /* KeychainAccess.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = KeychainAccess.xcodeproj; path = ../../../KeychainAccess/Lib/KeychainAccess.xcodeproj; sourceTree = "<group>"; };
 		47BB08F42495CAF300D9C925 /* lyralabs.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; name = lyralabs.entitlements; path = lyralabs/lyralabs.entitlements; sourceTree = "<group>"; };
 		47F9577F24B7FCB900D2BBEC /* Save.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = Save.appex; sourceTree = BUILT_PRODUCTS_DIR; };
 		47F9578124B7FCB900D2BBEC /* ShareViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShareViewController.swift; sourceTree = "<group>"; };
@@ -152,7 +128,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				47F9578D24B80C5C00D2BBEC /* KeychainAccess.framework in Frameworks */,
+				47E41CF2263E4BD9008AEE36 /* BuildFile in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -204,16 +180,6 @@
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
-		47673C6724A9A3B9004826F7 /* Products */ = {
-			isa = PBXGroup;
-			children = (
-				47673C6D24A9A3B9004826F7 /* KeychainAccess.framework */,
-				47673C6F24A9A3B9004826F7 /* KeychainAccessTests.xctest */,
-				47673C7124A9A3B9004826F7 /* TestHost.app */,
-			);
-			name = Products;
-			sourceTree = "<group>";
-		};
 		47F9578024B7FCB900D2BBEC /* Save */ = {
 			isa = PBXGroup;
 			children = (
@@ -247,7 +213,6 @@
 		83CBB9F61A601CBA00E9B192 = {
 			isa = PBXGroup;
 			children = (
-				47673C6624A9A3B9004826F7 /* KeychainAccess.xcodeproj */,
 				13B07FAE1A68108700A75B9A /* lyralabs */,
 				832341AE1AAA6A7D00B99B32 /* Libraries */,
 				00E356EF1AD99517003FC87E /* lyralabsTests */,
@@ -351,6 +316,9 @@
 			dependencies = (
 			);
 			name = Save;
+			packageProductDependencies = (
+				47E41CF1263E4BD9008AEE36 /* SwiftPackageProductDependency */,
+			);
 			productName = Save;
 			productReference = 47F9577F24B7FCB900D2BBEC /* Save.appex */;
 			productType = "com.apple.product-type.app-extension";
@@ -390,14 +358,11 @@
 				Base,
 			);
 			mainGroup = 83CBB9F61A601CBA00E9B192;
+			packageReferences = (
+				47E41CF0263E4BD9008AEE36 /* RemoteSwiftPackageReference */,
+			);
 			productRefGroup = 83CBBA001A601CBA00E9B192 /* Products */;
 			projectDirPath = "";
-			projectReferences = (
-				{
-					ProductGroup = 47673C6724A9A3B9004826F7 /* Products */;
-					ProjectRef = 47673C6624A9A3B9004826F7 /* KeychainAccess.xcodeproj */;
-				},
-			);
 			projectRoot = "";
 			targets = (
 				13B07F861A680F5B00A75B9A /* lyralabs */,
@@ -406,30 +371,6 @@
 			);
 		};
 /* End PBXProject section */
-
-/* Begin PBXReferenceProxy section */
-		47673C6D24A9A3B9004826F7 /* KeychainAccess.framework */ = {
-			isa = PBXReferenceProxy;
-			fileType = wrapper.framework;
-			path = KeychainAccess.framework;
-			remoteRef = 47673C6C24A9A3B9004826F7 /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-		47673C6F24A9A3B9004826F7 /* KeychainAccessTests.xctest */ = {
-			isa = PBXReferenceProxy;
-			fileType = wrapper.cfbundle;
-			path = KeychainAccessTests.xctest;
-			remoteRef = 47673C6E24A9A3B9004826F7 /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-		47673C7124A9A3B9004826F7 /* TestHost.app */ = {
-			isa = PBXReferenceProxy;
-			fileType = wrapper.application;
-			path = TestHost.app;
-			remoteRef = 47673C7024A9A3B9004826F7 /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-/* End PBXReferenceProxy section */
 
 /* Begin PBXResourcesBuildPhase section */
 		00E356EC1AD99517003FC87E /* Resources */ = {
@@ -695,7 +636,11 @@
 				);
 				INFOPLIST_FILE = lyralabsTests/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
 				OTHER_LDFLAGS = (
 					"-ObjC",
 					"-lc++",
@@ -718,7 +663,11 @@
 				DEVELOPMENT_TEAM = KU5GP44363;
 				INFOPLIST_FILE = lyralabsTests/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
 				OTHER_LDFLAGS = (
 					"-ObjC",
 					"-lc++",
@@ -740,7 +689,7 @@
 				CODE_SIGN_ENTITLEMENTS = lyralabs/lyralabs.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1;
+				CURRENT_PROJECT_VERSION = 2;
 				DEVELOPMENT_TEAM = KU5GP44363;
 				ENABLE_BITCODE = NO;
 				GCC_PREPROCESSOR_DEFINITIONS = (
@@ -748,7 +697,11 @@
 					"FB_SONARKIT_ENABLED=1",
 				);
 				INFOPLIST_FILE = lyralabs/Info.plist;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"\"${PODS_CONFIGURATION_BUILD_DIR}/A0Auth0\"",
@@ -827,10 +780,14 @@
 				CODE_SIGN_ENTITLEMENTS = lyralabs/lyralabs.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1;
+				CURRENT_PROJECT_VERSION = 2;
 				DEVELOPMENT_TEAM = KU5GP44363;
 				INFOPLIST_FILE = lyralabs/Info.plist;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"\"${PODS_CONFIGURATION_BUILD_DIR}/A0Auth0\"",
@@ -894,6 +851,7 @@
 		47F9578B24B7FCB900D2BBEC /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				APPLICATION_EXTENSION_API_ONLY = YES;
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
@@ -903,12 +861,17 @@
 				CODE_SIGN_ENTITLEMENTS = Save/Save.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 2;
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				DEVELOPMENT_TEAM = KU5GP44363;
 				GCC_C_LANGUAGE_STANDARD = gnu11;
 				INFOPLIST_FILE = Save/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 13.5;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @executable_path/../../Frameworks";
+				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+				);
 				LIBRARY_SEARCH_PATHS = "\"$(TOOLCHAIN_DIR)/usr/lib/swift/$(PLATFORM_NAME)\"";
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
@@ -925,6 +888,7 @@
 		47F9578C24B7FCB900D2BBEC /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				APPLICATION_EXTENSION_API_ONLY = YES;
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
@@ -935,12 +899,17 @@
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				COPY_PHASE_STRIP = NO;
+				CURRENT_PROJECT_VERSION = 2;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				DEVELOPMENT_TEAM = KU5GP44363;
 				GCC_C_LANGUAGE_STANDARD = gnu11;
 				INFOPLIST_FILE = Save/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 13.5;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @executable_path/../../Frameworks";
+				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+				);
 				LIBRARY_SEARCH_PATHS = "\"$(TOOLCHAIN_DIR)/usr/lib/swift/$(PLATFORM_NAME)\"";
 				MTL_FAST_MATH = YES;
 				PRODUCT_BUNDLE_IDENTIFIER = com.lyralabs.app.Save;
@@ -1001,7 +970,10 @@
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
-				LD_RUNPATH_SEARCH_PATHS = "/usr/lib/swift $(inherited)";
+				LD_RUNPATH_SEARCH_PATHS = (
+					/usr/lib/swift,
+					"$(inherited)",
+				);
 				LIBRARY_SEARCH_PATHS = (
 					"\"$(TOOLCHAIN_DIR)/usr/lib/swift/$(PLATFORM_NAME)\"",
 					"\"$(TOOLCHAIN_DIR)/usr/lib/swift-5.0/$(PLATFORM_NAME)\"",
@@ -1055,7 +1027,10 @@
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
-				LD_RUNPATH_SEARCH_PATHS = "/usr/lib/swift $(inherited)";
+				LD_RUNPATH_SEARCH_PATHS = (
+					/usr/lib/swift,
+					"$(inherited)",
+				);
 				LIBRARY_SEARCH_PATHS = (
 					"\"$(TOOLCHAIN_DIR)/usr/lib/swift/$(PLATFORM_NAME)\"",
 					"\"$(TOOLCHAIN_DIR)/usr/lib/swift-5.0/$(PLATFORM_NAME)\"",
@@ -1108,6 +1083,25 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		47E41CF0263E4BD9008AEE36 /* RemoteSwiftPackageReference */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/kishikawakatsumi/KeychainAccess.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 4.2.2;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		47E41CF1263E4BD9008AEE36 /* SwiftPackageProductDependency */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 47E41CF0263E4BD9008AEE36 /* RemoteSwiftPackageReference */;
+			productName = KeychainAccess;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = 83CBB9F71A601CBA00E9B192 /* Project object */;
 }

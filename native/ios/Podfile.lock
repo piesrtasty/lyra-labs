@@ -62,7 +62,6 @@ PODS:
     - FlipperKit/FlipperKitNetworkPlugin
   - glog (0.3.5)
   - hermes-engine (0.7.2)
-  - KeychainAccess (4.2.2)
   - libevent (2.1.12)
   - lottie-ios (3.1.8)
   - lottie-react-native (3.5.0):
@@ -431,7 +430,6 @@ DEPENDENCIES:
   - FlipperKit/SKIOSNetworkPlugin (~> 0.75.1)
   - glog (from `../node_modules/react-native/third-party-podspecs/glog.podspec`)
   - hermes-engine (~> 0.7.2)
-  - KeychainAccess
   - libevent (~> 2.1.12)
   - lottie-ios (from `../node_modules/lottie-ios`)
   - lottie-react-native (from `../node_modules/lottie-react-native`)
@@ -490,7 +488,6 @@ SPEC REPOS:
     - Flipper-RSocket
     - FlipperKit
     - hermes-engine
-    - KeychainAccess
     - libevent
     - OpenSSL-Universal
     - YogaKit
@@ -608,7 +605,6 @@ SPEC CHECKSUMS:
   FlipperKit: 8a20b5c5fcf9436cac58551dc049867247f64b00
   glog: 73c2498ac6884b13ede40eda8228cb1eee9d9d62
   hermes-engine: 7d97ba46a1e29bacf3e3c61ecb2804a5ddd02d4f
-  KeychainAccess: c0c4f7f38f6fc7bbe58f5702e25f7bd2f65abf51
   libevent: 4049cae6c81cdb3654a443be001fb9bdceff7913
   lottie-ios: 48fac6be217c76937e36e340e2d09cf7b10b7f5f
   lottie-react-native: 69740f3742cc82d8211979e2b48681e002c22bff
@@ -654,6 +650,6 @@ SPEC CHECKSUMS:
   Yoga: 8c8436d4171c87504c648ae23b1d81242bdf3bbf
   YogaKit: f782866e155069a2cca2517aafea43200b01fd5a
 
-PODFILE CHECKSUM: 0f4e752454b5e943db7c3c0462ba7e2ce322c473
+PODFILE CHECKSUM: 8059d8ac36282fa581546384937fcfb7fe323d37
 
 COCOAPODS: 1.10.1
