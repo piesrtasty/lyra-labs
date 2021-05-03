@@ -14,7 +14,7 @@
 		13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 13B07FB51A68108700A75B9A /* Images.xcassets */; };
 		13B07FC11A68108700A75B9A /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB71A68108700A75B9A /* main.m */; };
 		27DBC9C3AD0F400884049D30 /* Montserrat-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = DCFD5CCD38464D79AAFFCB5B /* Montserrat-Regular.ttf */; };
-		47E41CF2263E4BD9008AEE36 /* BuildFile in Frameworks */ = {isa = PBXBuildFile; productRef = 47E41CF1263E4BD9008AEE36 /* SwiftPackageProductDependency */; };
+		47E41CF2263E4BD9008AEE36 /* KeychainAccess in Frameworks */ = {isa = PBXBuildFile; productRef = 47E41CF1263E4BD9008AEE36 /* KeychainAccess */; };
 		47F9578224B7FCB900D2BBEC /* ShareViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47F9578124B7FCB900D2BBEC /* ShareViewController.swift */; };
 		47F9578524B7FCB900D2BBEC /* MainInterface.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 47F9578324B7FCB900D2BBEC /* MainInterface.storyboard */; };
 		47F9578924B7FCB900D2BBEC /* Save.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = 47F9577F24B7FCB900D2BBEC /* Save.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
@@ -128,7 +128,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				47E41CF2263E4BD9008AEE36 /* BuildFile in Frameworks */,
+				47E41CF2263E4BD9008AEE36 /* KeychainAccess in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -317,7 +317,7 @@
 			);
 			name = Save;
 			packageProductDependencies = (
-				47E41CF1263E4BD9008AEE36 /* SwiftPackageProductDependency */,
+				47E41CF1263E4BD9008AEE36 /* KeychainAccess */,
 			);
 			productName = Save;
 			productReference = 47F9577F24B7FCB900D2BBEC /* Save.appex */;
@@ -359,7 +359,7 @@
 			);
 			mainGroup = 83CBB9F61A601CBA00E9B192;
 			packageReferences = (
-				47E41CF0263E4BD9008AEE36 /* RemoteSwiftPackageReference */,
+				47E41CF0263E4BD9008AEE36 /* XCRemoteSwiftPackageReference "KeychainAccess" */,
 			);
 			productRefGroup = 83CBBA001A601CBA00E9B192 /* Products */;
 			projectDirPath = "";
@@ -689,7 +689,7 @@
 				CODE_SIGN_ENTITLEMENTS = lyralabs/lyralabs.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 2;
+				CURRENT_PROJECT_VERSION = 3;
 				DEVELOPMENT_TEAM = KU5GP44363;
 				ENABLE_BITCODE = NO;
 				GCC_PREPROCESSOR_DEFINITIONS = (
@@ -780,7 +780,7 @@
 				CODE_SIGN_ENTITLEMENTS = lyralabs/lyralabs.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 2;
+				CURRENT_PROJECT_VERSION = 3;
 				DEVELOPMENT_TEAM = KU5GP44363;
 				INFOPLIST_FILE = lyralabs/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
@@ -861,7 +861,7 @@
 				CODE_SIGN_ENTITLEMENTS = Save/Save.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 2;
+				CURRENT_PROJECT_VERSION = 3;
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				DEVELOPMENT_TEAM = KU5GP44363;
 				GCC_C_LANGUAGE_STANDARD = gnu11;
@@ -899,7 +899,7 @@
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				COPY_PHASE_STRIP = NO;
-				CURRENT_PROJECT_VERSION = 2;
+				CURRENT_PROJECT_VERSION = 3;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				DEVELOPMENT_TEAM = KU5GP44363;
 				GCC_C_LANGUAGE_STANDARD = gnu11;
@@ -1085,7 +1085,7 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
-		47E41CF0263E4BD9008AEE36 /* RemoteSwiftPackageReference */ = {
+		47E41CF0263E4BD9008AEE36 /* XCRemoteSwiftPackageReference "KeychainAccess" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/kishikawakatsumi/KeychainAccess.git";
 			requirement = {
@@ -1096,9 +1096,9 @@
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
-		47E41CF1263E4BD9008AEE36 /* SwiftPackageProductDependency */ = {
+		47E41CF1263E4BD9008AEE36 /* KeychainAccess */ = {
 			isa = XCSwiftPackageProductDependency;
-			package = 47E41CF0263E4BD9008AEE36 /* RemoteSwiftPackageReference */;
+			package = 47E41CF0263E4BD9008AEE36 /* XCRemoteSwiftPackageReference "KeychainAccess" */;
 			productName = KeychainAccess;
 		};
 /* End XCSwiftPackageProductDependency section */
