@@ -5,6 +5,8 @@ import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { useApollo } from "../lib/apollo-client";
 
+import "tailwindcss/tailwind.css";
+
 toast.configure();
 
 const App = ({ Component, pageProps }) => {

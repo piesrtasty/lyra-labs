@@ -1,9 +1,9 @@
 const dotenv = require("dotenv");
 const path = require("path");
 dotenv.config();
-const withCSS = require("@zeit/next-css");
+// const withCSS = require("@zeit/next-css");
 
-module.exports = withCSS({
+module.exports = {
   target: "serverless",
   env: {
     BACKEND_URL: process.env.BACKEND_URL,
@@ -28,4 +28,4 @@ module.exports = withCSS({
 
     return config;
   },
-});
+};
