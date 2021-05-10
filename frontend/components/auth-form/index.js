@@ -1,10 +1,32 @@
+import React, { useState, useContext } from "react";
 import Image from "next/image";
 import Link from "next/link";
+import {
+  MagicAuthContext,
+  LoginModalContext,
+  CurrentUserContext,
+} from "@components/layout";
 
 const AuthForm = ({ isSignup = false }) => {
+  const [name, setName] = useState(null);
+  const [email, setEmail] = useState(null);
+  const { isLoggedIn, signOut, signIn } = useContext(MagicAuthContext);
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log("handling click");
+    console.log("name", name);
+    console.log("email", email);
+    signIn(email, name, () => {
+      console.log("sign in callback");
+    });
+    // console.log("handling click", MagicAuthContext);
+  };
+
+  const handleNameChange = (text) => {
+    setName(text);
+  };
+
+  const handleEmailChange = (text) => {
+    setEmail(text);
   };
 
   const title = isSignup ? "Sign up for an account" : "Sign in to your account";
@@ -13,7 +35,7 @@ const AuthForm = ({ isSignup = false }) => {
   const ctaText = isSignup ? "Sign up" : "Sign in";
 
   return (
-    <div className="bg-gray-50 flex flex-col justify-center py-12 sm:px-6 lg:px-8">
+    <div className="flex flex-col justify-center py-12 sm:px-6 lg:px-8">
       <div className="sm:mx-auto sm:w-full sm:max-w-md">
         <div className="flex justify-center">
           <Image
@@ -55,11 +77,11 @@ const AuthForm = ({ isSignup = false }) => {
                 </label>
                 <div className="mt-1">
                   <input
+                    onChange={(e) => handleNameChange(e.target.value)}
                     id="name"
                     name="name"
                     type="name"
                     autoComplete="name"
-                    required
                     className="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
                   />
                 </div>
@@ -75,6 +97,7 @@ const AuthForm = ({ isSignup = false }) => {
               </label>
               <div className="mt-1">
                 <input
+                  onChange={(e) => handleEmailChange(e.target.value)}
                   id="email"
                   name="email"
                   type="email"

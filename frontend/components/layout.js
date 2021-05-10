@@ -1,4 +1,6 @@
 import Head from "next/head";
+// import { useRouter } from "next/router";
+
 import { useQuery } from "@apollo/client";
 import React, { useState, useEffect } from "react";
 import { Global, css } from "@emotion/core";
@@ -29,6 +31,8 @@ const Layout = ({ children }) => {
 
   const { loading, error, data, refetch } = useQuery(CURRENT_USER_QUERY, {});
 
+  // const router = useRouter()
+
   useEffect(() => {
     const bootstrapAsync = async () => {
       setIsLoading(true);
@@ -38,6 +42,8 @@ const Layout = ({ children }) => {
         credentials: "include",
         // credentials: "same-origin",
       }).then(({ status }) => {
+        console.log("AFTER CHECKIMNG", status);
+        // window.location = "http://localhost:3000/readinglist";
         setIsLoggedIn(status == 200);
         setIsLoading(false);
       });
@@ -45,15 +51,17 @@ const Layout = ({ children }) => {
     bootstrapAsync();
   }, []);
 
-  const signIn = async (email, cb) => {
+  const signIn = async (email, name = null, cb) => {
     const magic = new Magic(process.env.MAGIC_PUBLISHABLE_KEY);
     magic.auth
       .loginWithMagicLink({
         email,
+        redirectURI: "http://localhost:3000/readinglist",
       })
       .on("email-sent", () => {})
       .then(async (DIDToken) => {
         // const resp = await fetch(`${process.env.BACKEND_URL}/login`, {
+        const data = name ? { name } : {};
         const resp = await fetch(`/api/login`, {
           headers: new Headers({
             Authorization: "Bearer " + DIDToken,
@@ -62,6 +70,7 @@ const Layout = ({ children }) => {
           // credentials: "same-origin",
           credentials: "include",
           method: "POST",
+          body: JSON.stringify(data),
         });
         if (cb) {
           cb();
@@ -125,20 +134,20 @@ const Layout = ({ children }) => {
             <Global
               styles={css`
                 body {
-                  font-size: 18px;
-                  background-color: ${THEME.COLORS.ALABASTER};
-                  margin: 0;
+                  ${"" /* font-size: 18px; */}
+                  ${"" /* background-color: red; */}
+                  ${"" /* background-color: ${THEME.COLORS.ALABASTER}; */}
+                  ${"" /* margin: 0; */}
                 }
                 iframe {
-                  z-index: 2;
+                  ${"" /* z-index: 2; */}
                 }
               `}
             />
-            <main>{children}</main>
-            <link rel="shortcut icon" href="/static/favicon.ico" />
-            {showLoginModal && (
+            {children}
+            {/* {showLoginModal && (
               <LoginModal onDismiss={() => setShowLoginModal(false)} />
-            )}
+            )} */}
           </ThemeProvider>
         </MagicAuthContext.Provider>
       </CurrentUserContext.Provider>

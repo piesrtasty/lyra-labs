@@ -10,8 +10,8 @@ import { checkIfAuthenticated } from "../shared/utils";
 const ReadingList = () => {
   return (
     <Page>
-      <AuxiliaryPanelHeaderLarge>Reading List</AuxiliaryPanelHeaderLarge>
-      <PostList />
+      {/* <AuxiliaryPanelHeaderLarge>Reading List</AuxiliaryPanelHeaderLarge> */}
+      {/* <PostList /> */}
     </Page>
   );
 };

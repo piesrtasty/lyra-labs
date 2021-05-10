@@ -3,7 +3,7 @@ import styled from "@emotion/styled";
 import { BASE_TEXT, WEIGHT } from "@style/typography";
 import { DETROIT } from "@style/colors";
 import { DESKTOP, TABLET } from "@style/breakpoints";
-import { HEADER_HEIGHT } from "./";
+import { HEADER_HEIGHT } from "./index-old";
 
 const DEFAULT_AVATAR_DIMENSION = 40;
 const MOBILE_AVATAR_DIMENSION = 30;

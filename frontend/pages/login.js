@@ -4,10 +4,10 @@ import AuthForm from "@components/auth-form";
 
 const Login = () => {
   return (
-    <div className="bg-white">
+    <>
       <LoggedOutHeader />
       <AuthForm />
-    </div>
+    </>
   );
 };
 
