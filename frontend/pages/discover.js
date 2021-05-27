@@ -8,10 +8,11 @@ import get from "lodash/get";
 import { checkIfAuthenticated } from "../shared/utils";
 import { POST_TYPE_SAVED } from "../components/post-card";
 
-const ReadingList = () => {
+const Discover = () => {
   return (
     <Page>
-      <PostList title="Reading List" postType={POST_TYPE_SAVED} />
+      <h1>Dicover</h1>
+      {/* <PostList title="Reading List" postType={POST_TYPE_SAVED} /> */}
     </Page>
   );
 };
@@ -44,4 +45,4 @@ export async function getServerSideProps(ctx) {
   return { props: {} };
 }
 
-export default ReadingList;
+export default Discover;

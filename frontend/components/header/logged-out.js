@@ -10,23 +10,23 @@ function classNames(...classes) {
 }
 
 const LoggedOutHeader = () => {
-  const router = useRouter();
+  // const router = useRouter();
 
-  const checkAuth = () => {
-    fetch(`/api/check-authentication`, {
-      withCredentials: true,
-      credentials: "include",
-      // credentials: "same-origin",
-    }).then(({ status }) => {
-      if (status === 200) {
-        router.push("/reading-list");
-      }
-    });
-  };
+  // const checkAuth = () => {
+  //   fetch(`/api/check-authentication`, {
+  //     withCredentials: true,
+  //     credentials: "include",
+  //     // credentials: "same-origin",
+  //   }).then(({ status }) => {
+  //     if (status === 200) {
+  //       router.push("/reading-list");
+  //     }
+  //   });
+  // };
 
-  useEffect(() => {
-    checkAuth();
-  }, []);
+  // useEffect(() => {
+  //   checkAuth();
+  // }, []);
 
   // checkForLoggedIn(router);
 

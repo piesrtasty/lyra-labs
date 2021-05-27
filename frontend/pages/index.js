@@ -1,5 +1,6 @@
 import { Fragment } from "react";
 import { Popover, Transition } from "@headlessui/react";
+import get from "lodash/get";
 import LoggedOutHeader from "@components/header/logged-out";
 import {
   AnnotationIcon,
@@ -18,6 +19,7 @@ import {
   XIcon,
 } from "@heroicons/react/outline";
 import { ChevronDownIcon } from "@heroicons/react/solid";
+import { checkIfAuthenticated } from "../shared/utils";
 
 const features = [
   {
@@ -677,4 +679,23 @@ export default function Example() {
       </footer>
     </div>
   );
+}
+
+export async function getServerSideProps(ctx) {
+  const cookie = get(ctx, "req.headers.cookie", null);
+  if (cookie) {
+    const isAuthenticated = await checkIfAuthenticated(cookie);
+    if (isAuthenticated) {
+      return {
+        redirect: {
+          destination: "/reading-list",
+          permanent: false,
+        },
+      };
+    }
+  } else {
+    return {
+      props: {},
+    };
+  }
 }

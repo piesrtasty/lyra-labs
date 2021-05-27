@@ -2,7 +2,7 @@ import React from "react";
 import styled from "@emotion/styled";
 import { LILAC, ALABASTER, WHITE } from "@style/colors";
 import { shine } from "@style/animations";
-import { Container, Body, Content, THUMBNAIL_DIMENSION } from "./";
+import { Container, Body, Content, THUMBNAIL_DIMENSION } from "./new-old-index";
 
 const BASE_COLOR = LILAC;
 const SHINE_COLOR = ALABASTER;

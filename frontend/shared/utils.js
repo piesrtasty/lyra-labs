@@ -3,24 +3,9 @@ import uuidv4 from "uuid/v4";
 import axios from "axios";
 import { SIGN_UPLOAD } from "../data/mutations";
 import get from "lodash/get";
-
-const TODAY = "Today";
-const YESTERDAY = "Yesterday";
-
-const isToday = (date) => moment(date).isSame(moment(), "day");
-
-const isYesterday = (date) =>
-  moment(date).isSame(moment().subtract(1, "days"), "day");
-
-export const formatDate = (date) => {
-  if (isToday(date)) {
-    return TODAY;
-  }
-  if (isYesterday(date)) {
-    return YESTERDAY;
-  }
-  return moment(date).format("MMMM Do");
-};
+import dayjs from "dayjs";
+import advancedFormat from "dayjs/plugin/advancedFormat";
+dayjs.extend(advancedFormat);
 
 export const isValidUrl = (url) => {
   const pattern = new RegExp(
@@ -37,6 +22,7 @@ export const isValidUrl = (url) => {
 };
 
 export const checkIfAuthenticated = async (cookie = null) => {
+  if (!cookie) return false;
   const url =
     process.env.NODE_ENV === "production"
       ? process.env.NEXT_PUBLIC_VERCEL_ENV === "preview"
@@ -57,3 +43,11 @@ export const checkIfAuthenticated = async (cookie = null) => {
   });
   return resp.status === 200;
 };
+
+export const classNames = (...classes) => {
+  return classes.filter(Boolean).join(" ");
+};
+
+export const getLoggedOutProps = () => {};
+
+export const formatDate = (date) => dayjs(date).format("MMMM Do");

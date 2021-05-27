@@ -56,10 +56,11 @@ const Layout = ({ children }) => {
     magic.auth
       .loginWithMagicLink({
         email,
-        redirectURI: "http://localhost:3000/readinglist",
+        // redirectURI: "http://localhost:3000/readinglist",
       })
       .on("email-sent", () => {})
       .then(async (DIDToken) => {
+        console.log("DIDToken", DIDToken);
         // const resp = await fetch(`${process.env.BACKEND_URL}/login`, {
         const data = name ? { name } : {};
         const resp = await fetch(`/api/login`, {

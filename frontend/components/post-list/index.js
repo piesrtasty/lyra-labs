@@ -5,23 +5,23 @@ import { SAVED_POSTS, ARCHIVED_POSTS } from "@data/queries";
 import PostCard from "../post-card";
 import SkeletonPostCard from "../post-card/skeleton";
 import EmptyPlaceholder from "./empty-placeholder";
+import Heading from "./heading";
 
-const Container = styled("div")({
-  display: "flex",
-  flexDirection: "column",
-  padding: 0,
-  marginBottom: 30,
-  borderRadius: 5,
-});
+import { POST_TYPE_DEFAULT } from "../post-card";
 
-const PostList = ({ archived = false }) => {
+const PostList = ({
+  archived = false,
+  title = "LOREM IPSUM",
+  postType = POST_TYPE_DEFAULT,
+}) => {
   const query = archived ? ARCHIVED_POSTS : SAVED_POSTS;
   const dataKey = archived ? "archivedPosts" : "savedPosts";
   const { loading, error, data, fetchMore } = useQuery(query, {
-    variables: { take: 100 },
+    variables: { take: 5 },
   });
   return (
-    <Container>
+    <>
+      <Heading title={title} />
       {loading && (
         <>
           <SkeletonPostCard />
@@ -30,7 +30,7 @@ const PostList = ({ archived = false }) => {
         </>
       )}
       {!loading && data && (
-        <Fragment>
+        <ul className="space-y-3">
           {data[dataKey].map((post, i) =>
             post.id === "optimisticResponse" ? (
               <SkeletonPostCard key={i} />
@@ -38,10 +38,10 @@ const PostList = ({ archived = false }) => {
               <PostCard key={i} post={post} />
             )
           )}
-        </Fragment>
+        </ul>
       )}
       {!loading && data[dataKey].length === 0 && <EmptyPlaceholder />}
-    </Container>
+    </>
   );
 };
 
