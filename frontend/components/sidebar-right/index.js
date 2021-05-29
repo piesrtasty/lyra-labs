@@ -32,95 +32,87 @@ const timeline = [
     date: "Sep 28",
     datetime: "2020-09-28",
   },
-  {
-    id: 4,
-    type: eventTypes.advanced,
-    content: "Advanced to interview by",
-    target: "Bethany Blake",
-    date: "Sep 30",
-    datetime: "2020-09-30",
-  },
-  {
-    id: 5,
-    type: eventTypes.completed,
-    content: "Completed interview with",
-    target: "Katherine Snyder",
-    date: "Oct 4",
-    datetime: "2020-10-04",
-  },
 ];
 
 const SidebarRight = () => {
   return (
-    <section
-      aria-labelledby="timeline-title"
-      className="lg:col-start-3 lg:col-span-1"
-    >
-      <div className="pb-5 border-b border-gray-200">
-        <h3 className="text-md leading-6 font-medium text-gray-900">
-          Job Postings
-        </h3>
-      </div>
-      <div className="bg-white px-4 py-5 shadow sm:rounded-lg sm:px-6">
-        <h2 id="timeline-title" className="text-lg font-medium text-gray-900">
-          Timeline
-        </h2>
-
-        {/* Activity Feed */}
-        <div className="mt-6 flow-root">
-          <ul className="-mb-8">
-            {timeline.map((item, itemIdx) => (
-              <li key={item.id}>
-                <div className="relative pb-8">
-                  {itemIdx !== timeline.length - 1 ? (
-                    <span
-                      className="absolute top-4 left-4 -ml-px h-full w-0.5 bg-gray-200"
-                      aria-hidden="true"
-                    />
-                  ) : null}
-                  <div className="relative flex space-x-3">
-                    <div>
+    <>
+      <section
+        aria-labelledby="timeline-title"
+        className="lg:col-start-3 lg:col-span-1"
+      >
+        <div className="pb-5 border-b border-gray-200">
+          <h3 className="text-lg leading-6 font-medium text-gray-900">
+            Activity
+          </h3>
+        </div>
+        <div className="bg-white px-4 py-5 shadow sm:rounded-lg sm:px-6">
+          {/* Activity Feed */}
+          <div className="flow-root">
+            <ul className="-mb-8">
+              {timeline.map((item, itemIdx) => (
+                <li key={item.id}>
+                  <div className="relative pb-8">
+                    {itemIdx !== timeline.length - 1 ? (
                       <span
-                        className={classNames(
-                          item.type.bgColorClass,
-                          "h-8 w-8 rounded-full flex items-center justify-center ring-8 ring-white"
-                        )}
-                      >
-                        <item.type.icon
-                          className="w-5 h-5 text-white"
-                          aria-hidden="true"
-                        />
-                      </span>
-                    </div>
-                    <div className="min-w-0 flex-1 pt-1.5 flex justify-between space-x-4">
+                        className="absolute top-4 left-4 -ml-px h-full w-0.5 bg-gray-200"
+                        aria-hidden="true"
+                      />
+                    ) : null}
+                    <div className="relative flex space-x-3">
                       <div>
-                        <p className="text-sm text-gray-500">
-                          {item.content}{" "}
-                          <a href="#" className="font-medium text-gray-900">
-                            {item.target}
-                          </a>
-                        </p>
+                        <span
+                          className={classNames(
+                            item.type.bgColorClass,
+                            "h-8 w-8 rounded-full flex items-center justify-center ring-8 ring-white"
+                          )}
+                        >
+                          <item.type.icon
+                            className="w-5 h-5 text-white"
+                            aria-hidden="true"
+                          />
+                        </span>
                       </div>
-                      <div className="text-right text-sm whitespace-nowrap text-gray-500">
-                        <time dateTime={item.datetime}>{item.date}</time>
+                      <div className="min-w-0 flex-1 pt-1.5 flex justify-between space-x-4">
+                        <div>
+                          <p className="text-sm text-gray-500">
+                            {item.content}{" "}
+                            <a href="#" className="font-medium text-gray-900">
+                              {item.target}
+                            </a>
+                          </p>
+                        </div>
+                        <div className="text-right text-sm whitespace-nowrap text-gray-500">
+                          <time dateTime={item.datetime}>{item.date}</time>
+                        </div>
                       </div>
                     </div>
                   </div>
-                </div>
-              </li>
-            ))}
-          </ul>
+                </li>
+              ))}
+            </ul>
+          </div>
         </div>
-        <div className="mt-6 flex flex-col justify-stretch">
-          <button
-            type="button"
-            className="inline-flex items-center justify-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
-          >
-            Advance to offer
-          </button>
+      </section>
+
+      <section
+        aria-labelledby="timeline-title"
+        className="lg:col-start-3 lg:col-span-1"
+      >
+        <div className="flex flex-row pb-5 border-b border-gray-200">
+          <h3 className="text-lg inline-flex leading-6 font-medium text-gray-900">
+            Wallet
+          </h3>
+          <span className="inline-flex ml-2 items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-800">
+            Coming soon!
+          </span>
         </div>
-      </div>
-    </section>
+        <div className="bg-white px-4 py-5 shadow sm:rounded-lg sm:px-6">
+          {/* Activity Feed */}
+          <div className="flow-root">COOL</div>
+        </div>
+      </section>
+    </>
   );
 };
 

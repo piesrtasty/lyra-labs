@@ -194,6 +194,8 @@ function createApolloClient(initialState = {}, cookie) {
             savedPosts: {
               keyArgs: false,
               merge(existing = [], incoming) {
+                console.log("Existing", existing);
+                console.log("incoming", incoming);
                 return [...existing, ...incoming];
               },
             },

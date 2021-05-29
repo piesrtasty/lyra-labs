@@ -25,7 +25,7 @@ export async function getServerSideProps(ctx) {
     const apolloClient = initializeApollo(null, cookie);
     await apolloClient.query({
       query: SAVED_POSTS,
-      variables: { take: 5 },
+      // variables: { take: 5 },
     });
     await apolloClient.query({
       query: CURRENT_USER_QUERY,
