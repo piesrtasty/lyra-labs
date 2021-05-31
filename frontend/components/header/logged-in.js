@@ -63,8 +63,8 @@ const LoggedInHeader = () => {
                   />
                 </div>
                 <div className="hidden md:ml-6 md:flex md:space-x-8">
-                  {NAV_ITEMS.map((item) => (
-                    <Link href={item.path} passHref>
+                  {NAV_ITEMS.map((item, i) => (
+                    <Link key={i} href={item.path} passHref>
                       <a
                         className={classNames(
                           item.current

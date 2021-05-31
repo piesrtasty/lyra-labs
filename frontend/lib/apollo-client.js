@@ -43,6 +43,22 @@ function createApolloClient(cookie = null) {
       typePolicies: {
         Query: {
           fields: {
+            archivedPosts: {
+              keyArgs: false,
+              merge(existing = [], incoming) {
+                return [...existing, ...incoming];
+              },
+            },
+            savedPosts: {
+              keyArgs: false,
+              merge(existing = [], incoming) {
+                console.log("existing", existing);
+                console.log("incoming", incoming);
+                const newArr = [...existing, ...incoming];
+                console.log("newArr", newArr);
+                return [...existing, ...incoming];
+              },
+            },
             feedPosts: {
               keyArgs: false,
               merge(existing = [], incoming) {

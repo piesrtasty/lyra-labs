@@ -19,9 +19,9 @@ const ReadingList = () => {
 export async function getServerSideProps(ctx) {
   const cookie = get(ctx, "req.headers.cookie", null);
   const isAuthenticated = checkIfAuthenticated();
-  console.log(">>>> GOT HERE <<<", isAuthenticated);
+  // console.log(">>>> GOT HERE <<<", isAuthenticated);
   if (isAuthenticated && cookie) {
-    console.log("ALSO HERE");
+    // console.log("ALSO HERE");
     const apolloClient = initializeApollo(null, cookie);
     await apolloClient.query({
       query: SAVED_POSTS,

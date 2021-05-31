@@ -70,7 +70,7 @@ const PostCard = ({
   postType = POST_TYPE_SAVED,
 }) => {
   const POST_ACTIONS = POST_TYPE_ACTIONS[postType];
-  console.log("POST_ACTIONS", POST_ACTIONS);
+  //   console.log("POST_ACTIONS", POST_ACTIONS);
   return (
     <div className="bg-white overflow-hidden shadow rounded-lg">
       <div className="bg-white px-4 pt-5 sm:px-6">
@@ -240,6 +240,7 @@ const PostCard = ({
           }
           return (
             <button
+              key={i}
               type="button"
               className={classNames(
                 i !== 0 ? "ml-3" : "",

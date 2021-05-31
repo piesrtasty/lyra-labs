@@ -54,8 +54,8 @@ const SidebarLeft = () => {
       </div>
       <nav className="px-3 mt-6">
         <div className="space-y-1">
-          {navigation.map((item) => (
-            <Link href={item.path} passHref>
+          {navigation.map((item, i) => (
+            <Link key={i} href={item.path} passHref>
               <a
                 key={item.name}
                 className={classNames(
