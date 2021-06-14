@@ -195,7 +195,7 @@ const PostCard = ({
       <div className="px-4 py-5 sm:p-6">
         <div className="flex flex-col sm:flex-row">
           {image && (
-            <div className="sm:hidden flex-shrink-0 bg-indigo-100">
+            <div className="sm:hidden mb-5 flex-shrink-0 bg-indigo-100">
               <div
                 className={
                   "h-32 w-auto border border-gray-300 bg-white text-gray-300 bg-cover bg-center"

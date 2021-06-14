@@ -33,7 +33,7 @@ const PostList = ({
     observerRef.current = new IntersectionObserver((entries) => {
       const entry = entries[0];
       if (entry.isIntersecting) {
-        // entry.target.click();
+        entry.target.click();
       }
     }, options);
   }, []);
@@ -65,7 +65,6 @@ const PostList = ({
 
   return (
     <>
-      <LoadingPostCard />
       <Heading title={title} />
       {!loading && data && (
         <ul className="space-y-3">
@@ -74,18 +73,25 @@ const PostList = ({
           ))}
         </ul>
       )}
+
       {(loading || hasNextPage) && (
-        <div className="p-8 justify-center	flex">
-          <button
-            ref={setButtonRef}
-            id="buttonLoadMore"
-            onClick={() => fetchResults()}
-            type="button"
-            className="relative inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md text-white bg-indigo-600 shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
-          >
-            Load More
-          </button>
-        </div>
+        <>
+          <ul className="space-y-3 mt-3">
+            <LoadingPostCard />
+            <LoadingPostCard />
+          </ul>
+          <div className="p-8 justify-center flex">
+            <button
+              ref={setButtonRef}
+              id="buttonLoadMore"
+              onClick={() => fetchResults()}
+              type="button"
+              className="relative inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md text-white bg-indigo-600 shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+            >
+              Load More
+            </button>
+          </div>
+        </>
       )}
     </>
   );
