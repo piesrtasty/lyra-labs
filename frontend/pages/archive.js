@@ -6,12 +6,12 @@ import { initializeApollo, addApolloState } from "../lib/apollo-client";
 import { ARCHIVED_POSTS, CURRENT_USER_QUERY } from "@data/queries";
 import get from "lodash/get";
 import { checkIfAuthenticated } from "../shared/utils";
+import { POST_TYPE_ARCHIVED } from "@shared/constants/post-types";
 
 const ArchivePage = () => {
   return (
     <Page>
-      <AuxiliaryPanelHeaderLarge>Archive</AuxiliaryPanelHeaderLarge>
-      <PostList archived={true} />
+      <PostList title="Archive" archived={true} postType={POST_TYPE_ARCHIVED} />
     </Page>
   );
 };

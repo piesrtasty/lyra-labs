@@ -1,30 +1,50 @@
 import React, { useState, useEffect, useRef } from "react";
+import { Fragment } from "react";
+import { useMutation } from "@apollo/client";
 import { useQuery } from "@apollo/client";
-import { SAVED_POSTS, ARCHIVED_POSTS } from "@data/queries";
+import {
+  ARCHIVE_POST,
+  RESTORE_POST,
+  SAVE_EXISTING_POST,
+  REMOVE_POST,
+} from "@data/mutations";
+import { postFields } from "@data/fragments";
 import PostCard from "../post-card";
 import LoadingPostCard from "../post-card/loading";
+import RemoveModal from "@components/remove-modal";
+
+import {
+  BookmarkIcon,
+  ArchiveIcon,
+  ShareIcon,
+  TrashIcon,
+} from "@heroicons/react/solid";
 
 import Heading from "./heading";
 
-import { POST_TYPE_DEFAULT } from "../post-card";
+import {
+  POST_TYPES,
+  POST_TYPE_DEFAULT,
+  ACTION_SAVE,
+  ACTION_ARCHIVE,
+  ACTION_RESTORE,
+  ACTION_SHARE,
+  ACTION_REMOVE,
+} from "@shared/constants/post-types";
 
 const getCursor = (data = {}, key) => {
   const arr = data[key];
   return arr && arr.length > 0 ? arr[arr.length - 1].id : null;
 };
 
-const PostList = ({
-  archived = false,
-  title = "LOREM IPSUM",
-  postType = POST_TYPE_DEFAULT,
-}) => {
+const PostList = ({ title = "LOREM IPSUM", postType = POST_TYPE_DEFAULT }) => {
+  const { query, queryKey, actions: postActions } = POST_TYPES[postType];
   const [hasNextPage, setHasNextPage] = useState(true);
-  const query = archived ? ARCHIVED_POSTS : SAVED_POSTS;
-  const queryKey = archived ? "archivedPosts" : "savedPosts";
   const { loading, error, data, fetchMore } = useQuery(query);
-
   const observerRef = useRef(null);
   const [buttonRef, setButtonRef] = useState(null);
+  const [open, setOpen] = useState(true);
+  const cancelButtonRef = useRef(null);
 
   useEffect(() => {
     const options = {
@@ -49,6 +69,72 @@ const PostList = ({
     return <div>Error</div>;
   }
 
+  const [saveExistingPost] = useMutation(SAVE_EXISTING_POST);
+
+  const [archivePost] = useMutation(ARCHIVE_POST, {
+    update(cache, { data: { archivePost: archivedPost } }) {
+      cache.modify({
+        fields: {
+          savedPosts(savedPostRefs = [], { readField }) {
+            return savedPostRefs.filter(
+              (savedPostRef) =>
+                archivedPost.id !== readField("id", savedPostRef)
+            );
+          },
+          archivedPosts(existingArchivedPosts = []) {
+            const archivedPostRef = cache.writeFragment({
+              data: archivedPost,
+              fragment: postFields,
+            });
+            return [archivedPostRef, ...existingArchivedPosts];
+          },
+        },
+      });
+    },
+  });
+
+  const [restorePost] = useMutation(RESTORE_POST, {
+    update(cache, { data: { restorePost: restoredPost } }) {
+      cache.modify({
+        fields: {
+          archivedPosts(archivedPostRefs = [], { readField }) {
+            return archivedPostRefs.filter(
+              (archivedPostRef) =>
+                restoredPost.id !== readField("id", archivedPostRef)
+            );
+          },
+          savedPosts(existingSavedPosts = []) {
+            const savedPostRef = cache.writeFragment({
+              data: restoredPost,
+              fragment: postFields,
+            });
+            return [savedPostRef, ...existingSavedPosts];
+          },
+        },
+      });
+    },
+  });
+
+  const [removePost] = useMutation(REMOVE_POST, {
+    update(cache, { data: { removePost: removedPost } }) {
+      cache.modify({
+        fields: {
+          savedPosts(savedPostRefs = [], { readField }) {
+            return savedPostRefs.filter(
+              (savedPostRef) => removedPost.id !== readField("id", savedPostRef)
+            );
+          },
+          archivedPosts(archivedPostRefs = [], { readField }) {
+            return archivedPostRefs.filter(
+              (archivedPostRef) =>
+                removedPost.id !== readField("id", archivedPostRef)
+            );
+          },
+        },
+      });
+    },
+  });
+
   const fetchResults = () => {
     const cursor = getCursor(data, queryKey);
     fetchMore({
@@ -63,13 +149,61 @@ const PostList = ({
     });
   };
 
+  const fn = () => {
+    console.log("clicked....", postType);
+  };
+
+  const handleRemovePost = () => {
+    console.log("clicked handle remove post");
+  };
+
+  const handleArchiveClick = (id) => {
+    archivePost({ variables: { postId: id } })
+      .then(({ data }) => {})
+      .catch((e) => console.log("e", e));
+  };
+
+  const handleRestoreClick = (id) => {
+    restorePost({ variables: { postId: id } })
+      .then(({ data }) => {})
+      .catch((e) => console.log("e", e));
+  };
+
+  const ACTIONS = {
+    [ACTION_SAVE]: {
+      Icon: BookmarkIcon,
+      name: "Save",
+      fn: fn,
+    },
+    [ACTION_ARCHIVE]: {
+      Icon: ArchiveIcon,
+      name: "Archive",
+      fn: handleArchiveClick,
+    },
+    [ACTION_RESTORE]: {
+      Icon: ArchiveIcon,
+      name: "Restore",
+      fn: handleRestoreClick,
+    },
+    [ACTION_SHARE]: { Icon: ShareIcon, name: "Share", fn: fn },
+    [ACTION_REMOVE]: { Icon: TrashIcon, name: "Remove", fn: handleRemovePost },
+  };
+
+  const actions = postActions.map((pa) => ACTIONS[pa]);
+
   return (
     <>
+      <RemoveModal />
       <Heading title={title} />
       {!loading && data && (
         <ul className="space-y-3">
           {data[queryKey].map((post, i) => (
-            <PostCard key={i} post={post} />
+            <PostCard
+              key={i}
+              post={post}
+              postType={postType}
+              actions={actions}
+            />
           ))}
         </ul>
       )}

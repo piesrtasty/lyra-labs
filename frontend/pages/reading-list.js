@@ -6,7 +6,7 @@ import { initializeApollo, addApolloState } from "../lib/apollo-client";
 import { SAVED_POSTS, CURRENT_USER_QUERY } from "@data/queries";
 import get from "lodash/get";
 import { checkIfAuthenticated } from "../shared/utils";
-import { POST_TYPE_SAVED } from "../components/post-card";
+import { POST_TYPE_SAVED } from "@shared/constants/post-types";
 
 const ReadingList = () => {
   return (

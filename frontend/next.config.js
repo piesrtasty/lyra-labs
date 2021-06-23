@@ -19,6 +19,7 @@ module.exports = {
       "@config": path.resolve(__dirname, "config/"),
       "@data": path.resolve(__dirname, "data/"),
       "@components": path.resolve(__dirname, "components/"),
+      "@shared": path.resolve(__dirname, "shared/"),
       "@library": path.resolve(__dirname, "shared/library/"),
       "@style": path.resolve(__dirname, "shared/style/"),
       "@enhancers": path.resolve(__dirname, "shared/enhancers/"),

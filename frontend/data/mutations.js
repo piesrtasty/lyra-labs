@@ -10,6 +10,22 @@ export const ASSOCIATE_WALLET = gql`
   }
 `;
 
+export const SAVE_EXISTING_POST = gql`
+  mutation($postId: ID!) {
+    saveExistingPost(postId: $postId) {
+      id
+    }
+  }
+`;
+
+export const REMOVE_POST = gql`
+  mutation($postId: ID!) {
+    removePost(postId: $postId) {
+      id
+    }
+  }
+`;
+
 export const CREATE_POST = gql`
   mutation createPost($givenUrl: String) {
     createPost(givenUrl: $givenUrl) {

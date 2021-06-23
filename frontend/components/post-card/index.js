@@ -4,54 +4,10 @@ import {
   CodeIcon,
   DotsVerticalIcon,
   FlagIcon,
-  BookmarkIcon,
-  ArchiveIcon,
-  ShareIcon,
-  TrashIcon,
-  MailIcon,
-  ReplyIcon,
   StarIcon,
 } from "@heroicons/react/solid";
 
-// import {
-//   CodeIcon,
-//   DotsVerticalIcon,
-//   FlagIcon,
-//   BookmarkIcon,
-//   ArchiveIcon,
-//   ShareIcon,
-//   TrashIcon,
-//   MailIcon,
-//   StarIcon,
-// } from "@heroicons/react/solid";
-
 import { classNames, formatDate } from "../../shared/utils";
-
-export const POST_TYPE_DEFAULT = "post-type-default";
-export const POST_TYPE_SAVED = "post-type-saved";
-export const POST_TYPE_ARCHIVED = "post-type-archived";
-
-const ACTION_SAVE = "save";
-const ACTION_ARCHIVE = "archive";
-const ACTION_RESTORE = "restore";
-const ACTION_SHARE = "share";
-const ACTION_REMOVE = "remove";
-
-const POST_TYPE_ACTIONS = {
-  [POST_TYPE_DEFAULT]: [ACTION_SAVE],
-  [POST_TYPE_SAVED]: [ACTION_ARCHIVE, ACTION_SHARE, ACTION_REMOVE],
-  [POST_TYPE_ARCHIVED]: [ACTION_RESTORE, ACTION_SHARE, ACTION_REMOVE],
-};
-
-const ACTIONS = {
-  [ACTION_SAVE]: {
-    icon: BookmarkIcon,
-  },
-  [ACTION_ARCHIVE]: { icon: ArchiveIcon },
-  [ACTION_RESTORE]: { icon: BookmarkIcon },
-  [ACTION_SHARE]: { icon: BookmarkIcon },
-  [ACTION_REMOVE]: { icon: BookmarkIcon },
-};
 
 const PostCard = ({
   post: {
@@ -67,10 +23,9 @@ const PostCard = ({
     publisher,
     date,
   },
+  actions = [],
   postType = POST_TYPE_SAVED,
 }) => {
-  const POST_ACTIONS = POST_TYPE_ACTIONS[postType];
-  //   console.log("POST_ACTIONS", POST_ACTIONS);
   return (
     <div className="bg-white overflow-hidden shadow rounded-lg">
       <div className="bg-white px-4 pt-5 sm:px-6">
@@ -234,27 +189,23 @@ const PostCard = ({
         </div>
       </div>
       <div className="px-4 py-4 sm:px-6">
-        {POST_ACTIONS.map((action, i) => {
-          {
-            /* ml-3 */
-          }
-          return (
-            <button
-              key={i}
-              type="button"
-              className={classNames(
-                i !== 0 ? "ml-3" : "",
-                "relative inline-flex items-center px-4 py-2 border border-gray-300 shadow-sm text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
-              )}
-            >
-              <BookmarkIcon
-                className="-ml-1 mr-2 h-5 w-5 text-gray-400"
-                aria-hidden="true"
-              />
-              <span>Save</span>
-            </button>
-          );
-        })}
+        {actions.map(({ Icon, name, fn }, i) => (
+          <button
+            key={i}
+            type="button"
+            onClick={() => fn(id)}
+            className={classNames(
+              i !== 0 ? "ml-3" : "",
+              "relative inline-flex items-center px-4 py-2 border border-gray-300 shadow-sm text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+            )}
+          >
+            <Icon
+              className="-ml-1 mr-2 h-5 w-5 text-gray-400"
+              aria-hidden="true"
+            />
+            <span>{name}</span>
+          </button>
+        ))}
       </div>
     </div>
     // <div className="bg-white overflow-hidden shadow rounded-lg divide-y divide-gray-200">
