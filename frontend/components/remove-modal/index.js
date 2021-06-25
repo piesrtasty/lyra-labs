@@ -2,8 +2,8 @@ import { Fragment, useRef, useState } from "react";
 import { Dialog, Transition } from "@headlessui/react";
 import { ExclamationIcon } from "@heroicons/react/outline";
 
-export default function Example() {
-  const [open, setOpen] = useState(true);
+const RemoveModal = ({ open, onSubmit, onCancel }) => {
+  //   const [open, setOpen] = useState(true);
 
   const cancelButtonRef = useRef(null);
 
@@ -15,7 +15,7 @@ export default function Example() {
         className="fixed z-10 inset-0 overflow-y-auto"
         initialFocus={cancelButtonRef}
         open={open}
-        onClose={setOpen}
+        onClose={onCancel}
       >
         <div className="flex items-end justify-center min-h-screen pt-4 px-4 pb-20 text-center sm:block sm:p-0">
           <Transition.Child
@@ -59,13 +59,12 @@ export default function Example() {
                     as="h3"
                     className="text-lg leading-6 font-medium text-gray-900"
                   >
-                    Deactivate account
+                    Remove bookmark
                   </Dialog.Title>
                   <div className="mt-2">
                     <p className="text-sm text-gray-500">
-                      Are you sure you want to deactivate your account? All of
-                      your data will be permanently removed from our servers
-                      forever. This action cannot be undone.
+                      Are you sure you want to remove this bookmark? This action
+                      cannot be undone.
                     </p>
                   </div>
                 </div>
@@ -74,14 +73,14 @@ export default function Example() {
                 <button
                   type="button"
                   className="w-full inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-2 bg-red-600 text-base font-medium text-white hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500 sm:ml-3 sm:w-auto sm:text-sm"
-                  onClick={() => setOpen(false)}
+                  onClick={onSubmit}
                 >
-                  Deactivate
+                  Remove bookmark
                 </button>
                 <button
                   type="button"
                   className="mt-3 w-full inline-flex justify-center rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-white text-base font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 sm:mt-0 sm:w-auto sm:text-sm"
-                  onClick={() => setOpen(false)}
+                  onClick={onCancel}
                   ref={cancelButtonRef}
                 >
                   Cancel
@@ -93,4 +92,6 @@ export default function Example() {
       </Dialog>
     </Transition.Root>
   );
-}
+};
+
+export default RemoveModal;

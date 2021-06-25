@@ -43,8 +43,8 @@ const PostList = ({ title = "LOREM IPSUM", postType = POST_TYPE_DEFAULT }) => {
   const { loading, error, data, fetchMore } = useQuery(query);
   const observerRef = useRef(null);
   const [buttonRef, setButtonRef] = useState(null);
-  const [open, setOpen] = useState(true);
-  const cancelButtonRef = useRef(null);
+  const [open, setOpen] = useState(false);
+  const [removePostId, setRemovePostId] = useState(null);
 
   useEffect(() => {
     const options = {
@@ -153,8 +153,25 @@ const PostList = ({ title = "LOREM IPSUM", postType = POST_TYPE_DEFAULT }) => {
     console.log("clicked....", postType);
   };
 
-  const handleRemovePost = () => {
-    console.log("clicked handle remove post");
+  const handleRemovePost = (id) => {
+    setRemovePostId(id);
+    setOpen(true);
+  };
+
+  const onRemoveModalSubmit = () => {
+    removePost({ variables: { postId: removePostId } })
+      .then(({ data }) => {
+        setRemovePostId(null);
+        setOpen(false);
+      })
+      .catch((e) => {
+        console.log("e", e);
+      });
+  };
+
+  const onRemoveModalCancel = () => {
+    console.log("onRemoveModalCancel");
+    setOpen(false);
   };
 
   const handleArchiveClick = (id) => {
@@ -193,7 +210,12 @@ const PostList = ({ title = "LOREM IPSUM", postType = POST_TYPE_DEFAULT }) => {
 
   return (
     <>
-      <RemoveModal />
+      <RemoveModal
+        open={open}
+        setOpen={setOpen}
+        onSubmit={onRemoveModalSubmit}
+        onCancel={onRemoveModalCancel}
+      />
       <Heading title={title} />
       {!loading && data && (
         <ul className="space-y-3">
