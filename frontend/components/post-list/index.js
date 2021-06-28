@@ -218,7 +218,7 @@ const PostList = ({ title = "LOREM IPSUM", postType = POST_TYPE_DEFAULT }) => {
       />
       <Heading title={title} />
       {!loading && data && (
-        <ul className="space-y-3">
+        <ul className="divide-y divide-gray-200">
           {data[queryKey].map((post, i) => (
             <PostCard
               key={i}

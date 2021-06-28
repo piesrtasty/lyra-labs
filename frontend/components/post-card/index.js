@@ -27,8 +27,10 @@ const PostCard = ({
   postType = POST_TYPE_SAVED,
 }) => {
   return (
-    <div className="bg-white overflow-hidden shadow rounded-lg">
-      <div className="bg-white px-4 pt-5 sm:px-6">
+    // <div className="bg-white overflow-hidden shadow rounded-lg">
+    <div className="overflow-hidden hover:bg-gray-50 transition duration-100">
+      {/* <div className="bg-white px-4 pt-5 sm:px-6"> */}
+      <div className="px-4 pt-5 sm:px-6">
         <div className="flex space-x-3">
           <div className="flex-shrink-0">
             {logo && (
@@ -52,7 +54,7 @@ const PostCard = ({
               <p className="text-sm text-gray-500">{formatDate(date)}</p>
             )}
           </div>
-          <div className="flex-shrink-0 self-center flex">
+          {/* <div className="flex-shrink-0 self-center flex">
             <Menu as="div" className="relative z-30 inline-block text-left">
               {({ open }) => (
                 <>
@@ -144,7 +146,7 @@ const PostCard = ({
                 </>
               )}
             </Menu>
-          </div>
+          </div> */}
         </div>
       </div>
       <div className="px-4 py-5 sm:p-6">
@@ -180,23 +182,27 @@ const PostCard = ({
         </div>
       </div>
       {/* Divider */}
-      <div className="relative">
+      {/* <div className="relative">
         <div
           className="absolute inset-0 flex items-center mx-8"
           aria-hidden="true"
         >
           <div className="w-full border-t border-gray-200" />
         </div>
-      </div>
+      </div> */}
       <div className="px-4 py-4 sm:px-6">
         {actions.map(({ Icon, name, fn }, i) => (
           <button
             key={i}
             type="button"
             onClick={() => fn(id)}
+            // className={classNames(
+            //   i !== 0 ? "ml-3" : "",
+            //   "relative inline-flex items-center px-4 py-2 border border-gray-300 shadow-sm text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+            // )}
             className={classNames(
               i !== 0 ? "ml-3" : "",
-              "relative inline-flex items-center px-4 py-2 border border-gray-300 shadow-sm text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+              "relative inline-flex items-center px-4 py-2 border border-gray-300 shadow-sm text-sm font-medium rounded-md text-gray-700  hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
             )}
           >
             <Icon

@@ -1,4 +1,5 @@
 import React, { useContext } from "react";
+import { Menu, Disclosure, Transition } from "@headlessui/react";
 import { CurrentUserContext } from "@components/layout";
 import { useRouter } from "next/router";
 import { classNames } from "../../shared/utils";
@@ -35,7 +36,7 @@ const SidebarLeft = () => {
 
   return (
     <div>
-      <div className="group w-full px-3.5 py-2 text-sm text-left font-medium text-gray-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-100 focus:ring-purple-500">
+      <div className="border-b border-gray-200 group w-full px-3.5 py-2 text-sm text-left font-medium text-gray-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-100 focus:ring-purple-500">
         <span className="flex w-full justify-between items-center">
           <span className="flex min-w-0 items-center justify-between space-x-3">
             <img
@@ -52,7 +53,7 @@ const SidebarLeft = () => {
           </span>
         </span>
       </div>
-      <nav className="px-3 mt-6">
+      <nav className="mt-6">
         <div className="space-y-1">
           {navigation.map((item, i) => (
             <Link key={i} href={item.path} passHref>
@@ -62,7 +63,7 @@ const SidebarLeft = () => {
                   item.current
                     ? "bg-gray-200 text-gray-900"
                     : "text-gray-700 hover:text-gray-900 hover:bg-gray-50",
-                  "group flex items-center px-2 py-2 text-sm font-medium rounded-md"
+                  "group flex items-center px-2 py-2 text-sm font-medium"
                 )}
                 aria-current={item.current ? "page" : undefined}
               >
