@@ -190,7 +190,7 @@ const PostCard = ({
           <div className="w-full border-t border-gray-200" />
         </div>
       </div> */}
-      <div className="px-4 py-4 sm:px-6">
+      <div className="px-4 py-4 sm:px-6 flex justify-end">
         {actions.map(({ Icon, name, fn }, i) => (
           <button
             key={i}
@@ -202,11 +202,11 @@ const PostCard = ({
             // )}
             className={classNames(
               i !== 0 ? "ml-3" : "",
-              "relative inline-flex items-center px-4 py-2 border border-gray-300 shadow-sm text-sm font-medium rounded-md text-gray-700  hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+              "group relative inline-flex items-center text-sm font-medium rounded-md text-gray-700  hover:text-purple focus:outline-none"
             )}
           >
             <Icon
-              className="-ml-1 mr-2 h-5 w-5 text-gray-400"
+              className="-ml-1 mr-2 h-5 w-5 text-gray-400 group-hover:text-purple"
               aria-hidden="true"
             />
             <span>{name}</span>

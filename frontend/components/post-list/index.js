@@ -12,6 +12,7 @@ import { postFields } from "@data/fragments";
 import PostCard from "../post-card";
 import LoadingPostCard from "../post-card/loading";
 import RemoveModal from "@components/remove-modal";
+import NewBookmarkBtn from "@components/buttons/new-bookmark";
 
 import {
   BookmarkIcon,
@@ -216,7 +217,10 @@ const PostList = ({ title = "LOREM IPSUM", postType = POST_TYPE_DEFAULT }) => {
         onSubmit={onRemoveModalSubmit}
         onCancel={onRemoveModalCancel}
       />
-      <Heading title={title} />
+      <div className="hidden md:flex py-4 px-6 sticky top-0 flex flex-row justify-between bg-white z-10">
+        <h1 className="text-2xl font-semibold text-gray-900">{title}</h1>
+        <NewBookmarkBtn />
+      </div>
       {!loading && data && (
         <ul className="divide-y divide-gray-200">
           {data[queryKey].map((post, i) => (

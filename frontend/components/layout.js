@@ -6,8 +6,8 @@ import React, { useState, useEffect } from "react";
 import { Global, css } from "@emotion/core";
 import { ThemeProvider } from "emotion-theming";
 import { Magic } from "magic-sdk";
-import LoginModal from "@library/components/modals/login";
 import { CURRENT_USER_QUERY } from "@data/queries";
+import BookmarkModal from "@components/bookmark-modal";
 
 const THEME = {
   COLORS: {
@@ -19,19 +19,17 @@ const THEME = {
   },
 };
 
-export const LoginModalContext = React.createContext({});
 export const MagicAuthContext = React.createContext();
 export const CurrentUserContext = React.createContext({});
+export const AddBookmarkModalContext = React.createContext({});
 
 const Layout = ({ children }) => {
   const isProduction = process.env.NODE_ENV === "production";
-  const [showLoginModal, setShowLoginModal] = useState(false);
+  const [bookmarkModalVisible, setBookmarkModalVisible] = useState(true);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
 
   const { loading, error, data, refetch } = useQuery(CURRENT_USER_QUERY, {});
-
-  // const router = useRouter()
 
   useEffect(() => {
     const bootstrapAsync = async () => {
@@ -97,43 +95,42 @@ const Layout = ({ children }) => {
     });
   };
 
-  const showLogin = () => setShowLoginModal(true);
-  const hideLogin = () => setShowLoginModal(false);
+  // const showLogin = () => setShowLoginModal(true);
+  // const hideLogin = () => setShowLoginModal(false);
 
   return (
-    <LoginModalContext.Provider value={{ showLogin, hideLogin }}>
-      <CurrentUserContext.Provider
-        value={{ currentUser: data ? data.me : null, refetch }}
+    <CurrentUserContext.Provider
+      value={{ currentUser: data ? data.me : null, refetch }}
+    >
+      <MagicAuthContext.Provider
+        value={{ signIn, signOut, isLoggedIn, isLoading }}
       >
-        <MagicAuthContext.Provider
-          value={{ signIn, signOut, isLoggedIn, isLoading }}
-        >
-          <ThemeProvider theme={THEME}>
-            <Head>
-              <title>Lyra Labs 🥰</title>
-              {isProduction && (
-                <>
-                  <script
-                    async
-                    src="https://www.googletagmanager.com/gtag/js?id=G-EW50ZSVFBP"
-                  ></script>
+        <ThemeProvider theme={THEME}>
+          <Head>
+            <title>Lyra Labs 🥰</title>
+            {isProduction && (
+              <>
+                <script
+                  async
+                  src="https://www.googletagmanager.com/gtag/js?id=G-EW50ZSVFBP"
+                ></script>
 
-                  <script
-                    dangerouslySetInnerHTML={{
-                      __html: `
+                <script
+                  dangerouslySetInnerHTML={{
+                    __html: `
             window.dataLayer = window.dataLayer || [];
   function gtag(){dataLayer.push(arguments);}
   gtag('js', new Date());
 
   gtag('config', 'G-EW50ZSVFBP');
               `,
-                    }}
-                  />
-                </>
-              )}
-            </Head>
-            <Global
-              styles={css`
+                  }}
+                />
+              </>
+            )}
+          </Head>
+          <Global
+            styles={css`
                 body {
                   ${"" /* font-size: 18px; */}
                   ${"" /* background-color: red; */}
@@ -144,15 +141,19 @@ const Layout = ({ children }) => {
                   ${"" /* z-index: 2; */}
                 }
               `}
-            />
-            {children}
-            {/* {showLoginModal && (
+          />
+          {children}
+          {/* {showLoginModal && (
               <LoginModal onDismiss={() => setShowLoginModal(false)} />
             )} */}
-          </ThemeProvider>
-        </MagicAuthContext.Provider>
-      </CurrentUserContext.Provider>
-    </LoginModalContext.Provider>
+          <BookmarkModal
+            open={bookmarkModalVisible}
+            setOpen={setBookmarkModalVisible}
+            onCancel={() => {}}
+          />
+        </ThemeProvider>
+      </MagicAuthContext.Provider>
+    </CurrentUserContext.Provider>
   );
 };
 

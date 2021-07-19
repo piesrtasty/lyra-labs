@@ -1,60 +1,77 @@
-import React from "react";
-import styled from "@emotion/styled";
 import Link from "next/link";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { useRouter } from "next/router";
+
+import { classNames } from "@shared/utils";
+
 import {
-  faInbox,
-  faArchive,
-  faThumbtack,
-} from "@fortawesome/pro-light-svg-icons";
-import { BASE_TEXT, WEIGHT } from "@style/typography";
-import { SCOPRION } from "@style/colors";
+  ROUTE_READING_LIST,
+  ROUTE_ARCHIVE,
+  ROUTE_DISCOVER,
+  LABEL_DISCOVER,
+  LABEL_READING_LIST,
+  LABEL_ARCHIVE,
+} from "@shared/constants/routes";
 
-export const Container = styled("div")({
-  display: "flex",
-  flexDirection: "column",
-  marginTop: "1rem",
-});
+import { ArchiveIcon, BookOpenIcon, FireIcon } from "@heroicons/react/outline";
 
-const NavLink = styled("div")({
-  display: "flex",
-  alignItems: "center",
-  marginTop: ".75rem",
-  cursor: "pointer",
-});
+const SidebarNav = () => {
+  const router = useRouter();
+  const currentRoute = router.pathname;
 
-const IconWrapper = styled("div")({});
+  const navigation = [
+    {
+      name: LABEL_READING_LIST,
+      path: ROUTE_READING_LIST,
+      icon: BookOpenIcon,
+      current: currentRoute === ROUTE_READING_LIST,
+    },
+    {
+      name: LABEL_ARCHIVE,
+      path: ROUTE_ARCHIVE,
+      icon: ArchiveIcon,
+      current: currentRoute === ROUTE_ARCHIVE,
+    },
+    {
+      name: LABEL_DISCOVER,
+      path: ROUTE_DISCOVER,
+      icon: FireIcon,
+      current: currentRoute === ROUTE_DISCOVER,
+    },
+  ];
 
-// const Icon = styled(FontAwesomeIcon)({
-//   fontSize: "1rem",
-//   width: "1rem !important"
-// });
-
-const Icon = styled("div")({});
-
-const Name = styled("div")({
-  ...BASE_TEXT,
-  fontSize: "1rem",
-  marginLeft: ".5rem",
-});
-
-const LINKS = [
-  { icon: "🚀", name: "Discovery Feed", route: "/" },
-  { icon: "📚", name: "Reading list", route: "/readinglist" },
-  { icon: "💾", name: "Archive", route: "/archive" },
-];
-
-const SidebarNav = () => (
-  <Container>
-    {LINKS.map(({ icon, name, route }, i) => (
-      <Link key={i} href={route}>
-        <NavLink>
-          <Icon>{icon}</Icon>
-          <Name>{name}</Name>
-        </NavLink>
-      </Link>
-    ))}
-  </Container>
-);
+  return (
+    <div className="flex-1 flex flex-col overflow-y-auto">
+      <nav className="mt-6">
+        <div className="space-y-1">
+          {navigation.map((item, i) => (
+            <Link key={i} href={item.path} passHref>
+              <a
+                key={item.name}
+                className={classNames(
+                  item.current
+                    ? "bg-gray-200 text-gray-900"
+                    : "text-gray-700 hover:text-gray-900 hover:bg-gray-50",
+                  "group flex items-center px-2 py-2 text-sm font-medium"
+                )}
+                aria-current={item.current ? "page" : undefined}
+              >
+                <item.icon
+                  className={classNames(
+                    item.current
+                      ? "text-gray-500"
+                      : "text-gray-400 group-hover:text-gray-500",
+                    "mr-3 flex-shrink-0 h-6 w-6"
+                  )}
+                  aria-hidden="true"
+                />
+                {item.name}
+              </a>
+            </Link>
+          ))}
+        </div>
+      </nav>
+    </div>
+  );
+};
 
 export default SidebarNav;
