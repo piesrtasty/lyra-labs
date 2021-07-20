@@ -21,11 +21,12 @@ const THEME = {
 
 export const MagicAuthContext = React.createContext();
 export const CurrentUserContext = React.createContext({});
-export const AddBookmarkModalContext = React.createContext({});
+export const BookmarkModalContext = React.createContext({});
 
 const Layout = ({ children }) => {
   const isProduction = process.env.NODE_ENV === "production";
   const [bookmarkModalVisible, setBookmarkModalVisible] = useState(true);
+  const [showBookmarkModal, setShowBookmarkModal] = useState(false);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
 
@@ -105,32 +106,35 @@ const Layout = ({ children }) => {
       <MagicAuthContext.Provider
         value={{ signIn, signOut, isLoggedIn, isLoading }}
       >
-        <ThemeProvider theme={THEME}>
-          <Head>
-            <title>Lyra Labs 🥰</title>
-            {isProduction && (
-              <>
-                <script
-                  async
-                  src="https://www.googletagmanager.com/gtag/js?id=G-EW50ZSVFBP"
-                ></script>
+        <BookmarkModalContext.Provider
+          value={{ showBookmarkModal, setShowBookmarkModal }}
+        >
+          <ThemeProvider theme={THEME}>
+            <Head>
+              <title>Lyra Labs 🥰</title>
+              {isProduction && (
+                <>
+                  <script
+                    async
+                    src="https://www.googletagmanager.com/gtag/js?id=G-EW50ZSVFBP"
+                  ></script>
 
-                <script
-                  dangerouslySetInnerHTML={{
-                    __html: `
+                  <script
+                    dangerouslySetInnerHTML={{
+                      __html: `
             window.dataLayer = window.dataLayer || [];
   function gtag(){dataLayer.push(arguments);}
   gtag('js', new Date());
 
   gtag('config', 'G-EW50ZSVFBP');
               `,
-                  }}
-                />
-              </>
-            )}
-          </Head>
-          <Global
-            styles={css`
+                    }}
+                  />
+                </>
+              )}
+            </Head>
+            <Global
+              styles={css`
                 body {
                   ${"" /* font-size: 18px; */}
                   ${"" /* background-color: red; */}
@@ -141,17 +145,20 @@ const Layout = ({ children }) => {
                   ${"" /* z-index: 2; */}
                 }
               `}
-          />
-          {children}
-          {/* {showLoginModal && (
+            />
+            {children}
+            {/* {showLoginModal && (
               <LoginModal onDismiss={() => setShowLoginModal(false)} />
             )} */}
-          <BookmarkModal
-            open={bookmarkModalVisible}
-            setOpen={setBookmarkModalVisible}
-            onCancel={() => {}}
-          />
-        </ThemeProvider>
+            {showBookmarkModal && (
+              <BookmarkModal
+                open={showBookmarkModal}
+                setOpen={setShowBookmarkModal}
+                onCancel={() => setShowBookmarkModal(false)}
+              />
+            )}
+          </ThemeProvider>
+        </BookmarkModalContext.Provider>
       </MagicAuthContext.Provider>
     </CurrentUserContext.Provider>
   );
