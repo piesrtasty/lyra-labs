@@ -25,7 +25,6 @@ export const BookmarkModalContext = React.createContext({});
 
 const Layout = ({ children }) => {
   const isProduction = process.env.NODE_ENV === "production";
-  const [bookmarkModalVisible, setBookmarkModalVisible] = useState(true);
   const [showBookmarkModal, setShowBookmarkModal] = useState(false);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [isLoading, setIsLoading] = useState(false);

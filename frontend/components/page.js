@@ -24,8 +24,6 @@ const Page = ({ children }) => {
 
   const label = ROUTE_LABELS[currentRoute];
 
-  console.log("currentRoute", currentRoute);
-
   return (
     <div className="h-screen flex overflow-hidden bg-white">
       <SidebarMobile
