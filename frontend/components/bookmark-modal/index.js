@@ -11,11 +11,9 @@ import { XCircleIcon } from "@heroicons/react/solid";
 const BookmarkModal = ({ open, setOpen, onCancel }) => {
   const [givenUrl, setGivenUrl] = useState();
   const [errorMsg, setErrorMsg] = useState();
-  // const [open, setOpen] = useState(true);
 
   const router = useRouter();
   const currentRoute = router.pathname;
-  console.log("router", router);
 
   const cancelButtonRef = useRef(null);
 
@@ -71,21 +69,17 @@ const BookmarkModal = ({ open, setOpen, onCancel }) => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
+    const validUrl = isValidURL(givenUrl);
     if (validUrl) {
+      createPost({
+        variables: {
+          givenUrl,
+        },
+      });
+      e.target.reset();
     } else {
       setErrorMsg("Please enter a valid URL.");
     }
-    const validUrl = isValidURL(givenUrl);
-    console.log("givenUrl", givenUrl);
-    console.log("validUrl", validUrl);
-    // if (givenUrl) {
-    //   createPost({
-    //     variables: {
-    //       givenUrl,
-    //     },
-    //   });
-    //   e.target.reset();
-    // }
   };
 
   return (
@@ -98,7 +92,8 @@ const BookmarkModal = ({ open, setOpen, onCancel }) => {
         open={open}
         onClose={onCancel}
       >
-        <div className="flex items-end justify-center min-h-screen pt-4 px-4 pb-20 text-center sm:block sm:p-0">
+        {/* <div className="flex items-end justify-center min-h-screen pt-4 px-4 pb-20 text-center sm:block sm:p-0"> */}
+        <div className="flex justify-center items-end min-h-50 pt-4 px-4 pb-20 text-center sm:block sm:p-0">
           <Transition.Child
             as={Fragment}
             enter="ease-out duration-300"
@@ -127,10 +122,9 @@ const BookmarkModal = ({ open, setOpen, onCancel }) => {
             leaveFrom="opacity-100 translate-y-0 sm:scale-100"
             leaveTo="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
           >
-            <div className="inline-block align-bottom bg-white rounded-lg text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-md sm:w-full p-4">
-              {/* <div className=""> */}
+            <div className="inline-block align-bottom bg-white rounded-lg text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle xs:w-full sm:max-w-md sm:w-full p-4">
               {errorMsg && (
-                <div className="rounded-md bg-red-50 p-4">
+                <div className="rounded-md bg-red-50 p-3 mb-3">
                   <div className="flex">
                     <div className="flex-shrink-0">
                       <XCircleIcon
@@ -140,7 +134,7 @@ const BookmarkModal = ({ open, setOpen, onCancel }) => {
                     </div>
                     <div className="ml-3">
                       <h3 className="text-sm font-medium text-red-800">
-                        There were 2 errors with your submission
+                        {errorMsg}
                       </h3>
                     </div>
                   </div>
@@ -167,7 +161,6 @@ const BookmarkModal = ({ open, setOpen, onCancel }) => {
                   Save
                 </button>
               </form>
-              {/* </div> */}
             </div>
           </Transition.Child>
         </div>

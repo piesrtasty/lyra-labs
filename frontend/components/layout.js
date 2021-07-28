@@ -111,6 +111,14 @@ const Layout = ({ children }) => {
           <ThemeProvider theme={THEME}>
             <Head>
               <title>Lyra Labs 🥰</title>
+              <link
+                href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700;800;900&display=swap"
+                rel="stylesheet"
+              />
+              <script
+                src="https://cdn.jsdelivr.net/gh/alpinejs/alpine@v2.x.x/dist/alpine.min.js"
+                defer
+              ></script>
               {isProduction && (
                 <>
                   <script

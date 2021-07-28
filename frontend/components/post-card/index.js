@@ -23,6 +23,7 @@ const PostCard = ({
     publisher,
     date,
   },
+  post,
   actions = [],
   postType = POST_TYPE_SAVED,
 }) => {
@@ -195,7 +196,7 @@ const PostCard = ({
           <button
             key={i}
             type="button"
-            onClick={() => fn(id)}
+            onClick={() => fn(post)}
             // className={classNames(
             //   i !== 0 ? "ml-3" : "",
             //   "relative inline-flex items-center px-4 py-2 border border-gray-300 shadow-sm text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"

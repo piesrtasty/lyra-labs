@@ -12,6 +12,7 @@ import { postFields } from "@data/fragments";
 import PostCard from "../post-card";
 import LoadingPostCard from "../post-card/loading";
 import RemoveModal from "@components/remove-modal";
+import ShareModal from "@components/share-modal";
 import NewBookmarkBtn from "@components/buttons/new-bookmark";
 
 import {
@@ -39,12 +40,14 @@ const getCursor = (data = {}, key) => {
 };
 
 const PostList = ({ title = "LOREM IPSUM", postType = POST_TYPE_DEFAULT }) => {
+  const [selectedPost, setSelectedPost] = useState(null);
   const { query, queryKey, actions: postActions } = POST_TYPES[postType];
   const [hasNextPage, setHasNextPage] = useState(true);
   const { loading, error, data, fetchMore } = useQuery(query);
   const observerRef = useRef(null);
   const [buttonRef, setButtonRef] = useState(null);
   const [open, setOpen] = useState(false);
+  const [shareModalOpen, setShareModalOpen] = useState(false);
   const [removePostId, setRemovePostId] = useState(null);
 
   useEffect(() => {
@@ -175,16 +178,21 @@ const PostList = ({ title = "LOREM IPSUM", postType = POST_TYPE_DEFAULT }) => {
     setOpen(false);
   };
 
-  const handleArchiveClick = (id) => {
+  const handleArchiveClick = ({ id }) => {
     archivePost({ variables: { postId: id } })
       .then(({ data }) => {})
       .catch((e) => console.log("e", e));
   };
 
-  const handleRestoreClick = (id) => {
+  const handleRestoreClick = ({ id }) => {
     restorePost({ variables: { postId: id } })
       .then(({ data }) => {})
       .catch((e) => console.log("e", e));
+  };
+
+  const handleShareClick = (post) => {
+    setSelectedPost(post);
+    setShareModalOpen(true);
   };
 
   const ACTIONS = {
@@ -203,11 +211,16 @@ const PostList = ({ title = "LOREM IPSUM", postType = POST_TYPE_DEFAULT }) => {
       name: "Restore",
       fn: handleRestoreClick,
     },
-    [ACTION_SHARE]: { Icon: ShareIcon, name: "Share", fn: fn },
+    [ACTION_SHARE]: { Icon: ShareIcon, name: "Share", fn: handleShareClick },
     [ACTION_REMOVE]: { Icon: TrashIcon, name: "Remove", fn: handleRemovePost },
   };
 
   const actions = postActions.map((pa) => ACTIONS[pa]);
+
+  const handleCloseShareModal = () => {
+    setShareModalOpen(false);
+    setSelectedPost(null);
+  };
 
   return (
     <>
@@ -217,21 +230,28 @@ const PostList = ({ title = "LOREM IPSUM", postType = POST_TYPE_DEFAULT }) => {
         onSubmit={onRemoveModalSubmit}
         onCancel={onRemoveModalCancel}
       />
+      <ShareModal
+        open={shareModalOpen}
+        onClose={handleCloseShareModal}
+        post={selectedPost}
+      />
       <div className="hidden md:flex py-4 px-6 sticky top-0 flex flex-row justify-between bg-white z-10">
         <h1 className="text-2xl font-semibold text-gray-900">{title}</h1>
         <NewBookmarkBtn />
       </div>
       {!loading && data && (
-        <ul className="divide-y divide-gray-200">
-          {data[queryKey].map((post, i) => (
-            <PostCard
-              key={i}
-              post={post}
-              postType={postType}
-              actions={actions}
-            />
-          ))}
-        </ul>
+        <>
+          <ul className="divide-y divide-gray-200">
+            {data[queryKey].map((post, i) => (
+              <PostCard
+                key={i}
+                post={post}
+                postType={postType}
+                actions={actions}
+              />
+            ))}
+          </ul>
+        </>
       )}
 
       {(loading || hasNextPage) && (

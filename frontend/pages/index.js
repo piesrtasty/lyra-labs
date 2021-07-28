@@ -193,509 +193,281 @@ function classNames(...classes) {
 
 export default function Example() {
   return (
-    <div className="bg-white">
-      <main>
-        <LoggedOutHeader />
-        {/* Hero section */}
-        <div className="lg:relative">
-          <div className="mx-auto max-w-7xl w-full pt-16 pb-20 text-center lg:py-48 lg:text-left">
-            <div className="px-4 lg:w-1/2 sm:px-8 xl:pr-16">
-              <h1 className="text-4xl tracking-tight font-extrabold text-gray-900 sm:text-5xl md:text-6xl lg:text-5xl xl:text-6xl">
-                <span className="block xl:inline">Data to enrich your</span>{" "}
-                <span className="block text-indigo-600 xl:inline">
-                  online business
-                </span>
-              </h1>
-              <p className="mt-3 max-w-md mx-auto text-lg text-gray-500 sm:text-xl md:mt-5 md:max-w-3xl">
-                Anim aute id magna aliqua ad ad non deserunt sunt. Qui irure qui
-                lorem cupidatat commodo. Elit sunt amet fugiat veniam occaecat
-                fugiat aliqua.
-              </p>
-              <div className="mt-10 sm:flex sm:justify-center lg:justify-start">
-                <div className="rounded-md shadow">
-                  <a
-                    href="#"
-                    className="w-full flex items-center justify-center px-8 py-3 border border-transparent text-base font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 md:py-4 md:text-lg md:px-10"
-                  >
-                    Get started
-                  </a>
-                </div>
-                <div className="mt-3 rounded-md shadow sm:mt-0 sm:ml-3">
-                  <a
-                    href="#"
-                    className="w-full flex items-center justify-center px-8 py-3 border border-transparent text-base font-medium rounded-md text-indigo-600 bg-white hover:bg-gray-50 md:py-4 md:text-lg md:px-10"
-                  >
-                    Live demo
-                  </a>
-                </div>
+    <div className="text-black transition-colors duration-1000 bg-white dark:bg-black">
+      <section className="h-screen bg-center body-font bg-patternTop ">
+        <div className="container px-8 pt-32 pb-24 mx-auto lg:px-4 ">
+          <div className="flex flex-col w-full mb-12 text-left lg:text-center">
+            <h2 className="mb-1 text-xs font-semibold tracking-widest uppercase text-blueGray-500 ">
+              a great header right here
+            </h2>
+            <h1 className="mb-6 font-serif text-4xl font-bold tracking-tighter text-blue-1000 dark:text-blueGray-300 md:text-8xl lg:text-6xl ">
+              A Long headline
+              <br className="hidden lg:block" />
+              to convey your users.
+            </h1>
+            <p className="mx-auto text-lg leading-snug text-blueGray-500 dark:text-blueGray-300 lg:w-1/2">
+              Tailwind CSS templates with a wicked design. Professionally
+              designed and 100% responsive static templates for startups and
+              personal use.{" "}
+            </p>
+          </div>
+          <div className="flex lg:justify-center">
+            <div className="flex flex-col mt-4 md:flex-row">
+              <div class="flex lg:justify-center">
+                <a
+                  href="#"
+                  class="inline-flex items-center px-8 py-2 mr-4 text-white transition-all duration-500 ease-in-out transform bg-black border-2 border-black hover:text-white md:mb-2 lg:mb-0 rounded-xl hover:border-white hover:bg-blueGray-500 focus:ring-2 ring-offset-current ring-offset-2 dark:border-blueGray-300 dark:bg-blueGray-300 dark:hover:bg-white dark:hover:text-black dark:text-black"
+                >
+                  Register{" "}
+                </a>
+                <a
+                  href="#"
+                  class="inline-flex items-center px-8 py-2 ml-4 mr-4 text-black transition-all duration-500 ease-in-out transform dark:text-blueGray-300 hover:text-blueGray-700 md:mb-2 lg:mb-0 rounded-xl focus:ring-2 ring-offset-current ring-offset-2"
+                >
+                  Learn More
+                </a>
               </div>
+              {/* <button className="inline-flex items-center px-5 py-3 mt-2 text-white transition-all duration-500 ease-in-out transform bg-black border border-gray-900 rounded-lg focus:ring-2 ring-offset-current ring-offset-2 hover:bg-gray-900 focus:outline-none">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="currentColor"
+                  className="w-6 h-6"
+                  viewBox="0 0 512 512"
+                >
+                  <path d="M99.617 8.057a50.191 50.191 0 00-38.815-6.713l230.932 230.933 74.846-74.846L99.617 8.057zM32.139 20.116c-6.441 8.563-10.148 19.077-10.148 30.199v411.358c0 11.123 3.708 21.636 10.148 30.199l235.877-235.877L32.139 20.116zM464.261 212.087l-67.266-37.637-81.544 81.544 81.548 81.548 67.273-37.64c16.117-9.03 25.738-25.442 25.738-43.908s-9.621-34.877-25.749-43.907zM291.733 279.711L60.815 510.629c3.786.891 7.639 1.371 11.492 1.371a50.275 50.275 0 0027.31-8.07l266.965-149.372-74.849-74.847z"></path>
+                </svg>
+                <span className="flex flex-col items-start ml-4 leading-none">
+                  <span className="mb-1 text-xs text-blueGray-400">
+                    GET IT ON
+                  </span>
+                  <span className="font-medium text-white title-font">
+                    Google Play
+                  </span>
+                </span>
+              </button> */}
+              {/* <button className="inline-flex items-center px-5 py-3 mt-2 text-white transition-all duration-500 ease-in-out transform bg-black border border-gray-900 rounded-lg md:ml-4 focus:ring-2 ring-offset-current ring-offset-2 hover:bg-gray-900 focus:outline-none">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="currentColor"
+                  className="w-6 h-6"
+                  viewBox="0 0 305 305"
+                >
+                  <path d="M40.74 112.12c-25.79 44.74-9.4 112.65 19.12 153.82C74.09 286.52 88.5 305 108.24 305c.37 0 .74 0 1.13-.02 9.27-.37 15.97-3.23 22.45-5.99 7.27-3.1 14.8-6.3 26.6-6.3 11.22 0 18.39 3.1 25.31 6.1 6.83 2.95 13.87 6 24.26 5.81 22.23-.41 35.88-20.35 47.92-37.94a168.18 168.18 0 0021-43l.09-.28a2.5 2.5 0 00-1.33-3.06l-.18-.08c-3.92-1.6-38.26-16.84-38.62-58.36-.34-33.74 25.76-51.6 31-54.84l.24-.15a2.5 2.5 0 00.7-3.51c-18-26.37-45.62-30.34-56.73-30.82a50.04 50.04 0 00-4.95-.24c-13.06 0-25.56 4.93-35.61 8.9-6.94 2.73-12.93 5.09-17.06 5.09-4.64 0-10.67-2.4-17.65-5.16-9.33-3.7-19.9-7.9-31.1-7.9l-.79.01c-26.03.38-50.62 15.27-64.18 38.86z"></path>
+                  <path d="M212.1 0c-15.76.64-34.67 10.35-45.97 23.58-9.6 11.13-19 29.68-16.52 48.38a2.5 2.5 0 002.29 2.17c1.06.08 2.15.12 3.23.12 15.41 0 32.04-8.52 43.4-22.25 11.94-14.5 17.99-33.1 16.16-49.77A2.52 2.52 0 00212.1 0z"></path>
+                </svg>
+                <span className="flex flex-col items-start ml-4 leading-none">
+                  <span className="mb-1 text-xs text-blueGray-400">
+                    Download on the
+                  </span>
+                  <span className="font-medium text-white title-font">
+                    App Store
+                  </span>
+                </span>
+              </button> */}
             </div>
           </div>
-          <div className="relative w-full h-64 sm:h-72 md:h-96 lg:absolute lg:inset-y-0 lg:right-0 lg:w-1/2 lg:h-full">
+        </div>
+      </section>
+
+      <section className="text-gray-700 body-font bg-patternBottom">
+        <div className="container flex flex-col items-center px-5 py-16 mx-auto lg:px-24 lg:py-24 md:flex-row">
+          <div className="mx-auto mb-10 md:mb-0">
             <img
-              className="absolute inset-0 w-full h-full object-cover"
-              src="https://images.unsplash.com/photo-1520333789090-1afc82db536a?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=2102&q=80"
-              alt=""
+              className="object-cover object-center mx-auto rounded md:mt-44 lg:-mt-44"
+              alt="hero"
+              src="./Mockup.png"
             />
           </div>
         </div>
+      </section>
 
-        {/* Alternating Feature Sections */}
-        <div className="relative pt-16 pb-32 overflow-hidden">
-          <div
-            aria-hidden="true"
-            className="absolute inset-x-0 top-0 h-48 bg-gradient-to-b from-gray-100"
-          />
-          <div className="relative">
-            <div className="lg:mx-auto lg:max-w-7xl lg:px-8 lg:grid lg:grid-cols-2 lg:grid-flow-col-dense lg:gap-24">
-              <div className="px-4 max-w-xl mx-auto sm:px-6 lg:py-16 lg:max-w-none lg:mx-0 lg:px-0">
-                <div>
-                  <div>
-                    <span className="h-12 w-12 rounded-md flex items-center justify-center bg-gradient-to-r from-purple-600 to-indigo-600">
-                      <InboxIcon
-                        className="h-6 w-6 text-white"
-                        aria-hidden="true"
-                      />
-                    </span>
-                  </div>
-                  <div className="mt-6">
-                    <h2 className="text-3xl font-extrabold tracking-tight text-gray-900">
-                      Save content from everywhere
-                    </h2>
-                    <p className="mt-4 text-lg text-gray-500">
-                      Save articles, videos and stories from any publication,
-                      page or app.
-                    </p>
-                    <div className="mt-6">
-                      <a
-                        href="#"
-                        className="inline-flex px-4 py-2 border border-transparent text-base font-medium rounded-md shadow-sm text-white bg-gradient-to-r from-purple-600 to-indigo-600 hover:from-purple-700 hover:to-indigo-700"
-                      >
-                        Get started
-                      </a>
-                    </div>
-                  </div>
-                </div>
-                {/* <div className="mt-8 border-t border-gray-200 pt-6">
-                  <blockquote>
-                    <div>
-                      <p className="text-base text-gray-500">
-                        &ldquo;Cras velit quis eros eget rhoncus lacus ultrices
-                        sed diam. Sit orci risus aenean curabitur donec aliquet.
-                        Mi venenatis in euismod ut.&rdquo;
-                      </p>
-                    </div>
-                    <footer className="mt-3">
-                      <div className="flex items-center space-x-3">
-                        <div className="flex-shrink-0">
-                          <img
-                            className="h-6 w-6 rounded-full"
-                            src="https://images.unsplash.com/photo-1509783236416-c9ad59bae472?ixlib=rb-=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=8&w=1024&h=1024&q=80"
-                            alt=""
-                          />
-                        </div>
-                        <div className="text-base font-medium text-gray-700">
-                          Marcia Hill, Digital Marketing Manager
-                        </div>
-                      </div>
-                    </footer>
-                  </blockquote>
-                </div> */}
-              </div>
-              <div className="mt-12 sm:mt-16 lg:mt-0">
-                <div className="pl-4 -mr-48 sm:pl-6 md:-mr-16 lg:px-0 lg:m-0 lg:relative lg:h-full">
-                  <img
-                    className="w-full rounded-xl shadow-xl ring-1 ring-black ring-opacity-5 lg:absolute lg:left-0 lg:h-full lg:w-auto lg:max-w-none"
-                    src="https://tailwindui.com/img/component-images/inbox-app-screenshot-1.jpg"
-                    alt="Inbox user interface"
-                  />
-                </div>
-              </div>
-            </div>
-          </div>
-          <div className="mt-24">
-            <div className="lg:mx-auto lg:max-w-7xl lg:px-8 lg:grid lg:grid-cols-2 lg:grid-flow-col-dense lg:gap-24">
-              <div className="px-4 max-w-xl mx-auto sm:px-6 lg:py-32 lg:max-w-none lg:mx-0 lg:px-0 lg:col-start-2">
-                <div>
-                  <div>
-                    <span className="h-12 w-12 rounded-md flex items-center justify-center bg-gradient-to-r from-purple-600 to-indigo-600">
-                      <SparklesIcon
-                        className="h-6 w-6 text-white"
-                        aria-hidden="true"
-                      />
-                    </span>
-                  </div>
-                  <div className="mt-6">
-                    <h2 className="text-3xl font-extrabold tracking-tight text-gray-900">
-                      Better understand your customers
-                    </h2>
-                    <p className="mt-4 text-lg text-gray-500">
-                      Semper curabitur ullamcorper posuere nunc sed. Ornare
-                      iaculis bibendum malesuada faucibus lacinia porttitor.
-                      Pulvinar laoreet sagittis viverra duis. In venenatis sem
-                      arcu pretium pharetra at. Lectus viverra dui tellus ornare
-                      pharetra.
-                    </p>
-                    <div className="mt-6">
-                      <a
-                        href="#"
-                        className="inline-flex px-4 py-2 border border-transparent text-base font-medium rounded-md shadow-sm text-white bg-gradient-to-r from-purple-600 to-indigo-600 hover:from-purple-700 hover:to-indigo-700"
-                      >
-                        Get started
-                      </a>
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <div className="mt-12 sm:mt-16 lg:mt-0 lg:col-start-1">
-                <div className="pr-4 -ml-48 sm:pr-6 md:-ml-16 lg:px-0 lg:m-0 lg:relative lg:h-full">
-                  <img
-                    className="w-full rounded-xl shadow-xl ring-1 ring-black ring-opacity-5 lg:absolute lg:right-0 lg:h-full lg:w-auto lg:max-w-none"
-                    src="https://tailwindui.com/img/component-images/inbox-app-screenshot-2.jpg"
-                    alt="Customer profile user interface"
-                  />
-                </div>
-              </div>
-            </div>
-          </div>
-          <div className="mt-24">
-            <div className="lg:mx-auto lg:max-w-7xl lg:px-8 lg:grid lg:grid-cols-2 lg:grid-flow-col-dense lg:gap-24">
-              <div className="px-4 max-w-xl mx-auto sm:px-6 lg:py-16 lg:max-w-none lg:mx-0 lg:px-0">
-                <div>
-                  <div>
-                    <span className="h-12 w-12 rounded-md flex items-center justify-center bg-gradient-to-r from-purple-600 to-indigo-600">
-                      <InboxIcon
-                        className="h-6 w-6 text-white"
-                        aria-hidden="true"
-                      />
-                    </span>
-                  </div>
-                  <div className="mt-6">
-                    <h2 className="text-3xl font-extrabold tracking-tight text-gray-900">
-                      Stay on top of customer support
-                    </h2>
-                    <p className="mt-4 text-lg text-gray-500">
-                      Semper curabitur ullamcorper posuere nunc sed. Ornare
-                      iaculis bibendum malesuada faucibus lacinia porttitor.
-                      Pulvinar laoreet sagittis viverra duis. In venenatis sem
-                      arcu pretium pharetra at. Lectus viverra dui tellus ornare
-                      pharetra.
-                    </p>
-                    <div className="mt-6">
-                      <a
-                        href="#"
-                        className="inline-flex px-4 py-2 border border-transparent text-base font-medium rounded-md shadow-sm text-white bg-gradient-to-r from-purple-600 to-indigo-600 hover:from-purple-700 hover:to-indigo-700"
-                      >
-                        Get started
-                      </a>
-                    </div>
-                  </div>
-                </div>
-                <div className="mt-8 border-t border-gray-200 pt-6">
-                  <blockquote>
-                    <div>
-                      <p className="text-base text-gray-500">
-                        &ldquo;Cras velit quis eros eget rhoncus lacus ultrices
-                        sed diam. Sit orci risus aenean curabitur donec aliquet.
-                        Mi venenatis in euismod ut.&rdquo;
-                      </p>
-                    </div>
-                    <footer className="mt-3">
-                      <div className="flex items-center space-x-3">
-                        <div className="flex-shrink-0">
-                          <img
-                            className="h-6 w-6 rounded-full"
-                            src="https://images.unsplash.com/photo-1509783236416-c9ad59bae472?ixlib=rb-=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=8&w=1024&h=1024&q=80"
-                            alt=""
-                          />
-                        </div>
-                        <div className="text-base font-medium text-gray-700">
-                          Marcia Hill, Digital Marketing Manager
-                        </div>
-                      </div>
-                    </footer>
-                  </blockquote>
-                </div>
-              </div>
-              <div className="mt-12 sm:mt-16 lg:mt-0">
-                <div className="pl-4 -mr-48 sm:pl-6 md:-mr-16 lg:px-0 lg:m-0 lg:relative lg:h-full">
-                  <img
-                    className="w-full rounded-xl shadow-xl ring-1 ring-black ring-opacity-5 lg:absolute lg:left-0 lg:h-full lg:w-auto lg:max-w-none"
-                    src="https://tailwindui.com/img/component-images/inbox-app-screenshot-1.jpg"
-                    alt="Inbox user interface"
-                  />
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        {/* Gradient Feature Section */}
-        <div className="bg-gradient-to-r from-purple-800 to-indigo-700">
-          <div className="max-w-4xl mx-auto px-4 py-16 sm:px-6 sm:pt-20 sm:pb-24 lg:max-w-7xl lg:pt-24 lg:px-8">
-            <h2 className="text-3xl font-extrabold text-white tracking-tight">
-              Inbox support built for efficiency
-            </h2>
-            <p className="mt-4 max-w-3xl text-lg text-purple-200">
-              Ac tincidunt sapien vehicula erat auctor pellentesque rhoncus. Et
-              magna sit morbi lobortis. Blandit aliquam sit nisl euismod mattis
-              in.
+      <section
+        className="border-t border-b body-font border-blueGray-300 dark:border-blueGray-800"
+        id="features"
+      >
+        <div className="container px-5 py-32 mx-auto lg:px-24 ">
+          <div className="flex flex-col w-full mb-20 text-left lg:text-center">
+            <h1 className="mb-6 font-serif text-4xl font-bold tracking-tighter text-blue-1000 dark:text-blueGray-300 md:text-8xl lg:text-6xl">
+              Features that allows you
+              <br className="hidden lg:block" />
+              to reach your needs faster.
+            </h1>
+            <p className="mx-auto text-lg leading-snug text-blueGray-500 dark:text-blueGray-300 lg:w-1/2">
+              Tailwind CSS templates with a wicked design.{" "}
             </p>
-            <div className="mt-12 grid grid-cols-1 gap-x-6 gap-y-12 sm:grid-cols-2 lg:mt-16 lg:grid-cols-4 lg:gap-x-8 lg:gap-y-16">
-              {features.map((feature) => (
-                <div key={feature.name}>
-                  <div>
-                    <span className="flex items-center justify-center h-12 w-12 rounded-md bg-white bg-opacity-10">
-                      <feature.icon
-                        className="h-6 w-6 text-white"
-                        aria-hidden="true"
-                      />
-                    </span>
-                  </div>
-                  <div className="mt-6">
-                    <h3 className="text-lg font-medium text-white">
-                      {feature.name}
-                    </h3>
-                    <p className="mt-2 text-base text-purple-200">
-                      {feature.description}
-                    </p>
-                  </div>
-                </div>
-              ))}
-            </div>
           </div>
-        </div>
-
-        {/* Stats section */}
-        <div className="relative bg-gray-900">
-          <div className="h-80 absolute inset-x-0 bottom-0 xl:top-0 xl:h-full">
-            <div className="h-full w-full xl:grid xl:grid-cols-2">
-              <div className="h-full xl:relative xl:col-start-2">
-                <img
-                  className="h-full w-full object-cover opacity-25 xl:absolute xl:inset-0"
-                  src="https://images.unsplash.com/photo-1521737852567-6949f3f9f2b5?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=2830&q=80&sat=-100"
-                  alt="People working on laptops"
-                />
-                <div
-                  aria-hidden="true"
-                  className="absolute inset-x-0 top-0 h-32 bg-gradient-to-b from-gray-900 xl:inset-y-0 xl:left-0 xl:h-full xl:w-32 xl:bg-gradient-to-r"
-                />
-              </div>
-            </div>
-          </div>
-          <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:max-w-7xl lg:px-8 xl:grid xl:grid-cols-2 xl:grid-flow-col-dense xl:gap-x-8">
-            <div className="relative pt-12 pb-64 sm:pt-24 sm:pb-64 xl:col-start-1 xl:pb-24">
-              <h2 className="text-sm font-semibold tracking-wide uppercase">
-                <span className="bg-gradient-to-r from-purple-300 to-indigo-300 bg-clip-text text-transparent">
-                  Valuable Metrics
-                </span>
-              </h2>
-              <p className="mt-3 text-3xl font-extrabold text-white">
-                Get actionable data that will help grow your business
-              </p>
-              <p className="mt-5 text-lg text-gray-300">
-                Rhoncus sagittis risus arcu erat lectus bibendum. Ut in
-                adipiscing quis in viverra tristique sem. Ornare feugiat viverra
-                eleifend fusce orci in quis amet. Sit in et vitae tortor, massa.
-                Dapibus laoreet amet lacus nibh integer quis. Eu vulputate diam
-                sit tellus quis at.
-              </p>
-              <div className="mt-12 grid grid-cols-1 gap-y-12 gap-x-6 sm:grid-cols-2">
-                {metrics.map((item) => (
-                  <p key={item.id}>
-                    <span className="block text-2xl font-bold text-white">
-                      {item.stat}
-                    </span>
-                    <span className="mt-1 block text-base text-gray-300">
-                      <span className="font-medium text-white">
-                        {item.emphasis}
-                      </span>{" "}
-                      {item.rest}
-                    </span>
-                  </p>
-                ))}
-              </div>
-            </div>
-          </div>
-        </div>
-
-        {/* CTA Section */}
-        <div className="bg-white">
-          <div className="max-w-4xl mx-auto py-16 px-4 sm:px-6 sm:py-24 lg:max-w-7xl lg:px-8 lg:flex lg:items-center lg:justify-between">
-            <h2 className="text-4xl font-extrabold tracking-tight text-gray-900 sm:text-4xl">
-              <span className="block">Ready to get started?</span>
-              <span className="block bg-gradient-to-r from-purple-600 to-indigo-600 bg-clip-text text-transparent">
-                Get in touch or create an account.
-              </span>
-            </h2>
-            <div className="mt-6 space-y-4 sm:space-y-0 sm:flex sm:space-x-5">
-              <a
-                href="#"
-                className="flex items-center justify-center px-4 py-3 border border-transparent text-base font-medium rounded-md shadow-sm text-white bg-gradient-to-r from-purple-600 to-indigo-600 hover:from-purple-700 hover:to-indigo-700"
-              >
-                Learn more
-              </a>
-              <a
-                href="#"
-                className="flex items-center justify-center px-4 py-3 border border-transparent text-base font-medium rounded-md shadow-sm text-indigo-800 bg-indigo-50 hover:bg-indigo-100"
-              >
-                Get started
-              </a>
-            </div>
-          </div>
-        </div>
-      </main>
-
-      <footer className="bg-gray-50" aria-labelledby="footerHeading">
-        <h2 id="footerHeading" className="sr-only">
-          Footer
-        </h2>
-        <div className="max-w-7xl mx-auto pt-16 pb-8 px-4 sm:px-6 lg:pt-24 lg:px-8">
-          <div className="xl:grid xl:grid-cols-3 xl:gap-8">
-            <div className="grid grid-cols-2 gap-8 xl:col-span-2">
-              <div className="md:grid md:grid-cols-2 md:gap-8">
-                <div>
-                  <h3 className="text-sm font-semibold text-gray-400 tracking-wider uppercase">
-                    Solutions
-                  </h3>
-                  <ul className="mt-4 space-y-4">
-                    {footerNavigation.solutions.map((item) => (
-                      <li key={item.name}>
-                        <a
-                          href={item.href}
-                          className="text-base text-gray-500 hover:text-gray-900"
-                        >
-                          {item.name}
-                        </a>
-                      </li>
-                    ))}
-                  </ul>
-                </div>
-                <div className="mt-12 md:mt-0">
-                  <h3 className="text-sm font-semibold text-gray-400 tracking-wider uppercase">
-                    Support
-                  </h3>
-                  <ul className="mt-4 space-y-4">
-                    {footerNavigation.support.map((item) => (
-                      <li key={item.name}>
-                        <a
-                          href={item.href}
-                          className="text-base text-gray-500 hover:text-gray-900"
-                        >
-                          {item.name}
-                        </a>
-                      </li>
-                    ))}
-                  </ul>
-                </div>
-              </div>
-              <div className="md:grid md:grid-cols-2 md:gap-8">
-                <div>
-                  <h3 className="text-sm font-semibold text-gray-400 tracking-wider uppercase">
-                    Company
-                  </h3>
-                  <ul className="mt-4 space-y-4">
-                    {footerNavigation.company.map((item) => (
-                      <li key={item.name}>
-                        <a
-                          href={item.href}
-                          className="text-base text-gray-500 hover:text-gray-900"
-                        >
-                          {item.name}
-                        </a>
-                      </li>
-                    ))}
-                  </ul>
-                </div>
-                <div className="mt-12 md:mt-0">
-                  <h3 className="text-sm font-semibold text-gray-400 tracking-wider uppercase">
-                    Legal
-                  </h3>
-                  <ul className="mt-4 space-y-4">
-                    {footerNavigation.legal.map((item) => (
-                      <li key={item.name}>
-                        <a
-                          href={item.href}
-                          className="text-base text-gray-500 hover:text-gray-900"
-                        >
-                          {item.name}
-                        </a>
-                      </li>
-                    ))}
-                  </ul>
-                </div>
-              </div>
-            </div>
-            <div className="mt-12 xl:mt-0">
-              <h3 className="text-sm font-semibold text-gray-400 tracking-wider uppercase">
-                Subscribe to our newsletter
-              </h3>
-              <p className="mt-4 text-base text-gray-500">
-                The latest news, articles, and resources, sent to your inbox
-                weekly.
-              </p>
-              <form className="mt-4 sm:flex sm:max-w-md">
-                <label htmlFor="emailAddress" className="sr-only">
-                  Email address
-                </label>
-                <input
-                  type="email"
-                  name="emailAddress"
-                  id="emailAddress"
-                  autoComplete="email"
-                  required
-                  className="appearance-none min-w-0 w-full bg-white border border-gray-300 rounded-md shadow-sm py-2 px-4 text-base text-gray-900 placeholder-gray-500 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:placeholder-gray-400"
-                  placeholder="Enter your email"
-                />
-                <div className="mt-3 rounded-md sm:mt-0 sm:ml-3 sm:flex-shrink-0">
-                  <button
-                    type="submit"
-                    className="w-full flex items-center justify-center px-4 py-3 border border-transparent text-base font-medium rounded-md shadow-sm text-white bg-gradient-to-r from-purple-600 to-indigo-600 hover:from-purple-700 hover:to-indigo-700"
-                  >
-                    Subscribe
-                  </button>
-                </div>
-              </form>
-            </div>
-          </div>
-          <div className="mt-12 border-t border-gray-200 pt-8 md:flex md:items-center md:justify-between lg:mt-16">
-            <div className="flex space-x-6 md:order-2">
-              {footerNavigation.social.map((item) => (
-                <a
-                  key={item.name}
-                  href={item.href}
-                  className="text-gray-400 hover:text-gray-500"
+          <div className="flex flex-wrap -mx-4 -mt-4 -mb-10 space-y-6 sm:-m-4 md:space-y-0">
+            <div className="flex p-4 lg:w-1/3 ">
+              <div className="inline-flex items-center justify-center flex-shrink-0 w-12 h-12 mb-4 text-black rounded-full bg-blueGray-200">
+                <svg
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  className="w-6 h-6"
+                  viewBox="0 0 24 24"
                 >
-                  <span className="sr-only">{item.name}</span>
-                  <item.icon className="h-6 w-6" aria-hidden="true" />
-                </a>
-              ))}
+                  <path d="M22 12h-4l-3 9L9 3l-3 9H2"></path>
+                </svg>
+              </div>
+              <div className="flex-grow pl-6">
+                <h1 className="mb-2 font-serif text-2xl font-semibold text-blueGray-900 dark:text-white ">
+                  Work Timer
+                </h1>
+                <p className="text-lg leading-snug tracking-tight text-blueGray-500 dark:text-blueGray-300">
+                  Do more meaningful work by dividing your time into intervals
+                  and by taking regular breaks to get more work or studying
+                  done. .
+                </p>
+              </div>
             </div>
-            <p className="mt-8 text-base text-gray-400 md:mt-0 md:order-1">
-              &copy; 2020 Workflow, Inc. All rights reserved.
-            </p>
+            <div className="flex p-4 lg:w-1/3 ">
+              <div className="inline-flex items-center justify-center flex-shrink-0 w-12 h-12 mb-4 text-black rounded-full bg-blueGray-200">
+                <svg
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  className="w-6 h-6"
+                  viewBox="0 0 24 24"
+                >
+                  <circle cx="6" cy="6" r="3"></circle>
+                  <circle cx="6" cy="18" r="3"></circle>
+                  <path d="M20 4L8.12 15.88M14.47 14.48L20 20M8.12 8.12L12 12"></path>
+                </svg>
+              </div>
+              <div className="flex-grow pl-6">
+                <h1 className="mb-2 font-serif text-2xl font-semibold text-blueGray-900 dark:text-white ">
+                  Website Blocker
+                </h1>
+                <p className="text-lg leading-snug tracking-tight text-blueGray-500 dark:text-blueGray-300">
+                  Block Websites that distract and make you unproductive. Adding
+                  sites to the block list will block sites when the work timer
+                  is on.
+                </p>
+              </div>
+            </div>
+            <div className="flex p-4 lg:w-1/3 ">
+              <div className="inline-flex items-center justify-center flex-shrink-0 w-12 h-12 mb-4 text-black rounded-full bg-blueGray-200">
+                <svg
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  className="w-6 h-6"
+                  viewBox="0 0 24 24"
+                >
+                  <path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"></path>
+                  <circle cx="12" cy="7" r="4"></circle>
+                </svg>
+              </div>
+              <div className="flex-grow pl-6">
+                <h1 className="mb-2 font-serif text-2xl font-semibold text-blueGray-900 dark:text-white ">
+                  Gamification
+                </h1>
+                <p className="text-lg leading-snug tracking-tight text-blueGray-500 dark:text-blueGray-300">
+                  App introduces a point-based reward system to make work a bit
+                  more fun and also remind you every action has a price.
+                </p>
+              </div>
+            </div>
           </div>
         </div>
-      </footer>
+      </section>
+      <section className="body-font">
+        <div className="container items-center px-5 py-24 mx-auto lg:px-24 ">
+          <div className="flex flex-col w-full mb-6 text-left lg:text-center">
+            <h1 className="mb-6 font-serif text-4xl font-bold tracking-tighter text-blue-1000 dark:text-blueGray-300 md:text-8xl lg:text-6xl ">
+              Designed to make you
+              <br className="hidden lg:block" />
+              look great in every screen.
+            </h1>
+            <p className="mx-auto text-lg leading-snug text-blueGray-500 dark:text-blueGray-300 lg:w-1/2">
+              Tailwind CSS templates with a wicked design.{" "}
+            </p>
+          </div>
+          <div className="flex flex-wrap items-center w-full pt-20 mx-auto">
+            <div className="lg:w-3/5 md:w-1/2 md:pr-20 md:p-6">
+              <div className="relative flex pb-12">
+                <div className="absolute inset-0 flex items-center justify-center w-10 h-full">
+                  <div className="w-1 h-full bg-black pointer-events-none"></div>
+                </div>
+                <div className="relative z-10 inline-flex items-center justify-center flex-shrink-0 w-10 h-10 text-black rounded-full bg-blueGray-200">
+                  1
+                </div>
+                <div className="flex-grow pl-4 lg:pl-10">
+                  <h1 className="mb-2 font-serif text-2xl font-semibold text-blueGray-900 dark:text-white ">
+                    Auto Block
+                  </h1>
+                  <p className="w-full text-lg leading-snug text-blueGray-500 dark:text-blueGray-300 ">
+                    Automatically block websites based on the amount of time you
+                    spend on them.
+                  </p>
+                </div>
+              </div>
+              <div className="relative flex pb-12">
+                <div className="absolute inset-0 flex items-center justify-center w-10 h-full">
+                  <div className="w-1 h-full bg-black pointer-events-none"></div>
+                </div>
+                <div className="relative z-10 inline-flex items-center justify-center flex-shrink-0 w-10 h-10 text-black rounded-full bg-blueGray-200">
+                  2
+                </div>
+                <div className="flex-grow pl-4 lg:pl-10">
+                  <h1 className="mb-2 font-serif text-2xl font-semibold text-blueGray-900 dark:text-white ">
+                    Insights
+                  </h1>
+                  <p className="w-full text-lg leading-snug text-blueGray-500 dark:text-blueGray-300 ">
+                    Learn about how you spend your time on websites
+                  </p>
+                </div>
+              </div>
+              <div className="relative flex pb-12">
+                <div className="relative z-10 inline-flex items-center justify-center flex-shrink-0 w-10 h-10 text-black rounded-full bg-blueGray-200">
+                  3
+                </div>
+                <div className="flex-grow pl-4 lg:pl-10">
+                  <h1 className="mb-2 font-serif text-2xl font-semibold text-blueGray-900 dark:text-white ">
+                    Hard Mode
+                  </h1>
+                  <p className="w-full text-lg leading-snug text-blueGray-500 dark:text-blueGray-300 ">
+                    Take the challenge up a notch with Hard Mode
+                  </p>
+                </div>
+              </div>
+            </div>
+            <img
+              className="h-auto p-20 mt-12 rounded-lg lg:w-2/5 md:w-1/2 md:mt-0"
+              src="./MockupBlack.png"
+              alt="step"
+            />
+          </div>
+        </div>
+      </section>
     </div>
   );
 }
 
 export async function getServerSideProps(ctx) {
-  const cookie = get(ctx, "req.headers.cookie", null);
-  if (cookie) {
-    const isAuthenticated = await checkIfAuthenticated(cookie);
-    if (isAuthenticated) {
-      return {
-        redirect: {
-          destination: "/reading-list",
-          permanent: false,
-        },
-      };
-    }
-  } else {
-    return {
-      props: {},
-    };
-  }
+  // const cookie = get(ctx, "req.headers.cookie", null);
+  // if (cookie) {
+  //   const isAuthenticated = await checkIfAuthenticated(cookie);
+  //   if (isAuthenticated) {
+  //     return {
+  //       redirect: {
+  //         destination: "/reading-list",
+  //         permanent: false,
+  //       },
+  //     };
+  //   }
+  // } else {
+  //   return {
+  //     props: {},
+  //   };
+  // }
+  return {
+    props: {},
+  };
 }
