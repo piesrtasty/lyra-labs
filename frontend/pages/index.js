@@ -194,6 +194,45 @@ function classNames(...classes) {
 export default function Example() {
   return (
     <div className="text-black transition-colors duration-1000 bg-white dark:bg-black">
+      <div className="fixed z-50 w-full bg-white border-b dark:bg-gray-700 border-blueGray-200 dark:border-blueGray-800 lg:px-20">
+        <div
+          x-data="{ open: false }"
+          className="flex flex-col max-w-screen-xl mx-auto md:items-center md:justify-between md:flex-row md:px-6 lg:px-8"
+        >
+          <div className="flex flex-row items-center justify-between p-4 ">
+            {/* {{>logo }} */}
+            Logo
+            {/* Mobile  */}
+            {/* {{>mobileBurger }} */}
+          </div>
+          <nav className="flex-col flex-grow hidden px-5 pb-4 md:pb-0 md:flex md:justify-end md:flex-row">
+            <a
+              className="items-center py-3 mt-2 text-base font-normal tracking-tight transition duration-500 ease-in-out transform text-blue-1000 dark:text-blueGray-300 lg:mx-8 md:mt-0 md:mr-4 hover:text-lightBlue-400"
+              href="./index-saas.html"
+            >
+              SAAS Version
+            </a>
+            <a
+              className="items-center py-3 mt-2 text-base font-normal tracking-tight transition duration-500 ease-in-out transform text-blue-1000 dark:text-blueGray-300 lg:mx-8 md:mt-0 md:mr-4 hover:text-lightBlue-400"
+              href="#features"
+            >
+              Features
+            </a>
+            <a
+              className="items-center py-3 mt-2 text-base font-normal tracking-tight transition duration-500 ease-in-out transform text-blue-1000 dark:text-blueGray-300 lg:mx-8 md:mt-0 md:mr-4 hover:text-lightBlue-500"
+              href="#reviews"
+            >
+              Reiviews
+            </a>
+            <a
+              className="items-center py-3 mt-2 text-base font-normal tracking-tight transition duration-500 ease-in-out transform text-blue-1000 dark:text-blueGray-300 lg:mx-8 md:mt-0 md:ml-4 hover:text-lightBlue-500"
+              href="#faq"
+            >
+              Faq
+            </a>
+          </nav>
+        </div>
+      </div>
       <section className="h-screen bg-center body-font bg-patternTop ">
         <div className="container px-8 pt-32 pb-24 mx-auto lg:px-4 ">
           <div className="flex flex-col w-full mb-12 text-left lg:text-center">
@@ -201,9 +240,9 @@ export default function Example() {
               a great header right here
             </h2>
             <h1 className="mb-6 font-serif text-4xl font-bold tracking-tighter text-blue-1000 dark:text-blueGray-300 md:text-8xl lg:text-6xl ">
-              A Long headline
+              Save content
               <br className="hidden lg:block" />
-              to convey your users.
+              you'll actually read later.
             </h1>
             <p className="mx-auto text-lg leading-snug text-blueGray-500 dark:text-blueGray-300 lg:w-1/2">
               Tailwind CSS templates with a wicked design. Professionally
@@ -227,43 +266,6 @@ export default function Example() {
                   Learn More
                 </a>
               </div>
-              {/* <button className="inline-flex items-center px-5 py-3 mt-2 text-white transition-all duration-500 ease-in-out transform bg-black border border-gray-900 rounded-lg focus:ring-2 ring-offset-current ring-offset-2 hover:bg-gray-900 focus:outline-none">
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  fill="currentColor"
-                  className="w-6 h-6"
-                  viewBox="0 0 512 512"
-                >
-                  <path d="M99.617 8.057a50.191 50.191 0 00-38.815-6.713l230.932 230.933 74.846-74.846L99.617 8.057zM32.139 20.116c-6.441 8.563-10.148 19.077-10.148 30.199v411.358c0 11.123 3.708 21.636 10.148 30.199l235.877-235.877L32.139 20.116zM464.261 212.087l-67.266-37.637-81.544 81.544 81.548 81.548 67.273-37.64c16.117-9.03 25.738-25.442 25.738-43.908s-9.621-34.877-25.749-43.907zM291.733 279.711L60.815 510.629c3.786.891 7.639 1.371 11.492 1.371a50.275 50.275 0 0027.31-8.07l266.965-149.372-74.849-74.847z"></path>
-                </svg>
-                <span className="flex flex-col items-start ml-4 leading-none">
-                  <span className="mb-1 text-xs text-blueGray-400">
-                    GET IT ON
-                  </span>
-                  <span className="font-medium text-white title-font">
-                    Google Play
-                  </span>
-                </span>
-              </button> */}
-              {/* <button className="inline-flex items-center px-5 py-3 mt-2 text-white transition-all duration-500 ease-in-out transform bg-black border border-gray-900 rounded-lg md:ml-4 focus:ring-2 ring-offset-current ring-offset-2 hover:bg-gray-900 focus:outline-none">
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  fill="currentColor"
-                  className="w-6 h-6"
-                  viewBox="0 0 305 305"
-                >
-                  <path d="M40.74 112.12c-25.79 44.74-9.4 112.65 19.12 153.82C74.09 286.52 88.5 305 108.24 305c.37 0 .74 0 1.13-.02 9.27-.37 15.97-3.23 22.45-5.99 7.27-3.1 14.8-6.3 26.6-6.3 11.22 0 18.39 3.1 25.31 6.1 6.83 2.95 13.87 6 24.26 5.81 22.23-.41 35.88-20.35 47.92-37.94a168.18 168.18 0 0021-43l.09-.28a2.5 2.5 0 00-1.33-3.06l-.18-.08c-3.92-1.6-38.26-16.84-38.62-58.36-.34-33.74 25.76-51.6 31-54.84l.24-.15a2.5 2.5 0 00.7-3.51c-18-26.37-45.62-30.34-56.73-30.82a50.04 50.04 0 00-4.95-.24c-13.06 0-25.56 4.93-35.61 8.9-6.94 2.73-12.93 5.09-17.06 5.09-4.64 0-10.67-2.4-17.65-5.16-9.33-3.7-19.9-7.9-31.1-7.9l-.79.01c-26.03.38-50.62 15.27-64.18 38.86z"></path>
-                  <path d="M212.1 0c-15.76.64-34.67 10.35-45.97 23.58-9.6 11.13-19 29.68-16.52 48.38a2.5 2.5 0 002.29 2.17c1.06.08 2.15.12 3.23.12 15.41 0 32.04-8.52 43.4-22.25 11.94-14.5 17.99-33.1 16.16-49.77A2.52 2.52 0 00212.1 0z"></path>
-                </svg>
-                <span className="flex flex-col items-start ml-4 leading-none">
-                  <span className="mb-1 text-xs text-blueGray-400">
-                    Download on the
-                  </span>
-                  <span className="font-medium text-white title-font">
-                    App Store
-                  </span>
-                </span>
-              </button> */}
             </div>
           </div>
         </div>
@@ -272,11 +274,14 @@ export default function Example() {
       <section className="text-gray-700 body-font bg-patternBottom">
         <div className="container flex flex-col items-center px-5 py-16 mx-auto lg:px-24 lg:py-24 md:flex-row">
           <div className="mx-auto mb-10 md:mb-0">
-            <img
-              className="object-cover object-center mx-auto rounded md:mt-44 lg:-mt-44"
-              alt="hero"
-              src="./Mockup.png"
-            />
+            <div className="rounded-lg shadow-xl ring-1 ring-black ring-opacity-5 sm:-mt-72 md:mt-0 lg:-mt-72">
+              <img className="" alt="hero" src="./browser-frame-dark.svg" />
+              <img
+                className="rounded-b-lg"
+                alt="hero"
+                src="./browser-mockup.png"
+              />
+            </div>
           </div>
         </div>
       </section>
@@ -446,6 +451,169 @@ export default function Example() {
           </div>
         </div>
       </section>
+      <section
+        className="border-t border-b body-font border-blueGray-300 dark:border-blueGray-800"
+        id="faq"
+      >
+        <div className="container flex flex-wrap px-5 py-24 mx-auto lg:px-20">
+          <div className="flex flex-col w-full mb-12 text-center">
+            <h1 className="mb-6 font-serif text-4xl font-bold tracking-tighter text-blue-1000 dark:text-blueGray-300 md:text-8xl lg:text-6xl ">
+              FAQ
+            </h1>
+            <p className="mx-auto text-lg leading-snug text-blueGray-500 dark:text-blueGray-300 lg:w-1/2">
+              The solution to your anserws.{" "}
+            </p>
+          </div>
+          <div className="mx-auto -my-10 divide-y-2 divide-blueGray-900 lg:w-1/2">
+            <div className="flex flex-wrap py-8 md:flex-nowrap">
+              <div className="md:flex-grow">
+                <h2 className="mb-3 text-2xl font-normal tracking-tighter text-blueGray-700 dark:text-blueGray-300">
+                  <p className="leading-relaxed ext-base text-blueGray-600 dark:text-blueGray-300">
+                    By now, you've signed up, paid your first bill, and received
+                    your welcome kit (yay!). If you read your welcome booklet,
+                    you know there are tons of perks to being a member. You'll
+                    want to take a few extra steps, if you haven't already, to
+                    take advantage of them. You've got powerful tools, free
+                    services, and rewards waiting for you. Let's get you set up.
+                  </p>
+                </h2>
+              </div>
+            </div>
+            <div className="flex flex-wrap py-8 md:flex-nowrap">
+              <div className="md:flex-grow">
+                <h2 className="mb-3 text-2xl font-normal tracking-tighter text-blueGray-700 dark:text-blueGray-300">
+                  1. Activate your account
+                </h2>
+                <p className="mb-4 leading-relaxed ext-base text-blueGray-500 dark:text-blueGray-300">
+                  With an account you can easily talk to doctors for $0, get
+                  prescription refills, find in-network care, pay your bill,
+                  message with your dedicated Care Team, view your digital ID
+                  card, and more! Click here to activate your account.
+                </p>
+              </div>
+            </div>
+            <div className="flex flex-wrap py-8 md:flex-nowrap">
+              <div className="md:flex-grow">
+                <h2 className="mb-3 text-2xl font-normal tracking-tighter text-blueGray-700 dark:text-blueGray-300">
+                  2. Download the app
+                </h2>
+                <p className="leading-relaxed ext-base text-blueGray-500 dark:text-blueGray-300">
+                  The App for iPhone and Android has everything you need to
+                  manage your health this year. Want to talk to a doctor at 3am?
+                  Just request a call through Virtual Urgent Care in the app and
+                  you'll be on the phone with a doctor or provider, in as little
+                  as 15 minutes.
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+      <footer className="text-blueGray-600 body-font">
+        <div className="container flex flex-col items-center px-5 py-8 mx-auto sm:flex-row lg:px-24">
+          <a
+            href="https://www.wickedtemplates.com/"
+            className="flex items-center justify-center font-medium text-blueGray-900 title-font md:justify-start "
+          >
+            {/* {{> logo }} */}
+            Logo Here
+          </a>
+          <p className="mt-4 text-sm text-blueGray-500 sm:ml-4 sm:pl-4 sm:border-l-2 sm:border-blueGray-200 sm:py-2 sm:mt-0">
+            © 2020
+            <a
+              href="https://twitter.com/wickedtemplates"
+              className="ml-1 text-blueGray-600 hover:text-blue-500"
+              rel="noopener noreferrer"
+              target="_blank"
+            >
+              @wickedtemplates
+            </a>
+          </p>
+          <span className="inline-flex items-center justify-start gap-2 mt-4 lg:mt-0">
+            <p className="mt-4 text-sm text-blueGray-500 sm:ml-4 sm:pl-4 sm:py-2 sm:mt-0 hover:text-blue-500">
+              <a
+                href="https://www.wickedtemplates.com/templates.html"
+                rel="noopener noreferrer"
+              >
+                Templates
+              </a>
+            </p>
+            <p className="mt-4 text-sm text-blueGray-500 sm:ml-4 sm:pl-4 sm:py-2 sm:mt-0 hover:text-blue-500">
+              <a
+                href="https://www.wickedtemplates.com/demos.html"
+                rel="noopener noreferrer"
+              >
+                Freebies
+              </a>
+            </p>
+            <p className="mt-4 text-sm text-blueGray-500 sm:ml-4 sm:pl-4 sm:py-2 sm:mt-0 hover:text-blue-500">
+              <a
+                href="https://www.wickedtemplates.com/pricing.html"
+                rel="noopener noreferrer"
+              >
+                Pricing
+              </a>
+            </p>
+          </span>
+          <span className="inline-flex justify-center mt-4 sm:ml-auto sm:mt-0 sm:justify-start">
+            <a className="text-blueGray-500">
+              <svg
+                fill="currentColor"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                className="w-5 h-5"
+                viewBox="0 0 24 24"
+              >
+                <path d="M18 2h-3a5 5 0 00-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 011-1h3z"></path>
+              </svg>
+            </a>
+            <a className="ml-3 text-blueGray-500">
+              <svg
+                fill="currentColor"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                className="w-5 h-5"
+                viewBox="0 0 24 24"
+              >
+                <path d="M23 3a10.9 10.9 0 01-3.14 1.53 4.48 4.48 0 00-7.86 3v1A10.66 10.66 0 013 4s-4 9 5 13a11.64 11.64 0 01-7 2c9 5 20 0 20-11.5a4.5 4.5 0 00-.08-.83A7.72 7.72 0 0023 3z"></path>
+              </svg>
+            </a>
+            <a className="ml-3 text-blueGray-500">
+              <svg
+                fill="none"
+                stroke="currentColor"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                className="w-5 h-5"
+                viewBox="0 0 24 24"
+              >
+                <rect width="20" height="20" x="2" y="2" rx="5" ry="5"></rect>
+                <path d="M16 11.37A4 4 0 1112.63 8 4 4 0 0116 11.37zm1.5-4.87h.01"></path>
+              </svg>
+            </a>
+            <a className="ml-3 text-blueGray-500">
+              <svg
+                fill="currentColor"
+                stroke="currentColor"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="0"
+                className="w-5 h-5"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  stroke="none"
+                  d="M16 8a6 6 0 016 6v7h-4v-7a2 2 0 00-2-2 2 2 0 00-2 2v7h-4v-7a6 6 0 016-6zM2 9h4v12H2z"
+                ></path>
+                <circle cx="4" cy="4" r="2" stroke="none"></circle>
+              </svg>
+            </a>
+          </span>
+        </div>
+      </footer>
     </div>
   );
 }
