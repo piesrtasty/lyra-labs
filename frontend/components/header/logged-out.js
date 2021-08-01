@@ -32,15 +32,15 @@ const LoggedOutHeader = () => {
 
   return (
     <header>
-      <Popover className="relative bg-white">
+      <Popover className="fixed z-50 w-full bg-white border-b dark:bg-gray-700 border-blueGray-200 dark:border-blueGray-800 lg:px-20">
         {({ open }) => (
           <>
-            <div className="flex justify-between items-center max-w-7xl mx-auto px-4 py-4 sm:px-4 md:justify-start md:space-x-10 lg:px-8">
+            <div className="flex justify-between items-center max-w-7xl mx-auto px-4 sm:px-4 md:justify-start md:space-x-10 lg:px-8">
               <div className="flex justify-start lg:w-0 lg:flex-1">
                 <a href="#">
                   <span className="sr-only">Lyra Labs</span>
                   <img
-                    className="h-8 w-auto sm:h-10"
+                    className="h-14 w-auto"
                     src="/wordmark-logo-light.svg"
                     alt="Lyra Labs Wordmark"
                   />
@@ -52,32 +52,32 @@ const LoggedOutHeader = () => {
                   <MenuIcon className="h-6 w-6" aria-hidden="true" />
                 </Popover.Button>
               </div>
-              <Popover.Group as="nav" className="hidden md:flex space-x-10">
+              <nav className="flex-col hidden px-5 pb-4 md:pb-0 md:flex md:justify-end md:flex-row">
                 <a
-                  href="#"
-                  className="text-base font-medium text-gray-500 hover:text-gray-900"
+                  className="items-center mt-2 text-base font-normal tracking-tight transition duration-500 ease-in-out transform text-blue-1000 dark:text-blueGray-300 lg:mx-8 md:mt-0 md:mr-4 hover:text-lightBlue-400"
+                  href="./index-saas.html"
                 >
-                  Get the App
+                  SAAS Version
                 </a>
-              </Popover.Group>
-              <div className="hidden md:flex items-center justify-end md:flex-1 lg:w-0">
-                <Link href={"/login"} passHref>
-                  <a
-                    href="#"
-                    className="whitespace-nowrap text-base font-medium text-gray-500 hover:text-gray-900"
-                  >
-                    Sign in
-                  </a>
-                </Link>
-                <Link href={"/signup"} passHref>
-                  <a
-                    href="#"
-                    className="ml-8 whitespace-nowrap inline-flex items-center justify-center px-4 py-2 border border-transparent rounded-md shadow-sm text-base font-medium text-white bg-gradient-to-r from-purple-600 to-indigo-600 hover:from-purple-700 hover:to-indigo-700"
-                  >
-                    Sign up
-                  </a>
-                </Link>
-              </div>
+                <a
+                  className="items-center mt-2 text-base font-normal tracking-tight transition duration-500 ease-in-out transform text-blue-1000 dark:text-blueGray-300 lg:mx-8 md:mt-0 md:mr-4 hover:text-lightBlue-400"
+                  href="#features"
+                >
+                  Features
+                </a>
+                <a
+                  className="items-center mt-2 text-base font-normal tracking-tight transition duration-500 ease-in-out transform text-blue-1000 dark:text-blueGray-300 lg:mx-8 md:mt-0 md:mr-4 hover:text-lightBlue-500"
+                  href="#reviews"
+                >
+                  Reiviews
+                </a>
+                <a
+                  className="items-center mt-2 text-base font-normal tracking-tight transition duration-500 ease-in-out transform text-blue-1000 dark:text-blueGray-300 lg:mx-8 md:mt-0 md:ml-4 hover:text-lightBlue-500"
+                  href="#faq"
+                >
+                  Faq
+                </a>
+              </nav>
             </div>
 
             <Transition
@@ -100,7 +100,7 @@ const LoggedOutHeader = () => {
                     <div className="flex items-center justify-between">
                       <div>
                         <img
-                          className="h-8 w-auto"
+                          className="h-14 w-auto"
                           src="/wordmark-logo-light.svg"
                           alt="Lyra Labs Wordmark"
                         />
