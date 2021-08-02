@@ -11,7 +11,7 @@ const IndexPage = () => {
 
   return (
     <Page>
-      <AuxiliaryPanelHeaderLarge>Discovery Feed</AuxiliaryPanelHeaderLarge>
+      <AuxiliaryPanelHeaderLarge>Discovery Feed!</AuxiliaryPanelHeaderLarge>
       <Feed currentUser={currentUser} />
     </Page>
   );
