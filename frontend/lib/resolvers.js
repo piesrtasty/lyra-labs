@@ -233,7 +233,7 @@ export const Mutation = objectType({
           title,
           url,
         } = post;
-        return await prisma.post.create({
+        return await ctx.prisma.post.create({
           data: {
             submitter: { connect: { id: currentUser.id } },
             author,

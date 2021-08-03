@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Linking, Pressable } from "react-native";
+import { Linking, Pressable, Alert } from "react-native";
 import { useMutation } from "@apollo/client";
 import { useTheme } from "@emotion/react";
 import Share from "react-native-share";
@@ -144,8 +144,16 @@ const Post = ({ post, postType = POST_TYPE_DEFAULT }) => {
           setIsSaved(true);
           const newSavedPostId = data.saveExistingPost.id;
           setSavedId(newSavedPostId);
+          Alert.alert("Saved Post", "You successfully saved this post!", [
+            { text: "OK", onPress: () => {} },
+          ]);
         })
-        .catch((e) => console.log("e", e));
+        .catch((e) => {
+          console.log("e", e);
+          Alert.alert("Failed to save post", "Please try again later.", [
+            { text: "OK", onPress: () => {} },
+          ]);
+        });
     }
   };
 

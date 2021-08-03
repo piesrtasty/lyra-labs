@@ -62,7 +62,6 @@ export const withMagicAuth = (Component) => {
 
           const headers = resp.headers.map;
           const cookieHeader = headers["set-cookie"];
-          debugger;
           if (cookieHeader) {
             await Keychain.setGenericPassword(
               MAGIC_AUTH_COOKIE_KEY,
