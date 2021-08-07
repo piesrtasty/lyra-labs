@@ -21,46 +21,6 @@ import {
 import { ChevronDownIcon } from "@heroicons/react/solid";
 import { checkIfAuthenticated } from "../shared/utils";
 
-const features = [
-  {
-    name: "Unlimited Inboxes",
-    description:
-      "Ac tincidunt sapien vehicula erat auctor pellentesque rhoncus. Et magna sit morbi lobortis.",
-    icon: InboxIcon,
-  },
-
-  {
-    name: "Compose in Markdown",
-    description:
-      "Ac tincidunt sapien vehicula erat auctor pellentesque rhoncus. Et magna sit morbi lobortis.",
-    icon: PencilAltIcon,
-  },
-  {
-    name: "Team Reporting",
-    description:
-      "Ac tincidunt sapien vehicula erat auctor pellentesque rhoncus. Et magna sit morbi lobortis.",
-    icon: DocumentReportIcon,
-  },
-  {
-    name: "Saved Replies",
-    description:
-      "Ac tincidunt sapien vehicula erat auctor pellentesque rhoncus. Et magna sit morbi lobortis.",
-    icon: ReplyIcon,
-  },
-  {
-    name: "Email Commenting",
-    description:
-      "Ac tincidunt sapien vehicula erat auctor pellentesque rhoncus. Et magna sit morbi lobortis.",
-    icon: ChatAltIcon,
-  },
-  {
-    name: "Connect with Customers",
-    description:
-      "Ac tincidunt sapien vehicula erat auctor pellentesque rhoncus. Et magna sit morbi lobortis.",
-    icon: HeartIcon,
-  },
-];
-
 function classNames(...classes) {
   return classes.filter(Boolean).join(" ");
 }
@@ -68,7 +28,6 @@ function classNames(...classes) {
 export default function Example() {
   return (
     <div className="text-black transition-colors duration-1000 bg-white dark:bg-black">
-      {/* <LoggedOutHeader /> */}
       <div className="fixed z-50 w-full bg-white border-b dark:bg-gray-700 border-blueGray-200 dark:border-blueGray-800 lg:px-20">
         <div
           x-data="{ open: false }"
@@ -81,29 +40,31 @@ export default function Example() {
               alt="Workfl     ow"
             />
           </div>
-          <nav className="flex-col flex-grow hidden px-5 pb-4 md:pb-0 md:flex md:justify-end md:flex-row">
+          <nav className="flex-row items-center flex-grow hidden px-5 pb-4 md:pb-0 md:flex md:justify-end md:flex-row">
             <a
-              className="items-center py-3 mt-2 text-base font-normal tracking-tight transition duration-500 ease-in-out transform text-blue-1000 dark:text-blueGray-300 lg:mx-8 md:mt-0 md:mr-4 hover:text-lightBlue-400"
+              className="items-center py-3 hover:underline text-base font-normal tracking-tight transition duration-500 ease-in-out transform text-blue-1000 dark:text-blueGray-300 lg:mx-8 md:mt-0 md:mr-4 hover:text-lightBlue-400"
               href="#features"
             >
               Features
             </a>
 
             <a
-              className="items-center py-3 mt-2 text-base font-normal tracking-tight transition duration-500 ease-in-out transform text-blue-1000 dark:text-blueGray-300 lg:mx-8 md:mt-0 md:ml-4 hover:text-lightBlue-500"
+              className="items-center hover:underline py-3 text-base font-normal tracking-tight transition duration-500 ease-in-out transform text-blue-1000 dark:text-blueGray-300 lg:mx-8 md:mt-0 md:mr-4 hover:text-lightBlue-400"
               href="#faq"
             >
               FAQ
             </a>
+
             <a
-              className="items-center py-3 mt-2 text-base font-normal tracking-tight transition duration-500 ease-in-out transform text-blue-1000 dark:text-blueGray-300 lg:mx-8 md:mt-0 md:mr-4 hover:text-lightBlue-500"
+              className="items-center hover:underline py-3 text-base font-normal tracking-tight transition duration-500 ease-in-out transform text-blue-1000 dark:text-blueGray-300 lg:mx-8 md:mt-0 md:mr-4 hover:text-lightBlue-500"
               href="#reviews"
             >
               Sign In
             </a>
+
             <a
               href="#"
-              class="inline-flex items-center px-4 py-1 mr-4 text-white transition-all duration-500 ease-in-out transform bg-black border-2 border-black hover:text-white md:mb-2 lg:mb-0 rounded-xl hover:border-white hover:bg-blueGray-500 focus:ring-2 ring-offset-current ring-offset-2 dark:border-blueGray-300 dark:bg-blueGray-300 dark:hover:bg-white dark:hover:text-black dark:text-black"
+              className="inline-flex items-center px-4 py-2 text-white transition-all duration-500 ease-in-out transform bg-black border-2 border-black hover:text-white lg:mb-0 md:ml-4 rounded-xl hover:border-white hover:bg-blueGray-500 focus:ring-2 ring-offset-current ring-offset-2 dark:border-blueGray-300 dark:bg-blueGray-300 dark:hover:bg-white dark:hover:text-black dark:text-black"
             >
               Get started
             </a>
@@ -114,7 +75,7 @@ export default function Example() {
         <div className="container px-8 pt-32 pb-24 mx-auto lg:px-4 ">
           <div className="flex flex-col w-full mb-12 text-left lg:text-center">
             <h2 className="mb-1 text-xs font-semibold tracking-widest uppercase text-blueGray-500 ">
-              A Web 3 Bookmarking Protocol
+              A Web 3 Content Protocol
             </h2>
             <h1 className="mb-6 font-serif text-4xl font-bold tracking-tighter text-blue-1000 dark:text-blueGray-300 md:text-8xl lg:text-6xl ">
               Save content
@@ -122,9 +83,9 @@ export default function Example() {
               you'll actually read later.
             </h1>
             <p className="mx-auto text-lg leading-snug text-blueGray-500 dark:text-blueGray-300 lg:w-1/2">
-              Tailwind CSS templates with a wicked design. Professionally
-              designed and 100% responsive static templates for startups and
-              personal use.{" "}
+              Through a decentralized, user-owned, content protocol, Lyra Labs
+              lets users monetize their interests, and revolutionizes the way we
+              consume, discover, and share content.
             </p>
           </div>
           <div className="flex lg:justify-center">
@@ -132,13 +93,19 @@ export default function Example() {
               <div class="flex lg:justify-center">
                 <a
                   href="#"
-                  class="inline-flex items-center px-8 py-2 mr-4 text-white transition-all duration-500 ease-in-out transform bg-black border-2 border-black hover:text-white md:mb-2 lg:mb-0 rounded-xl hover:border-white hover:bg-blueGray-500 focus:ring-2 ring-offset-current ring-offset-2 dark:border-blueGray-300 dark:bg-blueGray-300 dark:hover:bg-white dark:hover:text-black dark:text-black"
+                  class="inline-flex items-center px-8 py-2 mr-4 text-white transition-all duration-500 ease-in-out transform bg-purple border-2 border-purple hover:text-white md:mb-2 lg:mb-0 rounded-xl hover:border-white hover:bg-blueGray-500 focus:ring-2 ring-offset-current ring-offset-2 dark:border-blueGray-300 dark:bg-blueGray-300 dark:hover:bg-white dark:hover:text-black dark:text-black"
                 >
                   Register{" "}
                 </a>
-                <a
-                  href="#"
+                {/* <a
+                  href="#faq"
                   class="inline-flex items-center px-8 py-2 ml-4 mr-4 text-black transition-all duration-500 ease-in-out transform dark:text-blueGray-300 hover:text-blueGray-700 md:mb-2 lg:mb-0 rounded-xl focus:ring-2 ring-offset-current ring-offset-2"
+                >
+                  Learn More
+                </a> */}
+                <a
+                  href="#faq"
+                  class="inline-flex items-center hover:underline px-8 py-2 ml-4 mr-4 text-black transition-all duration-500 ease-in-out transform dark:text-blueGray-300 hover:text-blueGray-700 md:mb-2 lg:mb-0 rounded-xl focus:ring-2 ring-offset-current ring-offset-2"
                 >
                   Learn More
                 </a>
@@ -170,12 +137,13 @@ export default function Example() {
         <div className="container px-5 py-32 mx-auto lg:px-24 ">
           <div className="flex flex-col w-full mb-20 text-left lg:text-center">
             <h1 className="mb-6 font-serif text-4xl font-bold tracking-tighter text-blue-1000 dark:text-blueGray-300 md:text-8xl lg:text-6xl">
-              Features that allows you
-              <br className="hidden lg:block" />
-              to reach your needs faster.
+              Unlock the value
+              <br className="hidden lg:block" /> of your attention and
+              interests.
             </h1>
             <p className="mx-auto text-lg leading-snug text-blueGray-500 dark:text-blueGray-300 lg:w-1/2">
-              Tailwind CSS templates with a wicked design.{" "}
+              Leverage the power of Web 3 to transform how you interact with
+              content.{" "}
             </p>
           </div>
           <div className="flex flex-wrap -mx-4 -mt-4 -mb-10 space-y-6 sm:-m-4 md:space-y-0">
@@ -195,12 +163,11 @@ export default function Example() {
               </div>
               <div className="flex-grow pl-6">
                 <h1 className="mb-2 font-serif text-2xl font-semibold text-blueGray-900 dark:text-white ">
-                  Work Timer
+                  Community DAO
                 </h1>
                 <p className="text-lg leading-snug tracking-tight text-blueGray-500 dark:text-blueGray-300">
-                  Do more meaningful work by dividing your time into intervals
-                  and by taking regular breaks to get more work or studying
-                  done. .
+                  Shape the future of the platform through protocol governance
+                  by voting with your LYRA tokens.
                 </p>
               </div>
             </div>
@@ -222,12 +189,11 @@ export default function Example() {
               </div>
               <div className="flex-grow pl-6">
                 <h1 className="mb-2 font-serif text-2xl font-semibold text-blueGray-900 dark:text-white ">
-                  Website Blocker
+                  Monetization
                 </h1>
                 <p className="text-lg leading-snug tracking-tight text-blueGray-500 dark:text-blueGray-300">
-                  Block Websites that distract and make you unproductive. Adding
-                  sites to the block list will block sites when the work timer
-                  is on.
+                  Earn rewards and tokens by consuming, sharing, and curating
+                  content.
                 </p>
               </div>
             </div>
@@ -248,11 +214,11 @@ export default function Example() {
               </div>
               <div className="flex-grow pl-6">
                 <h1 className="mb-2 font-serif text-2xl font-semibold text-blueGray-900 dark:text-white ">
-                  Gamification
+                  Discovery
                 </h1>
                 <p className="text-lg leading-snug tracking-tight text-blueGray-500 dark:text-blueGray-300">
-                  App introduces a point-based reward system to make work a bit
-                  more fun and also remind you every action has a price.
+                  See what other cool people are saving and curate someone elses
+                  next favorite thing.
                 </p>
               </div>
             </div>
