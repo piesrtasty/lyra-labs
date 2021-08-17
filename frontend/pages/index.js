@@ -1,4 +1,5 @@
 import { REQUEST_BETA_APP_URL } from "@shared/constants/config";
+import { UserGroupIcon, FireIcon, CashIcon } from "@heroicons/react/outline";
 
 export default function Index() {
   return (
@@ -21,23 +22,24 @@ export default function Index() {
           >
             Get started
           </a> */}
-          <nav className="flex-row items-center flex-grow hidden px-5 pb-4 md:pb-0 md:flex md:justify-end md:flex-row">
+          {/* <nav className="flex-row items-center flex-grow hidden px-5 pb-4 md:pb-0 md:flex md:justify-end md:flex-row"> */}
+          <nav className="flex-row items-center flex-grow px-5 pb-0 flex justify-end flex-row">
             <a
-              className="items-center py-3 hover:underline text-base font-normal tracking-tight transition duration-500 ease-in-out transform text-blue-1000 dark:text-gray-300 lg:mx-8 md:mt-0 md:mr-4 hover:text-lightBlue-400"
+              className="items-center hidden md:flex py-3 hover:underline text-base font-normal tracking-tight transition duration-500 ease-in-out transform text-blue-1000 dark:text-gray-300 lg:mx-8 md:mt-0 md:mr-4 hover:text-lightBlue-400"
               href="#features"
             >
               Features
             </a>
 
             <a
-              className="items-center hover:underline py-3 text-base font-normal tracking-tight transition duration-500 ease-in-out transform text-blue-1000 dark:text-gray-300 lg:mx-8 md:mt-0 md:mr-4 hover:text-lightBlue-400"
+              className="items-center hidden md:flex hover:underline py-3 text-base font-normal tracking-tight transition duration-500 ease-in-out transform text-blue-1000 dark:text-gray-300 lg:mx-8 md:mt-0 md:mr-4 hover:text-lightBlue-400"
               href="#faq"
             >
               FAQ
             </a>
 
             <a
-              className="items-center hover:underline py-3 text-base font-normal tracking-tight transition duration-500 ease-in-out transform text-blue-1000 dark:text-gray-300 lg:mx-8 md:mt-0 md:mr-4 hover:text-lightBlue-500"
+              className="items-center hidden md:flex hover:underline py-3 text-base font-normal tracking-tight transition duration-500 ease-in-out transform text-blue-1000 dark:text-gray-300 lg:mx-8 md:mt-0 md:mr-4 hover:text-lightBlue-500"
               href="#reviews"
             >
               Sign In
@@ -123,22 +125,17 @@ export default function Index() {
           <div className="flex flex-wrap -mx-4 -mt-4 -mb-10 space-y-6 sm:-m-4 md:space-y-0">
             <div className="flex p-4 lg:w-1/3 ">
               <div className="inline-flex items-center justify-center flex-shrink-0 w-12 h-12 mb-4 text-black rounded-full bg-gray-200">
-                <svg
-                  fill="none"
-                  stroke="currentColor"
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                  stroke-width="2"
-                  className="w-6 h-6"
-                  viewBox="0 0 24 24"
-                >
-                  <path d="M22 12h-4l-3 9L9 3l-3 9H2"></path>
-                </svg>
+                <UserGroupIcon className="h-6 w-6" />
               </div>
               <div className="flex-grow pl-6">
-                <h1 className="mb-2 font-serif text-2xl font-semibold text-gray-900 dark:text-white ">
-                  Community DAO
-                </h1>
+                <div className="flex flex-col md:flex-row mb-2 items-start md:items-center">
+                  <h1 className="font-serif text-2xl font-semibold text-gray-900 dark:text-white ">
+                    Community DAO
+                  </h1>
+                  <span className="mt-2 md:mt-0 ml-0 md:ml-2 h-4 inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-violet-100 text-violet-800">
+                    Coming Soon
+                  </span>
+                </div>
                 <p className="text-lg leading-snug tracking-tight text-gray-500 dark:text-gray-300">
                   Shape the future of the platform through protocol governance
                   by voting with your LYRA tokens.
@@ -147,24 +144,17 @@ export default function Index() {
             </div>
             <div className="flex p-4 lg:w-1/3 ">
               <div className="inline-flex items-center justify-center flex-shrink-0 w-12 h-12 mb-4 text-black rounded-full bg-gray-200">
-                <svg
-                  fill="none"
-                  stroke="currentColor"
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                  stroke-width="2"
-                  className="w-6 h-6"
-                  viewBox="0 0 24 24"
-                >
-                  <circle cx="6" cy="6" r="3"></circle>
-                  <circle cx="6" cy="18" r="3"></circle>
-                  <path d="M20 4L8.12 15.88M14.47 14.48L20 20M8.12 8.12L12 12"></path>
-                </svg>
+                <CashIcon className="h-6 w-6" />
               </div>
               <div className="flex-grow pl-6">
-                <h1 className="mb-2 font-serif text-2xl font-semibold text-gray-900 dark:text-white ">
-                  Monetization
-                </h1>
+                <div className="flex flex-col md:flex-row mb-2 items-start md:items-center">
+                  <h1 className="font-serif text-2xl font-semibold text-gray-900 dark:text-white ">
+                    Monetization
+                  </h1>
+                  <span className="mt-2 md:mt-0 ml-0 md:ml-2 h-4 inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-violet-100 text-violet-800">
+                    Coming Soon
+                  </span>
+                </div>
                 <p className="text-lg leading-snug tracking-tight text-gray-500 dark:text-gray-300">
                   Earn rewards and tokens by consuming, sharing, and curating
                   content.
@@ -173,18 +163,7 @@ export default function Index() {
             </div>
             <div className="flex p-4 lg:w-1/3 ">
               <div className="inline-flex items-center justify-center flex-shrink-0 w-12 h-12 mb-4 text-black rounded-full bg-gray-200">
-                <svg
-                  fill="none"
-                  stroke="currentColor"
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                  stroke-width="2"
-                  className="w-6 h-6"
-                  viewBox="0 0 24 24"
-                >
-                  <path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"></path>
-                  <circle cx="12" cy="7" r="4"></circle>
-                </svg>
+                <FireIcon className="h-6 w-6" />
               </div>
               <div className="flex-grow pl-6">
                 <h1 className="mb-2 font-serif text-2xl font-semibold text-gray-900 dark:text-white ">
@@ -251,9 +230,15 @@ export default function Index() {
                   3
                 </div>
                 <div className="flex-grow pl-4 lg:pl-10">
-                  <h1 className="mb-2 font-serif text-2xl font-semibold text-gray-900 dark:text-white ">
-                    Browser Extension
-                  </h1>
+                  <div className="flex flex-col md:flex-row mb-2 items-start md:items-center">
+                    <h1 className="mb-2 font-serif text-2xl font-semibold text-gray-900 dark:text-white ">
+                      Browser Extension
+                    </h1>
+                    <span className="ml-0 md:ml-2 h-4 inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-violet-100 text-violet-800">
+                      Coming Soon
+                    </span>
+                  </div>
+
                   <p className="w-full text-lg leading-snug text-gray-500 dark:text-gray-300 ">
                     Found something great? Save it then and there.
                   </p>

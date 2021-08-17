@@ -1,3 +1,5 @@
+const colors = require("tailwindcss/colors");
+
 module.exports = {
   purge: [],
   darkMode: false, // or 'media' or 'class'
@@ -8,6 +10,7 @@ module.exports = {
         patternBottom: "url('/patternBottom.svg')",
       }),
       colors: {
+        violet: colors.violet,
         purple: "#635bf6",
         "purple-dark": "#4945d3",
       },
