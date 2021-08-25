@@ -21,6 +21,9 @@ module.exports = {
         "75": "75%",
         full: "100%",
       },
+      fontFamily: {
+        serif: "Ricoleta",
+      },
     },
   },
   variants: {

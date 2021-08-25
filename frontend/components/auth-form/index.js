@@ -1,24 +1,28 @@
 import React, { useState, useContext } from "react";
 import Image from "next/image";
+import { useRouter } from "next/router";
 import Link from "next/link";
 import {
   MagicAuthContext,
   LoginModalContext,
   CurrentUserContext,
 } from "@components/layout";
+import router from "next/router";
 
 const AuthForm = ({ isSignup = false }) => {
   const [name, setName] = useState(null);
   const [email, setEmail] = useState(null);
   const { isLoggedIn, signOut, signIn } = useContext(MagicAuthContext);
+  const router = useRouter();
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log("name", name);
-    console.log("email", email);
     signIn(email, name, () => {
-      console.log("sign in callback");
+      if (isSignup) {
+        router.push("/discover");
+      } else {
+        router.push("/reading-list");
+      }
     });
-    // console.log("handling click", MagicAuthContext);
   };
 
   const handleNameChange = (text) => {
@@ -35,8 +39,8 @@ const AuthForm = ({ isSignup = false }) => {
   const ctaText = isSignup ? "Sign up" : "Sign in";
 
   return (
-    <div className="flex flex-col justify-center py-12 sm:px-6 lg:px-8">
-      <div className="sm:mx-auto sm:w-full sm:max-w-md">
+    <div className="flex flex-col items-center justify-center py-12 sm:px-6 lg:px-8">
+      <div className="px-10 sm:mx-auto sm:w-full sm:max-w-md">
         <div className="flex justify-center">
           <Image
             className="mx-auto w-auto"
@@ -46,9 +50,13 @@ const AuthForm = ({ isSignup = false }) => {
             height={128}
           />
         </div>
-        <h2 className="mt-6 text-center text-3xl font-extrabold text-gray-900">
+        {/* <h2 className="mt-6 text-center text-3xl font-extrabold text-gray-900">
           {title}
-        </h2>
+        </h2> */}
+        {/* <h1 className="mt-6 text-center font-serif text-4xl font-bold tracking-tighter text-blue-1000 dark:text-gray-300 md:text-8xl lg:text-6xl "> */}
+        <h1 className="mt-6 text-center font-serif text-4xl font-bold tracking text-blue-1000 dark:text-gray-300">
+          {title}
+        </h1>
         <p className="mt-2 text-center text-sm text-gray-600">
           Or{" "}
           <Link href={navLinkHref} passHref>
@@ -59,8 +67,9 @@ const AuthForm = ({ isSignup = false }) => {
         </p>
       </div>
 
-      <div className="mt-8 sm:mx-auto sm:w-full sm:max-w-md">
-        <div className="bg-white py-8 px-4 shadow sm:rounded-lg sm:px-10">
+      <div className="mt-8 w-full sm:mx-auto sm:w-full sm:max-w-md">
+        {/* <div className="bg-white py-8 px-4 shadow-xl sm:rounded-lg sm:px-10"> */}
+        <div className="px-10">
           <form
             onSubmit={handleSubmit}
             className="space-y-6"
@@ -109,9 +118,15 @@ const AuthForm = ({ isSignup = false }) => {
             </div>
 
             <div>
+              {/* <button
+                type="submit"
+                class="w-full justify-center text-center inline-flex items-center px-8 py-2 mr-4 text-white transition-all duration-500 ease-in-out transform bg-purple border-2 border-purple hover:text-white md:mb-2 lg:mb-0 rounded-xl hover:border-white hover:bg-purple-dark focus:ring-2 ring-offset-current ring-offset-2 dark:border-gray-300 dark:bg-gray-300 dark:hover:bg-white dark:hover:text-black dark:text-black"
+              >
+                {ctaText}
+              </button> */}
               <button
                 type="submit"
-                className="w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+                class="w-full justify-center text-center inline-flex items-center px-8 py-2 mr-4 text-white transition-all duration-500 ease-in-out transform bg-purple border-2 border-purple hover:text-white md:mb-2 lg:mb-0 rounded-xl hover:border-white hover:bg-purple-dark focus:ring-2 ring-offset-current ring-offset-2 dark:border-gray-300 dark:bg-gray-300 dark:hover:bg-white dark:hover:text-black dark:text-black"
               >
                 {ctaText}
               </button>

@@ -8,7 +8,8 @@ import get from "lodash/get";
 import { checkIfAuthenticated } from "../shared/utils";
 import { POST_TYPE_SAVED } from "@shared/constants/post-types";
 
-const ReadingList = () => {
+const ReadingList = (props) => {
+  console.log("props", props);
   return (
     <Page>
       <PostList title="Reading List" postType={POST_TYPE_SAVED} />
@@ -17,8 +18,14 @@ const ReadingList = () => {
 };
 
 export async function getServerSideProps(ctx) {
+  console.log("------------------");
+  console.log("Runnning getServerSideProos");
   const cookie = get(ctx, "req.headers.cookie", null);
-  const isAuthenticated = checkIfAuthenticated();
+  console.log("----------------- cookie -", cookie);
+  console.log("------------------");
+  const isAuthenticated = await checkIfAuthenticated(cookie);
+  console.log("isAuthenticated", isAuthenticated);
+  console.log("------------------");
   // console.log(">>>> GOT HERE <<<", isAuthenticated);
   if (isAuthenticated && cookie) {
     // console.log("ALSO HERE");
@@ -27,9 +34,10 @@ export async function getServerSideProps(ctx) {
       query: SAVED_POSTS,
       // variables: { take: 5 },
     });
-    await apolloClient.query({
+    const user = await apolloClient.query({
       query: CURRENT_USER_QUERY,
     });
+    console.log("user", user);
     return addApolloState(apolloClient, {
       props: { __AUTH_COOKIE__: cookie },
     });

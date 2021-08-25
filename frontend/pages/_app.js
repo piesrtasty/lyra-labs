@@ -6,6 +6,7 @@ import "react-toastify/dist/ReactToastify.css";
 import { useApollo } from "../lib/apollo-client";
 
 import "tailwindcss/tailwind.css";
+import "../styles.css";
 
 toast.configure();
 

@@ -1,4 +1,6 @@
 import { REQUEST_BETA_APP_URL } from "@shared/constants/config";
+import get from "lodash/get";
+import { checkIfAuthenticated } from "../shared/utils";
 import { UserGroupIcon, FireIcon, CashIcon } from "@heroicons/react/outline";
 
 export default function Index() {
@@ -40,13 +42,13 @@ export default function Index() {
 
             <a
               className="items-center hidden md:flex hover:underline py-3 text-base font-normal tracking-tight transition duration-500 ease-in-out transform text-blue-1000 dark:text-gray-300 lg:mx-8 md:mt-0 md:mr-4 hover:text-lightBlue-500"
-              href="#reviews"
+              href="/login"
             >
               Sign In
             </a>
 
             <a
-              href="#"
+              href="/signup"
               className="inline-flex items-center px-4 py-2 text-white transition-all duration-500 ease-in-out transform bg-black border-2 border-black hover:text-white lg:mb-0 md:ml-4 rounded-xl hover:border-white hover:bg-gray-500 focus:ring-2 ring-offset-current ring-offset-2 dark:border-gray-300 dark:bg-gray-300 dark:hover:bg-white dark:hover:text-black dark:text-black"
             >
               Get started
@@ -60,7 +62,8 @@ export default function Index() {
             <h2 className="mb-1 text-xs font-semibold tracking-widest uppercase text-gray-500 ">
               A Web 3 Content Protocol
             </h2>
-            <h1 className="mb-6 font-serif text-4xl font-bold tracking-tighter text-blue-1000 dark:text-gray-300 md:text-8xl lg:text-6xl ">
+            {/* <h1 className="mb-6 font-serif text-4xl font-bold tracking-tighter text-blue-1000 dark:text-gray-300 md:text-8xl lg:text-6xl "> */}
+            <h1 className="mb-6 font-serif text-4xl font-bold tracking-tight text-blue-1000 dark:text-gray-300 md:text-8xl lg:text-6xl ">
               Save content <br className="hidden lg:block" />
               you'll actually read later.
             </h1>
@@ -74,7 +77,7 @@ export default function Index() {
             <div className="flex flex-col mt-4 md:flex-row">
               <div class="flex lg:justify-center">
                 <a
-                  href="#"
+                  href="/signup"
                   class="inline-flex items-center px-8 py-2 mr-4 text-white transition-all duration-500 ease-in-out transform bg-purple border-2 border-purple hover:text-white md:mb-2 lg:mb-0 rounded-xl hover:border-white hover:bg-purple-dark focus:ring-2 ring-offset-current ring-offset-2 dark:border-gray-300 dark:bg-gray-300 dark:hover:bg-white dark:hover:text-black dark:text-black"
                 >
                   Register{" "}
@@ -112,7 +115,7 @@ export default function Index() {
       >
         <div className="container px-5 py-32 mx-auto lg:px-24 ">
           <div className="flex flex-col w-full mb-20 text-left lg:text-center">
-            <h1 className="mb-6 font-serif text-4xl font-bold tracking-tighter text-blue-1000 dark:text-gray-300 md:text-8xl lg:text-6xl">
+            <h1 className="mb-6 font-serif text-4xl font-bold tracking-tight text-blue-1000 dark:text-gray-300 md:text-8xl lg:text-6xl">
               Unlock the value
               <br className="hidden lg:block" /> of your attention and
               interests.
@@ -128,11 +131,11 @@ export default function Index() {
                 <UserGroupIcon className="h-6 w-6" />
               </div>
               <div className="flex-grow pl-6">
-                <div className="flex flex-col md:flex-row mb-2 items-start md:items-center">
-                  <h1 className="font-serif text-2xl font-semibold text-gray-900 dark:text-white ">
+                <div className="flex flex-col md:flex-row lg:flex-col mb-2 items-start md:items-center lg:items-start">
+                  <h1 className="font-serif tracking-normal text-2xl font-semibold text-gray-900 dark:text-white ">
                     Community DAO
                   </h1>
-                  <span className="mt-2 md:mt-0 ml-0 md:ml-2 h-4 inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-violet-100 text-violet-800">
+                  <span className="mt-2 md:mt-0 ml-0 md:ml-2 lg:ml-0 lg:mt-2 h-4 inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-violet-100 text-violet-800">
                     Coming Soon
                   </span>
                 </div>
@@ -147,11 +150,11 @@ export default function Index() {
                 <CashIcon className="h-6 w-6" />
               </div>
               <div className="flex-grow pl-6">
-                <div className="flex flex-col md:flex-row mb-2 items-start md:items-center">
+                <div className="flex flex-col md:flex-row lg:flex-col mb-2 items-start md:items-center lg:items-start">
                   <h1 className="font-serif text-2xl font-semibold text-gray-900 dark:text-white ">
                     Monetization
                   </h1>
-                  <span className="mt-2 md:mt-0 ml-0 md:ml-2 h-4 inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-violet-100 text-violet-800">
+                  <span className="mt-2 md:mt-0 ml-0 md:ml-2 lg:ml-0 lg:mt-2 h-4 inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-violet-100 text-violet-800">
                     Coming Soon
                   </span>
                 </div>
@@ -181,7 +184,7 @@ export default function Index() {
       <section className="body-font">
         <div className="container items-center px-5 py-24 mx-auto lg:px-24 ">
           <div className="flex flex-col w-full mb-6 text-left lg:text-center">
-            <h1 className="mb-6 font-serif text-4xl font-bold tracking-tighter text-blue-1000 dark:text-gray-300 md:text-8xl lg:text-6xl ">
+            <h1 className="mb-6 font-serif text-4xl font-bold tracking-tight text-blue-1000 dark:text-gray-300 md:text-8xl lg:text-6xl ">
               Available wherever your content is.
               {/* <br className="hidden lg:block" /> discover, and share content. */}
             </h1>
@@ -230,11 +233,11 @@ export default function Index() {
                   3
                 </div>
                 <div className="flex-grow pl-4 lg:pl-10">
-                  <div className="flex flex-col md:flex-row mb-2 items-start md:items-center">
+                  <div className="flex flex-col mb-2 items-start">
                     <h1 className="mb-2 font-serif text-2xl font-semibold text-gray-900 dark:text-white ">
                       Browser Extension
                     </h1>
-                    <span className="ml-0 md:ml-2 h-4 inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-violet-100 text-violet-800">
+                    <span className="ml-0 h-4 inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-violet-100 text-violet-800">
                       Coming Soon
                     </span>
                   </div>
@@ -260,7 +263,7 @@ export default function Index() {
         <div className="container flex flex-wrap px-5 py-24 mx-auto lg:px-20">
           <div className="flex flex-col w-full mb-12 text-center">
             {/* <h1 className="mb-6 font-serif text-4xl font-bold tracking-tighter text-blue-1000 dark:text-gray-300 md:text-8xl lg:text-6xl "> */}
-            <h1 className="font-serif text-4xl font-bold tracking-tighter text-blue-1000 dark:text-gray-300 md:text-8xl lg:text-6xl ">
+            <h1 className="font-serif text-4xl font-bold tracking-tight text-blue-1000 dark:text-gray-300 md:text-8xl lg:text-6xl ">
               FAQ
             </h1>
             {/* <p className="mx-auto text-lg leading-snug text-gray-500 dark:text-gray-300 lg:w-1/2">
@@ -322,4 +325,27 @@ export default function Index() {
       </section>
     </div>
   );
+}
+
+export async function getServerSideProps(ctx) {
+  const cookie = get(ctx, "req.headers.cookie", null);
+  if (cookie) {
+    const isAuthenticated = await checkIfAuthenticated(cookie);
+    if (isAuthenticated) {
+      return {
+        redirect: {
+          destination: "/reading-list",
+          permanent: false,
+        },
+      };
+    } else {
+      return {
+        props: {},
+      };
+    }
+  } else {
+    return {
+      props: {},
+    };
+  }
 }

@@ -1,14 +1,35 @@
-import React, { Fragment, useContext } from "react";
+import React, { Fragment, useContext, useEffect } from "react";
 import { Menu, Transition } from "@headlessui/react";
 import { CurrentUserContext } from "@components/layout";
+import { useRouter } from "next/router";
 import { classNames } from "../../shared/utils";
 import { REQUEST_BETA_APP_URL } from "@shared/constants/config";
+import { MagicAuthContext } from "@components/layout";
 
 import { SelectorIcon } from "@heroicons/react/solid";
 
 const SidebarHeader = () => {
   const { currentUser, refetch } = useContext(CurrentUserContext);
+  const { signOut } = useContext(MagicAuthContext);
+
+  useEffect(() => {
+    refetch();
+  }, []);
+
+  if (!currentUser) {
+    return null;
+  }
+
   const { avatar, name, email } = currentUser;
+  const router = useRouter();
+
+  const handleSignOut = (e) => {
+    e.preventDefault();
+    signOut(() => {
+      router.push("/");
+    });
+  };
+
   return (
     <Menu
       as="div"
@@ -76,6 +97,7 @@ const SidebarHeader = () => {
                   {({ active }) => (
                     <a
                       href="#"
+                      onClick={handleSignOut}
                       className={classNames(
                         active ? "bg-gray-100 text-gray-900" : "text-gray-700",
                         "block px-4 py-2 text-sm"
