@@ -14,6 +14,7 @@ import LoadingPostCard from "../post-card/loading";
 import RemoveModal from "@components/remove-modal";
 import ShareModal from "@components/share-modal";
 import NewBookmarkBtn from "@components/buttons/new-bookmark";
+import ImageMessage from "@components/image-message";
 
 import {
   BookmarkIcon,
@@ -22,17 +23,51 @@ import {
   TrashIcon,
 } from "@heroicons/react/solid";
 
+import { BookmarkIcon as BookmarkIconOutline } from "@heroicons/react/outline";
+
 import Heading from "./heading";
 
 import {
   POST_TYPES,
   POST_TYPE_DEFAULT,
+  POST_TYPE_ARCHIVED,
+  POST_TYPE_SAVED,
   ACTION_SAVE,
   ACTION_ARCHIVE,
   ACTION_RESTORE,
   ACTION_SHARE,
   ACTION_REMOVE,
 } from "@shared/constants/post-types";
+
+import {
+  IMG_MSG_NO_POSTS_ARCHIVED,
+  IMG_MSG_NO_POSTS_SAVED,
+  IMG_MSG_NO_POSTS_FOUND,
+  IMG_MSG_NO_MORE_ARCHIVED_POSTS_FOUND,
+  IMG_MSG_NO_MORE_SAVED_POSTS_FOUND,
+  IMG_MSG_NO_MORE_POSTS_FOUND,
+  IMG_MSG_ERROR_ARCHIVED_POSTS,
+  IMG_MSG_ERROR_SAVED_POSTS,
+  IMG_MSG_ERROR_POSTS,
+} from "@components/image-message";
+
+const NO_POSTS_MESSAGES = {
+  [POST_TYPE_DEFAULT]: IMG_MSG_NO_POSTS_FOUND,
+  [POST_TYPE_ARCHIVED]: IMG_MSG_NO_POSTS_ARCHIVED,
+  [POST_TYPE_SAVED]: IMG_MSG_NO_POSTS_SAVED,
+};
+
+const NO_MORE_POSTS_MESSAGES = {
+  [POST_TYPE_DEFAULT]: IMG_MSG_NO_MORE_POSTS_FOUND,
+  [POST_TYPE_ARCHIVED]: IMG_MSG_NO_MORE_ARCHIVED_POSTS_FOUND,
+  [POST_TYPE_SAVED]: IMG_MSG_NO_MORE_SAVED_POSTS_FOUND,
+};
+
+const ERROR_MESSAGES = {
+  [POST_TYPE_DEFAULT]: IMG_MSG_ERROR_POSTS,
+  [POST_TYPE_ARCHIVED]: IMG_MSG_ERROR_ARCHIVED_POSTS,
+  [POST_TYPE_SAVED]: IMG_MSG_ERROR_SAVED_POSTS,
+};
 
 const getCursor = (data = {}, key) => {
   const arr = data[key];
@@ -49,6 +84,7 @@ const PostList = ({ title = "LOREM IPSUM", postType = POST_TYPE_DEFAULT }) => {
   const [open, setOpen] = useState(false);
   const [shareModalOpen, setShareModalOpen] = useState(false);
   const [removePostId, setRemovePostId] = useState(null);
+  const [newSavedPosts, setNewSavedPosts] = useState([]);
 
   useEffect(() => {
     const options = {
@@ -153,10 +189,6 @@ const PostList = ({ title = "LOREM IPSUM", postType = POST_TYPE_DEFAULT }) => {
     });
   };
 
-  const fn = () => {
-    console.log("clicked....", postType);
-  };
-
   const handleRemovePost = (id) => {
     setRemovePostId(id);
     setOpen(true);
@@ -174,7 +206,6 @@ const PostList = ({ title = "LOREM IPSUM", postType = POST_TYPE_DEFAULT }) => {
   };
 
   const onRemoveModalCancel = () => {
-    console.log("onRemoveModalCancel");
     setOpen(false);
   };
 
@@ -195,24 +226,60 @@ const PostList = ({ title = "LOREM IPSUM", postType = POST_TYPE_DEFAULT }) => {
     setShareModalOpen(true);
   };
 
+  const handleSaveClick = ({ id }) => {
+    const isSaved = newSavedPosts.includes(id);
+    if (isSaved) {
+      setNewSavedPosts(newSavedPosts.filter((newId) => newId !== id));
+      console.log(">>>> is SAVED");
+    } else {
+      saveExistingPost({ variables: { postId: id } })
+        .then(({ data }) => {
+          debugger;
+          // setIsSaved(true);
+          // const newSavedPostId = data.saveExistingPost.id;
+          // setSavedId(newSavedPostId);
+          // Alert.alert("Saved Post", "You successfully saved this post!", [
+          //   { text: "OK", onPress: () => {} },
+          // ]);
+        })
+        .catch((e) => {
+          console.log("e", e);
+          // Alert.alert("Failed to save post", "Please try again later.", [
+          //   { text: "OK", onPress: () => {} },
+          // ]);
+        });
+      console.log("is not saved!!!!!");
+      setNewSavedPosts([id, ...newSavedPosts]);
+    }
+  };
+
   const ACTIONS = {
     [ACTION_SAVE]: {
-      Icon: BookmarkIcon,
+      iconFn: (id) =>
+        newSavedPosts.includes(id) ? BookmarkIcon : BookmarkIconOutline,
       name: "Save",
-      fn: fn,
+      fn: handleSaveClick,
     },
     [ACTION_ARCHIVE]: {
-      Icon: ArchiveIcon,
+      iconFn: () => ArchiveIcon,
       name: "Archive",
       fn: handleArchiveClick,
     },
     [ACTION_RESTORE]: {
-      Icon: ArchiveIcon,
+      iconFn: () => ArchiveIcon,
       name: "Restore",
       fn: handleRestoreClick,
     },
-    [ACTION_SHARE]: { Icon: ShareIcon, name: "Share", fn: handleShareClick },
-    [ACTION_REMOVE]: { Icon: TrashIcon, name: "Remove", fn: handleRemovePost },
+    [ACTION_SHARE]: {
+      iconFn: () => ShareIcon,
+      name: "Share",
+      fn: handleShareClick,
+    },
+    [ACTION_REMOVE]: {
+      iconFn: () => TrashIcon,
+      name: "Remove",
+      fn: handleRemovePost,
+    },
   };
 
   const actions = postActions.map((pa) => ACTIONS[pa]);
@@ -239,6 +306,10 @@ const PostList = ({ title = "LOREM IPSUM", postType = POST_TYPE_DEFAULT }) => {
         <h1 className="text-2xl font-semibold text-gray-900">{title}</h1>
         <NewBookmarkBtn />
       </div>
+      {error && <ImageMessage type={ERROR_MESSAGES[postType]} />}
+      {!loading && data && data[queryKey].length === 0 && (
+        <ImageMessage type={NO_POSTS_MESSAGES[postType]} />
+      )}
       {!loading && data && (
         <>
           <ul className="divide-y divide-gray-200">
@@ -253,25 +324,29 @@ const PostList = ({ title = "LOREM IPSUM", postType = POST_TYPE_DEFAULT }) => {
           </ul>
         </>
       )}
+      {loading && (
+        <ul className="space-y-3 mt-3">
+          <LoadingPostCard />
+          <LoadingPostCard />
+        </ul>
+      )}
 
-      {(loading || hasNextPage) && (
-        <>
-          <ul className="space-y-3 mt-3">
-            <LoadingPostCard />
-            <LoadingPostCard />
-          </ul>
-          <div className="p-8 justify-center flex">
-            <button
-              ref={setButtonRef}
-              id="buttonLoadMore"
-              onClick={() => fetchResults()}
-              type="button"
-              className="relative inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md text-white bg-indigo-600 shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
-            >
-              Load More
-            </button>
-          </div>
-        </>
+      {!hasNextPage && !loading && data[queryKey].length > 0 && (
+        <ImageMessage type={NO_MORE_POSTS_MESSAGES[postType]} />
+      )}
+
+      {hasNextPage && data && data[queryKey].length !== 0 && (
+        <div className="p-8 justify-center flex">
+          <button
+            ref={setButtonRef}
+            id="buttonLoadMore"
+            onClick={() => fetchResults()}
+            type="button"
+            className="relative inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md text-white bg-indigo-600 shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+          >
+            Load More
+          </button>
+        </div>
       )}
     </>
   );

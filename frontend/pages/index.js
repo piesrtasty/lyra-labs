@@ -305,7 +305,7 @@ export default function Index() {
                 <h2 className="mb-3 text-2xl font-normal tracking-tighter text-gray-700 dark:text-gray-300">
                   2.&nbsp;How can I get the app?
                 </h2>
-                <p className="leading-relaxed ext-base text-gray-500 dark:text-gray-300">
+                <p className="leading-relaxed text-base text-gray-500 dark:text-gray-300">
                   The app is currently available in beta on TestFlight for iOS.
                   If you'd like to help test the app and get early access, sign
                   up{" "}

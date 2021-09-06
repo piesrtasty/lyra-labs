@@ -18,26 +18,16 @@ const ReadingList = (props) => {
 };
 
 export async function getServerSideProps(ctx) {
-  console.log("------------------");
-  console.log("Runnning getServerSideProos");
   const cookie = get(ctx, "req.headers.cookie", null);
-  console.log("----------------- cookie -", cookie);
-  console.log("------------------");
   const isAuthenticated = await checkIfAuthenticated(cookie);
-  console.log("isAuthenticated", isAuthenticated);
-  console.log("------------------");
-  // console.log(">>>> GOT HERE <<<", isAuthenticated);
   if (isAuthenticated && cookie) {
-    // console.log("ALSO HERE");
     const apolloClient = initializeApollo(null, cookie);
     await apolloClient.query({
       query: SAVED_POSTS,
-      // variables: { take: 5 },
     });
     const user = await apolloClient.query({
       query: CURRENT_USER_QUERY,
     });
-    console.log("user", user);
     return addApolloState(apolloClient, {
       props: { __AUTH_COOKIE__: cookie },
     });
