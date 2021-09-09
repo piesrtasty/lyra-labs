@@ -189,7 +189,7 @@ const PostList = ({ title = "LOREM IPSUM", postType = POST_TYPE_DEFAULT }) => {
     });
   };
 
-  const handleRemovePost = (id) => {
+  const handleRemovePost = ({ id }) => {
     setRemovePostId(id);
     setOpen(true);
   };
@@ -227,36 +227,40 @@ const PostList = ({ title = "LOREM IPSUM", postType = POST_TYPE_DEFAULT }) => {
   };
 
   const handleSaveClick = ({ id }) => {
-    const isSaved = newSavedPosts.includes(id);
+    const isSaved = newSavedPosts.some((nsp) => nsp.hasOwnProperty(id));
     if (isSaved) {
-      setNewSavedPosts(newSavedPosts.filter((newId) => newId !== id));
-      console.log(">>>> is SAVED");
+      const removalItem = newSavedPosts.find((item) => item.hasOwnProperty(id));
+      const removalId = removalItem[id];
+      removePost({ variables: { postId: removalId } })
+        .then(({ data }) => {
+          setNewSavedPosts(
+            newSavedPosts.filter((nsp) => !nsp.hasOwnProperty(id))
+          );
+        })
+        .catch((e) => console.log("e", e));
     } else {
       saveExistingPost({ variables: { postId: id } })
         .then(({ data }) => {
-          debugger;
-          // setIsSaved(true);
-          // const newSavedPostId = data.saveExistingPost.id;
-          // setSavedId(newSavedPostId);
-          // Alert.alert("Saved Post", "You successfully saved this post!", [
-          //   { text: "OK", onPress: () => {} },
-          // ]);
+          // Add new id to the newSavedPostsMap
+          setNewSavedPosts([
+            { [id]: data.saveExistingPost.id },
+            ...newSavedPosts,
+          ]);
         })
         .catch((e) => {
           console.log("e", e);
-          // Alert.alert("Failed to save post", "Please try again later.", [
-          //   { text: "OK", onPress: () => {} },
-          // ]);
         });
-      console.log("is not saved!!!!!");
-      setNewSavedPosts([id, ...newSavedPosts]);
     }
   };
 
   const ACTIONS = {
     [ACTION_SAVE]: {
+      // iconFn: (id) =>
+      //   newSavedPosts.includes(id) ? BookmarkIcon : BookmarkIconOutline,
       iconFn: (id) =>
-        newSavedPosts.includes(id) ? BookmarkIcon : BookmarkIconOutline,
+        newSavedPosts.some((nsp) => nsp.hasOwnProperty(id))
+          ? BookmarkIcon
+          : BookmarkIconOutline,
       name: "Save",
       fn: handleSaveClick,
     },
