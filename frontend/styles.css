@@ -1,0 +1,12 @@
+@layer base {
+  @font-face {
+    font-family: Ricoleta;
+    font-weight: 600;
+    src: url(/fonts/RicoletaSemiBold.woff) format("woff");
+  }
+  @font-face {
+    font-family: Ricoleta;
+    font-weight: 700;
+    src: url(/fonts/RicoletaBold.woff) format("woff");
+  }
+}

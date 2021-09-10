@@ -20,17 +20,26 @@ export const ARCHIVED_POSTS = gql`
 `;
 
 export const FEED_POSTS = gql`
-  query feedPosts {
-    feedPosts {
+  query feedPosts($take: Int, $cursor: ID) {
+    feedPosts(take: $take, cursor: $cursor) {
       ...postFields
-      submitter {
-        walletIsSetup
-        walletAddress
-      }
     }
   }
   ${postFields}
 `;
+
+// export const FEED_POSTS = gql`
+//   query feedPosts {
+//     feedPosts {
+//       ...postFields
+//       submitter {
+//         walletIsSetup
+//         walletAddress
+//       }
+//     }
+//   }
+//   ${postFields}
+// `;
 
 export const CURRENT_USER_QUERY = gql`
   query me {

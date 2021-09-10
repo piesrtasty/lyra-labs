@@ -1,11 +1,13 @@
 import Head from "next/head";
+// import { useRouter } from "next/router";
+
 import { useQuery } from "@apollo/client";
 import React, { useState, useEffect } from "react";
 import { Global, css } from "@emotion/core";
 import { ThemeProvider } from "emotion-theming";
 import { Magic } from "magic-sdk";
-import LoginModal from "@library/components/modals/login";
 import { CURRENT_USER_QUERY } from "@data/queries";
+import BookmarkModal from "@components/bookmark-modal";
 
 const THEME = {
   COLORS: {
@@ -17,13 +19,13 @@ const THEME = {
   },
 };
 
-export const LoginModalContext = React.createContext({});
 export const MagicAuthContext = React.createContext();
 export const CurrentUserContext = React.createContext({});
+export const BookmarkModalContext = React.createContext({});
 
 const Layout = ({ children }) => {
   const isProduction = process.env.NODE_ENV === "production";
-  const [showLoginModal, setShowLoginModal] = useState(false);
+  const [showBookmarkModal, setShowBookmarkModal] = useState(false);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
 
@@ -38,6 +40,8 @@ const Layout = ({ children }) => {
         credentials: "include",
         // credentials: "same-origin",
       }).then(({ status }) => {
+        console.log("AFTER CHECKIMNG", status);
+        // window.location = "http://localhost:3000/readinglist";
         setIsLoggedIn(status == 200);
         setIsLoading(false);
       });
@@ -45,15 +49,18 @@ const Layout = ({ children }) => {
     bootstrapAsync();
   }, []);
 
-  const signIn = async (email, cb) => {
+  const signIn = async (email, name = null, cb) => {
     const magic = new Magic(process.env.MAGIC_PUBLISHABLE_KEY);
     magic.auth
       .loginWithMagicLink({
         email,
+        // redirectURI: "http://localhost:3000/readinglist",
       })
       .on("email-sent", () => {})
       .then(async (DIDToken) => {
+        console.log("DIDToken", DIDToken);
         // const resp = await fetch(`${process.env.BACKEND_URL}/login`, {
+        const data = name ? { name } : {};
         const resp = await fetch(`/api/login`, {
           headers: new Headers({
             Authorization: "Bearer " + DIDToken,
@@ -62,6 +69,7 @@ const Layout = ({ children }) => {
           // credentials: "same-origin",
           credentials: "include",
           method: "POST",
+          body: JSON.stringify(data),
         });
         if (cb) {
           cb();
@@ -87,20 +95,30 @@ const Layout = ({ children }) => {
     });
   };
 
-  const showLogin = () => setShowLoginModal(true);
-  const hideLogin = () => setShowLoginModal(false);
+  // const showLogin = () => setShowLoginModal(true);
+  // const hideLogin = () => setShowLoginModal(false);
 
   return (
-    <LoginModalContext.Provider value={{ showLogin, hideLogin }}>
-      <CurrentUserContext.Provider
-        value={{ currentUser: data ? data.me : null, refetch }}
+    <CurrentUserContext.Provider
+      value={{ currentUser: data ? data.me : null, refetch }}
+    >
+      <MagicAuthContext.Provider
+        value={{ signIn, signOut, isLoggedIn, isLoading }}
       >
-        <MagicAuthContext.Provider
-          value={{ signIn, signOut, isLoggedIn, isLoading }}
+        <BookmarkModalContext.Provider
+          value={{ showBookmarkModal, setShowBookmarkModal }}
         >
           <ThemeProvider theme={THEME}>
             <Head>
               <title>Lyra Labs 🥰</title>
+              <link
+                href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700;800;900&display=swap"
+                rel="stylesheet"
+              />
+              <script
+                src="https://cdn.jsdelivr.net/gh/alpinejs/alpine@v2.x.x/dist/alpine.min.js"
+                defer
+              ></script>
               {isProduction && (
                 <>
                   <script
@@ -125,24 +143,31 @@ const Layout = ({ children }) => {
             <Global
               styles={css`
                 body {
-                  font-size: 18px;
-                  background-color: ${THEME.COLORS.ALABASTER};
-                  margin: 0;
+                  ${"" /* font-size: 18px; */}
+                  ${"" /* background-color: red; */}
+                  ${"" /* background-color: ${THEME.COLORS.ALABASTER}; */}
+                  ${"" /* margin: 0; */}
                 }
                 iframe {
-                  z-index: 2;
+                  ${"" /* z-index: 2; */}
                 }
               `}
             />
-            <main>{children}</main>
-            <link rel="shortcut icon" href="/static/favicon.ico" />
-            {showLoginModal && (
+            {children}
+            {/* {showLoginModal && (
               <LoginModal onDismiss={() => setShowLoginModal(false)} />
+            )} */}
+            {showBookmarkModal && (
+              <BookmarkModal
+                open={showBookmarkModal}
+                setOpen={setShowBookmarkModal}
+                onCancel={() => setShowBookmarkModal(false)}
+              />
             )}
           </ThemeProvider>
-        </MagicAuthContext.Provider>
-      </CurrentUserContext.Provider>
-    </LoginModalContext.Provider>
+        </BookmarkModalContext.Provider>
+      </MagicAuthContext.Provider>
+    </CurrentUserContext.Provider>
   );
 };
 

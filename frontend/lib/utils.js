@@ -36,3 +36,8 @@ export const saveUrl = async (givenUrl, currentUser) => {
     },
   });
 };
+
+export const checkForLoggedIn = (router) => {
+  console.log("the router", router);
+  console.log("calling check for logged in");
+};

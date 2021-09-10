@@ -1,204 +1,20 @@
-import React, { useContext } from "react";
-import { useRouter } from "next/router";
-import styled from "@emotion/styled";
-import { BASE_TEXT, WEIGHT } from "@style/typography";
-import CoralButton from "@library/components/buttons/coral";
+import { Fragment } from "react";
+import { Menu, Transition } from "@headlessui/react";
 import {
-  BLACK,
-  GUNSMOKE,
-  WHITE,
-  SCOPRION,
-  PURPLE,
-  ALABASTER,
-  FOCUS_LAVENDER,
-} from "@style/colors";
-import { toast } from "react-toastify";
-import { useMutation } from "@apollo/client";
-import { ARCHIVE_POST, RESTORE_POST } from "@data/mutations";
-import { postFields } from "@data/fragments";
+  CodeIcon,
+  DotsVerticalIcon,
+  FlagIcon,
+  StarIcon,
+} from "@heroicons/react/solid";
 
-export const THUMBNAIL_DIMENSION = 60;
-
-const Actions = styled("div")({
-  display: "flex",
-  transition: "opacity .1s",
-  " > div:first-of-type": {
-    marginLeft: 0,
-  },
-});
-
-export const Container = styled("div")({
-  display: "flex",
-  flexDirection: "column",
-  borderRadius: 3,
-  marginBottom: 12,
-  backgroundColor: WHITE,
-  boxShadow: "0 1px 2px 0 rgba(0,0,0,.1)",
-  padding: "1rem",
-  [Actions]: {
-    opacity: 0,
-  },
-  "&:hover": {
-    [Actions]: {
-      opacity: 1,
-    },
-  },
-});
-
-export const Body = styled("div")({
-  display: "flex",
-  justifyContent: "space-between",
-});
-
-const Footer = styled("div")({
-  marginTop: ".5rem",
-  display: "flex",
-  flexDirection: "row",
-});
-
-const Thumbnail = styled("div")(
-  {
-    flexShrink: 0,
-    borderRadius: 2,
-    height: THUMBNAIL_DIMENSION,
-    width: THUMBNAIL_DIMENSION,
-    marginLeft: "1rem",
-  },
-  ({ src }) => ({
-    backgroundImage: `url(${src})`,
-    backgroundSize: "cover,auto",
-    backgroundPosition: "50% 50%,50% 50%",
-  })
-);
-
-export const Content = styled("div")({
-  // marginLeft: "1rem",
-});
-
-const Title = styled("a")({
-  ...BASE_TEXT,
-  fontSize: "1rem",
-  fontWeight: WEIGHT.BOLD,
-  wordBreak: "break-word",
-  textDecoration: "none",
-  color: BLACK,
-});
-
-const MetaLine = styled("div")({
-  display: "flex",
-  alignItems: "center",
-});
-
-const PublisherLine = styled("div")({
-  display: "flex",
-  alignItems: "center",
-  marginTop: ".25rem",
-});
-
-const MetaText = styled("div")({
-  display: "flex",
-  alignItems: "center",
-});
-
-const Author = styled("div")({
-  ...BASE_TEXT,
-  color: SCOPRION,
-  fontWeight: WEIGHT.BOLD,
-});
-
-const SourceLogo = styled("div")(
-  {
-    width: "1rem",
-    height: "1rem",
-  },
-  ({ src }) => ({
-    backgroundImage: `url(${src})`,
-    backgroundSize: "cover,auto",
-    backgroundPosition: "50% 50%,50% 50%",
-    border: `1px solid ${GUNSMOKE}`,
-  })
-);
-
-const Publisher = styled("div")({
-  ...BASE_TEXT,
-  color: SCOPRION,
-  //   fontWeight: WEIGHT.BOLD,
-  marginLeft: ".5rem",
-});
-
-const Divider = styled("div")({
-  height: 18,
-  display: "flex",
-  alignItems: "center",
-  "&::after": {
-    content: `'・'`,
-    color: SCOPRION,
-  },
-});
-
-const DateContainer = styled("div")({});
-
-const Name = styled("div")({
-  ...BASE_TEXT,
-});
-
-const Action = styled("div")(
-  {
-    marginLeft: ".5rem",
-    cursor: "pointer",
-
-    display: "flex",
-    alignItems: "center",
-    justifyContent: "center",
-    width: 26,
-    height: 26,
-    borderRadius: "50%",
-
-    transition: "box-shadow .18s",
-  },
-  ({
-    active = false,
-    boxShadowColor,
-    gradientStartColor,
-    gradientEndColor,
-  }) => ({
-    background: active
-      ? `linear-gradient(111deg, ${gradientStartColor}, ${gradientEndColor})`
-      : ALABASTER,
-    boxShadow: `0px 0px 0px 2px ${active ? boxShadowColor : WHITE}`,
-    "&:hover": {
-      boxShadow: `0px 0px 0px 2px ${active ? boxShadowColor : FOCUS_LAVENDER}`,
-    },
-  })
-);
-
-const GiveAwardCta = styled("div")({
-  ...BASE_TEXT,
-  cursor: "pointer",
-  "&:hover": {
-    color: PURPLE,
-  },
-});
-
-const ACTION_TIMEOUT = 1000;
-
-const Icon = styled("div")({
-  fontSize: ".875rem",
-  marginTop: -2,
-  letterSpacing: -5,
-});
-
-const StyledCoralButton = styled(CoralButton)({
-  height: 24,
-  fontSize: 11,
-});
+import { classNames, formatDate } from "../../shared/utils";
 
 const PostCard = ({
-  currentUser = null,
   post: {
     id,
     image,
     title,
+    description,
     archived,
     pinned,
     author,
@@ -208,139 +24,213 @@ const PostCard = ({
     date,
   },
   post,
+  actions = [],
+  postType = POST_TYPE_SAVED,
 }) => {
-  const router = useRouter();
-  const route = router.route;
-  const showActions = route !== "/";
-
-  const [archivePost] = useMutation(ARCHIVE_POST, {
-    update: (cache, { data: { archivePost: archivedPost } }) => {
-      cache.modify({
-        fields: {
-          savedPosts(savedPostRefs = [], { readField }) {
-            return savedPostRefs.filter(
-              (savedPostRef) =>
-                archivedPost.id !== readField("id", savedPostRef)
-            );
-          },
-          archivedPosts(existingArchivedPosts = []) {
-            const archivedPostRef = cache.writeFragment({
-              data: archivedPost,
-              fragment: postFields,
-            });
-            return [archivedPostRef, ...existingArchivedPosts];
-          },
-        },
-      });
-    },
-
-    onError: (eProps) => {
-      toast.error("😳Unable to archive post at this time.", {
-        position: "bottom-left",
-      });
-    },
-  });
-
-  const [restorePost] = useMutation(RESTORE_POST, {
-    update: (cache, { data: { restorePost: restoredPost } }) => {
-      cache.modify({
-        fields: {
-          archivedPosts(archivedPostRefs = [], { readField }) {
-            return archivedPostRefs.filter(
-              (archivedPostRef) =>
-                restoredPost.id !== readField("id", archivedPostRef)
-            );
-          },
-          savedPosts(existingSavedPosts = []) {
-            const savedPostRef = cache.writeFragment({
-              data: restoredPost,
-              fragment: postFields,
-            });
-            return [savedPostRef, ...existingSavedPosts];
-          },
-        },
-      });
-    },
-
-    onError: (eProps) => {
-      toast.error("😳Unable to unarchive post at this time.", {
-        position: "bottom-left",
-      });
-    },
-  });
-
-  const ACTIONS = [
-    // {
-    //   icon: "📌",
-    //   boxShadowColor: "#d0e3ff",
-    //   gradientStartColor: "#c5d9f8",
-    //   gradientEndColor: "#90bbff",
-    //   activeKey: "pinned",
-    //   name: "Pin",
-    //   onClick: () => {
-    //     console.log("clicked pin");
-    //   },
-    // },
-    {
-      icon: "💾",
-      boxShadowColor: "#cfc9f3",
-      gradientStartColor: "#cac3f3",
-      gradientEndColor: "#958aee",
-      activeKey: "archived",
-      name: "Archive",
-      onClick: () => {
-        const func = archived ? restorePost : archivePost;
-        func({
-          variables: {
-            postId: post.id,
-          },
-        });
-      },
-    },
-  ];
-
   return (
-    <Container>
-      <Body>
-        <Content>
-          <Title target="_blank" href={url}>
-            {title}
-          </Title>
-          <PublisherLine>
-            <SourceLogo src={logo} />
-            <Publisher>{publisher}</Publisher>
-          </PublisherLine>
-        </Content>
-        {image && <Thumbnail src={image} />}
-      </Body>
-      <Footer>
-        <Actions>
-          {showActions && (
-            <>
-              {ACTIONS.map(
-                (
-                  {
-                    icon,
-                    name,
-                    onClick,
-                    boxShadowColor,
-                    gradientStartColor,
-                    gradientEndColor,
-                    activeKey,
-                  },
-                  i
-                ) => (
-                  <StyledCoralButton key={name} onClick={() => onClick(id)}>
-                    {icon} {`${post[activeKey] ? " Unarchive" : " Archive"}`}
-                  </StyledCoralButton>
-                )
+    // <div className="bg-white overflow-hidden shadow rounded-lg">
+    <div className="overflow-hidden hover:bg-gray-50 transition duration-100">
+      {/* <div className="bg-white px-4 pt-5 sm:px-6"> */}
+      <div className="px-4 pt-5 sm:px-6">
+        <div className="flex space-x-3">
+          <div className="flex-shrink-0">
+            {logo && (
+              <div
+                className={
+                  "h-10 w-10 border border-gray-300 bg-white text-gray-300 bg-cover bg-center "
+                }
+                style={{ backgroundImage: `url(${logo})` }}
+              />
+            )}
+          </div>
+          <div className="min-w-0 flex-1">
+            {publisher && (
+              <p className="text-sm font-medium text-gray-900">
+                <a href="#" className="hover:underline">
+                  {publisher}
+                </a>
+              </p>
+            )}
+            {date && (
+              <p className="text-sm text-gray-500">{formatDate(date)}</p>
+            )}
+          </div>
+          {/* <div className="flex-shrink-0 self-center flex">
+            <Menu as="div" className="relative z-30 inline-block text-left">
+              {({ open }) => (
+                <>
+                  <div>
+                    <Menu.Button className="-m-2 p-2 rounded-full flex items-center text-gray-400 hover:text-gray-600">
+                      <span className="sr-only">Open options</span>
+                      <DotsVerticalIcon
+                        className="h-5 w-5"
+                        aria-hidden="true"
+                      />
+                    </Menu.Button>
+                  </div>
+
+                  <Transition
+                    show={open}
+                    as={Fragment}
+                    enter="transition ease-out duration-100"
+                    enterFrom="transform opacity-0 scale-95"
+                    enterTo="transform opacity-100 scale-100"
+                    leave="transition ease-in duration-75"
+                    leaveFrom="transform opacity-100 scale-100"
+                    leaveTo="transform opacity-0 scale-95"
+                  >
+                    <Menu.Items
+                      static
+                      className="origin-top-right absolute right-0 mt-2 w-56 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 focus:outline-none"
+                    >
+                      <div className="py-1">
+                        <Menu.Item>
+                          {({ active }) => (
+                            <a
+                              href="#"
+                              className={classNames(
+                                active
+                                  ? "bg-gray-100 text-gray-900"
+                                  : "text-gray-700",
+                                "flex px-4 py-2 text-sm"
+                              )}
+                            >
+                              <StarIcon
+                                className="mr-3 h-5 w-5 text-gray-400"
+                                aria-hidden="true"
+                              />
+                              <span>Add to favorites</span>
+                            </a>
+                          )}
+                        </Menu.Item>
+                        <Menu.Item>
+                          {({ active }) => (
+                            <a
+                              href="#"
+                              className={classNames(
+                                active
+                                  ? "bg-gray-100 text-gray-900"
+                                  : "text-gray-700",
+                                "flex px-4 py-2 text-sm"
+                              )}
+                            >
+                              <CodeIcon
+                                className="mr-3 h-5 w-5 text-gray-400"
+                                aria-hidden="true"
+                              />
+                              <span>Embed</span>
+                            </a>
+                          )}
+                        </Menu.Item>
+                        <Menu.Item>
+                          {({ active }) => (
+                            <a
+                              href="#"
+                              className={classNames(
+                                active
+                                  ? "bg-gray-100 text-gray-900"
+                                  : "text-gray-700",
+                                "flex px-4 py-2 text-sm"
+                              )}
+                            >
+                              <FlagIcon
+                                className="mr-3 h-5 w-5 text-gray-400"
+                                aria-hidden="true"
+                              />
+                              <span>Report content</span>
+                            </a>
+                          )}
+                        </Menu.Item>
+                      </div>
+                    </Menu.Items>
+                  </Transition>
+                </>
               )}
-            </>
+            </Menu>
+          </div> */}
+        </div>
+      </div>
+      <div className="px-4 py-5 sm:p-6">
+        <div className="flex flex-col sm:flex-row">
+          {image && (
+            <div className="sm:hidden mb-5 flex-shrink-0 bg-indigo-100">
+              <div
+                className={
+                  "h-32 w-auto border border-gray-300 bg-white text-gray-300 bg-cover bg-center"
+                }
+                style={{ backgroundImage: `url(${image})` }}
+              />
+            </div>
           )}
-        </Actions>
-      </Footer>
-    </Container>
+          <div className="flex-grow">
+            <h4 className="text-lg font-bold">
+              <a href={url} target="_blank" className="hover:underline">
+                {title}
+              </a>
+            </h4>
+            {description && <p className="mt-1">{description}</p>}
+          </div>
+          {image && (
+            <div className="hidden sm:block ml-4 flex-shrink-0 bg-indigo-100">
+              <div
+                className={
+                  "h-32 w-32 border border-gray-300 bg-white text-gray-300 bg-cover bg-center"
+                }
+                style={{ backgroundImage: `url(${image})` }}
+              />
+            </div>
+          )}
+        </div>
+      </div>
+      {/* Divider */}
+      {/* <div className="relative">
+        <div
+          className="absolute inset-0 flex items-center mx-8"
+          aria-hidden="true"
+        >
+          <div className="w-full border-t border-gray-200" />
+        </div>
+      </div> */}
+      <div className="px-4 py-4 sm:px-6 flex justify-end">
+        {actions.map(({ iconFn, name, fn }, i) => {
+          const Icon = iconFn(id);
+          return (
+            <button
+              key={i}
+              type="button"
+              onClick={() => fn(post)}
+              // className={classNames(
+              //   i !== 0 ? "ml-3" : "",
+              //   "relative inline-flex items-center px-4 py-2 border border-gray-300 shadow-sm text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+              // )}
+              className={classNames(
+                i !== 0 ? "ml-3" : "",
+                "group relative inline-flex items-center text-sm font-medium rounded-md text-gray-700  hover:text-purple focus:outline-none"
+              )}
+            >
+              <Icon
+                className="-ml-1 mr-2 h-5 w-5 text-gray-400 group-hover:text-purple"
+                aria-hidden="true"
+              />
+              <span>{name}</span>
+            </button>
+          );
+        })}
+      </div>
+    </div>
+    // <div className="bg-white overflow-hidden shadow rounded-lg divide-y divide-gray-200">
+    //   <div className="px-4 py-5 sm:p-6">{/* Content goes here */} CONTENT</div>
+    //   <div className="px-4 py-4 sm:px-6">
+    //     {/* Content goes here */}
+    //     FOOTER
+    //     {/* We use less vertical padding on card footers at all sizes than on headers or body sections */}
+    //   </div>
+    // </div>
   );
 };
 
 export default PostCard;
+
+/* <div className="px-4 py-4 sm:px-6">
+FOOTER
+</div> */

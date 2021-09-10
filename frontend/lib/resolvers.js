@@ -177,6 +177,9 @@ export const Mutation = objectType({
         postId: idArg(),
       },
       resolve: async (_, { postId }, ctx) => {
+        console.log("----------------------");
+        console.log("------ postId ----", postId);
+        console.log("----------------------");
         return ctx.prisma.post.delete({
           where: {
             id: postId,
