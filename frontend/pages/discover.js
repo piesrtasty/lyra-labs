@@ -18,7 +18,7 @@ const Discover = () => {
 
 export async function getServerSideProps(ctx) {
   const cookie = get(ctx, "req.headers.cookie", null);
-  const isAuthenticated = checkIfAuthenticated();
+  const isAuthenticated = checkIfAuthenticated(cookie);
   if (isAuthenticated && cookie) {
     const apolloClient = initializeApollo(null, cookie);
     await apolloClient.query({
@@ -31,14 +31,13 @@ export async function getServerSideProps(ctx) {
       props: { __AUTH_COOKIE__: cookie },
     });
   } else {
-    // return {
-    //   redirect: {
-    //     destination: "/",
-    //     permanent: false,
-    //   },
-    // };
+    return {
+      redirect: {
+        destination: "/",
+        permanent: false,
+      },
+    };
   }
-  return { props: {} };
 }
 
 export default Discover;
