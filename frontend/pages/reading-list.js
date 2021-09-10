@@ -32,14 +32,13 @@ export async function getServerSideProps(ctx) {
       props: { __AUTH_COOKIE__: cookie },
     });
   } else {
-    // return {
-    //   redirect: {
-    //     destination: "/",
-    //     permanent: false,
-    //   },
-    // };
+    return {
+      redirect: {
+        destination: "/",
+        permanent: false,
+      },
+    };
   }
-  return { props: {} };
 }
 
 export default ReadingList;

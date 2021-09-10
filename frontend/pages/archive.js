@@ -18,7 +18,7 @@ const ArchivePage = () => {
 
 export async function getServerSideProps(ctx) {
   const cookie = get(ctx, "req.headers.cookie", null);
-  const isAuthenticated = checkIfAuthenticated();
+  const isAuthenticated = await checkIfAuthenticated(cookie);
   if (isAuthenticated && cookie) {
     const apolloClient = initializeApollo(null, cookie);
     await apolloClient.query({
