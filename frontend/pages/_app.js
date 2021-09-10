@@ -8,6 +8,13 @@ import { useApollo } from "../lib/apollo-client";
 import "tailwindcss/tailwind.css";
 import "../styles.css";
 
+import TagManager from "react-gtm-module";
+const tagManagerArgs = {
+  gtmId: "G-EHTCYM2RT4",
+};
+
+TagManager.initialize(tagManagerArgs);
+
 toast.configure();
 
 const App = ({ Component, pageProps }) => {

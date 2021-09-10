@@ -119,26 +119,19 @@ const Layout = ({ children }) => {
                 src="https://cdn.jsdelivr.net/gh/alpinejs/alpine@v2.x.x/dist/alpine.min.js"
                 defer
               ></script>
-              {isProduction && (
-                <>
-                  <script
-                    async
-                    src="https://www.googletagmanager.com/gtag/js?id=G-EW50ZSVFBP"
-                  ></script>
 
-                  <script
-                    dangerouslySetInnerHTML={{
-                      __html: `
-            window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
+              {/* <script
+                async
+                src="https://www.googletagmanager.com/gtag/js?id=G-EHTCYM2RT4"
+              ></script>
 
-  gtag('config', 'G-EW50ZSVFBP');
+              <script
+                dangerouslySetInnerHTML={{
+                  __html: `
+                      window.dataLayer = window.dataLayer || [];function gtag(){dataLayer.push(arguments);}gtag('js', new Date());gtag('config', 'G-EHTCYM2RT4');
               `,
-                    }}
-                  />
-                </>
-              )}
+                }}
+              /> */}
             </Head>
             <Global
               styles={css`
