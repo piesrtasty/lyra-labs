@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { ApolloProvider } from "@apollo/client";
 import Layout from "../components/layout";
 import { toast } from "react-toastify";
@@ -17,7 +17,11 @@ toast.configure();
 
 const App = ({ Component, pageProps }) => {
   const apolloClient = useApollo(pageProps);
-  TagManager.initialize(tagManagerArgs);
+
+  useEffect(() => {
+    TagManager.initialize(tagManagerArgs);
+  }, []);
+
   return (
     <ApolloProvider client={apolloClient}>
       <Layout>
