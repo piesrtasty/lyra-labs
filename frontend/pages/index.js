@@ -152,7 +152,7 @@ export default function Index() {
               <div className="flex-grow pl-6">
                 <div className="flex flex-col md:flex-row lg:flex-col mb-2 items-start md:items-center lg:items-start">
                   <h1 className="font-serif text-2xl font-semibold text-gray-900 dark:text-white ">
-                    Monetization
+                    Rewards 🥳
                   </h1>
                   <span className="mt-2 md:mt-0 ml-0 md:ml-2 lg:ml-0 lg:mt-2 h-4 inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-violet-100 text-violet-800">
                     Coming Soon
