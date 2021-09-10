@@ -13,13 +13,11 @@ const tagManagerArgs = {
   gtmId: "G-EHTCYM2RT4",
 };
 
-TagManager.initialize(tagManagerArgs);
-
 toast.configure();
 
 const App = ({ Component, pageProps }) => {
   const apolloClient = useApollo(pageProps);
-
+  TagManager.initialize(tagManagerArgs);
   return (
     <ApolloProvider client={apolloClient}>
       <Layout>
