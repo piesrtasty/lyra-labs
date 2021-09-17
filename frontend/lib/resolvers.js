@@ -1,51 +1,68 @@
-import {
-  objectType,
-  idArg,
-  intArg,
-  stringArg,
-  booleanArg,
-} from "@nexus/schema";
-
+import { objectType, idArg, intArg, stringArg, booleanArg } from "nexus";
+import { User, Post } from "nexus-prisma";
 import { saveUrl } from "./utils";
 
-export const User = objectType({
+export const UserObjType = objectType({
   name: "User",
   definition(t) {
-    t.model.id();
-    t.model.email();
-    t.model.avatar();
-    t.model.username();
-    t.model.headline();
-    t.model.walletAddress();
-    t.model.walletIsSetup();
-    t.model.showOnboarding();
-    t.model.name();
+    // t.model.id();
+    // t.model.email();
+    // t.model.avatar();
+    // t.model.username();
+    // t.model.headline();
+    // t.model.walletAddress();
+    // t.model.walletIsSetup();
+    // t.model.showOnboarding();
+    // t.model.name();
+    t.field(User.id);
+    t.field(User.email);
+    t.field(User.avatar);
+    t.field(User.username);
+    t.field(User.headline);
+    t.field(User.walletAddress);
+    t.field(User.walletIsSetup);
+    t.field(User.showOnboarding);
+    t.field(User.name);
   },
 });
 
-export const Post = objectType({
+export const PostObjType = objectType({
   name: "Post",
   definition(t) {
-    t.model.id();
-    t.model.author();
-    t.model.date();
-    t.model.description();
-    t.model.image();
-    t.model.logo();
-    t.model.publisher();
-    t.model.title();
-    t.model.url();
-    t.model.archived();
-    t.model.pinned();
-    t.model.submitterId();
-    t.model.submitter();
+    // t.model.id();
+    // t.model.author();
+    // t.model.date();
+    // t.model.description();
+    // t.model.image();
+    // t.model.logo();
+    // t.model.publisher();
+    // t.model.title();
+    // t.model.url();
+    // t.model.archived();
+    // t.model.pinned();
+    // t.model.submitterId();
+    // t.model.submitter();
+    t.field(Post.id);
+    t.field(Post.author);
+    t.field(Post.date);
+    t.field(Post.description);
+    t.field(Post.image);
+    t.field(Post.logo);
+    t.field(Post.publisher);
+    t.field(Post.title);
+    t.field(Post.url);
+    t.field(Post.archived);
+    t.field(Post.pinned);
+    t.field(Post.submitterId);
+    t.field(Post.submitter);
   },
 });
 
 export const Query = objectType({
   name: "Query",
   definition(t) {
-    t.crud.posts({ pagination: true, ordering: true, filtering: true });
+    // t.crud.posts({ pagination: true, ordering: true, filtering: true });
+
     t.list.field("savedPosts", {
       type: "Post",
       args: {
@@ -170,7 +187,7 @@ export const Query = objectType({
 export const Mutation = objectType({
   name: "Mutation",
   definition(t) {
-    t.crud.createOneUser({ alias: "signupUser" });
+    // t.crud.createOneUser({ alias: "signupUser" });
     t.field("removePost", {
       type: "Post",
       args: {
