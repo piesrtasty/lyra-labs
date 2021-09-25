@@ -85,6 +85,7 @@ const PostList = ({ title = "LOREM IPSUM", postType = POST_TYPE_DEFAULT }) => {
   const [shareModalOpen, setShareModalOpen] = useState(false);
   const [removePostId, setRemovePostId] = useState(null);
   const [newSavedPosts, setNewSavedPosts] = useState([]);
+  const [isFetching, setIsFetching] = useState(false);
 
   useEffect(() => {
     const options = {
@@ -176,6 +177,7 @@ const PostList = ({ title = "LOREM IPSUM", postType = POST_TYPE_DEFAULT }) => {
   });
 
   const fetchResults = () => {
+    setIsFetching(true);
     const cursor = getCursor(data, queryKey);
     fetchMore({
       variables: {
@@ -183,6 +185,7 @@ const PostList = ({ title = "LOREM IPSUM", postType = POST_TYPE_DEFAULT }) => {
       },
     }).then(({ data }) => {
       const fetchedPosts = data[queryKey];
+      setIsFetching(false);
       if (fetchedPosts.length === 0) {
         setHasNextPage(false);
       }
@@ -318,17 +321,23 @@ const PostList = ({ title = "LOREM IPSUM", postType = POST_TYPE_DEFAULT }) => {
         <>
           <ul className="divide-y divide-gray-200">
             {data[queryKey].map((post, i) => (
-              <PostCard
-                key={i}
-                post={post}
-                postType={postType}
-                actions={actions}
-              />
+              <>
+                {post.id === "optimisticResponse" ? (
+                  <LoadingPostCard />
+                ) : (
+                  <PostCard
+                    key={i}
+                    post={post}
+                    postType={postType}
+                    actions={actions}
+                  />
+                )}
+              </>
             ))}
           </ul>
         </>
       )}
-      {loading && (
+      {isFetching && (
         <ul className="space-y-3 mt-3">
           <LoadingPostCard />
           <LoadingPostCard />
