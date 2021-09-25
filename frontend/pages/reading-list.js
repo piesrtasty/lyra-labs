@@ -9,7 +9,6 @@ import { checkIfAuthenticated } from "../shared/utils";
 import { POST_TYPE_SAVED } from "@shared/constants/post-types";
 
 const ReadingList = (props) => {
-  console.log("props", props);
   return (
     <Page>
       <PostList title="Reading List" postType={POST_TYPE_SAVED} />

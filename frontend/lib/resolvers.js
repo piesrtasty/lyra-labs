@@ -5,15 +5,6 @@ import { saveUrl } from "./utils";
 export const UserObjType = objectType({
   name: "User",
   definition(t) {
-    // t.model.id();
-    // t.model.email();
-    // t.model.avatar();
-    // t.model.username();
-    // t.model.headline();
-    // t.model.walletAddress();
-    // t.model.walletIsSetup();
-    // t.model.showOnboarding();
-    // t.model.name();
     t.field(User.id);
     t.field(User.email);
     t.field(User.avatar);
@@ -29,19 +20,6 @@ export const UserObjType = objectType({
 export const PostObjType = objectType({
   name: "Post",
   definition(t) {
-    // t.model.id();
-    // t.model.author();
-    // t.model.date();
-    // t.model.description();
-    // t.model.image();
-    // t.model.logo();
-    // t.model.publisher();
-    // t.model.title();
-    // t.model.url();
-    // t.model.archived();
-    // t.model.pinned();
-    // t.model.submitterId();
-    // t.model.submitter();
     t.field(Post.id);
     t.field(Post.author);
     t.field(Post.date);
@@ -61,8 +39,6 @@ export const PostObjType = objectType({
 export const Query = objectType({
   name: "Query",
   definition(t) {
-    // t.crud.posts({ pagination: true, ordering: true, filtering: true });
-
     t.list.field("savedPosts", {
       type: "Post",
       args: {
